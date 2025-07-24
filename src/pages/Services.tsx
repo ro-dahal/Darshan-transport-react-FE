@@ -18,7 +18,7 @@ const Services: React.FC = () => {
         <div className="hero-content">
           <h1>Our Services</h1>
           <p>
-            Darshan Transport offers a comprehensive suite of logistics, warehousing, and transport solutions, tailored to meet the evolving needs of businesses across Nepal and beyond. Our commitment to reliability, efficiency, and customer satisfaction drives us to deliver excellence in every shipment.
+            Darshan Transport offers a comprehensive suite of logistics, warehousing services, and transport solutions, tailored to meet the evolving needs of businesses across Nepal and beyond. Our commitment to reliability, efficiency, and customer satisfaction drives us to deliver excellence in every shipment.
           </p>
           {/* CTA Button just below the hero text */}
           <a href="/contact" className="cta-button" style={{ marginTop: 24, display: 'inline-block' }}>
