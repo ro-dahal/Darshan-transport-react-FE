@@ -854,6 +854,17 @@
     .mobile-menu-toggle span {
         transition: none;
     }
+    
+    /* Allow the page-level reduced-motion preference to remain in effect while
+       explicitly permitting the preloader spinner to animate. This keeps the
+       site accessible but shows a spinning loader during initial page load. */
+    #preloader .loader {
+        /* Re-enable the spin animation for the preloader specifically. */
+        animation: spin 1s linear infinite !important;
+        animation-duration: 1s !important;
+        animation-iteration-count: infinite !important;
+        transition-duration: 0.8s !important;
+    }
 }
 
 /* Print styles */
