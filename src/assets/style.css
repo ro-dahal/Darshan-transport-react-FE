@@ -73,7 +73,7 @@ h6 {
     font-weight: 600px;
     color: white;
     opacity: 0.5;
-    transition: 0.3s ease;
+    transition: 0.3s ease !important;
 }
 
 #navbar li a:hover,
@@ -1544,6 +1544,7 @@ button#trackOrderStartBtn {
   justify-content: center;
   align-items: center;
   opacity: 1; /* Start fully visible */
+  transition: opacity 0.4s ease; /* fade animation */
 }
 
 /* Simple loader animation (spinning circle) */
@@ -1562,10 +1563,16 @@ button#trackOrderStartBtn {
   100% { transform: rotate(360deg); }
 }
 
-/* When preloader is hidden */
+/* When preloader is hidden: fade out then hide interactions */
 #preloader.hidden {
   opacity: 0;
-  pointer-events: none;
+  pointer-events: none; /* don't block clicks while hidden */
+}
+
+/* To completely remove from flow after fade (keeps transition) */
+@media (prefers-reduced-motion: reduce) {
+  /* If reduced motion is requested, avoid the fade and just hide immediately */
+  #preloader.hidden { display: none !important; }
 }
 
 

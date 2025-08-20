@@ -50,12 +50,7 @@ const Preloader: React.FC = () => {
   return (
     <div
       id="preloader"
-      className={hidden ? 'hidden' : ''}
-      style={{
-        display: hidden ? 'none' : 'flex',
-        opacity: hidden ? 0 : 1,
-        transition: 'opacity 0.8s ease',
-      }}
+  className={hidden ? 'hidden' : ''}
     >
       <div className="loader"></div>
     </div>
