@@ -28,10 +28,10 @@ const bookingOffices = [
   {
     sn: 4,
     office: 'Branch Office',
-    address: 'Narayanghat',
+    address: 'Yantra Sala Margha, Narayanghat',
     contact: '+977 9801914218 (211)',
-    location: 'Narayanghat, Nepal',
-    search: 'Narayanghat Nepal',
+    location: 'Yantra Sala Margha, Narayanghat, Nepal',
+    search: '27.699606776550343, 84.4303700583991',
   },
   {
     sn: 5,
