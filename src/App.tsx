@@ -8,10 +8,12 @@ import Order from './pages/Order';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import Preloader from './components/Preloader';
+import ScrollToTop from './components/ScrollToTop';
 
 const App: React.FC = () => {
   return (
     <Router>
+  <ScrollToTop />
       <Preloader />
       <Navbar />
       <Routes>

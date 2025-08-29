@@ -143,10 +143,13 @@ h6 {
     right: 0;
     width: 100%;
     box-sizing: border-box;
+
 }
 
+
+
 #headerr img{
-  max-height: 30vh;
+  max-height: 15vh;
   max-width: 100%;
 }
 
@@ -233,7 +236,6 @@ body {
   font-family: Arial, sans-serif;
   background: #fff;
   color: #333;
-  padding-top: 90px; /* Increased padding to compensate for fixed navbar */
 }
 
 .about-section {
@@ -1057,7 +1059,6 @@ body {
   align-items: center;
   min-height: 50vh;
   box-sizing: border-box;
-  margin-top: 112px;
 }
 
 .hero-content {
