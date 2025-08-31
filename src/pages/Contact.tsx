@@ -23,7 +23,7 @@ const bookingOffices = [
     address: 'Dhawaha, Butwal',
     contact: '+977 9801914212',
     location: 'Butwal, Nepal',
-    search: '27°40\'50.2"N 83°24\'37.0"E',
+    search: '27.679278, 83.412947', // 27°40\'50.2"N 83°24\'37.0"E
   },
   {
     sn: 4,
@@ -31,7 +31,7 @@ const bookingOffices = [
     address: 'Yantra Sala Margha, Narayanghat',
     contact: '+977 9801914218 (211)',
     location: 'Yantra Sala Margha, Narayanghat, Nepal',
-    search: '27.699606776550343, 84.4303700583991',
+    search: 'Darshan Transport - Chitwan Branch', // 27.699606776550343, 84.4303700583991
   },
   {
     sn: 5,

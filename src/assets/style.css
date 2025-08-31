@@ -146,10 +146,28 @@ h6 {
 
 }
 
+/* hide header when scrolling down */
+#headerr {
+  transition: transform 0.28s ease, opacity 0.28s ease;
+  will-change: transform;
+}
+
+/* #headerr .logo {
+  max-height: 10vh;
+} */
+
+#headerr.hidden {
+  transform: translateY(calc(-1 * var(--head-height)));
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* removed scrolled compact styles (reverted) */
+
 
 
 #headerr img{
-  max-height: 15vh;
+  max-height: 8vh;
   max-width: 100%;
 }
 
@@ -182,7 +200,6 @@ h6 {
     width: 100%;
     background-size: cover;
     background-position: top 25% right 0;
-    margin-top: 112px;
     position: relative;
 }
 
@@ -237,6 +254,8 @@ body {
   background: #fff;
   color: #333;
 }
+/* default header height fallback and ensure content starts below fixed header */
+:root { --head-height: 90px; }
 
 .about-section {
   display: flex;
@@ -813,7 +832,7 @@ body {
   text-align: center;
   flex-direction: column;
   padding: 14px;
-  margin-top: 112px;
+  margin-top: calc(var(--head-height));
   position: relative;
 }
 
@@ -1250,7 +1269,7 @@ body {
 .track-order-section {
   padding: 50px 20px;
   text-align: center;
-  margin-top: 90px;
+  margin-top: calc(var(--head-height));
 }
 
 .track-order-title {
@@ -1360,7 +1379,7 @@ button#trackOrderStartBtn {
   background: #f5f5f5;
   padding: 60px 20px;
   font-family: Arial, sans-serif;
-  margin-top: 90px;
+  margin-top: calc(var(--head-height));
 }
 
 .contact-container {
