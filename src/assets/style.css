@@ -250,6 +250,8 @@ body {
   font-family: Arial, sans-serif;
   background: #fff;
   color: #333;
+  /* ensure page content starts below the fixed header; fallback to 90px */
+  padding-top: var(--head-height, 90px);
 }
 /* default header height fallback and ensure content starts below fixed header */
 :root { --head-height: 90px; }
@@ -845,7 +847,6 @@ body {
   text-align: center;
   flex-direction: column;
   padding: 14px;
-  margin-top: calc(var(--head-height));
   position: relative;
 }
 
@@ -1273,16 +1274,12 @@ body {
 
 /* track my order */
 
-body {
-  margin: 0;
-  font-family: Arial, sans-serif;
-  background: #fff;
-}
+/* consolidated body styles (defined earlier) */
+/* ...existing code... */
 
 .track-order-section {
   padding: 50px 20px;
   text-align: center;
-  margin-top: calc(var(--head-height));
 }
 
 .track-order-title {
@@ -1392,7 +1389,6 @@ button#trackOrderStartBtn {
   background: #f5f5f5;
   padding: 60px 20px;
   font-family: Arial, sans-serif;
-  margin-top: calc(var(--head-height));
 }
 
 .contact-container {
