@@ -426,23 +426,34 @@ body {
 .logo-track {
   display: flex;
   align-items: center;
+  /* prevent wrapping so duplicated set follows immediately */
+  flex-wrap: nowrap;
   /* width fits content (two sets). Use transform to animate; no fixed width required */
   animation: scroll 30s linear infinite;
-  padding-left: 100px; /* space before first logo */
+  /* remove leading padding which caused the visible seam */
+  padding-left: 0;
+  margin: 0;
+  gap: 40px; /* consistent spacing between logos and across the join */
 }
 
 .logo-set {
   display: flex;
   align-items: center;
   gap: 40px;
+  /* ensure the set doesn't shrink so the second set matches the first exactly */
+  flex: 0 0 auto;
 }
 
 .logo-track img {
-  height: 60px;
+  /* normalize logo sizing so duplicated set is pixel-identical */
+  width: 140px; /* fixed width for all logos */
+  height: auto;
+  object-fit: contain;
   display: block;
   filter: grayscale(100%);
-  opacity: 0.8;
-  transition: all 0.3s ease;
+  opacity: 0.9;
+  transition: transform 0.25s ease, filter 0.25s ease, opacity 0.25s ease;
+  margin: 0; /* remove accidental image margins */
 }
 
 .logo-track img:hover {
