@@ -146,18 +146,15 @@ h6 {
 
 }
 
-/* hide header when scrolling down */
+/* header base - JS will set transform directly for proportional movement */
 #headerr {
-  transition: transform 0.28s ease, opacity 0.28s ease;
   will-change: transform;
+  /* small smoothing for nicer feel; JS will set exact translateY */
+  transition: transform 0.12s linear;
 }
 
-/* #headerr .logo {
-  max-height: 10vh;
-} */
-
+/* deprecated: .hidden class no longer used for scroll hide; keep for other toggles */
 #headerr.hidden {
-  transform: translateY(calc(-1 * var(--head-height)));
   opacity: 0;
   pointer-events: none;
 }
