@@ -50,7 +50,7 @@ const deliveryOffices = [
     address: 'Pokhara',
     contact: '+977 9801914226 (229) / 9802855478',
     location: 'Pokhara, Nepal',
-    search: 'Pokhara Nepal',
+    search: 'Darshan Transport - Pokhara Branch',
   },
   {
     sn: 2,
@@ -97,6 +97,7 @@ const deliveryOffices = [
 const Contact: React.FC = () => {
   const [selectedBooking, setSelectedBooking] = useState(bookingOffices[0]);
   const [selectedDelivery, setSelectedDelivery] = useState(deliveryOffices[0]);
+  const [lastSelectedType, setLastSelectedType] = useState<'booking' | 'delivery'>('booking');
   const [mapUrl, setMapUrl] = useState<string>(
     `https://maps.google.com/maps?q=${encodeURIComponent(bookingOffices[0].search)}&t=&z=13&ie=UTF8&iwloc=&output=embed`
   );
@@ -107,22 +108,22 @@ const Contact: React.FC = () => {
   useEffect(() => {
     setLoading(true);
     const timer = setTimeout(() => setLoading(false), 1200);
+    const query = lastSelectedType === 'booking' ? selectedBooking.search : selectedDelivery.search;
     setMapUrl(
-      `https://maps.google.com/maps?q=${encodeURIComponent(
-        selectedBooking ? selectedBooking.search : selectedDelivery.search
-      )}&t=&z=13&ie=UTF8&iwloc=&output=embed`
+      `https://maps.google.com/maps?q=${encodeURIComponent(query)}&t=&z=13&ie=UTF8&iwloc=&output=embed`
     );
     // Scroll to map
     if (mapRef.current) {
       mapRef.current.scrollIntoView({ behavior: "smooth", block: "center" });
     }
     return () => clearTimeout(timer);
-  }, [selectedBooking, selectedDelivery]);
+  }, [selectedBooking, selectedDelivery, lastSelectedType]);
 
   // Booking/delivery table selection logic (click row to select & update map)
   const handleTableClick = (row: any, type: "booking" | "delivery") => {
-    if (type === "booking") setSelectedBooking(row);
-    else setSelectedDelivery(row);
+  if (type === "booking") setSelectedBooking(row);
+  else setSelectedDelivery(row);
+  setLastSelectedType(type);
   };
 
   // Contact form submission (dummy handler)
@@ -185,7 +186,7 @@ const Contact: React.FC = () => {
             {bookingOffices.map((row) => (
               <tr
                 key={row.sn}
-                className={`location-row${row.sn === selectedBooking.sn ? " selected" : ""}`}
+                className={`location-row${lastSelectedType === 'booking' && row.sn === selectedBooking.sn ? " selected" : ""}`}
                 tabIndex={0}
                 role="button"
                 aria-label={`View ${row.address} on map`}
@@ -217,7 +218,7 @@ const Contact: React.FC = () => {
             {deliveryOffices.map((row) => (
               <tr
                 key={row.sn}
-                className={`location-row${row.sn === selectedDelivery.sn ? " selected" : ""}`}
+                className={`location-row${lastSelectedType === 'delivery' && row.sn === selectedDelivery.sn ? " selected" : ""}`}
                 tabIndex={0}
                 role="button"
                 aria-label={`View ${row.address} on map`}
