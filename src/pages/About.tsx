@@ -1,7 +1,7 @@
 import React from 'react';
 
 // Example imports, update paths as needed
-import logo from '../assets/img/logo.png';
+// logo import removed (unused)
 import cargoTruck from '../assets/img/cargo-truck.png';
 import rightArrow from '../assets/img/right-arrow.png';
 import userIcon from '../assets/img/user.png';
@@ -121,18 +121,22 @@ const About: React.FC = () => {
         <h3>TRUSTED BY THOUSANDS</h3>
         <div className="logo-carousel">
           <div className="logo-track">
-            <img src={clientLogo1} alt="Client 1 Logo" />
-            <img src={clientLogo2} alt="Client 2 Logo" />
-            <img src={clientLogo1} alt="Client 3 Logo" />
-            <img src={clientLogo2} alt="Client 4 Logo" />
-            <img src={clientLogo1} alt="Client 5 Logo" />
-            <img src={clientLogo2} alt="Client 6 Logo" />
-            <img src={clientLogo1} alt="Client 1 Logo Duplicate" />
-            <img src={clientLogo2} alt="Client 2 Logo Duplicate" />
-            <img src={clientLogo1} alt="Client 3 Logo Duplicate" />
-            <img src={clientLogo2} alt="Client 4 Logo Duplicate" />
-            <img src={clientLogo1} alt="Client 5 Logo Duplicate" />
-            <img src={clientLogo2} alt="Client 6 Logo Duplicate" />
+            <div className="logo-set" aria-hidden="false">
+              <img src={clientLogo1} alt="Client 1 Logo" />
+              <img src={clientLogo2} alt="Client 2 Logo" />
+              <img src={clientLogo1} alt="Client 3 Logo" />
+              <img src={clientLogo2} alt="Client 4 Logo" />
+              <img src={clientLogo1} alt="Client 5 Logo" />
+              <img src={clientLogo2} alt="Client 6 Logo" />
+            </div>
+            <div className="logo-set" aria-hidden="true">
+              <img src={clientLogo1} alt="Client 1 Logo Duplicate" />
+              <img src={clientLogo2} alt="Client 2 Logo Duplicate" />
+              <img src={clientLogo1} alt="Client 3 Logo Duplicate" />
+              <img src={clientLogo2} alt="Client 4 Logo Duplicate" />
+              <img src={clientLogo1} alt="Client 5 Logo Duplicate" />
+              <img src={clientLogo2} alt="Client 6 Logo Duplicate" />
+            </div>
           </div>
         </div>
       </section>

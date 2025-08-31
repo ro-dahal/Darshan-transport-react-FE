@@ -423,16 +423,24 @@ body {
   width: 100%;
 }
 
+/* The track contains two identical .logo-set children for seamless looping */
 .logo-track {
   display: flex;
-  width: calc(200%);
+  align-items: center;
+  /* width fits content (two sets). Use transform to animate; no fixed width required */
   animation: scroll 30s linear infinite;
   padding-left: 100px; /* space before first logo */
 }
 
+.logo-set {
+  display: flex;
+  align-items: center;
+  gap: 40px;
+}
+
 .logo-track img {
   height: 60px;
-  margin: 0 40px;
+  display: block;
   filter: grayscale(100%);
   opacity: 0.8;
   transition: all 0.3s ease;
@@ -450,7 +458,15 @@ body {
     transform: translateX(0);
   }
   100% {
+    /* move left by the width of one .logo-set (50% of the duplicated track) */
     transform: translateX(-50%);
+  }
+}
+
+/* Respect user's reduced motion preference but allow pausing instead of abrupt stop */
+@media (prefers-reduced-motion: reduce) {
+  .logo-track {
+    animation: none;
   }
 }
 
