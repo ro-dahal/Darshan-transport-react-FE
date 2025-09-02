@@ -24,3 +24,8 @@ dist-ssr
 *.sw?
 
 DOCUMENTATION.txt
+
+# Design/source files and internal docs in assets (avoid bundling/committing)
+src/assets/img/*.psd
+src/assets/img/*.PDF
+src/assets/img/*.pdf
