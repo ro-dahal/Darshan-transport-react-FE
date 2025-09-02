@@ -1,5 +1,14 @@
 import React, { useState, useEffect, useRef } from 'react';
 
+interface OfficeRow {
+  sn: number;
+  office: string;
+  address: string;
+  contact: string;
+  location: string;
+  search: string;
+}
+
 const bookingOffices = [
   {
     sn: 1,
@@ -120,7 +129,7 @@ const Contact: React.FC = () => {
   }, [selectedBooking, selectedDelivery, lastSelectedType]);
 
   // Booking/delivery table selection logic (click row to select & update map)
-  const handleTableClick = (row: any, type: "booking" | "delivery") => {
+  const handleTableClick = (row: OfficeRow, type: "booking" | "delivery") => {
   if (type === "booking") setSelectedBooking(row);
   else setSelectedDelivery(row);
   setLastSelectedType(type);
