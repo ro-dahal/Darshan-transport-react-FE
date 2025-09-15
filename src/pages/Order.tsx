@@ -44,15 +44,64 @@ const Order: React.FC = () => {
   const [deliveryData, setDeliveryData] = useState<DeliveryData | null>(null);
   const [error, setError] = useState<string>("");
 
-  // Fetch series (simulate API call)
-  const fetchSeries = () => {
-    const fetchedSeries = ["KTM", "PKR", "BKT"];
-    setSeriesList(fetchedSeries);
-    setSelectedSeries(fetchedSeries[0]);
+  // API base (Vite environment variable) - falls back to same origin
+  // Set VITE_API_URL to e.g. 'http://backend-host:3000' or 'https://api.example.com'
+  const API_BASE = (import.meta.env as any).VITE_API_URL || window.location.origin;
+
+  // Helper: try multiple candidate URLs in order until one returns OK
+  const fetchFirstOk = async (candidates: string[]) => {
+    let lastErr: any = null;
+    for (const url of candidates) {
+      try {
+        const res = await fetch(url);
+        if (!res.ok) {
+          lastErr = new Error(`HTTP ${res.status} from ${url}`);
+          continue;
+        }
+        const json = await res.json().catch(() => null);
+        return { url, json };
+      } catch (err) {
+        lastErr = err;
+        continue;
+      }
+    }
+    throw lastErr || new Error('No candidate succeeded');
+  };
+
+  // Fetch series from backend
+  const fetchSeries = async () => {
+    try {
+      const candidates = [
+        // prefer the documented API path
+        `${API_BASE}/api/series`,
+        `${API_BASE}/api/v1/series`,
+        // legacy mounts
+        `${API_BASE}/api/delivery/series`,
+        `${API_BASE}/delivery/series`,
+        // direct legacy endpoint
+        `${API_BASE}/api/series`
+      ];
+      const { json } = await fetchFirstOk(candidates);
+      const fetchedSeries = json?.data || json || [];
+      if (!Array.isArray(fetchedSeries) || fetchedSeries.length === 0) {
+        const defaults = ["KTM", "PKR", "BKT"];
+        setSeriesList(defaults);
+        setSelectedSeries(defaults[0]);
+      } else {
+        setSeriesList(fetchedSeries);
+        setSelectedSeries(fetchedSeries[0]);
+      }
+    } catch (err) {
+      console.error('fetchSeries error', err);
+      const defaults = ["KTM", "PKR", "BKT"];
+      setSeriesList(defaults);
+      setSelectedSeries(defaults[0]);
+    }
   };
 
   useEffect(() => {
     fetchSeries();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const checkStatus = () => {
@@ -61,23 +110,27 @@ const Order: React.FC = () => {
       setDeliveryData(null);
       return;
     }
-    setError("");
-    // Simulate API response
-    const mockApiResponse = {
-      success: true,
-      data: {
-        status: "confirmed", // "confirmed", "shipped", "out_for_delivery", "delivered"
-        consigner: "SALAWAR KURTA HOUSE",
-        consignee: "TAMU DIDI BAHINI SADI ,KURTHA FASHION HO",
-        from: "KATHMANDU",
-        to: "LAMJUNG",
-      },
-    };
-    if (mockApiResponse.success) {
-      setDeliveryData(mockApiResponse.data as DeliveryData);
-    } else {
-      setError("Failed to fetch delivery status.");
-    }
+    (async () => {
+      setError("");
+      try {
+        const statusCandidates = [
+          `${API_BASE}/api/delivery-status/${encodeURIComponent(selectedSeries)}/${encodeURIComponent(invoiceNumber)}`,
+          `${API_BASE}/api/v1/delivery-status/${encodeURIComponent(selectedSeries)}/${encodeURIComponent(invoiceNumber)}`,
+          `${API_BASE}/api/delivery/status/${encodeURIComponent(selectedSeries)}/${encodeURIComponent(invoiceNumber)}`,
+          `${API_BASE}/delivery/status/${encodeURIComponent(selectedSeries)}/${encodeURIComponent(invoiceNumber)}`,
+          // legacy path
+          `${API_BASE}/api/delivery/status/${encodeURIComponent(selectedSeries)}/${encodeURIComponent(invoiceNumber)}`
+        ];
+        const { json } = await fetchFirstOk(statusCandidates);
+        const data = json?.data || json;
+        if (!data) throw new Error('No data in response');
+        setDeliveryData(data as DeliveryData);
+      } catch (err: any) {
+        console.error('checkStatus error', err);
+        setDeliveryData(null);
+        setError(err?.message || 'Failed to fetch delivery status.');
+      }
+    })();
   };
 
   return (
