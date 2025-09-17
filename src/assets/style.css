@@ -1,5 +1,18 @@
+/* ==========================================================
+   Darshan Transport - Frontend styles
+   File: src/assets/style.css
+   Purpose: site-wide CSS for Darshan Transport React frontend
+
+   Commenting conventions used in this file:
+   - Section headers use: /* === Section Name === * /
+   - Keep explanatory comments near related rules (accessibility, layout notes).
+   - Remove or convert large commented-out rules only when intentional.
+   - Keep this header at top of file.
+  ========================================================== */
+
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400;500;600;700;800;900&display=swap');
 
+/* === Global / Reset === */
 * {
     margin: 0;
     padding: 0;
@@ -12,6 +25,9 @@
     line-height: 80px;
     color: #ffffff;
 }
+
+/* === Typography === */
+/* Headings and basic type scale used across the site */
 
 h2 {
     font-size: 55px;
@@ -43,6 +59,7 @@ h6 {
     width: 100%;
 }
 
+/* === Header & Navigation === */
 #header {
     display: flex;
     align-items: center;
@@ -179,6 +196,7 @@ h6 {
     color: #c98300;
 } 
 
+/* === Hero & Main Background === */
 #hero {
     /* background-image: url(img/background.jpg);
     height: 90vh;
@@ -318,6 +336,9 @@ body {
   min-height: 400px;
 }
 
+/* === Icons / Visuals === */
+/* Positioning helpers for decorative icons used in the about section */
+
 .icon {
   max-width: 60px;
   position: absolute;
@@ -400,6 +421,9 @@ body {
   padding: 60px 20px;
   background-color: #fff;
 }
+
+/* === Clients / Logos Carousel === */
+/* Styles used for the rotating client logo carousel */
 
 .clients h2 {
   font-size: 1.8rem;
@@ -491,6 +515,9 @@ body {
   padding: 80px 20px 0;
   overflow: hidden;
 }
+
+/* === Testimonials === */
+/* Video and customer review cards */
 
 .wave-bg {
   position: absolute;
@@ -848,6 +875,7 @@ body {
 
 
 
+/* === About Page Header === */
 #about-us-header{
   background-image: url(img/b1.jpg);
   width: 100%;
@@ -866,6 +894,8 @@ body {
   font-size: 50px;
 }
 
+
+/* === About / Founder Sections === */
 
 /* About us */
 
@@ -1283,8 +1313,8 @@ body {
 
 
 
-/* track my order */
-
+/* === Track Order === */
+/* Styles for the Track My Order page and stepper */
 /* consolidated body styles (defined earlier) */
 /* ...existing code... */
 
@@ -1394,7 +1424,7 @@ button#trackOrderStartBtn {
 
 
 
-/* contact */
+/* === Contact === */
 
 .contact-section {
   background: #f5f5f5;
@@ -1573,8 +1603,7 @@ button#trackOrderStartBtn {
 
 
 
-
-/* loading animations */
+/* === Loading / Preloader === */
 
 /* Preloader styles */
 #preloader {
