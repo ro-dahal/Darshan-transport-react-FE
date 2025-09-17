@@ -60,35 +60,35 @@ jobs:
 
   auto-deploy:
     name: Auto deploy to Windows VPS
+    if: github.ref == 'refs/heads/main' && (github.event_name == 'push' || github.event_name == 'workflow_dispatch')
     runs-on: [self-hosted, windows, x64, windows-vps]
     needs: deployment
-  if: github.ref == 'refs/heads/main' && (github.event_name == 'push' || github.event_name == 'workflow_dispatch')
 
     steps:
-    - name: Download build artifact (dist)
-      uses: actions/download-artifact@v4
-      with:
-        name: darshan-transport-frontend-dist
-        path: ./artifact
+      - name: Download build artifact (dist)
+        uses: actions/download-artifact@v4
+        with:
+          name: darshan-transport-frontend-dist
+          path: ./artifact
 
-    - name: Copy files directly to CPS host directory
-      shell: powershell
-      run: |
-  # Deploy target directory on the VPS
-  $cpsPath = 'C:\apps\DarshanTransportWebsite\Frontend'
-        # Optional backup path (uncomment if you want backups)
-        # $backupPath = 'C:\apps\DarshanTransportWebsite\Frontend\backup'
+      - name: Copy files directly to CPS host directory
+        shell: powershell
+        run: |
+          # Deploy target directory on the VPS
+          $cpsPath = 'C:\apps\DarshanTransportWebsite\Frontend'
+          # Optional backup path (uncomment if you want backups)
+          # $backupPath = 'C:\apps\DarshanTransportWebsite\Frontend\backup'
 
-        if (!(Test-Path $cpsPath)) { New-Item -ItemType Directory -Force -Path $cpsPath | Out-Null }
+          if (!(Test-Path $cpsPath)) { New-Item -ItemType Directory -Force -Path $cpsPath | Out-Null }
 
-        # Optionally keep a simple backup of current files
-        # if (Test-Path $cpsPath -PathType Container) {
-        #   if (!(Test-Path $backupPath)) { New-Item -ItemType Directory -Force -Path $backupPath | Out-Null }
-        #   $timestamp = (Get-Date).ToString('yyyyMMdd-HHmmss')
-        #   Copy-Item -Path (Join-Path $cpsPath '*') -Destination (Join-Path $backupPath $timestamp) -Recurse -Force -ErrorAction SilentlyContinue
-        # }
+          # Optionally keep a simple backup of current files
+          # if (Test-Path $cpsPath -PathType Container) {
+          #   if (!(Test-Path $backupPath)) { New-Item -ItemType Directory -Force -Path $backupPath | Out-Null }
+          #   $timestamp = (Get-Date).ToString('yyyyMMdd-HHmmss')
+          #   Copy-Item -Path (Join-Path $cpsPath '*') -Destination (Join-Path $backupPath $timestamp) -Recurse -Force -ErrorAction SilentlyContinue
+          # }
 
-        # Remove existing files in CPS dir and copy new build
-        Get-ChildItem -Path $cpsPath -Force | Remove-Item -Recurse -Force -ErrorAction SilentlyContinue
-        Copy-Item -Path 'artifact\*' -Destination $cpsPath -Recurse -Force -ErrorAction SilentlyContinue
-        Write-Host "Files copied to $cpsPath"
+          # Remove existing files in CPS dir and copy new build
+          Get-ChildItem -Path $cpsPath -Force | Remove-Item -Recurse -Force -ErrorAction SilentlyContinue
+          Copy-Item -Path 'artifact\*' -Destination $cpsPath -Recurse -Force -ErrorAction SilentlyContinue
+          Write-Host "Files copied to $cpsPath"
