@@ -1,0 +1,99 @@
+name: Darshan Transport Frontend CI/CD
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [20.x]
+
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v3
+      with:
+        node-version: '22.18.0'
+        cache: 'npm'
+
+    - name: Install dependencies
+      run: npm ci --legacy-peer-deps --ignore-scripts
+
+    - name: Lint code (fail on warnings)
+      run: npx eslint --config eslint.config.js "src/**/*.{ts,tsx,js,jsx}" --max-warnings=0
+
+    - name: Build
+      run: npm run build
+
+    - name: Upload build artifacts
+      uses: actions/upload-artifact@v4
+      with:
+        name: build-artifacts
+        path: dist/
+
+  deployment:
+    runs-on: ubuntu-latest
+    needs: build
+
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Download build artifacts
+      uses: actions/download-artifact@v4
+      with:
+        name: build-artifacts
+        path: dist/
+
+    - name: Publish artifact for manual deployment
+      uses: actions/upload-artifact@v4
+      with:
+        name: darshan-transport-frontend-dist
+        path: dist/
+
+  auto-deploy:
+    name: Auto deploy to Windows VPS
+    runs-on: [self-hosted, windows, x64, windows-vps]
+    needs: deployment
+  if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+
+    steps:
+    - name: Download build artifact (dist)
+      uses: actions/download-artifact@v4
+      with:
+        name: darshan-transport-frontend-dist
+        path: ./artifact
+
+    - name: Prepare deploy dir
+      shell: powershell
+      run: |
+        $deployRoot = 'C:\apps\DarshanTransportWebsite\Frontend'
+        New-Item -ItemType Directory -Force -Path (Join-Path $deployRoot 'releases') | Out-Null
+
+    - name: Create new release and copy files
+      shell: powershell
+      run: |
+        $deployRoot = 'C:\apps\DarshanTransportWebsite\Frontend'
+        $releases = Join-Path $deployRoot 'releases'
+        $timestamp = (Get-Date).ToString('yyyyMMdd-HHmmss')
+        $newRelease = Join-Path $releases $timestamp
+        New-Item -ItemType Directory -Force -Path $newRelease | Out-Null
+        Copy-Item -Path 'artifact\*' -Destination $newRelease -Recurse -Force -ErrorAction SilentlyContinue
+
+    - name: Switch current release (static site)
+      shell: powershell
+      run: |
+        $deployRoot = 'C:\apps\DarshanTransportWebsite\Frontend'
+        $current = Join-Path $deployRoot 'current'
+        $releases = Join-Path $deployRoot 'releases'
+        $latest = Get-ChildItem -Path $releases | Sort-Object Name -Descending | Select-Object -First 1
+        if (!$latest) { Write-Error 'No release found to promote'; exit 2 }
+        if (Test-Path $current) { Remove-Item -Recurse -Force $current }
+        Rename-Item -Path $latest.FullName -NewName 'current'
+        Write-Host 'Frontend deployment finished.'
