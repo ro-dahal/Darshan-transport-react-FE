@@ -5,6 +5,7 @@ on:
     branches: [ main ]
   pull_request:
     branches: [ main ]
+  workflow_dispatch: {}
 
 jobs:
   build:
@@ -61,7 +62,7 @@ jobs:
     name: Auto deploy to Windows VPS
     runs-on: [self-hosted, windows, x64, windows-vps]
     needs: deployment
-  if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+  if: github.ref == 'refs/heads/main' && (github.event_name == 'push' || github.event_name == 'workflow_dispatch')
 
     steps:
     - name: Download build artifact (dist)
@@ -70,30 +71,24 @@ jobs:
         name: darshan-transport-frontend-dist
         path: ./artifact
 
-    - name: Prepare deploy dir
+    - name: Copy files directly to CPS host directory
       shell: powershell
       run: |
-        $deployRoot = 'C:\apps\DarshanTransportWebsite\Frontend'
-        New-Item -ItemType Directory -Force -Path (Join-Path $deployRoot 'releases') | Out-Null
+  # Deploy target directory on the VPS
+  $cpsPath = 'C:\apps\DarshanTransportWebsite\Frontend'
+        # Optional backup path (uncomment if you want backups)
+        # $backupPath = 'C:\apps\DarshanTransportWebsite\Frontend\backup'
 
-    - name: Create new release and copy files
-      shell: powershell
-      run: |
-        $deployRoot = 'C:\apps\DarshanTransportWebsite\Frontend'
-        $releases = Join-Path $deployRoot 'releases'
-        $timestamp = (Get-Date).ToString('yyyyMMdd-HHmmss')
-        $newRelease = Join-Path $releases $timestamp
-        New-Item -ItemType Directory -Force -Path $newRelease | Out-Null
-        Copy-Item -Path 'artifact\*' -Destination $newRelease -Recurse -Force -ErrorAction SilentlyContinue
+        if (!(Test-Path $cpsPath)) { New-Item -ItemType Directory -Force -Path $cpsPath | Out-Null }
 
-    - name: Switch current release (static site)
-      shell: powershell
-      run: |
-        $deployRoot = 'C:\apps\DarshanTransportWebsite\Frontend'
-        $current = Join-Path $deployRoot 'current'
-        $releases = Join-Path $deployRoot 'releases'
-        $latest = Get-ChildItem -Path $releases | Sort-Object Name -Descending | Select-Object -First 1
-        if (!$latest) { Write-Error 'No release found to promote'; exit 2 }
-        if (Test-Path $current) { Remove-Item -Recurse -Force $current }
-        Rename-Item -Path $latest.FullName -NewName 'current'
-        Write-Host 'Frontend deployment finished.'
+        # Optionally keep a simple backup of current files
+        # if (Test-Path $cpsPath -PathType Container) {
+        #   if (!(Test-Path $backupPath)) { New-Item -ItemType Directory -Force -Path $backupPath | Out-Null }
+        #   $timestamp = (Get-Date).ToString('yyyyMMdd-HHmmss')
+        #   Copy-Item -Path (Join-Path $cpsPath '*') -Destination (Join-Path $backupPath $timestamp) -Recurse -Force -ErrorAction SilentlyContinue
+        # }
+
+        # Remove existing files in CPS dir and copy new build
+        Get-ChildItem -Path $cpsPath -Force | Remove-Item -Recurse -Force -ErrorAction SilentlyContinue
+        Copy-Item -Path 'artifact\*' -Destination $cpsPath -Recurse -Force -ErrorAction SilentlyContinue
+        Write-Host "Files copied to $cpsPath"
