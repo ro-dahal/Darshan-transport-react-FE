@@ -1,11 +1,7 @@
 import React from 'react';
-
+import GIF from '../assets/img/gif2.gif';
 // Example imports, update paths as needed
 // logo import removed (unused)
-import cargoTruck from '../assets/img/cargo-truck.png';
-import rightArrow from '../assets/img/right-arrow.png';
-import userIcon from '../assets/img/user.png';
-import factory from '../assets/img/working-factory.png';
 import nepalMap from '../assets/img/nepal-map.png';
 import clientLogo1 from '../assets/img/Logo-01.png';
 import clientLogo2 from '../assets/img/Logo-02.png';
@@ -23,7 +19,8 @@ const About: React.FC = () => {
         <div className="content">
           <h4 className="subtitlee">ABOUT US</h4>
           <h1 className="titlee">Logistic &amp; Transport Solutions</h1>
-          <p className="description">
+          <div style={{display:'flex', alignItems:"center", justifyContent:"space-between", gap:"40px"}}>
+          <p className="description" style={{minWidth:"50%"}}>
             Founded over two decades ago with a single truck and a strong will to serve, Darshan Transport has grown into a trusted logistics partner across western Nepal and beyond. What began as a small family-run business is now a dependable logistics network known for safe, timely, and personalized service.
             <br /><br />
             Our mission has always been simple and clear: to deliver goods with care, responsibility, and efficiency. Over the years, we've expanded our fleet, integrated GPS tracking, and established multiple branches — all with the goal of serving our clients better and more transparently.
@@ -32,6 +29,8 @@ const About: React.FC = () => {
             <br /><br />
             As we continue to grow, we remain committed to becoming Nepal’s leading logistics backbone. Thank you for being part of our journey.
           </p>
+          <img src={GIF} alt="GIF" />
+          </div>
           <div className="stats">
             <div className="stat">
               <h2>100k+</h2>
@@ -46,13 +45,6 @@ const About: React.FC = () => {
               <p>Reviews</p>
             </div>
           </div>
-        </div>
-        <div className="icons">
-          <img src={cargoTruck} alt="Truck Icon" className="icon truck" />
-          <img src={rightArrow} alt="Arrow Icon" className="icon arrow arrow1" />
-          <img src={userIcon} alt="Person Icon" className="icon person" />
-          <img src={factory} alt="Factory Icon" className="icon factory" />
-          <img src={rightArrow} alt="Arrow Icon" className="icon arrow arrow2" />
         </div>
       </section>
 
