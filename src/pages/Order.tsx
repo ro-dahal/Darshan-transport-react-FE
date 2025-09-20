@@ -88,8 +88,12 @@ const Order: React.FC = () => {
     try {
       const data = await fetchDeliveryStatus(selectedSeries, invoiceNumber);
       setDeliveryData(data);
-    } catch (err: any) {
-      setError(err?.message || "Failed to fetch delivery status.");
+    } catch (err: unknown) {
+      if (err instanceof Error) {
+        setError(err.message || "Failed to fetch delivery status.");
+      } else {
+        setError(String(err) || "Failed to fetch delivery status.");
+      }
     } finally {
       setLoading(false);
     }
