@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from "react";
+import { fetchSeriesList, fetchDeliveryStatus } from "../api";
+import type { DeliveryData } from "../api";
 import {
   FaClipboardCheck,
   FaShippingFast,
@@ -13,19 +15,15 @@ import {
   FaYoutube,
 } from "react-icons/fa";
 
-interface DeliveryData {
-  status: "confirmed" | "shipped" | "out_for_delivery" | "delivered";
-  consigner: string;
-  consignee: string;
-  from: string;
-  to: string;
-}
+// DeliveryData type now imported from api.ts
 
 const STATUS_STEPS = [
-  { key: "confirmed", label: "Order Confirmed", icon: <FaClipboardCheck /> },
-  { key: "shipped", label: "Order Shipped", icon: <FaShippingFast /> },
-  { key: "out_for_delivery", label: "Out for Delivery", icon: <FaTruck /> },
-  { key: "delivered", label: "Order Delivered", icon: <FaHome /> },
+  { key: "waiting", label: "Waiting", icon: <FaClipboardCheck /> },
+  { key: "ongoing", label: "Ongoing", icon: <FaShippingFast /> },
+  { key: "delivered", label: "Delivered", icon: <FaTruck /> },
+  { key: "arrived", label: "Arrived", icon: <FaHome /> },
+  { key: "successful", label: "Successful", icon: <FaClipboardCheck /> },
+  { key: "error", label: "Error", icon: <FaClipboardCheck /> },
 ];
 
 // Timeline component
@@ -64,36 +62,36 @@ const Order: React.FC = () => {
   const [invoiceNumber, setInvoiceNumber] = useState<string>("");
   const [deliveryData, setDeliveryData] = useState<DeliveryData | null>(null);
   const [error, setError] = useState<string>("");
+  const [loading, setLoading] = useState<boolean>(false);
 
   useEffect(() => {
-    const fetchedSeries = ["KTM", "PKR", "BKT"];
-    setSeriesList(fetchedSeries);
-    setSelectedSeries(fetchedSeries[0]);
+    fetchSeriesList()
+      .then((fetchedSeries) => {
+        setSeriesList(fetchedSeries);
+        setSelectedSeries(fetchedSeries[0] || "");
+      })
+      .catch(() => {
+        setSeriesList([]);
+        setError("Failed to load series list.");
+      });
   }, []);
 
-  const checkStatus = () => {
+  const checkStatus = async () => {
     if (!invoiceNumber.trim()) {
       setError("Please enter a valid invoice number.");
       setDeliveryData(null);
       return;
     }
     setError("");
-
-    const mockApiResponse = {
-      success: true,
-      data: {
-        status: "shipped",
-        consigner: "SALAWAR KURTA HOUSE",
-        consignee: "TAMU DIDI BAHINI SADI ,KURTHA FASHION HO",
-        from: "KATHMANDU",
-        to: "LAMJUNG",
-      },
-    };
-
-    if (mockApiResponse.success) {
-      setDeliveryData(mockApiResponse.data as DeliveryData);
-    } else {
-      setError("Failed to fetch delivery status.");
+    setLoading(true);
+    setDeliveryData(null);
+    try {
+      const data = await fetchDeliveryStatus(selectedSeries, invoiceNumber);
+      setDeliveryData(data);
+    } catch (err: any) {
+      setError(err?.message || "Failed to fetch delivery status.");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -246,10 +244,12 @@ const Order: React.FC = () => {
                   border: "none",
                   padding: "8px 14px",
                   borderRadius: 4,
-                  cursor: "pointer",
+                  cursor: loading ? "not-allowed" : "pointer",
+                  opacity: loading ? 0.7 : 1,
                 }}
+                disabled={loading}
               >
-                Check Status
+                {loading ? "Checking..." : "Check Status"}
               </button>
               {error && <p style={{ marginTop: 15, color: "red" }}>{error}</p>}
             </div>

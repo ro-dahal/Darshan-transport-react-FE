@@ -4,9 +4,16 @@ This template provides a minimal setup to get React working in Vite with HMR and
 
 Currently, two official plugins are available:
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
 
+## Production API Configuration
+
+To connect to the backend in production, set the API base URL in `.env.production`:
+
+```
+VITE_API_BASE_URL=https://your-backend-domain
+```
+
+The frontend will use this base URL for all API requests. Ensure the backend allows your frontend origin via its `PROD_ALLOWED_ORIGINS` environment variable.
 ## Expanding the ESLint configuration
 
 If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
