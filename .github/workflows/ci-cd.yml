@@ -71,24 +71,20 @@ jobs:
           name: darshan-transport-frontend-dist
           path: ./artifact
 
-      - name: Copy files directly to CPS host directory
+      - name: Copy files into Frontend\dist on CPS host
         shell: powershell
         run: |
-          # Deploy target directory on the VPS
-          $cpsPath = 'C:\apps\DarshanTransportWebsite\Frontend'
-          # Optional backup path (uncomment if you want backups)
-          # $backupPath = 'C:\apps\DarshanTransportWebsite\Frontend\backup'
+          # Deploy target directory on the VPS (place build inside a dist subfolder)
+          $frontendPath = 'C:\apps\DarshanTransportWebsite\Frontend'
+          $distPath = Join-Path $frontendPath 'dist'
 
-          if (!(Test-Path $cpsPath)) { New-Item -ItemType Directory -Force -Path $cpsPath | Out-Null }
+          # Ensure base directory exists
+          if (!(Test-Path $frontendPath)) { New-Item -ItemType Directory -Force -Path $frontendPath | Out-Null }
 
-          # Optionally keep a simple backup of current files
-          # if (Test-Path $cpsPath -PathType Container) {
-          #   if (!(Test-Path $backupPath)) { New-Item -ItemType Directory -Force -Path $backupPath | Out-Null }
-          #   $timestamp = (Get-Date).ToString('yyyyMMdd-HHmmss')
-          #   Copy-Item -Path (Join-Path $cpsPath '*') -Destination (Join-Path $backupPath $timestamp) -Recurse -Force -ErrorAction SilentlyContinue
-          # }
+          # Remove existing dist directory to avoid stale files
+          if (Test-Path $distPath) { Remove-Item -Path $distPath -Recurse -Force -ErrorAction SilentlyContinue }
 
-          # Remove existing files in CPS dir and copy new build
-          Get-ChildItem -Path $cpsPath -Force | Remove-Item -Recurse -Force -ErrorAction SilentlyContinue
-          Copy-Item -Path 'artifact\*' -Destination $cpsPath -Recurse -Force -ErrorAction SilentlyContinue
-          Write-Host "Files copied to $cpsPath"
+          # Create dist directory and copy artifact files into it
+          New-Item -ItemType Directory -Force -Path $distPath | Out-Null
+          Copy-Item -Path 'artifact\*' -Destination $distPath -Recurse -Force -ErrorAction SilentlyContinue
+          Write-Host "Build artifact copied to $distPath"
