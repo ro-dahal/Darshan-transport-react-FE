@@ -70,7 +70,9 @@ const Navbar: React.FC = () => {
         if (menuOpen) {
           show();
           lastY.current = y;
-          rafRef.current && window.cancelAnimationFrame(rafRef.current);
+          if (rafRef.current) {
+            window.cancelAnimationFrame(rafRef.current);
+          }
           rafRef.current = null;
           return;
         }
@@ -78,7 +80,9 @@ const Navbar: React.FC = () => {
         if (y <= 0) {
           show();
           lastY.current = 0;
-          rafRef.current && window.cancelAnimationFrame(rafRef.current);
+          if (rafRef.current) {
+            window.cancelAnimationFrame(rafRef.current);
+          }
           rafRef.current = null;
           return;
         }
