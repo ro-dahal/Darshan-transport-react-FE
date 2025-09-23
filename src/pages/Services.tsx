@@ -55,7 +55,7 @@ const Services: React.FC = () => {
           <div className="services-grid">
             <div className="service-card">
               <div className="iconnn">
-                <img src={iconTruck} alt="Transport Service" style={{ width: 36 }} />
+                <img src={iconTruck} alt="Transport Service" style={{ width: 36 }} loading="lazy" decoding="async" />
               </div>
               <h4>Logistics &amp; Transportation</h4>
               <p>
@@ -64,7 +64,7 @@ const Services: React.FC = () => {
             </div>
             <div className="service-card">
               <div className="iconnn">
-                <img src={iconDelivery} alt="Delivery Service" style={{ width: 36 }} />
+                <img src={iconDelivery} alt="Delivery Service" style={{ width: 36 }} loading="lazy" decoding="async" />
               </div>
               <h4>Door-to-Door Delivery</h4>
               <p>
@@ -73,7 +73,7 @@ const Services: React.FC = () => {
             </div>
             <div className="service-card">
               <div className="iconnn">
-                <img src={iconFactory} alt="Warehousing" style={{ width: 36 }} />
+                <img src={iconFactory} alt="Warehousing" style={{ width: 36 }} loading="lazy" decoding="async" />
               </div>
               <h4>Warehousing Solutions</h4>
               <p>

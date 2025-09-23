@@ -31,8 +31,8 @@ const Home: React.FC = () => {
         <div className="content">
           <h4 className="subtitlee">ABOUT US</h4>
           <h1 className="titlee">Logistic &amp; Transport Solutions</h1>
-          <div style={{display:'flex', alignItems:"center", justifyContent:"space-between", gap:"40px"}}>
-          <p className="description" style={{minWidth:"50%"}}>
+          <div className="about-split">
+          <p className="description">
             Founded over two decades ago with a single truck and a strong will to
             serve, Darshan Transport has grown into a trusted logistics partner
             across western Nepal and beyond. What began as a small family-run
@@ -49,7 +49,7 @@ const Home: React.FC = () => {
             serve. As we continue to grow, we remain committed to becoming Nepal’s
             leading logistics backbone. Thank you for being part of our journey.
           </p>
-          <img src={GIF} alt="GIF" />
+          <img className="about-gif" src={GIF} alt="Our operations animated" loading="lazy" decoding="async" />
           </div>
           <div className="stats">
             <div className="stat">
@@ -78,7 +78,7 @@ const Home: React.FC = () => {
           </svg>
         </div>
         <h2>Our Reach</h2>
-        <img src={nepalMap} alt="Map of Nepal" className="nepal-map" />
+  <img src={nepalMap} alt="Map of Nepal" className="nepal-map" loading="lazy" decoding="async" />
       </section>
 
       <section className="clients">
@@ -87,12 +87,12 @@ const Home: React.FC = () => {
         <div className="logo-carousel">
           <div className="logo-track">
             <div className="logo-set" aria-hidden="false">
-              <img src={clientLogo1} alt="Client 1 Logo" />
-              <img src={clientLogo2} alt="Client 2 Logo" />
-              <img src={clientLogo1} alt="Client 3 Logo" />
-              <img src={clientLogo2} alt="Client 4 Logo" />
-              <img src={clientLogo1} alt="Client 5 Logo" />
-              <img src={clientLogo2} alt="Client 6 Logo" />
+              <img src={clientLogo1} alt="Client 1 Logo" loading="lazy" decoding="async" />
+              <img src={clientLogo2} alt="Client 2 Logo" loading="lazy" decoding="async" />
+              <img src={clientLogo1} alt="Client 3 Logo" loading="lazy" decoding="async" />
+              <img src={clientLogo2} alt="Client 4 Logo" loading="lazy" decoding="async" />
+              <img src={clientLogo1} alt="Client 5 Logo" loading="lazy" decoding="async" />
+              <img src={clientLogo2} alt="Client 6 Logo" loading="lazy" decoding="async" />
             </div>
             <div className="logo-set" aria-hidden="true">
               <img src={clientLogo1} alt="Client 1 Logo Duplicate" />
@@ -148,7 +148,7 @@ const Home: React.FC = () => {
           <div className="reviews">
             <div className="review-card">
               <div className="profile-pic">
-                <img src={person1} alt="Person 1" />
+                <img src={person1} alt="Customer reviewer 1" loading="lazy" decoding="async" />
               </div>
               <p>
                 It's been about 1 year that we have been using Darshan Transport’s service and I am happy to share my experience with everyone. They are very professional, the team is supportive, and we can deliver our service on time.
@@ -158,7 +158,7 @@ const Home: React.FC = () => {
             </div>
             <div className="review-card">
               <div className="profile-pic">
-                <img src={person1} alt="Person 2" />
+                <img src={person1} alt="Customer reviewer 2" loading="lazy" decoding="async" />
               </div>
               <p>
                 VividBite Hospitality Pvt. Ltd. has been working with Darshan Transport since December 2021. The delivery service at the beginning was random. However, now with the delivery partnership, our issues have been resolved.
@@ -168,7 +168,7 @@ const Home: React.FC = () => {
             </div>
             <div className="review-card">
               <div className="profile-pic">
-                <img src={person3} alt="Person 3" />
+                <img src={person3} alt="Customer reviewer 3" loading="lazy" decoding="async" />
               </div>
               <p>
                 Darshan Transport has been our go-to solution for delivery. Their prompt service and affordable rates have made logistics a piece of cake.

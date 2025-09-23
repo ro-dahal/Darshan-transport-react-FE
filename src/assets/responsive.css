@@ -218,24 +218,24 @@
     .mobile-menu-toggle {
         display: flex;
     }
-     #navbarr, #navbar {
-        position: absolute;
-        top: 100%;
-        left: -120px;
-        right: 0px;
-        width: calc(250% + 40px);
+    #navbarr, #navbar {
+        position: fixed;
+        top: var(--head-height, 56px);
+        left: 0;
+        right: 0;
+        width: 100%;
         flex-direction: column;
         padding: 0;
         margin: 0;
-        background: rgba(151, 151, 151, 0.863);
-        backdrop-filter: blur(10px);
-        border-radius: 0 0 16px 16px;
-        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        background: rgba(255, 255, 255, 0.98);
+        backdrop-filter: blur(6px);
+        border-radius: 0 0 12px 12px;
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
         z-index: 1000;
         display: none;
         opacity: 0;
         transform: translateY(-10px);
-        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
     }
 
     #navbarr.show, #navbar.show {
@@ -263,12 +263,12 @@
     
     #navbarr li a, #navbar li a {
         font-size: 18px;
-        font-weight: 500;
-        padding: 18px 32px;
+        font-weight: 600;
+        padding: 16px 24px;
         display: block;
         color: #333;
         text-decoration: none;
-        transition: all 0.3s ease;
+        transition: all 0.2s ease;
         position: relative;
         letter-spacing: 0.5px;
     }
@@ -546,24 +546,24 @@
         display: flex !important;
         order: 2;
     }
-     #navbarr, #navbar {
-        position: absolute;
-        top: 100%;
-        left: -90px;
-        right: -10px;
-        width: calc(200% + 40px);
+    #navbarr, #navbar {
+        position: fixed;
+        top: var(--head-height, 56px);
+        left: 0;
+        right: 0;
+        width: 100%;
         flex-direction: column;
         padding: 0;
         margin: 0;
-        background: rgba(151, 151, 151, 0.863);
-        backdrop-filter: blur(10px);
-        border-radius: 0 0 16px 16px;
-        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        background: rgba(255, 255, 255, 0.98);
+        backdrop-filter: blur(6px);
+        border-radius: 0 0 12px 12px;
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
         z-index: 1000;
         display: none;
         opacity: 0;
         transform: translateY(-10px);
-        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
     }
 
     #navbarr.show, #navbar.show {
@@ -853,6 +853,11 @@
     
     .mobile-menu-toggle span {
         transition: none;
+    }
+
+    /* Avoid sliding animation for the sticky header */
+    #headerr {
+        transition: none !important;
     }
     
     /* Allow the page-level reduced-motion preference to remain in effect while

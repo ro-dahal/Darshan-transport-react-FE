@@ -19,8 +19,8 @@ const About: React.FC = () => {
         <div className="content">
           <h4 className="subtitlee">ABOUT US</h4>
           <h1 className="titlee">Logistic &amp; Transport Solutions</h1>
-          <div style={{display:'flex', alignItems:"center", justifyContent:"space-between", gap:"40px"}}>
-          <p className="description" style={{minWidth:"50%"}}>
+          <div className="about-split">
+          <p className="description">
             Founded over two decades ago with a single truck and a strong will to serve, Darshan Transport has grown into a trusted logistics partner across western Nepal and beyond. What began as a small family-run business is now a dependable logistics network known for safe, timely, and personalized service.
             <br /><br />
             Our mission has always been simple and clear: to deliver goods with care, responsibility, and efficiency. Over the years, we've expanded our fleet, integrated GPS tracking, and established multiple branches — all with the goal of serving our clients better and more transparently.
@@ -29,7 +29,7 @@ const About: React.FC = () => {
             <br /><br />
             As we continue to grow, we remain committed to becoming Nepal’s leading logistics backbone. Thank you for being part of our journey.
           </p>
-          <img src={GIF} alt="GIF" />
+          <img className="about-gif" src={GIF} alt="Our operations animated" loading="lazy" decoding="async" />
           </div>
           <div className="stats">
             <div className="stat">
@@ -105,7 +105,7 @@ const About: React.FC = () => {
           </svg>
         </div>
         <h2>Our Reach</h2>
-        <img src={nepalMap} alt="Map of Nepal" className="nepal-map" />
+  <img src={nepalMap} alt="Map of Nepal" className="nepal-map" loading="lazy" decoding="async" />
       </section>
 
       <section className="clients">
@@ -114,20 +114,20 @@ const About: React.FC = () => {
         <div className="logo-carousel">
           <div className="logo-track">
             <div className="logo-set" aria-hidden="false">
-              <img src={clientLogo1} alt="Client 1 Logo" />
-              <img src={clientLogo2} alt="Client 2 Logo" />
-              <img src={clientLogo1} alt="Client 3 Logo" />
-              <img src={clientLogo2} alt="Client 4 Logo" />
-              <img src={clientLogo1} alt="Client 5 Logo" />
-              <img src={clientLogo2} alt="Client 6 Logo" />
+              <img src={clientLogo1} alt="Client 1 Logo" loading="lazy" decoding="async" />
+              <img src={clientLogo2} alt="Client 2 Logo" loading="lazy" decoding="async" />
+              <img src={clientLogo1} alt="Client 3 Logo" loading="lazy" decoding="async" />
+              <img src={clientLogo2} alt="Client 4 Logo" loading="lazy" decoding="async" />
+              <img src={clientLogo1} alt="Client 5 Logo" loading="lazy" decoding="async" />
+              <img src={clientLogo2} alt="Client 6 Logo" loading="lazy" decoding="async" />
             </div>
             <div className="logo-set" aria-hidden="true">
-              <img src={clientLogo1} alt="Client 1 Logo Duplicate" />
-              <img src={clientLogo2} alt="Client 2 Logo Duplicate" />
-              <img src={clientLogo1} alt="Client 3 Logo Duplicate" />
-              <img src={clientLogo2} alt="Client 4 Logo Duplicate" />
-              <img src={clientLogo1} alt="Client 5 Logo Duplicate" />
-              <img src={clientLogo2} alt="Client 6 Logo Duplicate" />
+              <img src={clientLogo1} alt="Client 1 Logo Duplicate" loading="lazy" decoding="async" />
+              <img src={clientLogo2} alt="Client 2 Logo Duplicate" loading="lazy" decoding="async" />
+              <img src={clientLogo1} alt="Client 3 Logo Duplicate" loading="lazy" decoding="async" />
+              <img src={clientLogo2} alt="Client 4 Logo Duplicate" loading="lazy" decoding="async" />
+              <img src={clientLogo1} alt="Client 5 Logo Duplicate" loading="lazy" decoding="async" />
+              <img src={clientLogo2} alt="Client 6 Logo Duplicate" loading="lazy" decoding="async" />
             </div>
           </div>
         </div>

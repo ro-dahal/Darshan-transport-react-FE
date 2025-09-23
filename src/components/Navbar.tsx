@@ -27,8 +27,8 @@ const Navbar: React.FC = () => {
   const h = el.getBoundingClientRect().height;
   headerHeightRef.current = Math.ceil(h);
   document.documentElement.style.setProperty('--head-height', `${headerHeightRef.current}px`);
-  // ensure starting position
-  el.style.transform = `translateY(0px)`;
+  // let CSS control transform; clear any inline value
+  el.style.removeProperty('transform');
     };
 
     // set initially
@@ -47,20 +47,48 @@ const Navbar: React.FC = () => {
     const el = headerRef.current;
     if (!el) return;
 
+    const DOWN_THRESHOLD = 8; // pixels
+    const UP_THRESHOLD = 14;  // pixels to avoid jitter
+
+    const show = () => {
+      el.classList.remove('nav-hidden');
+      el.style.pointerEvents = 'auto';
+      el.style.transform = 'translateY(0)';
+    };
+    const hide = (distance: number) => {
+      el.classList.add('nav-hidden');
+      el.style.pointerEvents = 'none';
+      el.style.transform = `translateY(-${Math.max(0, Math.ceil(distance))}px)`;
+    };
+
     const onScroll = () => {
       if (rafRef.current) return; // already scheduled
-
       rafRef.current = window.requestAnimationFrame(() => {
         const y = window.scrollY || window.pageYOffset;
-        const max = headerHeightRef.current || el.getBoundingClientRect().height || 0;
-        // offset equals how much the page is scrolled, clamped to header height
-        const offset = Math.min(Math.max(y, 0), max);
+        const maxH = headerHeightRef.current || el.getBoundingClientRect().height || 0;
 
-        // apply proportional translate (move up by offset px)
-        el.style.transform = `translateY(-${offset}px)`;
+        if (menuOpen) {
+          show();
+          lastY.current = y;
+          rafRef.current && window.cancelAnimationFrame(rafRef.current);
+          rafRef.current = null;
+          return;
+        }
 
-        // if fully hidden, prevent pointer events to allow interacting with content below
-        el.style.pointerEvents = offset >= max ? 'none' : 'auto';
+        if (y <= 0) {
+          show();
+          lastY.current = 0;
+          rafRef.current && window.cancelAnimationFrame(rafRef.current);
+          rafRef.current = null;
+          return;
+        }
+
+        const dy = y - lastY.current;
+        if (dy > DOWN_THRESHOLD && y > maxH + 10) {
+          hide(maxH);
+        } else if (dy < -UP_THRESHOLD) {
+          show();
+        }
 
         lastY.current = y;
         if (rafRef.current) {
@@ -78,7 +106,17 @@ const Navbar: React.FC = () => {
         window.cancelAnimationFrame(rafRef.current);
       }
     };
-  }, []);
+  }, [menuOpen]);
+
+  // Ensure header is visible after route changes so content starts under it
+  useEffect(() => {
+    const el = headerRef.current;
+    if (!el) return;
+    el.classList.remove('nav-hidden');
+    el.style.pointerEvents = 'auto';
+    el.style.transform = 'translateY(0)';
+    lastY.current = 0;
+  }, [location.pathname]);
 
   return (
   <section id="headerr" ref={headerRef}>

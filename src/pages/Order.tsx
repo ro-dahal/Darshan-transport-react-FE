@@ -5,7 +5,6 @@ import {
   FaClipboardCheck,
   FaShippingFast,
   FaTruck,
-  FaHome,
   FaEnvelope,
   FaPhone,
   FaMapMarkerAlt,
@@ -21,33 +20,82 @@ const STATUS_STEPS = [
   { key: "waiting", label: "Waiting", icon: <FaClipboardCheck /> },
   { key: "ongoing", label: "Ongoing", icon: <FaShippingFast /> },
   { key: "delivered", label: "Delivered", icon: <FaTruck /> },
-  { key: "arrived", label: "Arrived", icon: <FaHome /> },
-  { key: "successful", label: "Successful", icon: <FaClipboardCheck /> },
-  { key: "error", label: "Error", icon: <FaClipboardCheck /> },
 ];
 
 // Timeline component
-const OrderTimeline: React.FC<{ status: DeliveryData["status"] }> = ({
-  status,
-}) => {
-  const currentStep = STATUS_STEPS.findIndex((step) => step.key === status);
+const OrderTimeline: React.FC<{ status: DeliveryData["status"] }> = ({ status }) => {
+  const rawIndex = STATUS_STEPS.findIndex((step) => step.key === status);
+  const clampedIndex = Math.max(0, Math.min(rawIndex, STATUS_STEPS.length - 1));
+  const containerRef = React.useRef<HTMLDivElement | null>(null);
+
+  useEffect(() => {
+    const el = containerRef.current;
+    if (!el) return;
+
+    const updateTrack = () => {
+      const circles = el.querySelectorAll<HTMLElement>('.timeline-circle');
+      if (circles.length === 0) return;
+      const contRect = el.getBoundingClientRect();
+      const firstRect = circles[0].getBoundingClientRect();
+      const lastRect = circles[circles.length - 1].getBoundingClientRect();
+
+      const firstCenterX = firstRect.left - contRect.left + firstRect.width / 2;
+      const lastCenterX = lastRect.left - contRect.left + lastRect.width / 2;
+      const centerY = firstRect.top - contRect.top + firstRect.height / 2;
+
+      const trackHeight = 6; // match CSS
+      const left = Math.max(0, firstCenterX);
+      const right = Math.max(0, contRect.width - lastCenterX);
+      const top = Math.max(0, centerY - trackHeight / 2);
+
+      let progressWidth = 0;
+      if (clampedIndex >= 0 && clampedIndex < circles.length) {
+        const currentRect = circles[clampedIndex].getBoundingClientRect();
+        const currentCenterX = currentRect.left - contRect.left + currentRect.width / 2;
+        progressWidth = Math.max(0, currentCenterX - firstCenterX);
+      }
+
+      el.style.setProperty('--track-left', `${left}px`);
+      el.style.setProperty('--track-right', `${right}px`);
+      el.style.setProperty('--track-top', `${top}px`);
+      el.style.setProperty('--track-progress', `${progressWidth}px`);
+    };
+
+    const rafUpdate = () => requestAnimationFrame(updateTrack);
+    rafUpdate();
+
+    let resizeRaf: number | null = null;
+    const onResize = () => {
+      if (resizeRaf) cancelAnimationFrame(resizeRaf);
+      resizeRaf = requestAnimationFrame(updateTrack);
+    };
+    window.addEventListener('resize', onResize);
+    return () => {
+      window.removeEventListener('resize', onResize);
+      if (resizeRaf) cancelAnimationFrame(resizeRaf);
+    };
+  }, [clampedIndex]);
 
   return (
-    <div className="timeline-container">
+    <div className="timeline-container" ref={containerRef}>
+      {/* Desktop track and progress bar */}
+      <div className="timeline-track" aria-hidden="true"></div>
+      <div className="timeline-progress" aria-hidden="true"></div>
+
       {STATUS_STEPS.map((step, idx) => {
         let circleClass = "timeline-circle";
-        if (idx < currentStep) circleClass += " done";
-        else if (idx === currentStep) circleClass += " active";
+        if (idx < clampedIndex) circleClass += " done";
+        else if (idx === clampedIndex) circleClass += " active";
 
         let lineClass = "timeline-line";
-        if (idx < currentStep) lineClass += " done";
+        if (idx < clampedIndex) lineClass += " done";
 
         return (
           <div className="timeline-step" key={step.key}>
-            <div className={circleClass}>{step.icon}</div>
-            {idx < STATUS_STEPS.length - 1 && (
-              <span className={lineClass}></span>
-            )}
+            <div className={circleClass} aria-current={idx === clampedIndex ? "step" : undefined}>
+              {step.icon}
+            </div>
+            {idx < STATUS_STEPS.length - 1 && <span className={lineClass}></span>}
             <span className="timeline-label">{step.label}</span>
           </div>
         );
@@ -112,26 +160,9 @@ const Order: React.FC = () => {
       </section>
 
       <section id="pageNotReadyBanner1">
-        <div
-          style={{
-            maxWidth: 1000,
-            margin: "30px auto 20px auto",
-            fontFamily: "Montserrat, Arial, sans-serif",
-            display: "grid",
-            gridTemplateColumns: "1fr 2fr",
-            gap: "20px",
-          }}
-        >
+        <div className="order-layout">
           {/* Contact Box */}
-<div
-  style={{
-    background: "#fcaf17",
-    color: "#fff",
-    borderRadius: 6,
-    padding: "35px 20px",
-    textAlign: "center",
-  }}
->
+<div className="order-contact-box">
   <h2 style={{ margin: "0 0 12px", fontSize: "1.8rem", fontWeight: "bold" }}>
     Get in touch!
   </h2>
@@ -178,7 +209,7 @@ const Order: React.FC = () => {
 </div>
 
           {/* Right Column */}
-          <div>
+          <div className="order-right">
             {/* Location Section */}
             <div
               style={{
@@ -286,6 +317,27 @@ const Order: React.FC = () => {
 
         <style>
           {`
+          :root { --accent: #fcaf17; --muted: #e6e6e6; }
+
+          /* Layout */
+          .order-layout {
+            max-width: 1000px;
+            margin: 30px auto 20px auto;
+            padding: 0 16px;
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: 20px;
+          }
+
+          .order-contact-box {
+            background: #fcaf17;
+            color: #fff;
+            border-radius: 6px;
+            padding: 28px 20px;
+            text-align: center;
+          }
+
+          /* Boxes */
           .timeline-box {
             border: 1px solid #fcaf17;
             border-radius: 6px;
@@ -311,9 +363,33 @@ const Order: React.FC = () => {
             display: flex;
             align-items: center;
             justify-content: space-between;
-            max-width: 600px;
+            max-width: 720px;
             margin: 0 auto;
             user-select: none;
+            position: relative;
+            padding: 22px 10px 0;
+          }
+          .timeline-track {
+            position: absolute;
+            top: var(--track-top, 38px);
+            left: var(--track-left, 28px);
+            right: var(--track-right, 28px);
+            height: 6px; /* keep in sync with JS */
+            background: var(--muted);
+            border-radius: 3px;
+            z-index: 0;
+            display: block;
+          }
+          .timeline-progress {
+            position: absolute;
+            top: var(--track-top, 38px);
+            left: var(--track-left, 28px);
+            height: 6px; /* keep in sync with JS */
+            background: linear-gradient(90deg, #f3b33a, var(--accent));
+            border-radius: 3px;
+            z-index: 1;
+            width: var(--track-progress, 0px);
+            transition: width 0.25s ease;
           }
           .timeline-step {
             display: flex;
@@ -321,36 +397,39 @@ const Order: React.FC = () => {
             align-items: center;
             position: relative;
             flex: 1;
-            min-width: 100px;
+            min-width: 110px;
+            z-index: 2; /* above tracks */
           }
           .timeline-circle {
             width: 48px;
             height: 48px;
-            background: #ccc;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 24px;
-            color: white;
-            position: relative;
-            z-index: 2;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.07);
-            transition: background 0.3s;
+            font-size: 22px;
+            color: #333;
+            background: #fff;
+            border: 3px solid var(--muted);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            transition: border-color 0.25s ease, background 0.25s ease, color 0.25s ease, transform 0.2s ease;
           }
           .timeline-circle.active,
           .timeline-circle.done {
-            background: #fcaf17;
+            border-color: var(--accent);
+            background: var(--accent);
             color: #fff;
           }
+          .timeline-circle.active { transform: scale(1.03); }
           .timeline-label {
             margin-top: 8px;
-            font-size: 15px;
-            color: #333;
-            font-weight: 500;
+            font-size: 14px;
+            color: #222;
+            font-weight: 600;
             text-align: center;
             min-height: 34px;
           }
+          /* Per-step connector line: hidden on desktop in favor of track */
           .timeline-line {
             position: absolute;
             top: 24px;
@@ -361,9 +440,54 @@ const Order: React.FC = () => {
             z-index: 1;
             border-radius: 3px;
             transition: background 0.3s;
+            display: none;
           }
           .timeline-line.done {
-            background: #fcaf17;
+            background: var(--accent);
+          }
+
+          /* Responsive */
+          @media (max-width: 900px) {
+            .order-layout {
+              grid-template-columns: 1fr;
+              gap: 16px;
+            }
+            .order-contact-box {
+              padding: 22px 16px;
+              text-align: center;
+            }
+            .timeline-box {
+              padding: 16px 8px;
+            }
+            .timeline-container {
+              justify-content: flex-start;
+              gap: 24px;
+              overflow-x: auto;
+              padding: 10px 6px 8px;
+              scroll-snap-type: x mandatory;
+            }
+            /* Hide desktop track in mobile; rely on per-step connectors */
+            .timeline-track, .timeline-progress { display: none; }
+            .timeline-step {
+              flex: 0 0 100px;
+              min-width: 100px;
+              scroll-snap-align: start;
+            }
+            .timeline-circle {
+              width: 36px;
+              height: 36px;
+              font-size: 18px;
+            }
+            .timeline-line {
+              display: block;
+              top: 18px;
+              height: 4px;
+              width: calc(100% - 36px);
+            }
+            .timeline-label {
+              font-size: 13px;
+              min-height: 28px;
+            }
           }
           `}
         </style>

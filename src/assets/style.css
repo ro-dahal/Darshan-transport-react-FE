@@ -20,6 +20,13 @@
     font-family: 'Montserrat', sans-serif;
 }
 
+/* Make images responsive by default */
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
 #hero h1 {
     font-size: 60px;
     line-height: 80px;
@@ -85,12 +92,12 @@ h6 {
 }
 
 #navbar li a{
-    text-decoration: none;
-    font-size: 16px;
-    font-weight: 600px;
-    color: white;
-    opacity: 0.5;
-    transition: 0.3s ease !important;
+  text-decoration: none;
+  font-size: 16px;
+  font-weight: 600;
+  color: white;
+  opacity: 0.7;
+  transition: 0.2s ease;
 }
 
 #navbar li a:hover,
@@ -123,12 +130,12 @@ h6 {
 }
 
 #navbarr li a{
-    text-decoration: none;
-    font-size: 16px;
-    font-weight: 600px;
-    color: white;
-    opacity: 0.5;
-    transition: 0.3s ease;
+  text-decoration: none;
+  font-size: 16px;
+  font-weight: 600;
+  color: white;
+  opacity: 0.7;
+  transition: 0.2s ease;
 }
 
 #navbarr li a:hover,
@@ -168,6 +175,11 @@ h6 {
   will-change: transform;
   /* small smoothing for nicer feel; JS will set exact translateY */
   transition: transform 0.12s linear;
+}
+
+/* slide header up when hidden due to scroll */
+#headerr.nav-hidden {
+  transform: translateY(calc(-1 * var(--head-height, 90px)));
 }
 
 /* deprecated: .hidden class no longer used for scroll hide; keep for other toggles */
@@ -270,6 +282,7 @@ body {
   color: #333;
   /* ensure page content starts below the fixed header; fallback to 90px */
   padding-top: var(--head-height, 90px);
+  overflow-x: hidden;
 }
 /* default header height fallback and ensure content starts below fixed header */
 :root { --head-height: 90px; }
@@ -285,6 +298,28 @@ body {
 .content {
   flex: 1 1 500px;
   padding-right: 40px;
+}
+
+/* Two-column split for About text + GIF */
+.about-split {
+  display: grid;
+  grid-template-columns: 1.2fr 0.8fr;
+  align-items: center;
+  gap: 40px;
+  margin: 20px 0 30px;
+}
+
+/* Allow grid children to shrink so content doesn't overflow */
+.about-split > * {
+  min-width: 0;
+}
+
+.about-gif {
+  width: 100%;
+  max-width: 520px;
+  border-radius: 8px;
+  object-fit: contain;
+  margin: 0 auto; /* center inside its grid cell */
 }
 
 .subtitle {
@@ -409,6 +444,7 @@ body {
   width: 1000px;    /* 3× previous size */
   max-width: 95%;   /* stay responsive */
   height: auto;
+  margin: 0 auto;   /* center on all viewports */
 }
 
 
@@ -457,13 +493,15 @@ body {
   /* remove leading padding which caused the visible seam */
   padding-left: 0;
   margin: 0;
-  gap: 40px; /* consistent spacing between logos and across the join */
+  gap: 0; /* avoid extra gap between the two sets to keep loop seamless */
+  will-change: transform;
 }
 
 .logo-set {
   display: flex;
   align-items: center;
-  gap: 40px;
+  gap: 40px; /* spacing between logos inside a set */
+  padding-right: 40px; /* add trailing spacing so the join matches inter-logo gap */
   /* ensure the set doesn't shrink so the second set matches the first exactly */
   flex: 0 0 auto;
 }
@@ -706,7 +744,7 @@ body {
 
 .cta-section {
   background-color: #fcaf17; /* Bright orange */
-  padding: 60px 20px;
+  padding: 36px 16px; /* shorter section */
   display: flex;
   justify-content: center;
   align-items: center;
@@ -722,7 +760,7 @@ body {
 }
 
 .cta-container h2 {
-  font-size: 48px;
+  font-size: 36px; /* smaller heading */
   font-weight: 900;
   color: #000;
   margin: 0;
@@ -734,11 +772,11 @@ body {
   color: #666;
   font-weight: 700;
   text-decoration: none;
-  padding: 20px 40px;
+  padding: 14px 28px; /* smaller button */
   border-radius: 10px;
-  font-size: 20px;
+  font-size: 16px; /* smaller text */
   transition: background 0.3s, color 0.3s;
-  margin-top: 20px;
+  margin-top: 14px;
 }
 
 .cta-button:hover {
@@ -980,6 +1018,13 @@ body {
   .about-founder-text .quote,
   .about-founder-text .founder-signature {
     text-align: center;
+  }
+  .about-split {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+  .about-gif {
+    max-width: 100%;
   }
 }
 

@@ -182,7 +182,7 @@ const Contact: React.FC = () => {
       <div className="contact-table-wrapper">
         <h3>Booking Area</h3>
         <p className="table-instruction">Click on any location below to view it on the map</p>
-        <table className="contact-table">
+  <table className="contact-table contact-table--responsive">
           <thead>
             <tr>
               <th>S.no.</th>
@@ -214,7 +214,7 @@ const Contact: React.FC = () => {
       <div className="contact-table-wrapper">
         <h3>Delivery Area</h3>
         <p className="table-instruction">Click on any location below to view it on the map</p>
-        <table className="contact-table">
+  <table className="contact-table contact-table--responsive">
           <thead>
             <tr>
               <th>S.no.</th>
