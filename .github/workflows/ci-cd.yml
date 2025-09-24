@@ -75,10 +75,9 @@ jobs:
           path: ./artifact
 
       - name: Deploy to IIS folder (darshantransport-website)
-          shell: powershell
         run: |
           $ErrorActionPreference = 'Stop'
-            $source = (Resolve-Path '.\\artifact').Path
+          $source = (Resolve-Path '.\\artifact').Path
           $target = 'C:\inetpub\wwwroot\darshantransport-website'
 
           if (-not (Test-Path $source)) { throw "Source '$source' not found (artifact missing)." }
