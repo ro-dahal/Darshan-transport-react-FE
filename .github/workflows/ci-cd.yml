@@ -65,26 +65,44 @@ jobs:
     needs: deployment
 
     steps:
+      - name: Checkout repo (for deploy script)
+        uses: actions/checkout@v4
+
       - name: Download build artifact (dist)
         uses: actions/download-artifact@v4
         with:
           name: darshan-transport-frontend-dist
           path: ./artifact
 
-      - name: Copy files into Frontend\dist on CPS host
-        shell: powershell
+      - name: Deploy to IIS folder (darshantransport-website)
+        shell: pwsh
         run: |
-          # Deploy target directory on the VPS (place build inside a dist subfolder)
-          $frontendPath = 'C:\apps\DarshanTransportWebsite\Frontend'
-          $distPath = Join-Path $frontendPath 'dist'
+          $ErrorActionPreference = 'Stop'
+          $source = Resolve-Path '.\artifact'
+          $target = 'C:\inetpub\wwwroot\darshantransport-website'
 
-          # Ensure base directory exists
-          if (!(Test-Path $frontendPath)) { New-Item -ItemType Directory -Force -Path $frontendPath | Out-Null }
+          if (-not (Test-Path $source)) { throw "Source '$source' not found (artifact missing)." }
+          if (-not (Test-Path (Join-Path $source 'index.html'))) { throw "Artifact folder missing index.html." }
 
-          # Remove existing dist directory to avoid stale files
-          if (Test-Path $distPath) { Remove-Item -Path $distPath -Recurse -Force -ErrorAction SilentlyContinue }
+          if (-not (Test-Path $target)) { New-Item -ItemType Directory -Force -Path $target | Out-Null }
 
-          # Create dist directory and copy artifact files into it
-          New-Item -ItemType Directory -Force -Path $distPath | Out-Null
-          Copy-Item -Path 'artifact\*' -Destination $distPath -Recurse -Force -ErrorAction SilentlyContinue
-          Write-Host "Build artifact copied to $distPath"
+          # Preserve existing web.config if present
+          $existingWebConfig = Join-Path $target 'web.config'
+          $keepWebConfig = Test-Path $existingWebConfig
+
+          # Clear target except web.config
+          Get-ChildItem -Path $target -Force | Where-Object { -not ($keepWebConfig -and $_.Name -eq 'web.config') } |
+            Remove-Item -Recurse -Force -ErrorAction SilentlyContinue
+
+          # Copy new build
+          Copy-Item -Path (Join-Path $source '*') -Destination $target -Recurse -Force
+
+          # Recycle app pool for the site
+          try {
+            Import-Module WebAdministration -ErrorAction Stop | Out-Null
+            $site = Get-Item "IIS:\Sites\darshantransport-website" -ErrorAction Stop
+            $pool = $site.applicationPool
+            if ($pool) { Restart-WebAppPool -Name $pool -ErrorAction SilentlyContinue }
+          } catch {
+            Write-Host "IIS recycle skipped: $($_.Exception.Message)"
+          }
