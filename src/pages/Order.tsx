@@ -174,21 +174,21 @@ const Order: React.FC = () => {
   <div style={{ marginBottom: 22 }}>
     <FaEnvelope style={{ fontSize: "1.3rem", marginBottom: 6 }} />
     <div>Inquiry</div>
-    <div style={{ fontWeight: 500 }}>info@darshan.com.np</div>
+    <div style={{ fontWeight: 500 }}>info@darshantransport.com.np</div>
   </div>
 
   {/* Phone */}
   <div style={{ marginBottom: 22 }}>
     <FaPhone style={{ fontSize: "1.3rem", marginBottom: 6 }} />
     <div>Customer Care</div>
-    <div style={{ fontWeight: 500 }}>01 4469203</div>
+    <div style={{ fontWeight: 500 }}>01 5926452, 5927452</div>
   </div>
 
   {/* Address */}
   <div style={{ marginBottom: 30 }}>
     <FaMapMarkerAlt style={{ fontSize: "1.3rem", marginBottom: 6 }} />
     <div>Address</div>
-    <div style={{ fontWeight: 500 }}>Kapan, Kathmandu, Nepal</div>
+    <div style={{ fontWeight: 500 }}>Transport Nagar, Sano Bharyang, Kathmandu</div>
   </div>
 
   {/* Social Media Icons */}

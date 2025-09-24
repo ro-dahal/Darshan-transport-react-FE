@@ -72,7 +72,7 @@ const deliveryOffices = [
   {
     sn: 3,
     office: 'Delivery Office',
-    address: 'Kushma / Beni',
+    address: 'Kushma / Beni / Baglung',
     contact: '+977 9801914215',
     location: 'Kushma, Nepal',
     search: 'Kushma Beni Nepal',
@@ -80,21 +80,13 @@ const deliveryOffices = [
   {
     sn: 4,
     office: 'Delivery Office',
-    address: 'Baglung',
-    contact: '+977 9801914214',
-    location: 'Baglung, Nepal',
-    search: 'Baglung Nepal',
-  },
-  {
-    sn: 5,
-    office: 'Delivery Office',
     address: 'Damauli / Aabukhaireni / Lamjung / Gorkha',
     contact: '+977 9801914220',
     location: 'Damauli, Nepal',
     search: '27.905365039468535, 84.53377614829505',
   },
   {
-    sn: 6,
+    sn: 5,
     office: 'Delivery Office',
     address: 'Syangja / Waling / Galyang',
     contact: '+977 9801914223',
@@ -149,8 +141,8 @@ const Contact: React.FC = () => {
           <p>We’re here to help you with all your logistics and transport needs.</p>
           <ul>
             <li><strong>Address:</strong> Transport Nagar, Ring Road, Kathmandu</li>
-            <li><strong>Phone:</strong> +977 9801914208</li>
-            <li><strong>Email:</strong> support@darshantransport.com</li>
+            <li><strong>Phone:</strong> 01 5926452, 5927452</li>
+            <li><strong>Email:</strong> support@darshantransport.com.np</li>
           </ul>
         </div>
         <div className="contact-form">
