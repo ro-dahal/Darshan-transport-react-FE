@@ -85,23 +85,59 @@ jobs:
 
           if (-not (Test-Path $target)) { New-Item -ItemType Directory -Force -Path $target | Out-Null }
 
-          # Preserve existing web.config if present
-          $existingWebConfig = Join-Path $target 'web.config'
-          $keepWebConfig = Test-Path $existingWebConfig
-
-          # Clear target except web.config
-          Get-ChildItem -Path $target -Force | Where-Object { -not ($keepWebConfig -and $_.Name -eq 'web.config') } |
-            Remove-Item -Recurse -Force -ErrorAction SilentlyContinue
-
-          # Copy new build
-          Copy-Item -Path (Join-Path $source '*') -Destination $target -Recurse -Force
-
-          # Recycle app pool for the site
+          # Try to stop app pool before mutating files to reduce locks
+          $pool = $null
           try {
             Import-Module WebAdministration -ErrorAction Stop | Out-Null
             $site = Get-Item "IIS:\Sites\darshantransport-website" -ErrorAction Stop
             $pool = $site.applicationPool
-            if ($pool) { Restart-WebAppPool -Name $pool -ErrorAction SilentlyContinue }
+            if ($pool) { Stop-WebAppPool -Name $pool -ErrorAction SilentlyContinue }
+          } catch { Write-Host "IIS pre-stop skipped: $($_.Exception.Message)" }
+
+          # Preserve existing web.config if present
+          $existingWebConfig = Join-Path $target 'web.config'
+          $keepWebConfig = Test-Path $existingWebConfig
+
+          # Clear target except web.config, with ACL fixup on failure
+          $items = Get-ChildItem -Path $target -Force | Where-Object { -not ($keepWebConfig -and $_.Name -eq 'web.config') }
+          foreach ($item in $items) {
+            $removed = $false
+            for ($i=0; $i -lt 3; $i++) {
+              try {
+                Remove-Item -LiteralPath $item.FullName -Recurse -Force -ErrorAction Stop
+                $removed = $true
+                break
+              } catch {
+                Write-Host "Remove failed for '$($item.FullName)': $($_.Exception.Message). Attempting ACL fix..."
+                try {
+                  takeown /f "$($item.FullName)" /r /d y | Out-Null
+                  icacls "$($item.FullName)" /grant "Administrators:(OI)(CI)F" "NT AUTHORITY\SYSTEM:(OI)(CI)F" /T | Out-Null
+                } catch { Write-Host "ACL fix failed for '$($item.FullName)': $($_.Exception.Message)" }
+                Start-Sleep -Seconds 1
+              }
+            }
+            if (-not $removed) { Write-Host "Warning: could not remove '$($item.FullName)'; continuing." }
+          }
+
+          # Copy new build
+          try {
+            Copy-Item -Path (Join-Path $source '*') -Destination $target -Recurse -Force -ErrorAction Stop
+          } catch {
+            Write-Host "Copy-Item failed, attempting robocopy mirror..."
+            $rc = (& robocopy $source $target /MIR /NFL /NDL /NJH /NJS /NP /R:2 /W:1 | Select-Object -Last 1)
+            if ($LASTEXITCODE -gt 3) { throw "Robocopy failed with exit code $LASTEXITCODE. Output: $rc" }
+          }
+
+          # Recycle app pool for the site
+          try {
+            if (-not $pool) {
+              Import-Module WebAdministration -ErrorAction Stop | Out-Null
+              $site = Get-Item "IIS:\Sites\darshantransport-website" -ErrorAction Stop
+              $pool = $site.applicationPool
+            }
+            if ($pool) {
+              Start-WebAppPool -Name $pool -ErrorAction SilentlyContinue
+            }
           } catch {
             Write-Host "IIS recycle skipped: $($_.Exception.Message)"
           }
