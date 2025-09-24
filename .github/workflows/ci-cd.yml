@@ -63,11 +63,11 @@ jobs:
     if: github.ref == 'refs/heads/main' && (github.event_name == 'push' || github.event_name == 'workflow_dispatch')
     runs-on: [self-hosted, windows, x64, windows-vps]
     needs: deployment
+    defaults:
+      run:
+        shell: powershell
 
     steps:
-      - name: Checkout repo (for deploy script)
-        uses: actions/checkout@v4
-
       - name: Download build artifact (dist)
         uses: actions/download-artifact@v4
         with:
