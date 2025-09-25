@@ -132,6 +132,9 @@ jobs:
             if ($allowIisActions) { Write-Host "IIS recycle would run here but allowIisActions=false" }
             $null = (& robocopy $source $target /MIR /NFL /NDL /NJH /NJS /NP /R:2 /W:1)
             if ($LASTEXITCODE -gt 7) { throw "Deploy failed after recycle. Robocopy exit code=$LASTEXITCODE" }
+            else { Write-Host "Robocopy retry succeeded with exit code $LASTEXITCODE"; $global:LASTEXITCODE = 0 }
+          } else {
+            Write-Host "Robocopy succeeded with exit code $rc"; $global:LASTEXITCODE = 0
           }
 
           if ($cfgChanged) { Write-Host "web.config changed; IIS will auto-reload configuration (no manual recycle)" }
