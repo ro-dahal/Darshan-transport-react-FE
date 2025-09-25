@@ -1,9 +1,16 @@
 // Centralized API client for Darshan Transport FE
-// Resolves API base URL from env or falls back to same-origin
+// Resolve API base URL safely:
+// - If VITE_API_BASE_URL is set to a real URL, use it
+// - BUT if it points to localhost and the page is NOT running on localhost, ignore it (use same-origin)
+// - Otherwise default to same-origin, so IIS can reverse-proxy /api to the backend
 
-const rawBase = (import.meta.env.VITE_API_BASE_URL ?? '').toString().trim();
-const BASE = rawBase.length > 0 ? rawBase : window.location.origin;
-const toUrl = (path: string) => new URL(path, BASE).toString();
+const envBase = (import.meta.env.VITE_API_BASE_URL ?? '').toString().trim();
+const isLocalHost = (hn: string) => /^(localhost|127\.0\.0\.1|\[::1\])$/i.test(hn);
+const pageIsLocal = isLocalHost(window.location.hostname);
+const envIsLocal = /localhost|127\.0\.0\.1|\[::1\]/i.test(envBase);
+
+const EFFECTIVE_BASE = envBase && !(envIsLocal && !pageIsLocal) ? envBase : window.location.origin;
+const toUrl = (path: string) => new URL(path, EFFECTIVE_BASE).toString();
 
 export async function fetchSeriesList(): Promise<string[]> {
   const res = await fetch(toUrl('/api/v1/delivery/series'));

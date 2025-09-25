@@ -85,16 +85,7 @@ jobs:
 
           if (-not (Test-Path $target)) { New-Item -ItemType Directory -Force -Path $target | Out-Null }
 
-          # Try to stop app pool before mutating files to reduce locks
-          $pool = $null
-          try {
-            Import-Module WebAdministration -ErrorAction Stop | Out-Null
-            $site = Get-Item "IIS:\Sites\darshantransport-website" -ErrorAction Stop
-            $pool = $site.applicationPool
-            if ($pool) { Stop-WebAppPool -Name $pool -ErrorAction SilentlyContinue }
-          } catch { Write-Host "IIS pre-stop skipped: $($_.Exception.Message)" }
-
-          # Preserve existing web.config if present
+          # Preserve existing web.config if present for cleanup phase
           $existingWebConfig = Join-Path $target 'web.config'
           $keepWebConfig = Test-Path $existingWebConfig
 
@@ -119,25 +110,66 @@ jobs:
             if (-not $removed) { Write-Host "Warning: could not remove '$($item.FullName)'; continuing." }
           }
 
-          # Copy new build
-          try {
-            Copy-Item -Path (Join-Path $source '*') -Destination $target -Recurse -Force -ErrorAction Stop
-          } catch {
-            Write-Host "Copy-Item failed, attempting robocopy mirror..."
-            $rc = (& robocopy $source $target /MIR /NFL /NDL /NJH /NJS /NP /R:2 /W:1 | Select-Object -Last 1)
-            if ($LASTEXITCODE -gt 3) { throw "Robocopy failed with exit code $LASTEXITCODE. Output: $rc" }
+          # Conditional recycle: only if copy fails or web.config changed
+          $srcCfg = Join-Path $source 'web.config'
+          $dstCfg = Join-Path $target 'web.config'
+          $cfgChanged = $false
+          if ((Test-Path $srcCfg) -and (Test-Path $dstCfg)) {
+            $cfgChanged = ((Get-FileHash $srcCfg).Hash -ne (Get-FileHash $dstCfg).Hash)
+          } elseif (Test-Path $srcCfg -and -not (Test-Path $dstCfg)) {
+            $cfgChanged = $true
           }
 
-          # Recycle app pool for the site
-          try {
-            if (-not $pool) {
+          # Preferred copy via robocopy (tolerates transient locks). Success exit codes: 0-7
+          $null = (& robocopy $source $target /MIR /NFL /NDL /NJH /NJS /NP /R:2 /W:1)
+          $rc = $LASTEXITCODE
+
+          if ($rc -gt 7) {
+            Write-Host "Robocopy failed with $rc, attempting recycle then retry..."
+            try {
               Import-Module WebAdministration -ErrorAction Stop | Out-Null
-              $site = Get-Item "IIS:\Sites\darshantransport-website" -ErrorAction Stop
-              $pool = $site.applicationPool
-            }
-            if ($pool) {
-              Start-WebAppPool -Name $pool -ErrorAction SilentlyContinue
-            }
-          } catch {
-            Write-Host "IIS recycle skipped: $($_.Exception.Message)"
+              $pool = (Get-Item "IIS:\\Sites\\darshantransport-website").applicationPool
+              if ($pool) { Restart-WebAppPool -Name $pool }
+            } catch { Write-Host "Recycle attempt failed: $($_.Exception.Message)" }
+            $null = (& robocopy $source $target /MIR /NFL /NDL /NJH /NJS /NP /R:2 /W:1)
+            if ($LASTEXITCODE -gt 7) { throw "Deploy failed after recycle. Robocopy exit code=$LASTEXITCODE" }
           }
+
+          if ($cfgChanged) {
+            try {
+              Import-Module WebAdministration -ErrorAction Stop | Out-Null
+              $pool = (Get-Item "IIS:\\Sites\\darshantransport-website").applicationPool
+              if ($pool) { Restart-WebAppPool -Name $pool }
+            } catch { Write-Host "Post-copy recycle skipped: $($_.Exception.Message)" }
+          }
+
+      - name: Post-deploy smoke tests
+        run: |
+          $ErrorActionPreference = 'Stop'
+          $domain = 'www.darshantransport.com.np'
+
+          function Test-200($url) {
+            try {
+              $res = Invoke-WebRequest -UseBasicParsing -Uri $url -TimeoutSec 15
+              if ($res.StatusCode -lt 200 -or $res.StatusCode -ge 400) { throw "Bad status $($res.StatusCode) for $url" }
+              Write-Host "OK $url -> $($res.StatusCode)"
+              return $true
+            } catch {
+              Write-Host "FAIL $url : $($_.Exception.Message)"
+              return $false
+            }
+          }
+
+          $ok1 = Test-200 ("http://$domain/")
+
+          # Try proxy health endpoints (common variants); then fall back to direct backend health
+          $ok2 = $false
+          foreach ($p in @('/api/health','/api/v1/health')) {
+            if (Test-200 ("http://$domain$p")) { $ok2 = $true; break }
+          }
+          if (-not $ok2) {
+            # Validate backend service is up directly
+            $ok2 = Test-200 'http://localhost:3000/health'
+          }
+
+          if (-not ($ok1 -and $ok2)) { throw "Smoke tests failed: site=$ok1 api=$ok2" }
