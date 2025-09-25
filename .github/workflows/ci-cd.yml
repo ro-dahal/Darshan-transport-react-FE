@@ -79,6 +79,7 @@ jobs:
           $ErrorActionPreference = 'Stop'
           $source = (Resolve-Path '.\\artifact').Path
           $target = 'C:\inetpub\wwwroot\darshantransport-website'
+          $isAdmin = ([Security.Principal.WindowsPrincipal] [Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)
 
           if (-not (Test-Path $source)) { throw "Source '$source' not found (artifact missing)." }
           if (-not (Test-Path (Join-Path $source 'index.html'))) { throw "Artifact folder missing index.html." }
@@ -126,29 +127,35 @@ jobs:
 
           if ($rc -gt 7) {
             Write-Host "Robocopy failed with $rc, attempting recycle then retry..."
-            try {
-              Import-Module WebAdministration -ErrorAction Stop | Out-Null
-              $pool = (Get-Item "IIS:\\Sites\\darshantransport-website").applicationPool
-              if ($pool) { Restart-WebAppPool -Name $pool }
-            } catch { Write-Host "Recycle attempt failed: $($_.Exception.Message)" }
+            if ($isAdmin) {
+              try {
+                Import-Module WebAdministration -ErrorAction Stop | Out-Null
+                $pool = (Get-Item "IIS:\\Sites\\darshantransport-website" -ErrorAction Stop).applicationPool
+                if ($pool) { Restart-WebAppPool -Name $pool -ErrorAction Stop }
+              } catch { Write-Host "Recycle attempt failed: $($_.Exception.Message)" }
+            } else {
+              Write-Host "Not elevated; skipping IIS recycle."
+            }
             $null = (& robocopy $source $target /MIR /NFL /NDL /NJH /NJS /NP /R:2 /W:1)
             if ($LASTEXITCODE -gt 7) { throw "Deploy failed after recycle. Robocopy exit code=$LASTEXITCODE" }
           }
 
-          if ($cfgChanged) {
+          if ($cfgChanged -and $isAdmin) {
             try {
               Import-Module WebAdministration -ErrorAction Stop | Out-Null
-              $pool = (Get-Item "IIS:\\Sites\\darshantransport-website").applicationPool
-              if ($pool) { Restart-WebAppPool -Name $pool }
+              $pool = (Get-Item "IIS:\\Sites\\darshantransport-website" -ErrorAction Stop).applicationPool
+              if ($pool) { Restart-WebAppPool -Name $pool -ErrorAction Stop }
             } catch { Write-Host "Post-copy recycle skipped: $($_.Exception.Message)" }
+          } elseif ($cfgChanged -and -not $isAdmin) {
+            Write-Host "web.config changed but not elevated; skipping recycle."
           }
 
-      - name: Post-deploy smoke tests
+      - name: Post-deploy smoke tests (HTTPS)
         run: |
           $ErrorActionPreference = 'Stop'
           $domain = 'www.darshantransport.com.np'
 
-          function Test-200($url) {
+          function Test-OK($url) {
             try {
               $res = Invoke-WebRequest -UseBasicParsing -Uri $url -TimeoutSec 15
               if ($res.StatusCode -lt 200 -or $res.StatusCode -ge 400) { throw "Bad status $($res.StatusCode) for $url" }
@@ -160,16 +167,22 @@ jobs:
             }
           }
 
-          $ok1 = Test-200 ("http://$domain/")
+          $ok1 = $false
+          foreach ($u in @("https://$domain/","http://$domain/")) {
+            if (Test-OK $u) { $ok1 = $true; break }
+          }
 
           # Try proxy health endpoints (common variants); then fall back to direct backend health
           $ok2 = $false
           foreach ($p in @('/api/health','/api/v1/health')) {
-            if (Test-200 ("http://$domain$p")) { $ok2 = $true; break }
+            foreach ($scheme in @('https','http')) {
+              if (Test-OK ("$scheme://$domain$p")) { $ok2 = $true; break }
+            }
+            if ($ok2) { break }
           }
           if (-not $ok2) {
             # Validate backend service is up directly
-            $ok2 = Test-200 'http://localhost:3000/health'
+            $ok2 = Test-OK 'http://localhost:3000/health'
           }
 
           if (-not ($ok1 -and $ok2)) { throw "Smoke tests failed: site=$ok1 api=$ok2" }
