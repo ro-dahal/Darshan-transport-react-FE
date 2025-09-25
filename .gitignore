@@ -25,3 +25,7 @@ dist-ssr
 
 DOCUMENTATION.txt
 
+
+# Ignore AI agent instructions (kept local-only)
+.github/copilot-instructions.md
+
