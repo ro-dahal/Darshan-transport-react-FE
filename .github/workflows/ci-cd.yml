@@ -21,7 +21,7 @@ jobs:
     - name: Use Node.js ${{ matrix.node-version }}
       uses: actions/setup-node@v3
       with:
-        node-version: '22.18.0'
+        node-version: ${{ matrix.node-version }}
         cache: 'npm'
 
     - name: Install dependencies
@@ -142,7 +142,7 @@ jobs:
       - name: Post-deploy smoke tests (HTTPS)
         run: |
           $ErrorActionPreference = 'Stop'
-          $domain = 'www.darshantransport.com.np'
+          $domains = @('www.darshantransport.com.np','darshantransport.com.np')
 
           function Test-OK($url) {
             try {
@@ -157,15 +157,21 @@ jobs:
           }
 
           $ok1 = $false
-          foreach ($u in @("https://$domain/","http://$domain/")) {
-            if (Test-OK $u) { $ok1 = $true; break }
+          foreach ($domain in $domains) {
+            foreach ($u in @("https://$domain/","http://$domain/")) {
+              if (Test-OK $u) { $ok1 = $true; break }
+            }
+            if ($ok1) { break }
           }
 
           # Try proxy health endpoints (common variants); then fall back to direct backend health
           $ok2 = $false
-          foreach ($p in @('/api/health','/api/v1/health')) {
-            foreach ($scheme in @('https','http')) {
-              if (Test-OK ("$($scheme)://$domain$p")) { $ok2 = $true; break }
+          foreach ($domain in $domains) {
+            foreach ($p in @('/api/health','/api/v1/health')) {
+              foreach ($scheme in @('https','http')) {
+                if (Test-OK ("$($scheme)://$domain$p")) { $ok2 = $true; break }
+              }
+              if ($ok2) { break }
             }
             if ($ok2) { break }
           }
