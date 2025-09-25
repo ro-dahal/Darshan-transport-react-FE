@@ -79,7 +79,8 @@ jobs:
           $ErrorActionPreference = 'Stop'
           $source = (Resolve-Path '.\\artifact').Path
           $target = 'C:\inetpub\wwwroot\darshantransport-website'
-          $isAdmin = ([Security.Principal.WindowsPrincipal] [Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)
+          # Avoid IIS configuration access to prevent redirection.config permission issues on runners
+          $allowIisActions = $false
 
           if (-not (Test-Path $source)) { throw "Source '$source' not found (artifact missing)." }
           if (-not (Test-Path (Join-Path $source 'index.html'))) { throw "Artifact folder missing index.html." }
@@ -111,7 +112,7 @@ jobs:
             if (-not $removed) { Write-Host "Warning: could not remove '$($item.FullName)'; continuing." }
           }
 
-          # Conditional recycle: only if copy fails or web.config changed
+          # Conditional recycle (disabled by default): only if copy fails or web.config changed
           $srcCfg = Join-Path $source 'web.config'
           $dstCfg = Join-Path $target 'web.config'
           $cfgChanged = $false
@@ -124,31 +125,16 @@ jobs:
           # Preferred copy via robocopy (tolerates transient locks). Success exit codes: 0-7
           $null = (& robocopy $source $target /MIR /NFL /NDL /NJH /NJS /NP /R:2 /W:1)
           $rc = $LASTEXITCODE
+          Write-Host "Robocopy exit code: $rc"
 
           if ($rc -gt 7) {
             Write-Host "Robocopy failed with $rc, attempting recycle then retry..."
-            if ($isAdmin) {
-              try {
-                Import-Module WebAdministration -ErrorAction Stop | Out-Null
-                $pool = (Get-Item "IIS:\\Sites\\darshantransport-website" -ErrorAction Stop).applicationPool
-                if ($pool) { Restart-WebAppPool -Name $pool -ErrorAction Stop }
-              } catch { Write-Host "Recycle attempt failed: $($_.Exception.Message)" }
-            } else {
-              Write-Host "Not elevated; skipping IIS recycle."
-            }
+            if ($allowIisActions) { Write-Host "IIS recycle would run here but allowIisActions=false" }
             $null = (& robocopy $source $target /MIR /NFL /NDL /NJH /NJS /NP /R:2 /W:1)
             if ($LASTEXITCODE -gt 7) { throw "Deploy failed after recycle. Robocopy exit code=$LASTEXITCODE" }
           }
 
-          if ($cfgChanged -and $isAdmin) {
-            try {
-              Import-Module WebAdministration -ErrorAction Stop | Out-Null
-              $pool = (Get-Item "IIS:\\Sites\\darshantransport-website" -ErrorAction Stop).applicationPool
-              if ($pool) { Restart-WebAppPool -Name $pool -ErrorAction Stop }
-            } catch { Write-Host "Post-copy recycle skipped: $($_.Exception.Message)" }
-          } elseif ($cfgChanged -and -not $isAdmin) {
-            Write-Host "web.config changed but not elevated; skipping recycle."
-          }
+          if ($cfgChanged) { Write-Host "web.config changed; IIS will auto-reload configuration (no manual recycle)" }
 
       - name: Post-deploy smoke tests (HTTPS)
         run: |
