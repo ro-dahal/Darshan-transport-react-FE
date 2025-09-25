@@ -166,8 +166,9 @@ jobs:
 
           # Try proxy health endpoints (common variants); then fall back to direct backend health
           $ok2 = $false
+          $paths = @('/api/v1/delivery/series')
           foreach ($domain in $domains) {
-            foreach ($p in @('/api/health','/api/v1/health')) {
+            foreach ($p in $paths) {
               foreach ($scheme in @('https','http')) {
                 if (Test-OK ("$($scheme)://$domain$p")) { $ok2 = $true; break }
               }
