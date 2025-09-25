@@ -166,7 +166,8 @@ jobs:
 
           # Try proxy health endpoints (common variants); then fall back to direct backend health
           $ok2 = $false
-          $paths = @('/api/v1/delivery/series')
+          # Use the lightweight proxied health endpoint we expose via web.config -> backend /health/live
+          $paths = @('/api/health')
           foreach ($domain in $domains) {
             foreach ($p in $paths) {
               foreach ($scheme in @('https','http')) {
