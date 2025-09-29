@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import type { DeliveryRecord } from '../types/DeliveryRecord';
-import { useOrderTrackingService } from '../services/OrderTrackingProvider';
+import { useOrderTrackingService } from '../services/OrderTrackingServiceContext';
 
 export interface OrderTrackingViewModelState {
   seriesList: string[];
