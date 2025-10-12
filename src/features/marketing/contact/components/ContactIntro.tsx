@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 
 export const ContactIntro: React.FC = () => (
   <div className="contact-info">
@@ -12,7 +12,7 @@ export const ContactIntro: React.FC = () => (
         <strong>Phone:</strong> 01 5926452, 5927452
       </li>
       <li>
-        <strong>Email:</strong> support@darshantransport.com.np
+        <strong>Email:</strong> info@darshantransport.com.np
       </li>
     </ul>
   </div>
