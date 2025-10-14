@@ -10,14 +10,14 @@
    - Keep this header at top of file.
   ========================================================== */
 
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400;500;600;700;800;900&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400;500;600;700;800;900&display=swap");
 
 /* === Global / Reset === */
 * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: 'Montserrat', sans-serif;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Montserrat", sans-serif;
 }
 
 /* Make images responsive by default */
@@ -28,70 +28,70 @@ img {
 }
 
 #hero h1 {
-    font-size: 60px;
-    line-height: 80px;
-    color: #ffffff;
+  font-size: 60px;
+  line-height: 80px;
+  color: #ffffff;
 }
 
 /* === Typography === */
 /* Headings and basic type scale used across the site */
 
 h2 {
-    font-size: 55px;
-    line-height: 54px;
-    color: #ffffff;
+  font-size: 55px;
+  line-height: 54px;
+  color: #ffffff;
 }
 
 h4 {
-    font-size: 20px;
-    color: #fcaf17;
+  font-size: 20px;
+  color: #fcaf17;
 }
 
 h6 {
-    font-weight: 700;
-    font-size: 12px;
+  font-weight: 700;
+  font-size: 12px;
 }
 
 #hero p {
-    font-size: 16px;
-    color: #dadada;
-    margin: 15px 0 20px 0;
+  font-size: 16px;
+  color: #dadada;
+  margin: 15px 0 20px 0;
 }
 
 .section-p1 {
-    padding: 40px 80px;
+  padding: 40px 80px;
 }
 
 .section-m1 {
-    width: 100%;
+  width: 100%;
 }
 
 /* === Header & Navigation === */
 #header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 20px 150px;
-    background-color: rgba(0, 0, 0, 10%);
-    z-index: 1000;
-    position: sticky;
-    top: 0;
-    left: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 150px;
+  background-color: rgba(0, 0, 0, 10%);
+  z-index: 1000;
+  position: sticky;
+  top: 0;
+  left: 0;
 }
 
 #navbar {
-    display: flex;
-    align-items: center;
-    justify-content: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-#navbar li{
-    list-style: none;
-    padding: 0 20px;
-    position: relative;
+#navbar li {
+  list-style: none;
+  padding: 0 20px;
+  position: relative;
 }
 
-#navbar li a{
+#navbar li a {
   text-decoration: none;
   font-size: 16px;
   font-weight: 600;
@@ -101,35 +101,34 @@ h6 {
 }
 
 #navbar li a:hover,
-#navbar li a.active{
-    color: #fcaf17;
-}   
+#navbar li a.active {
+  color: #fcaf17;
+}
 
 #navbar li a.active::after,
 #navbar li a:hover::after {
-    content: "";
-    width: 30%;
-    height: 2px;
-    background-color: #fcaf17;
-    position: absolute;
-    bottom: -4px;
-    left: 20px;
+  content: "";
+  width: 30%;
+  height: 2px;
+  background-color: #fcaf17;
+  position: absolute;
+  bottom: -4px;
+  left: 20px;
 }
-
 
 #navbarr {
-    display: flex;
-    align-items: center;
-    justify-content: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-#navbarr li{
-    list-style: none;
-    padding: 0 20px;
-    position: relative;
+#navbarr li {
+  list-style: none;
+  padding: 0 20px;
+  position: relative;
 }
 
-#navbarr li a{
+#navbarr li a {
   text-decoration: none;
   font-size: 16px;
   font-weight: 600;
@@ -139,35 +138,34 @@ h6 {
 }
 
 #navbarr li a:hover,
-#navbarr li a.active{
-    color: #fcaf17;
-}   
+#navbarr li a.active {
+  color: #fcaf17;
+}
 
 #navbarr li a.active::after,
 #navbarr li a:hover::after {
-    content: "";
-    width: 30%;
-    height: 2px;
-    background-color:#fcaf17;
-    position: absolute;
-    bottom: -4px;
-    left: 20px;
+  content: "";
+  width: 30%;
+  height: 2px;
+  background-color: #fcaf17;
+  position: absolute;
+  bottom: -4px;
+  left: 20px;
 }
 #headerr {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 10px 135px;
-    background-color: rgba(0, 0, 0, 75%);
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-    z-index: 1000;
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    width: 100%;
-    box-sizing: border-box;
-
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 135px;
+  background-color: rgba(0, 0, 0, 75%);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 /* header base - JS will set transform directly for proportional movement */
@@ -190,90 +188,82 @@ h6 {
 
 /* removed scrolled compact styles (reverted) */
 
-
-
-#headerr img{
+#headerr img {
   max-height: 8vh;
   max-width: 100%;
 }
 
-#but a{
+#but a {
   text-decoration: none;
   color: #fcaf17;
 }
 
-
 #but a:hover,
-#but a.active{
-    color: #c98300;
-} 
+#but a.active {
+  color: #c98300;
+}
 
 /* === Hero & Main Background === */
 #hero {
-    /* background-image: url(img/background.jpg);
+  /* background-image: url(img/background.jpg);
     height: 90vh;
     width: 100%;
     background-size: cover;
     background-position: top 25% right 0; */
-    padding: 200px 150px;
-    flex-direction: column;
-    align-items:flex-start ;
-    justify-content: center;
+  padding: 200px 150px;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
 }
 
 #main-bg {
-    background-image: url(img/background2.jpg);
-    height: 90vh;
-    width: 100%;
-    background-size: cover;
-    background-position: top 25% right 0;
-    position: relative;
+  background-image: url(img/background2.jpg);
+  height: 90vh;
+  width: 100%;
+  background-size: cover;
+  background-position: top 25% right 0;
+  position: relative;
 }
 
-#hero button{
-    background-image: url("img/button.png");
-    background-color: transparent;
-    color: #ffffff;
-    border: 0;
-    padding: 14px 80px 14px 65px;
-    background-repeat: no-repeat;
-    cursor: pointer;
-    font-weight: 700;
-    font-size: 15px;
+#hero button {
+  background-image: url("img/button.png");
+  background-color: transparent;
+  color: #ffffff;
+  border: 0;
+  padding: 14px 80px 14px 65px;
+  background-repeat: no-repeat;
+  cursor: pointer;
+  font-weight: 700;
+  font-size: 15px;
 }
 
 #ex {
-    color: #ffffff;
-    display: flex;
-    align-items: center;
-    justify-content: left;
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: left;
 }
 
-#ex li{
-    list-style: none;
-    padding: 40px 102px;
-    position: relative;
-    font-size: 30px;
+#ex li {
+  list-style: none;
+  padding: 40px 102px;
+  position: relative;
+  font-size: 30px;
 }
 
 #ax {
-    color: #ffffff;
-    display: flex;
-    align-items: center;
-    justify-content: left;
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: left;
 }
 
-#ax li{
-    list-style: none;
-    padding: 0px 95px;
-    position: relative;
-    font-size: 20px;
+#ax li {
+  list-style: none;
+  padding: 0px 95px;
+  position: relative;
+  font-size: 20px;
 }
-
-
-
-
-
 
 body {
   margin: 0;
@@ -285,7 +275,9 @@ body {
   overflow-x: hidden;
 }
 /* default header height fallback and ensure content starts below fixed header */
-:root { --head-height: 90px; }
+:root {
+  --head-height: 90px;
+}
 
 .about-section {
   display: flex;
@@ -409,9 +401,6 @@ body {
   left: 10%;
 }
 
-
-
-
 .our-reach {
   position: relative;
   background-color: #444;
@@ -441,16 +430,11 @@ body {
 }
 
 .nepal-map {
-  width: 1000px;    /* 3× previous size */
-  max-width: 95%;   /* stay responsive */
+  width: 1000px; /* 3× previous size */
+  max-width: 95%; /* stay responsive */
   height: auto;
-  margin: 0 auto;   /* center on all viewports */
+  margin: 0 auto; /* center on all viewports */
 }
-
-
-
-
-
 
 .clients {
   text-align: center;
@@ -542,11 +526,6 @@ body {
   }
 }
 
-
-
-
-
-
 .testimonials-section {
   position: relative;
   background-color: #e6e6e6;
@@ -618,7 +597,7 @@ body {
   width: 300px;
   border-radius: 8px;
   overflow: hidden;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
   background: #000;
 }
 
@@ -633,7 +612,7 @@ body {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  background: rgba(255,255,255,0.8);
+  background: rgba(255, 255, 255, 0.8);
   border: none;
   border-radius: 50%;
   font-size: 24px;
@@ -663,7 +642,7 @@ body {
   border-radius: 8px;
   padding: 30px 20px 20px;
   max-width: 300px;
-  box-shadow: 0 2px 12px rgba(0,0,0,0.1);
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
   position: relative;
   text-align: center;
 }
@@ -725,7 +704,7 @@ body {
   background: #ffffff;
   border-radius: 8px;
   overflow: hidden;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
 .video-card video {
@@ -735,12 +714,6 @@ body {
   display: block;
   background: #000;
 }
-
-
-
-
-
-
 
 .cta-section {
   background-color: #fcaf17; /* Bright orange */
@@ -795,11 +768,6 @@ body {
     margin-top: 30px;
   }
 }
-
-
-
-
-
 
 .footer {
   background-color: #5d5d5d; /* Dark gray background */
@@ -909,12 +877,8 @@ body {
   color: #fff;
 }
 
-
-
-
-
 /* === About Page Header === */
-#about-us-header{
+#about-us-header {
   background-image: url(img/b1.jpg);
   width: 100%;
   height: 30vh;
@@ -927,16 +891,14 @@ body {
   position: relative;
 }
 
-#about-us-header h1{
+#about-us-header h1 {
   color: #f8f8f8;
   font-size: 50px;
 }
 
-
 /* === About / Founder Sections === */
 
 /* About us */
-
 
 .about-founder {
   background-color: #f2f2f2;
@@ -973,6 +935,10 @@ body {
   margin-bottom: 30px;
 }
 
+.quote {
+  text-align: justify;
+}
+
 /* So the image aligns with the paragraph, not the heading */
 .about-founder-image {
   flex: 1 1 500px;
@@ -988,7 +954,7 @@ body {
 .about-founder-image img {
   width: 100%;
   max-width: 500px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
   border: 4px solid #fff;
 }
 
@@ -1028,7 +994,7 @@ body {
   }
 }
 
-.about-founder-text h2{
+.about-founder-text h2 {
   color: #000;
 }
 
@@ -1049,9 +1015,6 @@ body {
   margin-right: 4px;
   display: inline-block;
 }
-
-
-
 
 /* Section base */
 .core-values-section {
@@ -1082,7 +1045,7 @@ body {
   border: 1px solid #eee;
   border-radius: 8px;
   padding: 25px;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
   display: flex;
   flex-direction: column;
   align-items: flex-start;
@@ -1141,14 +1104,12 @@ body {
   }
 }
 
-
 /* Move the right column cards down by 50px */
 .values-grid .value-card:nth-child(2),
 .values-grid .value-card:nth-child(4),
 .values-grid .value-card:nth-child(6) {
   margin-top: 40px;
 }
-
 
 /* Move the left column cards 50px up */
 .values-grid .value-card:nth-child(1),
@@ -1157,17 +1118,11 @@ body {
   margin-top: -10px;
 }
 
-
-
-
-
-
-
 /* services */
 
 .services-hero {
   position: relative;
-  background-image: url('img/bg.jpg');
+  background-image: url("img/bg.jpg");
   background-size: cover;
   background-position: center;
   color: #fff;
@@ -1231,7 +1186,6 @@ body {
   display: block;
 }
 
-
 /* Section styling */
 .growth-section {
   background: #fff;
@@ -1248,7 +1202,7 @@ body {
 /* Subtitle */
 .growth-container h4 {
   font-size: 1rem;
-  color: #fcaf17;  /* Orange accent */
+  color: #fcaf17; /* Orange accent */
   letter-spacing: 2px;
   margin-bottom: 10px;
 }
@@ -1278,7 +1232,7 @@ body {
 .stat .number {
   font-size: 2.5rem;
   font-weight: 700;
-  color: #fcaf17;  /* Orange accent */
+  color: #fcaf17; /* Orange accent */
   margin-bottom: 10px;
 }
 
@@ -1289,12 +1243,9 @@ body {
   color: #000;
 }
 
-
-
-
 .services-section {
   position: relative;
-  background:url("img/wavy.png") top center no-repeat; /* Your wave image here */
+  background: url("img/wavy.png") top center no-repeat; /* Your wave image here */
   background-size: cover; /* Or "contain", depends on the look you want */
   padding: 150px 20px 60px; /* Top padding increased to clear wave */
 }
@@ -1329,7 +1280,7 @@ body {
   background: #fff;
   border-radius: 8px;
   padding: 25px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
   text-align: left;
 }
 
@@ -1349,14 +1300,9 @@ body {
   line-height: 1.6;
 }
 
-
-.container h3{
+.container h3 {
   color: #fcaf17;
 }
-
-
-
-
 
 /* === Track Order === */
 /* Styles for the Track My Order page and stepper */
@@ -1462,12 +1408,9 @@ button#trackOrderStartBtn {
   display: none;
 }
 
-.track-order-status h4{
+.track-order-status h4 {
   color: #000;
 }
-
-
-
 
 /* === Contact === */
 
@@ -1515,7 +1458,7 @@ button#trackOrderStartBtn {
   background: #fff;
   padding: 25px;
   border-radius: 8px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
 .contact-form h3 {
@@ -1557,8 +1500,6 @@ button#trackOrderStartBtn {
   margin-top: 40px;
 }
 
-
-
 .contact-table-wrapper {
   margin-top: 40px;
 }
@@ -1575,7 +1516,7 @@ button#trackOrderStartBtn {
   border-collapse: collapse;
   font-size: 0.95rem;
   background: #fff;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
 .contact-table th,
@@ -1646,8 +1587,6 @@ button#trackOrderStartBtn {
   position: relative;
 }
 
-
-
 /* === Loading / Preloader === */
 
 /* Preloader styles */
@@ -1678,8 +1617,12 @@ button#trackOrderStartBtn {
 
 /* Spin animation */
 @keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }
 
 /* When preloader is hidden: fade out then hide interactions */
@@ -1691,14 +1634,10 @@ button#trackOrderStartBtn {
 /* To completely remove from flow after fade (keeps transition) */
 @media (prefers-reduced-motion: reduce) {
   /* If reduced motion is requested, avoid the fade and just hide immediately */
-  #preloader.hidden { display: none !important; }
+  #preloader.hidden {
+    display: none !important;
+  }
 }
-
-
-
-
-
-
 
 #pageNotReadyBanner {
   position: relative;
@@ -1742,6 +1681,3 @@ button#trackOrderStartBtn {
   color: white;
   text-shadow: 2px 2px 0 #00000033;
 }
-
-
-
