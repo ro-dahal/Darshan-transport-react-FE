@@ -327,6 +327,7 @@ body {
 }
 
 .description {
+  text-align: justify;
   font-size: 16px;
   line-height: 1.6;
   margin-bottom: 40px;
@@ -1086,6 +1087,7 @@ body {
   line-height: 1.7;
   color: #444;
   margin-bottom: 15px;
+  text-align: justify;
 }
 
 /* Responsive */
@@ -1155,6 +1157,7 @@ body {
   line-height: 1.6;
   margin-bottom: 25px;
   color: #f0f0f0;
+  text-align: justify;
 }
 
 .btn {
