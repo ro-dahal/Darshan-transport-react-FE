@@ -10,20 +10,26 @@ export interface FooterColumn {
 
 export const FOOTER_COLUMNS: FooterColumn[] = [
   {
-    title: 'Our team',
+    title: 'Company',
     links: [
       { label: 'About us', href: '#' },
       { label: 'Team', href: '#' },
-      { label: 'What we do', href: '#' },
+      { label: 'FAQs', href: '#' },
       { label: 'Contact', href: '#' },
     ],
   },
   {
-    title: 'More',
+    title: 'Services',
     links: [
-      { label: 'Projects', href: '#' },
-      { label: 'Events', href: '#' },
-      { label: 'Blog', href: '#' },
+      { label: 'Brand Summary', href: '#' },
+      { label: 'Distribution & Delivery', href: '#' },
+      { label: 'Thrid-Party Logistics (3PL)', href: '#' },
+      { label: 'Packaging & Handling', href: '#' },
+      { label: 'Fleet Services', href: '#' },
+      { label: 'Service Area', href: '#' },
+      { label: 'Industries Served', href: '#' },
+
+
     ],
   },
   {
@@ -31,6 +37,10 @@ export const FOOTER_COLUMNS: FooterColumn[] = [
     links: [
       { label: 'Facebook', href: '#' },
       { label: 'Instagram', href: '#' },
+      { label: 'WhatsApp', href: '#' },
+      { label: '+977 9809991233', href: '#' },
+      { label: 'info@darshan.np', href: '#' },
+
     ],
   },
 ];

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import logo from '../../../assets/img/logo.png';
 import { NAV_LINKS } from './navLinks';
@@ -6,6 +6,7 @@ import { useNavbarController } from './useNavbarController';
 
 export const Navbar: React.FC = () => {
   const { headerRef, menuOpen, toggleMenu, closeMenu, activePath } = useNavbarController();
+  const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
 
   return (
     <section id="headerr" ref={headerRef}>
@@ -25,14 +26,47 @@ export const Navbar: React.FC = () => {
         </button>
         <ul id="navbar" className={menuOpen ? 'show' : ''}>
           {NAV_LINKS.map((link) => (
-            <li key={link.to}>
+            <li
+              key={link.to}
+              className={`${link.dropdown ? 'has-dropdown' :  ''} ${
+                activeDropdown === link.to ? 'active-dropdown' : ''
+              }`}
+              onMouseEnter={() => link.dropdown && setActiveDropdown(link.to)}
+              onMouseLeave={() => link.dropdown && setActiveDropdown(null)}
+              onClick={() => {
+                if (link. dropdown && window.innerWidth <= 768) {
+                  setActiveDropdown(activeDropdown === link.to ? null : link.to);
+                }
+              }}
+            >
               <Link
                 to={link.to}
                 className={activePath === link.to ? 'active' : ''}
-                onClick={closeMenu}
+                onClick={(e) => {
+                  if (link.dropdown && window.innerWidth <= 768) {
+                    e.preventDefault();
+                  } else if (! link.dropdown) {
+                    closeMenu();
+                  }
+                }}
               >
                 {link.label}
               </Link>
+              {link.dropdown && (
+                <ul className="dropdown-menu">
+                  {link.dropdown.map((item) => (
+                    <li key={item.to}>
+                      <Link
+                        to={item.to}
+                        className={activePath === item.to ? 'active' : ''}
+                        onClick={closeMenu}
+                      >
+                        {item.label}
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              )}
             </li>
           ))}
         </ul>

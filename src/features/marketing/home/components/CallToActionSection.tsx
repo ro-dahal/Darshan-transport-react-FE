@@ -4,12 +4,15 @@ export const CallToActionSection: React.FC = () => (
   <section className="cta-section">
     <div className="cta-container">
       <h2>
-        Get Started with your
+        Ready to send your Goods?
         <br />
-        Logistics Journey!
+        We'll ahndle the heavy lifting.
       </h2>
       <a href="/contact" className="cta-button">
-        Get Started
+        Book a Delivey
+      </a>
+      <a href="/contact" className="cta-button">
+        Track Your Shipment
       </a>
     </div>
   </section>
