@@ -7,23 +7,15 @@ export interface AboutSectionProps {
   animationSrc: string;
 }
 
-export const AboutSection: React.FC<AboutSectionProps> = ({ description, stats, animationSrc }) => (
+export const AboutSection: React.FC<AboutSectionProps> = ({ description, animationSrc }) => (
   <section className="about-section">
     <div className="content">
-      <h4 className="subtitlee">ABOUT US</h4>
-      <h1 className="titlee">Logistic &amp; Transport Solutions</h1>
+      <h1 className="titleee"  style={{ color: '#fcaf17' }}>Your Cargo Deserve Care</h1>
       <div className="about-split">
         <p className="description">{description}</p>
         <img className="about-gif" src={animationSrc} alt="Our operations animated" loading="lazy" decoding="async" />
       </div>
-      <div className="stats">
-        {stats.map((stat) => (
-          <div className="stat" key={stat.label}>
-            <h2>{stat.value}</h2>
-            <p>{stat.label}</p>
-          </div>
-        ))}
-      </div>
+      <h3 className="title">Why People Choose Us</h3>
     </div>
   </section>
 );

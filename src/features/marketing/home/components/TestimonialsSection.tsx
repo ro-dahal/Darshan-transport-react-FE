@@ -12,7 +12,7 @@ export const TestimonialsSection: React.FC<TestimonialsSectionProps> = ({ videos
     <div className="testimonials-content">
       <h2 className="subtitle">Testimonials</h2>
       <h3 className="title">The Voice of Our Customers</h3>
-      <div className="videos">
+      {/* <div className="videos">
         {videos.map((video) => (
           <div className="video-card" key={video.name}>
             <video controls poster={video.poster}>
@@ -26,7 +26,7 @@ export const TestimonialsSection: React.FC<TestimonialsSectionProps> = ({ videos
             </div>
           </div>
         ))}
-      </div>
+      </div> */}
 
       <div className="reviews">
         {reviews.map((review) => (

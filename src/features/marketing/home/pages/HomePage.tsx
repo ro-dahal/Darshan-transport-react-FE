@@ -10,7 +10,7 @@ import {
 } from '../data/homeContent';
 import { HeroSection } from '../components/HeroSection';
 import { AboutSection } from '../components/AboutSection';
-import { ReachSection } from '../components/ReachSection';
+// import { ReachSection } from '../components/ReachSection';
 import { ClientsSection } from '../components/ClientsSection';
 import { TestimonialsSection } from '../components/TestimonialsSection';
 import { CallToActionSection } from '../components/CallToActionSection';
@@ -23,7 +23,7 @@ export const HomePage: React.FC = () => (
       stats={HOME_STATS}
       animationSrc={HOME_ASSETS.heroAnimation}
     />
-    <ReachSection mapImage={HOME_ASSETS.nepalMap} />
+    {/* <ReachSection mapImage={HOME_ASSETS.nepalMap} /> */}
     <ClientsSection logos={HOME_CLIENT_LOGOS} />
     <TestimonialsSection videos={HOME_VIDEO_TESTIMONIALS} reviews={HOME_REVIEW_TESTIMONIALS} />
     <CallToActionSection />

@@ -44,13 +44,9 @@ export const ABOUT_CLIENT_LOGOS: LogoItem[] = [
   { src: clientLogo2, alt: 'Client 6 Logo' },
 ];
 
-export const ABOUT_DESCRIPTION = `Founded over two decades ago with a single truck and a strong will to serve, Darshan Transport has grown into a trusted logistics partner across western Nepal and beyond. What began as a small family-run business is now a dependable logistics network known for safe, timely, and personalized service.
-
-Our mission has always been simple and clear: to deliver goods with care, responsibility, and efficiency. Over the years, we've expanded our fleet, integrated GPS tracking, and established multiple branches — all with the goal of serving our clients better and more transparently.
-
-At Darshan Transport, we're driven by technology, built on trust, and powered by people. We've embraced challenges, adapted to change, and invested in innovation to ensure reliability and efficiency at every step. Yet, our core values remain unchanged — trust, integrity, and a deep dedication to those we serve.
-
-As we continue to grow, we remain committed to becoming Nepal’s leading logistics backbone. Thank you for being part of our journey.`;
+export const ABOUT_DESCRIPTION = `Darshan Logistics is a nationwide cargo and transport company built for bulk loads, full-truck shipments, and large-volume distribution across Nepal.
+We partner with manufacturers, wholesalers, distributors, importers, and enterprise clients who need safe, consistent, and large-scale delivery — not small parcel service. Our core strength is in heavy cargo handling, long-distance routes, multi-city supply chains, and reliable fleet operations.
+Every day, we move tonnes of goods across Nepal with one promise: Your cargo arrives safely, on time, and handled with care.`;
 
 export const ABOUT_FOUNDERS: FounderProfile[] = [
   {

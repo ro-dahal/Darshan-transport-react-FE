@@ -6,7 +6,7 @@ export const CallToActionSection: React.FC = () => (
       <h2>
         Ready to send your Goods?
         <br />
-        We'll ahndle the heavy lifting.
+        We'll handel the heavy lifting.
       </h2>
       <a href="/contact" className="cta-button">
         Book a Delivey
