@@ -203,26 +203,102 @@ h6 {
   color: #c98300;
 }
 
-/* === Hero & Main Background === */
+/*# === Hero & Main Background === */
+/* hero content: absolute middle-left column above the slide track */
 #hero {
-  /* background-image: url(img/background.jpg);
-    height: 90vh;
-    width: 100%;
-    background-size: cover;
-    background-position: top 25% right 0; */
-  padding: 200px 150px;
+  position: absolute;
+  top: 50%;
+  left: 140px; /* offset to avoid left arrow */
+  transform: translateY(-50%);
+  display: block;
+  max-width: 720px;
+  padding-right: 80px;
+  box-sizing: border-box;
+  z-index: 3; /* above track but below controls */
+  color: #ffffff;
+}
+
+/* carousel wrapper that replaces #main-bg background-image */
+.carousel {
+  height: 90vh;
+  width: 100%;
+  position: relative;
+  overflow: hidden;
+}
+
+/* sliding track: place slides inline in a flex track and translateX the track to slide */
+.carousel-track {
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: flex;
+  height: 100%;
+  width: 100%;
+  transition: transform 0.6s cubic-bezier(0.22, 0.61, 0.36, 1);
+  will-change: transform;
+  z-index: 1; /* behind hero */
+}
+
+.carousel-slide {
+  flex: 0 0 100%;
+  height: 100%;
+  background-size: cover;
+  background-position: center center;
+  background-repeat: no-repeat;
+}
+
+/* keep hero content above slides (duplicate selector updated) */
+#hero {
+  position: relative;
+  z-index: 2;
+  height: 100%;
+  display: flex;
   flex-direction: column;
+  justify-content: center;
   align-items: flex-start;
+  padding: 0 80px 0 140px;
+  max-width: 720px;
+}
+
+/* Arrow controls for carousel */
+.carousel-control {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(0,0,0,0.35);
+  border: none;
+  padding: 10px;
+  border-radius: 50%;
+  cursor: pointer;
+  z-index: 4; /* above hero */
+  display: flex;
+  align-items: center;
   justify-content: center;
 }
 
-#main-bg {
-  background-image: url(img/background2.jpg);
-  height: 90vh;
-  width: 100%;
-  background-size: cover;
-  background-position: top 25% right 0;
-  position: relative;
+.carousel-control img {
+  width: 22px;
+  height: 22px;
+  filter: brightness(0) invert(1); /* make icon light */
+}
+
+.carousel-control.prev {
+  left: 20px;
+}
+
+.carousel-control.next {
+  right: 20px;
+}
+
+.carousel-control:active,
+.carousel-control:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(252,175,23,0.15);
+}
+
+/* rotate the prev icon to point left */
+.carousel-control.prev img {
+  transform: rotate(180deg);
 }
 
 #hero button {
