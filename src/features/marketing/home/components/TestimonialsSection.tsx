@@ -6,7 +6,7 @@ export interface TestimonialsSectionProps {
   reviews: ReviewTestimonial[];
 }
 
-export const TestimonialsSection: React.FC<TestimonialsSectionProps> = ({ videos, reviews }) => (
+export const TestimonialsSection: React.FC<TestimonialsSectionProps> = ({ reviews }) => (
   <section className="testimonials-section">
     <div className="wave-bg"></div>
     <div className="testimonials-content">
