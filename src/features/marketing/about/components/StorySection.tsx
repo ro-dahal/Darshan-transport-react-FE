@@ -7,7 +7,7 @@ export interface StorySectionProps {
   animationSrc: string;
 }
 
-export const StorySection: React.FC<StorySectionProps> = ({ description, stats, animationSrc }) => (
+export const StorySection: React.FC<StorySectionProps> = ({ description,  animationSrc }) => (
   <section className="about-section">
     <div className="content">
       <h4 className="subtitlee">COMPANY OVERVIEW</h4>
