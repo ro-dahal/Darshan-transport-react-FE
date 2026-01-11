@@ -14,6 +14,7 @@ import { AboutSection } from '../components/AboutSection';
 import { ClientsSection } from '../components/ClientsSection';
 import { TestimonialsSection } from '../components/TestimonialsSection';
 import { CallToActionSection } from '../components/CallToActionSection';
+import OurServices from '../components/OurServices';
 
 export const HomePage: React.FC = () => (
   <>
@@ -25,6 +26,7 @@ export const HomePage: React.FC = () => (
     />
     {/* <ReachSection mapImage={HOME_ASSETS.nepalMap} /> */}
     <ClientsSection logos={HOME_CLIENT_LOGOS} />
+    <OurServices />
     <TestimonialsSection videos={HOME_VIDEO_TESTIMONIALS} reviews={HOME_REVIEW_TESTIMONIALS} />
     <CallToActionSection />
   </>

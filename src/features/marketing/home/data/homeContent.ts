@@ -87,19 +87,20 @@ export const HOME_REVIEW_TESTIMONIALS: ReviewTestimonial[] = [
     company: 'Skyline Networks',
   },
   {
-    image: person1,
-    quote:
-      'VividBite Hospitality Pvt. Ltd. has been working with Darshan Transport since December 2021. The delivery service at the beginning was random. However, now with the delivery partnership, our issues have been resolved.',
-    name: 'Priya Desai',
-    company: 'VividBite Hospitality',
-  },
-  {
     image: person3,
     quote:
       'Darshan Transport has been our go-to solution for delivery. Their prompt service and affordable rates have made logistics a piece of cake.',
     name: 'Rahul Koirala',
     company: 'MetroGlobal Trade Co.',
   },
+  {
+    image: person1,
+    quote:
+      'VividBite Hospitality Pvt. Ltd. has been working with Darshan Transport since December 2021. The delivery service at the beginning was random. However, now with the delivery partnership, our issues have been resolved.',
+    name: 'Priya Desai',
+    company: 'VividBite Hospitality',
+  },
+  
 ];
 
 export const HOME_ASSETS = {

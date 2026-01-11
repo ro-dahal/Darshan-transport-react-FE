@@ -390,6 +390,70 @@ body {
   margin: 0 auto; /* center inside its grid cell */
 }
 
+/* Differences (Mission / Vision) section */
+.differences-section {
+  padding: 40px 20px 60px;
+  max-width: 1200px;
+  margin: 0 auto 40px;
+}
+
+.differences-inner {
+  display: grid;
+  grid-template-columns: 1fr 8px 1fr;
+  gap: 40px;
+  align-items: start;
+}
+
+.diff-col {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.diff-heading {
+  color: #fcaf17;
+  font-size: 14px;
+  font-weight: 700;
+  margin-bottom: 6px;
+}
+
+.diff-item {
+  background: transparent;
+  padding: 8px 0;
+}
+
+.diff-item p {
+  font-size: 15px;
+  line-height: 1.6;
+  color: #333;
+  margin: 10px 0;
+  text-align: justify;
+}
+
+.diff-divider {
+  height: 4px;
+  background: linear-gradient(90deg, #fcaf17 0%, #fcaf17 100%);
+  width: 50px;
+  margin: 6px 0;
+}
+
+.diff-vertical {
+  width: 4px;
+  background: linear-gradient(180deg, #fcaf17 0%, #fcaf17 100%);
+  border-radius: 4px;
+  justify-self: center;
+  align-self: stretch;
+}
+
+@media (max-width: 880px) {
+  .differences-inner {
+    grid-template-columns: 1fr;
+  }
+  .diff-vertical {
+    display: none;
+  }
+}
+
 .subtitle {
   color: #fcaf17;
   font-size: 20px;
@@ -1204,6 +1268,18 @@ body {
   color: #444;
   margin-bottom: 15px;
   text-align: justify;
+}
+
+/* Center the "Our Core Values" heading (higher specificity to override earlier rules) */
+.core-values-section .values-text {
+  text-align: center;
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+.core-values-section .values-text h2 {
+  text-align: center;
+  margin: 0 auto;
 }
 
 /* Responsive */

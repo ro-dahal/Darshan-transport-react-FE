@@ -16,14 +16,6 @@ export const StorySection: React.FC<StorySectionProps> = ({ description, stats, 
         <p className="description">{description}</p>
         <img className="about-gif" src={animationSrc} alt="Our operations animated" loading="lazy" decoding="async" />
       </div>
-      <div className="stats">
-        {stats.map((stat) => (
-          <div className="stat" key={stat.label}>
-            <h2>{stat.value}</h2>
-            <p>{stat.label}</p>
-          </div>
-        ))}
-      </div>
     </div>
   </section>
 );

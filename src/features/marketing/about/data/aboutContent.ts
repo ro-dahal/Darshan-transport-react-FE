@@ -67,12 +67,13 @@ export const ABOUT_FOUNDERS: FounderProfile[] = [
 ];
 
 export const ABOUT_CORE_VALUES: CoreValueItem[] = [
-  { icon: '❤️', title: 'Commitment to customers and trust', description: 'Building trust towards customers by fulfilling the commitments provided when delivering.' },
-  { icon: '🤝', title: 'Respect', description: 'We believe in facilitating equal rights to all the partners involved through respect.' },
-  { icon: '✊', title: 'Accountability', description: 'Assurance to be accountable for all the responsibilities given to us.' },
-  { icon: '💡', title: 'Innovation', description: 'Creating logistics newness in the digital world.' },
-  { icon: '🏆', title: 'Quality', description: 'Guarantee to provide the best delivery service.' },
-  { icon: '⚙️', title: 'Efficiency', description: 'Continuously improving processes to serve better.' },
+  { icon: '❤️', title: 'Built for Heavy Loads & Bulk Cargo', description: 'Specialized in full-truck loads, industrial materials, machinery, FMCG stock, and large-volume business shipments.' },
+  { icon: '🤝', title: 'Strong Nationwide Network', description: 'Branches across major hubs allow safe, structured movement of goods through controlled routes.' },
+  { icon: '✊', title: 'On-Time & Consistent Delivery', description: 'Planned routes, fixed schedules, and strict timelines help avoid delays.' },
+  { icon: '💡', title: 'Safe, Professional Handling', description: 'Each load is checked, secured, and monitored before dispatch.' },
+  { icon: '🏆', title: 'Business-Centric Operations', description: 'Designed for wholesalers, distributors, and large-volume suppliers needing recurring or multi-city delivery.' },
+  { icon: '⚙️', title: 'Reliable Fleet & Trained Team', description: 'Verified drivers and trained handlers ensure accuracy and safety from loading to delivery.' },
+  { icon: '✊', title: 'Technology-Ready Logistics', description: 'Digital workflows ensure faster processing, clear records, and transparent communication.' },
 ];
 
 export const ABOUT_ASSETS = {
