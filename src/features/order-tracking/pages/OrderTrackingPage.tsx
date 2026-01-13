@@ -1,18 +1,30 @@
-import React from 'react';
-import { useOrderTracking } from '../hooks/useOrderTracking';
-import { ORDER_STATUS_STEPS } from '../data/statusSteps';
-import { CONTACT_CHANNELS, SOCIAL_LINKS } from '../data/contactInfo';
-import { OrderHero } from '../components/OrderHero';
-import { ContactCard } from '../components/ContactCard';
-import { OrderLocationSelector } from '../components/OrderLocationSelector';
-import { OrderStatusForm } from '../components/OrderStatusForm';
-import { DeliveryInfoCard } from '../components/DeliveryInfoCard';
+import React from "react";
+import { useOrderTracking } from "../hooks/useOrderTracking";
+import { ORDER_STATUS_STEPS } from "../data/statusSteps";
+import { CONTACT_CHANNELS, SOCIAL_LINKS } from "../data/contactInfo";
+import { OrderHero } from "../components/OrderHero";
+import { ContactCard } from "../components/ContactCard";
+import { OrderLocationSelector } from "../components/OrderLocationSelector";
+import { OrderStatusForm } from "../components/OrderStatusForm";
+import { DeliveryInfoCard } from "../components/DeliveryInfoCard";
+import { ServiceStatusAlert } from "../components/ServiceStatusAlert";
 
 export const OrderTrackingPage: React.FC = () => {
   const {
-    state: { seriesList, selectedSeries, invoiceNumber, deliveryRecord, error, isLoading, isReady },
+    state: {
+      seriesList,
+      selectedSeries,
+      invoiceNumber,
+      deliveryRecord,
+      error,
+      isLoading,
+      isReady,
+    },
     actions: { selectSeries, updateInvoiceNumber, submit },
   } = useOrderTracking();
+
+  const isServiceDown = error?.startsWith("SERVICE_UNAVAILABLE|");
+  const isServerError = error?.startsWith("SERVER_ERROR|");
 
   return (
     <>
@@ -23,6 +35,17 @@ export const OrderTrackingPage: React.FC = () => {
           <ContactCard channels={CONTACT_CHANNELS} socialLinks={SOCIAL_LINKS} />
 
           <div className="order-right">
+            {isServiceDown && (
+              <ServiceStatusAlert
+                message={error.split("|")[1]}
+                type="unavailable"
+              />
+            )}
+
+            {isServerError && (
+              <ServiceStatusAlert message={error.split("|")[1]} type="error" />
+            )}
+
             <OrderLocationSelector
               seriesList={seriesList}
               selectedSeries={selectedSeries}
@@ -34,10 +57,16 @@ export const OrderTrackingPage: React.FC = () => {
               onInvoiceChange={updateInvoiceNumber}
               onSubmit={submit}
               loading={isLoading || !isReady}
-              error={error}
+              // Only pass simpler errors to form; specialized alerts handled above
+              error={!isServiceDown && !isServerError ? error : undefined}
             />
 
-            {deliveryRecord && <DeliveryInfoCard record={deliveryRecord} steps={ORDER_STATUS_STEPS} />}
+            {deliveryRecord && (
+              <DeliveryInfoCard
+                record={deliveryRecord}
+                steps={ORDER_STATUS_STEPS}
+              />
+            )}
           </div>
         </div>
 

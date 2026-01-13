@@ -1,4 +1,4 @@
-import { appConfig } from '../config/appConfig';
+import { appConfig } from "../config/appConfig";
 
 export interface ApiEnvelope<T> {
   success: boolean;
@@ -23,8 +23,30 @@ function buildUrl(path: string, baseUrl: string): string {
 
 async function ensureOk(response: Response): Promise<Response> {
   if (!response.ok) {
-    const message = await response.text().catch(() => undefined);
-    throw new Error(message || `Request failed with status ${response.status}`);
+    // If it's a 502 or 503, it's likely the backend is down
+    if (
+      response.status === 502 ||
+      response.status === 503 ||
+      response.status === 504
+    ) {
+      throw new Error(
+        `SERVICE_UNAVAILABLE|The tracking service is currently undergoing maintenance. Please try again later.`
+      );
+    }
+
+    const text = await response.text().catch(() => undefined);
+
+    // If the response is HTML (starts with <!DOCTYPE or <html), don't show it to the user
+    if (
+      text?.trim().toLowerCase().startsWith("<!doctype") ||
+      text?.trim().toLowerCase().startsWith("<html")
+    ) {
+      throw new Error(
+        `SERVER_ERROR|We encountered an unexpected error on our server. Status: ${response.status}`
+      );
+    }
+
+    throw new Error(text || `Request failed with status ${response.status}`);
   }
   return response;
 }
@@ -36,8 +58,18 @@ export function createApiClient({
   return {
     async get<TResponse>(path: string): Promise<TResponse> {
       const url = buildUrl(path, baseUrl);
-      const response = await ensureOk(await fetchImpl(url));
-      return (await response.json()) as TResponse;
+      try {
+        const response = await ensureOk(await fetchImpl(url));
+        return (await response.json()) as TResponse;
+      } catch (error: any) {
+        // Handle fetch level errors (network down, CORS, etc.)
+        if (error instanceof TypeError && error.message === "Failed to fetch") {
+          throw new Error(
+            "SERVICE_UNAVAILABLE|The tracking service is currently unreachable. Please check your internet connection or try again later."
+          );
+        }
+        throw error;
+      }
     },
   };
 }
@@ -48,7 +80,11 @@ export async function getFromEnvelope<TData>(
   errorHint: string
 ): Promise<TData> {
   const envelope = await client.get<ApiEnvelope<TData>>(path);
-  if (!envelope.success || envelope.data === undefined || envelope.data === null) {
+  if (
+    !envelope.success ||
+    envelope.data === undefined ||
+    envelope.data === null
+  ) {
     throw new Error(envelope.message || errorHint);
   }
   return envelope.data;
