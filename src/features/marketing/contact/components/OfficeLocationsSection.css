@@ -1,0 +1,103 @@
+.office-locations-section {
+  margin: 4rem 0 0 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.office-locations-title {
+  text-align: center;
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin-bottom: 2.5rem;
+  color: #222;
+}
+.office-locations-cards {
+  display: flex;
+  gap: 2rem;
+  justify-content: center;
+  margin-bottom: 2rem;
+  flex-wrap: wrap;
+}
+.office-location-card {
+  width: 260px;
+  height: 300px;
+  border-radius: 10px;
+  background-size: cover;
+  background-position: center;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 2px 16px rgba(0,0,0,0.08);
+  display: flex;
+  align-items: flex-end;
+  transition: transform 0.2s;
+}
+.office-location-card:hover {
+  transform: translateY(-6px) scale(1.03);
+  box-shadow: 0 6px 24px rgba(0,0,0,0.16);
+}
+.office-location-overlay {
+  width: 100%;
+  padding: 1.5rem 1rem 1.2rem 1rem;
+  background: linear-gradient(0deg, rgba(0,0,0,0.7) 70%, rgba(0,0,0,0.1) 100%);
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+.office-location-city {
+  font-size: 1.1rem;
+  font-weight: 500;
+  opacity: 0.85;
+}
+.office-location-area {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-top: 0.2rem;
+}
+.office-locations-pagination {
+  margin-bottom: 2rem;
+}
+.office-locations-dot {
+  display: inline-block;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: #bbb;
+  margin: 0 4px;
+}
+.office-locations-dot.active {
+  background: #222;
+}
+.office-locations-action {
+  margin-bottom: 2rem;
+}
+.office-locations-btn {
+  padding: 0.7rem 2.2rem;
+  font-size: 1.1rem;
+  border: 2px solid #222;
+  background: #fff;
+  color: #222;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: background 0.2s, color 0.2s;
+}
+.office-locations-btn:hover {
+  background: #222;
+  color: #fff;
+}
+@media (max-width: 1100px) {
+  .office-locations-cards {
+    gap: 1.2rem;
+  }
+  .office-location-card {
+    width: 210px;
+    height: 240px;
+  }
+}
+@media (max-width: 700px) {
+  .office-locations-cards {
+    flex-direction: column;
+    align-items: center;
+  }
+}

@@ -13,6 +13,8 @@ import { FounderSection } from '../components/FounderSection';
 import { CoreValuesSection } from '../components/CoreValuesSection';
 import { DifferencesSection } from '../components/DifferencesSection';
 import { ClientsSection } from '../../home/components/ClientsSection';
+import BusinessGrowthSection from '../components/BusinessGrowthSection';
+import { CallToAction } from '../components/Calltoaction';
 
 export const AboutPage: React.FC = () => (
   <>
@@ -21,7 +23,9 @@ export const AboutPage: React.FC = () => (
     <DifferencesSection />
     <CoreValuesSection values={ABOUT_CORE_VALUES} />
     <FounderSection profiles={ABOUT_FOUNDERS} />
+    <BusinessGrowthSection />
     <ClientsSection logos={ABOUT_CLIENT_LOGOS} />
+    <CallToAction />
     
   </>
 );

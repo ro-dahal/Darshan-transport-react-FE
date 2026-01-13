@@ -1,3 +1,25 @@
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400;500;600;700;800;900&display=swap");
+
+/* Footer social icons styles */
+.footer-social-link {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  text-decoration: none;
+  color: inherit;
+  transition: color 0.2s;
+}
+.footer-social-link:hover {
+  color: #ff7a00;
+}
+.footer-social-link svg {
+  vertical-align: middle;
+  display: inline-block;
+}
+.footer-social-label {
+  font-size: 1rem;
+  font-weight: 500;
+}
 /* ==========================================================
    Darshan Transport - Frontend styles
    File: src/assets/style.css
@@ -10,7 +32,6 @@
    - Keep this header at top of file.
   ========================================================== */
 
-@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400;500;600;700;800;900&display=swap");
 
 /* === Global / Reset === */
 * {
@@ -1495,10 +1516,6 @@ body {
   line-height: 1.6;
 }
 
-.container h3 {
-  color: #fcaf17;
-}
-
 /* === Track Order === */
 /* Styles for the Track My Order page and stepper */
 /* consolidated body styles (defined earlier) */
@@ -1610,8 +1627,8 @@ button#trackOrderStartBtn {
 /* === Contact === */
 
 .contact-section {
-  background: #f5f5f5;
-  padding: 60px 20px;
+  background: #ffffff;
+  padding: 30px 20px;
   font-family: Arial, sans-serif;
 }
 
@@ -1987,4 +2004,21 @@ button#trackOrderStartBtn {
   #navbar li.has-dropdown::before {
     display:  none;
   }
+}
+
+/* Ensure dropdown arrow color overrides global styles */
+#navbar .dropdown-arrow {
+  color: #fff !important;
+  font-size: 1.1rem;
+  margin-left: 4px;
+  transition: color 0.2s;
+}
+
+#navbar li.has-dropdown.active-dropdown .dropdown-arrow {
+  color: #fcaf17 !important;
+}
+
+/* Always orange arrow on Services page */
+body.services-page #navbar .has-dropdown .dropdown-arrow {
+  color: #fcaf17 !important;
 }

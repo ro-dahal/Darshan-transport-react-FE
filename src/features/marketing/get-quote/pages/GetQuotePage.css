@@ -1,0 +1,27 @@
+.get-quote-section {
+  padding: 2rem 0;
+}
+.get-quote-section h2 {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+.get-quote-map-area {
+  max-width: 900px;
+  margin: 0 auto 2rem auto;
+}
+.get-quote-directory-area {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2rem;
+  justify-content: center;
+}
+.get-quote-section h2{
+    color: #fcaf17;
+}
+
+@media (max-width: 900px) {
+  .get-quote-directory-area {
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+}

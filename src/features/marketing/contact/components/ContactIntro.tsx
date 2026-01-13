@@ -1,8 +1,9 @@
 import React from "react";
+import '../../../../assets/style.css';
 
 export const ContactIntro: React.FC = () => (
   <div className="contact-info">
-    <h2>Contact Us</h2>
+    <h2 className="about-us-header">Contact Us</h2>
     <p>We’re here to help you with all your logistics and transport needs.</p>
     <ul>
       <li>
