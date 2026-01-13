@@ -30,7 +30,7 @@ async function ensureOk(response: Response): Promise<Response> {
       response.status === 504
     ) {
       throw new Error(
-        `SERVICE_UNAVAILABLE|The tracking service is currently undergoing maintenance. Please try again later.`
+        `SERVICE_UNAVAILABLE|The tracking service is currently under maintenance. Please try again later.`
       );
     }
 
@@ -61,13 +61,14 @@ export function createApiClient({
       try {
         const response = await ensureOk(await fetchImpl(url));
         return (await response.json()) as TResponse;
-      } catch (error: any) {
+      } catch (error: unknown) {
         // Handle fetch level errors (network down, CORS, etc.)
         if (error instanceof TypeError && error.message === "Failed to fetch") {
           throw new Error(
-            "SERVICE_UNAVAILABLE|The tracking service is currently unreachable. Please check your internet connection or try again later."
+            "SERVICE_UNAVAILABLE|The tracking service is currently under maintenance. Please try again later."
           );
         }
+        // Re-throw unexpected errors
         throw error;
       }
     },
