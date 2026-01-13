@@ -1,7 +1,4 @@
 import bgImage from '../../../../assets/img/bg.jpg';
-import iconTruck from '../../../../assets/img/cargo-truck.png';
-import iconDelivery from '../../../../assets/img/user.png';
-import iconFactory from '../../../../assets/img/working-factory.png';
 
 export interface ServiceCard {
   icon: string;
@@ -25,25 +22,11 @@ export const SERVICES_STATS = [
 
 export const SERVICES_CARDS: ServiceCard[] = [
   {
-    icon: iconTruck,
-    label: 'Logistics & Transport',
-    description:
-      'Reliable and timely transportation services across Nepal, with a modern fleet and advanced tracking for complete transparency and peace of mind.',
-    iconType: 'image',
-  },
-  {
-    icon: iconDelivery,
-    label: 'Door-to-Door Delivery',
-    description:
-      'We ensure your packages reach their destination safely and on schedule, whether in urban centers or remote locations.',
-    iconType: 'image',
-  },
-  {
-    icon: iconFactory,
+    icon: '🔒',
     label: 'Warehousing Solutions',
     description:
       'Secure, convenient, and scalable warehousing for all your storage and distribution needs, with seamless inventory management.',
-    iconType: 'image',
+    iconType: 'emoji',
   },
   {
     icon: '📦',

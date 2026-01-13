@@ -1,3 +1,25 @@
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400;500;600;700;800;900&display=swap");
+
+/* Footer social icons styles */
+.footer-social-link {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  text-decoration: none;
+  color: inherit;
+  transition: color 0.2s;
+}
+.footer-social-link:hover {
+  color: #ff7a00;
+}
+.footer-social-link svg {
+  vertical-align: middle;
+  display: inline-block;
+}
+.footer-social-label {
+  font-size: 1rem;
+  font-weight: 500;
+}
 /* ==========================================================
    Darshan Transport - Frontend styles
    File: src/assets/style.css
@@ -10,7 +32,6 @@
    - Keep this header at top of file.
   ========================================================== */
 
-@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400;500;600;700;800;900&display=swap");
 
 /* === Global / Reset === */
 * {
@@ -203,26 +224,102 @@ h6 {
   color: #c98300;
 }
 
-/* === Hero & Main Background === */
+/*# === Hero & Main Background === */
+/* hero content: absolute middle-left column above the slide track */
 #hero {
-  /* background-image: url(img/background.jpg);
-    height: 90vh;
-    width: 100%;
-    background-size: cover;
-    background-position: top 25% right 0; */
-  padding: 200px 150px;
+  position: absolute;
+  top: 50%;
+  left: 140px; /* offset to avoid left arrow */
+  transform: translateY(-50%);
+  display: block;
+  max-width: 720px;
+  padding-right: 80px;
+  box-sizing: border-box;
+  z-index: 3; /* above track but below controls */
+  color: #ffffff;
+}
+
+/* carousel wrapper that replaces #main-bg background-image */
+.carousel {
+  height: 90vh;
+  width: 100%;
+  position: relative;
+  overflow: hidden;
+}
+
+/* sliding track: place slides inline in a flex track and translateX the track to slide */
+.carousel-track {
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: flex;
+  height: 100%;
+  width: 100%;
+  transition: transform 0.6s cubic-bezier(0.22, 0.61, 0.36, 1);
+  will-change: transform;
+  z-index: 1; /* behind hero */
+}
+
+.carousel-slide {
+  flex: 0 0 100%;
+  height: 100%;
+  background-size: cover;
+  background-position: center center;
+  background-repeat: no-repeat;
+}
+
+/* keep hero content above slides (duplicate selector updated) */
+#hero {
+  position: relative;
+  z-index: 2;
+  height: 100%;
+  display: flex;
   flex-direction: column;
+  justify-content: center;
   align-items: flex-start;
+  padding: 0 80px 0 140px;
+  max-width: 720px;
+}
+
+/* Arrow controls for carousel */
+.carousel-control {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(0,0,0,0.35);
+  border: none;
+  padding: 10px;
+  border-radius: 50%;
+  cursor: pointer;
+  z-index: 4; /* above hero */
+  display: flex;
+  align-items: center;
   justify-content: center;
 }
 
-#main-bg {
-  background-image: url(img/background2.jpg);
-  height: 90vh;
-  width: 100%;
-  background-size: cover;
-  background-position: top 25% right 0;
-  position: relative;
+.carousel-control img {
+  width: 22px;
+  height: 22px;
+  filter: brightness(0) invert(1); /* make icon light */
+}
+
+.carousel-control.prev {
+  left: 20px;
+}
+
+.carousel-control.next {
+  right: 20px;
+}
+
+.carousel-control:active,
+.carousel-control:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(252,175,23,0.15);
+}
+
+/* rotate the prev icon to point left */
+.carousel-control.prev img {
+  transform: rotate(180deg);
 }
 
 #hero button {
@@ -312,6 +409,70 @@ body {
   border-radius: 8px;
   object-fit: contain;
   margin: 0 auto; /* center inside its grid cell */
+}
+
+/* Differences (Mission / Vision) section */
+.differences-section {
+  padding: 40px 20px 60px;
+  max-width: 1200px;
+  margin: 0 auto 40px;
+}
+
+.differences-inner {
+  display: grid;
+  grid-template-columns: 1fr 8px 1fr;
+  gap: 40px;
+  align-items: start;
+}
+
+.diff-col {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.diff-heading {
+  color: #fcaf17;
+  font-size: 14px;
+  font-weight: 700;
+  margin-bottom: 6px;
+}
+
+.diff-item {
+  background: transparent;
+  padding: 8px 0;
+}
+
+.diff-item p {
+  font-size: 15px;
+  line-height: 1.6;
+  color: #333;
+  margin: 10px 0;
+  text-align: justify;
+}
+
+.diff-divider {
+  height: 4px;
+  background: linear-gradient(90deg, #fcaf17 0%, #fcaf17 100%);
+  width: 50px;
+  margin: 6px 0;
+}
+
+.diff-vertical {
+  width: 4px;
+  background: linear-gradient(180deg, #fcaf17 0%, #fcaf17 100%);
+  border-radius: 4px;
+  justify-self: center;
+  align-self: stretch;
+}
+
+@media (max-width: 880px) {
+  .differences-inner {
+    grid-template-columns: 1fr;
+  }
+  .diff-vertical {
+    display: none;
+  }
 }
 
 .subtitle {
@@ -779,17 +940,41 @@ body {
 
 .footer-container {
   display: flex;
-  flex-wrap: wrap;
   max-width: 1200px;
   margin: auto;
-  justify-content: space-between;
-  gap: 40px;
+  gap: 60px;
+  align-items: flex-start;
 }
 
+.footer-brand {
+  display: flex;
+  align-items: flex-start;
+  gap: 1px;              /* controls logo ↔ paragraph distance */
+  max-width: 420px;
+}
+
+.footer-brand img {
+  width: 120px;
+  flex-shrink: 0;
+}
+
+.footer-brand p {
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.6;
+  color: #ddd;
+  margin-top: 10px; 
+  max-width: 230px;
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+
 .footer-column {
-  flex: 1 1 180px;
+  flex: 1;
   min-width: 180px;
 }
+
 
 .footer-logo .logo {
   max-width: 150px;
@@ -826,6 +1011,20 @@ body {
 .footer-column ul li a:hover {
   color: #fff;
 }
+
+.footer-desc {
+  flex: 0 0 320px;
+  font-size: 14px;
+  line-height: 1.6;
+  color: #ddd;
+}
+
+.footer-column {
+  flex: 1;
+  min-width: 180px;
+}
+
+
 
 .subscribe h4 {
   font-size: 20px;
@@ -880,7 +1079,7 @@ body {
 
 /* === About Page Header === */
 #about-us-header {
-  background-image: url(img/b1.jpg);
+  background-image: url(img/1.jpg);
   width: 100%;
   height: 30vh;
   background-size: cover;
@@ -893,8 +1092,10 @@ body {
 }
 
 #about-us-header h1 {
-  color: #f8f8f8;
+  color: #ffffff;
   font-size: 50px;
+  text-shadow: 3px 3px 8px rgba(0, 0, 0, 0.7);
+
 }
 
 /* === About / Founder Sections === */
@@ -1088,6 +1289,18 @@ body {
   color: #444;
   margin-bottom: 15px;
   text-align: justify;
+}
+
+/* Center the "Our Core Values" heading (higher specificity to override earlier rules) */
+.core-values-section .values-text {
+  text-align: center;
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+.core-values-section .values-text h2 {
+  text-align: center;
+  margin: 0 auto;
 }
 
 /* Responsive */
@@ -1303,10 +1516,6 @@ body {
   line-height: 1.6;
 }
 
-.container h3 {
-  color: #fcaf17;
-}
-
 /* === Track Order === */
 /* Styles for the Track My Order page and stepper */
 /* consolidated body styles (defined earlier) */
@@ -1418,8 +1627,8 @@ button#trackOrderStartBtn {
 /* === Contact === */
 
 .contact-section {
-  background: #f5f5f5;
-  padding: 60px 20px;
+  background: #ffffff;
+  padding: 30px 20px;
   font-family: Arial, sans-serif;
 }
 
@@ -1795,4 +2004,21 @@ button#trackOrderStartBtn {
   #navbar li.has-dropdown::before {
     display:  none;
   }
+}
+
+/* Ensure dropdown arrow color overrides global styles */
+#navbar .dropdown-arrow {
+  color: #fff !important;
+  font-size: 1.1rem;
+  margin-left: 4px;
+  transition: color 0.2s;
+}
+
+#navbar li.has-dropdown.active-dropdown .dropdown-arrow {
+  color: #fcaf17 !important;
+}
+
+/* Always orange arrow on Services page */
+body.services-page #navbar .has-dropdown .dropdown-arrow {
+  color: #fcaf17 !important;
 }

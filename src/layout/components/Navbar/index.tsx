@@ -1,12 +1,15 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import logo from '../../../assets/img/logo.png';
 import { NAV_LINKS } from './navLinks';
 import { useNavbarController } from './useNavbarController';
 
+
 export const Navbar: React.FC = () => {
   const { headerRef, menuOpen, toggleMenu, closeMenu, activePath } = useNavbarController();
   const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
+  const navigate = useNavigate();
+  const location = useLocation();
 
   return (
     <section id="headerr" ref={headerRef}>
@@ -49,8 +52,14 @@ export const Navbar: React.FC = () => {
                     closeMenu();
                   }
                 }}
+                style={{ display: 'flex', alignItems: 'center', gap: '1px' }}
               >
                 {link.label}
+                {link.dropdown && (
+                  <span className="dropdown-arrow">
+                    {activeDropdown === link.to ? '▲' : '▼'}
+                  </span>
+                )}
               </Link>
               {link.dropdown && (
                 <ul className="dropdown-menu">
@@ -59,7 +68,25 @@ export const Navbar: React.FC = () => {
                       <Link
                         to={item.to}
                         className={activePath === item.to ? 'active' : ''}
-                        onClick={closeMenu}
+                        onClick={e => {
+                          e.preventDefault();
+                          const anchor = item.to.split('#')[1];
+                          if (location.pathname === '/services' && anchor) {
+                            // Always update the hash and trigger scroll
+                            if (window.location.hash === `#${anchor}`) {
+                              window.location.hash = '';
+                              setTimeout(() => {
+                                window.location.hash = `#${anchor}`;
+                              }, 0);
+                            } else {
+                              window.location.hash = `#${anchor}`;
+                            }
+                          } else {
+                            // Navigate to /services#anchor
+                            navigate(item.to);
+                          }
+                          closeMenu();
+                        }}
                       >
                         {item.label}
                       </Link>

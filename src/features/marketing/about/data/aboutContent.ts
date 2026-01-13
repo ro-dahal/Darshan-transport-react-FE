@@ -44,13 +44,9 @@ export const ABOUT_CLIENT_LOGOS: LogoItem[] = [
   { src: clientLogo2, alt: 'Client 6 Logo' },
 ];
 
-export const ABOUT_DESCRIPTION = `Founded over two decades ago with a single truck and a strong will to serve, Darshan Transport has grown into a trusted logistics partner across western Nepal and beyond. What began as a small family-run business is now a dependable logistics network known for safe, timely, and personalized service.
-
-Our mission has always been simple and clear: to deliver goods with care, responsibility, and efficiency. Over the years, we've expanded our fleet, integrated GPS tracking, and established multiple branches — all with the goal of serving our clients better and more transparently.
-
-At Darshan Transport, we're driven by technology, built on trust, and powered by people. We've embraced challenges, adapted to change, and invested in innovation to ensure reliability and efficiency at every step. Yet, our core values remain unchanged — trust, integrity, and a deep dedication to those we serve.
-
-As we continue to grow, we remain committed to becoming Nepal’s leading logistics backbone. Thank you for being part of our journey.`;
+export const ABOUT_DESCRIPTION = `Darshan Logistics is a nationwide cargo and transport company built for bulk loads, full-truck shipments, and large-volume distribution across Nepal.
+We partner with manufacturers, wholesalers, distributors, importers, and enterprise clients who need safe, consistent, and large-scale delivery — not small parcel service. Our core strength is in heavy cargo handling, long-distance routes, multi-city supply chains, and reliable fleet operations.
+Every day, we move tonnes of goods across Nepal with one promise: Your cargo arrives safely, on time, and handled with care.`;
 
 export const ABOUT_FOUNDERS: FounderProfile[] = [
   {
@@ -71,12 +67,13 @@ export const ABOUT_FOUNDERS: FounderProfile[] = [
 ];
 
 export const ABOUT_CORE_VALUES: CoreValueItem[] = [
-  { icon: '❤️', title: 'Commitment to customers and trust', description: 'Building trust towards customers by fulfilling the commitments provided when delivering.' },
-  { icon: '🤝', title: 'Respect', description: 'We believe in facilitating equal rights to all the partners involved through respect.' },
-  { icon: '✊', title: 'Accountability', description: 'Assurance to be accountable for all the responsibilities given to us.' },
-  { icon: '💡', title: 'Innovation', description: 'Creating logistics newness in the digital world.' },
-  { icon: '🏆', title: 'Quality', description: 'Guarantee to provide the best delivery service.' },
-  { icon: '⚙️', title: 'Efficiency', description: 'Continuously improving processes to serve better.' },
+  { icon: '❤️', title: 'Built for Heavy Loads & Bulk Cargo', description: 'Specialized in full-truck loads, industrial materials, machinery, FMCG stock, and large-volume business shipments.' },
+  { icon: '🤝', title: 'Strong Nationwide Network', description: 'Branches across major hubs allow safe, structured movement of goods through controlled routes.' },
+  { icon: '✊', title: 'On-Time & Consistent Delivery', description: 'Planned routes, fixed schedules, and strict timelines help avoid delays.' },
+  { icon: '💡', title: 'Safe, Professional Handling', description: 'Each load is checked, secured, and monitored before dispatch.' },
+  { icon: '🏆', title: 'Business-Centric Operations', description: 'Designed for wholesalers, distributors, and large-volume suppliers needing recurring or multi-city delivery.' },
+  { icon: '⚙️', title: 'Reliable Fleet & Trained Team', description: 'Verified drivers and trained handlers ensure accuracy and safety from loading to delivery.' },
+  { icon: '✊', title: 'Technology-Ready Logistics', description: 'Digital workflows ensure faster processing, clear records, and transparent communication.' },
 ];
 
 export const ABOUT_ASSETS = {

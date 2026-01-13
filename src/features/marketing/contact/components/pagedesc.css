@@ -1,0 +1,17 @@
+.pagedesc-center {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  min-height: 180px;
+  margin: 0 auto 2rem auto;
+}
+.pagedesc-center h3 {
+  margin-bottom: 0.5rem;
+}
+.pagedesc-center h2 {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+    color: #fcaf17;
+}

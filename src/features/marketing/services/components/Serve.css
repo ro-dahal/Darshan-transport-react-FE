@@ -1,0 +1,82 @@
+.serve-section {
+  background: #fff;
+  color: #222;
+  padding: 56px 0 48px 0;
+  text-align: center;
+}
+
+.serve-title {
+  font-size: 2rem;
+  font-weight: 800;
+  color: #fcaf17;
+  margin-bottom: 40px;
+  letter-spacing: 0.5px;
+}
+
+.serve-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(2, 1fr);
+  gap: 48px 48px;
+  justify-content: center;
+  align-items: center;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.serve-card {
+  background: #fcaf17;
+  color: #111;
+  border-radius: 6px;
+  box-shadow: 6px 8px 0 0 #e0e0e0;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  min-height: 180px;
+  min-width: 200px;
+  max-width: 240px;
+  padding: 28px 20px 18px 24px;
+  position: relative;
+  transition: box-shadow 0.2s, transform 0.2s;
+  text-align: left;
+}
+
+.serve-card:hover {
+  box-shadow: 10px 14px 0 0 #e0e0e0;
+  transform: translateY(-4px) scale(1.03);
+}
+
+.serve-icon {
+  margin-bottom: 18px;
+}
+
+.serve-label {
+  font-size: 1.08rem;
+  font-weight: 600;
+  color: #fff;
+  letter-spacing: 0.02em;
+}
+
+@media (max-width: 900px) {
+  .serve-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 32px 18px;
+  }
+}
+
+@media (max-width: 600px) {
+  .serve-grid {
+    grid-template-columns: 1fr;
+    gap: 18px;
+  }
+  .serve-card {
+    min-width: 0;
+    max-width: 100%;
+    padding: 18px 10px 12px 14px;
+  }
+  .serve-title {
+    font-size: 1.2rem;
+    margin-bottom: 18px;
+  }
+}

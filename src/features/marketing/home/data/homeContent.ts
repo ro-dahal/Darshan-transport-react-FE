@@ -34,7 +34,10 @@ export const HOME_HERO_DESCRIPTION = `Fast, safe and reliable transport for
 businesses and individuals across Nepal.
 Your goods move. You stay stress-free.`;
 
-export const HOME_ABOUT_DESCRIPTION = `Founded over two decades ago with a single truck and a strong will to serve, Darshan Transport has grown into a trusted logistics partner across western Nepal and beyond. What began as a small family-run business is now a dependable logistics network known for safe, timely, and personalized service. Our mission has always been simple and clear: to deliver goods with care, responsibility, and efficiency. Over the years, we've expanded our fleet, integrated GPS tracking, and established multiple branches — all with the goal of serving our clients better and more transparently. At Darshan Transport, we're driven by technology, built on trust, and powered by people. We've embraced challenges, adapted to change, and invested in innovation to ensure reliability and efficiency at every step. Yet, our core values remain unchanged — trust, integrity, and a deep dedication to those we serve. As we continue to grow, we remain committed to becoming Nepal’s leading logistics backbone. Thank you for being part of our journey.`;
+export const HOME_ABOUT_DESCRIPTION = `We keep it simple — clear communication, fair pricing, and 
+on-time delivery.
+No hidden charges. No confusion.
+Just smooth logistics from start to finish.`;
 
 export const HOME_STATS: StatItem[] = [
   { value: '100k+', label: 'Deliveries' },
@@ -84,19 +87,20 @@ export const HOME_REVIEW_TESTIMONIALS: ReviewTestimonial[] = [
     company: 'Skyline Networks',
   },
   {
-    image: person1,
-    quote:
-      'VividBite Hospitality Pvt. Ltd. has been working with Darshan Transport since December 2021. The delivery service at the beginning was random. However, now with the delivery partnership, our issues have been resolved.',
-    name: 'Priya Desai',
-    company: 'VividBite Hospitality',
-  },
-  {
     image: person3,
     quote:
       'Darshan Transport has been our go-to solution for delivery. Their prompt service and affordable rates have made logistics a piece of cake.',
     name: 'Rahul Koirala',
     company: 'MetroGlobal Trade Co.',
   },
+  {
+    image: person1,
+    quote:
+      'VividBite Hospitality Pvt. Ltd. has been working with Darshan Transport since December 2021. The delivery service at the beginning was random. However, now with the delivery partnership, our issues have been resolved.',
+    name: 'Priya Desai',
+    company: 'VividBite Hospitality',
+  },
+  
 ];
 
 export const HOME_ASSETS = {

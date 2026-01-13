@@ -38,6 +38,7 @@ export const FOOTER_COLUMNS: FooterColumn[] = [
       { label: 'Facebook', href: '#' },
       { label: 'Instagram', href: '#' },
       { label: 'WhatsApp', href: '#' },
+      { label: 'LinkedIn', href: '#' },
       { label: '+977 9809991233', href: '#' },
       { label: 'info@darshan.np', href: '#' },
 

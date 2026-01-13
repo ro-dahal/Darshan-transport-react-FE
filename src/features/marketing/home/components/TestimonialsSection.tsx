@@ -6,13 +6,13 @@ export interface TestimonialsSectionProps {
   reviews: ReviewTestimonial[];
 }
 
-export const TestimonialsSection: React.FC<TestimonialsSectionProps> = ({ videos, reviews }) => (
+export const TestimonialsSection: React.FC<TestimonialsSectionProps> = ({ reviews }) => (
   <section className="testimonials-section">
     <div className="wave-bg"></div>
     <div className="testimonials-content">
       <h2 className="subtitle">Testimonials</h2>
       <h3 className="title">The Voice of Our Customers</h3>
-      <div className="videos">
+      {/* <div className="videos">
         {videos.map((video) => (
           <div className="video-card" key={video.name}>
             <video controls poster={video.poster}>
@@ -26,7 +26,7 @@ export const TestimonialsSection: React.FC<TestimonialsSectionProps> = ({ videos
             </div>
           </div>
         ))}
-      </div>
+      </div> */}
 
       <div className="reviews">
         {reviews.map((review) => (
