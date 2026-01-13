@@ -121,7 +121,6 @@ const Services: React.FC = () => {
     handleHashChange();
     window.addEventListener('hashchange', handleHashChange);
     return () => window.removeEventListener('hashchange', handleHashChange);
-    // eslint-disable-next-line
   }, []);
 
   const handleToggle = (idx: number) => {

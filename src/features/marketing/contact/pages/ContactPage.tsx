@@ -6,8 +6,7 @@ import { PageHeader } from '../components/pageheader';
 import { Pagedesc } from '../components/pagedesc';
 import { OfficeLocationsSection } from '../components/OfficeLocationsSection';
 export const ContactPage: React.FC = () => {
-  const { 
-  } = useContactDirectory();
+  useContactDirectory();
 
   return (
     <section>
