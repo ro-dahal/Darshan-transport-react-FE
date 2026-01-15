@@ -42,7 +42,7 @@ const serveData = [
 
 const Serve: React.FC = () => (
   <section className="serve-section">
-    <h2 className="serve-title">INDUSTRIES WE SERVER</h2>
+    <h2 className="serve-title">INDUSTRIES WE SERVE</h2>
     <div className="serve-grid">
       {serveData.map((item, idx) => (
         <div className="serve-card" key={idx}>
