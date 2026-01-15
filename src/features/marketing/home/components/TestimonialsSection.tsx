@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useState } from 'react';
 import type { ReviewTestimonial, VideoTestimonial } from '../data/homeContent';
 
 export interface TestimonialsSectionProps {
