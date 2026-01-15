@@ -1,23 +1,6 @@
 import React from 'react'
 
-const cardStyle: React.CSSProperties = {
-  background: '#f6b434',
-  color: '#111',
-  width: 240,
-  height: 200,
-  paddingTop: 18,
-  paddingBottom: 16,
-  paddingLeft: 16,
-  paddingRight: 16,
-  borderRadius: 20,
-  boxShadow: 'none',
-  display: 'flex',
-  flexDirection: 'column',
-  alignItems: 'center',
-  justifyContent: 'flex-start',
-  textAlign: 'center',
-  gap: 8,
-}
+// Card style moved to CSS class .howitworks-card
 
 const iconWrapper: React.CSSProperties = {
   background: '#ffffff',
@@ -46,7 +29,7 @@ const HowItWorks: React.FC = () => {
           flexWrap: 'wrap',
         }}
       >
-        <div style={cardStyle}>
+        <div className="howitworks-card">
           <div style={iconWrapper}>
             <svg width="28" height="28" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet">
               <path d="M12 1L12 12" stroke="#f6b434" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
@@ -57,7 +40,7 @@ const HowItWorks: React.FC = () => {
           <p style={{margin: 0, color: '#ffffff', opacity: 0.95, fontSize: 14, textAlign: 'center', marginTop: 8}}>Call or message us.</p>
         </div>
 
-        <div style={cardStyle}>
+        <div className="howitworks-card">
           <div style={iconWrapper}>
             <svg width="28" height="28" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet">
               <path d="M3 7H21" stroke="#f6b434" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
@@ -68,7 +51,7 @@ const HowItWorks: React.FC = () => {
           <p style={{margin: 0, color: '#ffffff', opacity: 0.95, fontSize: 14, textAlign: 'center', marginTop: 8}}>From your home or office.</p>
         </div>
 
-        <div style={cardStyle}>
+        <div className="howitworks-card">
           <div style={iconWrapper}>
             <svg width="28" height="28" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet">
               <path d="M3 12H21" stroke="#f6b434" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />

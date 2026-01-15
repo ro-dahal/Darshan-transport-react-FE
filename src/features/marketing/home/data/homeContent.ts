@@ -82,23 +82,44 @@ export const HOME_REVIEW_TESTIMONIALS: ReviewTestimonial[] = [
   {
     image: person1,
     quote:
-      "It's been about 1 year that we have been using Darshan Transport’s service and I am happy to share my experience with everyone. They are very professional, the team is supportive, and we can deliver our service on time.",
-    name: 'Kiran Shrestha',
-    company: 'Skyline Networks',
+      "“Very reliable service. My goods always reach on time, and the team updates me clearly.”",
+    name: 'Business Owner',
+    company: 'Kathmandu',
   },
   {
     image: person3,
     quote:
-      'Darshan Transport has been our go-to solution for delivery. Their prompt service and affordable rates have made logistics a piece of cake.',
-    name: 'Rahul Koirala',
-    company: 'MetroGlobal Trade Co.',
+      '“We send shipments almost every week. Smooth and stress-free.”',
+    name: 'Retail Partner',
+    company: 'Pokhara',
   },
   {
     image: person1,
     quote:
-      'VividBite Hospitality Pvt. Ltd. has been working with Darshan Transport since December 2021. The delivery service at the beginning was random. However, now with the delivery partnership, our issues have been resolved.',
-    name: 'Priya Desai',
-    company: 'VividBite Hospitality',
+      '“Good handling, fair pricing, and quick pickup.”',
+    name: 'Ecommerce Seller',
+    company: 'Lalitpur',
+  },
+  {
+    image: person1,
+    quote:
+      '“They treat our products with care. No damage, no hidden charges.”',
+    name: 'Corporate Client',
+    company: 'Bhaktapur',
+  },
+  {
+    image: person3,
+    quote:
+      '“Strong communication. Makes logistics easier for us.”',
+    name: 'Wholesale Supplier',
+    company: 'Butwal',
+  },
+  {
+    image: person3,
+    quote:
+      '“Strong communication. Makes logistics easier for us.”',
+    name: 'Wholesale Supplier',
+    company: 'Butwal',
   },
   
 ];

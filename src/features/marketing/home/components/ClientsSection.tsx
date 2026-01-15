@@ -8,7 +8,7 @@ export interface ClientsSectionProps {
 export const ClientsSection: React.FC<ClientsSectionProps> = ({ logos }) => (
   <section className="clients">
     <h2>OUR CLIENTS</h2>
-    <h3>TRUSTED BY THOUSANDS</h3>
+    <h3>TRUSTED BY BUSINESSES ACROSS NEPAL</h3>
     <div className="logo-carousel">
       <div className="logo-track">
         <div className="logo-set" aria-hidden="false">

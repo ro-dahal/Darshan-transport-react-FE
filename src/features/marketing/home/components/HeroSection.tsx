@@ -68,9 +68,10 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ description }) => {
         <h1>Nationwide Delivery</h1>
         <h1 style={{ color: '#fcaf17' }}>Zero Hassle</h1>
         <p>{description}</p>
-        <button id="but">
-          <a href="/contact">Get Started</a>
-        </button>
+        <div className="hero-cta-group">
+          <a href="/order" className="cta-button cta-primary">Track Your Shipment</a>
+          <a href="/get-quote" className="cta-button cta-secondary">Get a Delivery Quote</a>
+        </div>
       </section>
     </section>
   );

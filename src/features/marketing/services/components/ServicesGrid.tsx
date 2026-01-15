@@ -8,8 +8,8 @@ export interface ServicesGridProps {
 export const ServicesGrid: React.FC<ServicesGridProps> = ({ services }) => (
   <section className="services-section">
     <div className="container">
-      <div className="section-subtitle">What We Offer</div>
-      <div className="section-title">Our Core Services</div>
+      <div className="section-subtitle">Who We Serve</div>
+      <div className="section-title">We work with:</div>
       <div className="services-grid">
         {services.map((service) => (
           <div className="service-card" key={service.label}>
@@ -21,7 +21,7 @@ export const ServicesGrid: React.FC<ServicesGridProps> = ({ services }) => (
               )}
             </div>
             <h4>{service.label}</h4>
-            <p>{service.description}</p>
+            {/* <p>{service.description}</p> */}
           </div>
         ))}
       </div>
