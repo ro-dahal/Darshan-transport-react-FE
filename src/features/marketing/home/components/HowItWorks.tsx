@@ -1,4 +1,5 @@
-import React from 'react'
+
+import info1Img from '../../../../assets/img/info1.png';
 
 // Card style moved to CSS class .howitworks-card
 
@@ -15,7 +16,7 @@ const iconWrapper: React.CSSProperties = {
 
 const HowItWorks: React.FC = () => {
   return (
-    <section style={{padding: '64px 20px', textAlign: 'center'}}>
+    <section style={{paddingTop: 64, textAlign: 'center'}}>
       <h2 style={{color: '#f6b434', fontWeight: 550, marginBottom: 8}}>HOW IT WORKS</h2>
 
       <div style={{height: 40}} />
@@ -61,6 +62,9 @@ const HowItWorks: React.FC = () => {
           <h4 style={{margin: 0, fontWeight: 700, color: '#ffffff', fontSize: 16, lineHeight: 1.1, textAlign: 'center', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis'}}>Track & Receive</h4>
           <p style={{margin: 0, color: '#ffffff', opacity: 0.95, fontSize: 14, textAlign: 'center', marginTop: 8}}>Delivered on time.</p>
         </div>
+      </div>
+      <div style={{ display: 'flex', justifyContent: 'center', margin: '60px 0 -1px 0' }}>
+        <img src={info1Img} alt="Info" style={{ maxWidth: 900, width: '100%', height: 'auto', display: 'block' }} />
       </div>
     </section>
   )

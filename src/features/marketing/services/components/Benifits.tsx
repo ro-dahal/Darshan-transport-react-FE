@@ -3,7 +3,7 @@ import './Benifits.css';
 
 const benifitsList = [
   'Nationwide coverage across major cities & districts',
-  'End-to-end logistics: store → pack → ship → deliver',
+  'End-to-end logistics: Store → Load → Deliver',
   'Lower operational cost',
   'Fast same-day dispatch',
   'Real-time stock & delivery visibility',

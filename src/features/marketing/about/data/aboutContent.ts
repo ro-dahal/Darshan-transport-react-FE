@@ -44,9 +44,11 @@ export const ABOUT_CLIENT_LOGOS: LogoItem[] = [
   { src: clientLogo2, alt: 'Client 6 Logo' },
 ];
 
-export const ABOUT_DESCRIPTION = `Darshan Logistics is a nationwide cargo and transport company built for bulk loads, full-truck shipments, and large-volume distribution across Nepal.
-We partner with manufacturers, wholesalers, distributors, importers, and enterprise clients who need safe, consistent, and large-scale delivery — not small parcel service. Our core strength is in heavy cargo handling, long-distance routes, multi-city supply chains, and reliable fleet operations.
-Every day, we move tonnes of goods across Nepal with one promise: Your cargo arrives safely, on time, and handled with care.`;
+export const ABOUT_DESCRIPTION = [
+  "Darshan Logistics is a nationwide cargo and transport company built for bulk loads, full-truck shipments, and large-volume distribution across Nepal.",
+  "We partner with manufacturers, wholesalers, distributors, importers, and enterprise clients who need safe, consistent, and large-scale delivery — not small parcel service. Our core strength is in heavy cargo handling, long-distance routes, multi-city supply chains, and reliable fleet operations.",
+  "Every day, we move tonnes of goods across Nepal with one promise: Your cargo arrives safely, on time, and handled with care."
+];
 
 export const ABOUT_FOUNDERS: FounderProfile[] = [
   {

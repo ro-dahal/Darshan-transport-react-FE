@@ -22,15 +22,25 @@ const MajorLocation: React.FC = () => {
             <li style={{marginBottom: 14}}> - Pokhara</li>
             <li style={{marginBottom: 14}}> - Butwal</li>
             <li style={{marginBottom: 14}}> - Narayanghat</li>
-            <li style={{marginBottom: 14}}> - Biratnagar</li>
+            <li style={{marginBottom: 14}}> - Birjung</li>
+            <li style={{marginBottom: 14}}> - Damauli</li>
+            <li style={{marginBottom: 14}}> - Dumre</li>
+            <li style={{marginBottom: 14}}> - Dulegauda</li>
+            <li style={{marginBottom: 14}}> - Kushma</li>
+
           </ul>
 
           <ul style={{listStyle: 'none', padding: 0, margin: 0, textAlign: 'left'}}>
-            <li style={{marginBottom: 14}}> - Nepalgunj</li>
-            <li style={{marginBottom: 14}}> - Dhangadhi</li>
+            <li style={{marginBottom: 14}}> - Lamjung</li>
+            <li style={{marginBottom: 14}}> - Lamjung</li>
             <li style={{marginBottom: 14}}> - Jhapa</li>
-            <li style={{marginBottom: 14}}> - Illam</li>
-            <li style={{marginBottom: 14}}> - Birjung</li>
+            <li style={{marginBottom: 14}}> - Abukhaireni</li>
+            <li style={{marginBottom: 14}}> - Baglung</li>
+            <li style={{marginBottom: 14}}> - Beni</li>
+            <li style={{marginBottom: 14}}> - Syangja</li>
+            <li style={{marginBottom: 14}}> - Walling</li>
+            <li style={{marginBottom: 14}}> - Galyang</li>
+
           </ul>
         </div>
       </div>

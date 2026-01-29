@@ -2,18 +2,22 @@ import React from 'react';
 import type { StatItem } from '../data/aboutContent';
 
 export interface StorySectionProps {
-  description: string;
+  description: string[];
   stats: StatItem[];
   animationSrc: string;
 }
 
-export const StorySection: React.FC<StorySectionProps> = ({ description,  animationSrc }) => (
+export const StorySection: React.FC<StorySectionProps> = ({ description, animationSrc }) => (
   <section className="about-section">
     <div className="content">
       <h4 className="subtitlee">COMPANY OVERVIEW</h4>
       <h1 className="titlee">Reliable bulk cargo transport across Nepal</h1>
       <div className="about-split">
-        <p className="description">{description}</p>
+        <div className="description story-description">
+          {description.map((para, i) => (
+            <p key={i} className="story-paragraph">{para}</p>
+          ))}
+        </div>
         <img className="about-gif" src={animationSrc} alt="Our operations animated" loading="lazy" decoding="async" />
       </div>
     </div>
