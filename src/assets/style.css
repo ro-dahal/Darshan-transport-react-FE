@@ -288,14 +288,14 @@
   align-items: center;
   justify-content: center;
   border-radius: 50%;
-  background: #fff;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  background: transparent;
+  box-shadow: none;
   margin-right: 6px;
   transition: background 0.2s, box-shadow 0.2s;
 }
 .footer-social-link:hover .footer-social-icon {
-  background: #fcaf17;
-  box-shadow: 0 4px 16px rgba(252,175,23,0.18);
+  background: transparent;
+  box-shadow: none;
 }
 .footer-social-link svg {
   width: 22px;
@@ -304,9 +304,10 @@
 }
 
 .footer-social-icon img {
-  width: 30px;
-  height: 30px;
+  width: 40px;
+  height: 40px;
   display: block;
+  filter: brightness(0) invert(1);
 }
 .footer-social-label a:hover{
   font-size: 1rem;
