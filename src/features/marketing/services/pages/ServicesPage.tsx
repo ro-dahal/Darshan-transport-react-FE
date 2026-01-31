@@ -8,8 +8,6 @@ import Process from '../components/Process';
 import Services from '../components/Services';
 import Serve from '../components/Serve';
 import { useLocation } from 'react-router-dom';
-import { ReachSection } from '../components/ReachSection';
-import { HOME_ASSETS } from '../../home/data/homeContent';
 import CtaSection from '../components/Cta';
 
 
@@ -54,7 +52,6 @@ export const ServicesPage: React.FC = () => {
       <div ref={servicesRef}>
         <Services />
       </div>
-      <ReachSection mapImage={HOME_ASSETS.nepalMap} />
       <Serve />
       <CtaSection />
     </>
