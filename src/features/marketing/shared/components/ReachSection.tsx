@@ -1,10 +1,7 @@
 import React from "react";
+import NepalMap from "../../../../layout/components/MapOfNepal/map";
 
-export interface ReachSectionProps {
-  mapImage: string;
-}
-
-export const ReachSection: React.FC<ReachSectionProps> = ({ mapImage }) => (
+export const ReachSection: React.FC = () => (
   <section className="our-reach">
     <div className="wave-top">
       <svg viewBox="0 0 1440 150" preserveAspectRatio="none">
@@ -15,12 +12,6 @@ export const ReachSection: React.FC<ReachSectionProps> = ({ mapImage }) => (
       </svg>
     </div>
     <h2>Our Reach</h2>
-    <img
-      src={mapImage}
-      alt="Map of Nepal"
-      className="nepal-map"
-      loading="lazy"
-      decoding="async"
-    />
+    <NepalMap style={{ maxWidth: "100%", margin: "0 auto" }} />
   </section>
 );
