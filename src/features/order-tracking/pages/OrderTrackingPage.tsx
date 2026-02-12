@@ -8,6 +8,7 @@ import { OrderLocationSelector } from "../components/OrderLocationSelector";
 import { OrderStatusForm } from "../components/OrderStatusForm";
 import { DeliveryInfoCard } from "../components/DeliveryInfoCard";
 import { ServiceStatusAlert } from "../components/ServiceStatusAlert";
+import { Seo } from "../../marketing/shared/components/Seo";
 
 export const OrderTrackingPage: React.FC = () => {
   const {
@@ -28,6 +29,10 @@ export const OrderTrackingPage: React.FC = () => {
 
   return (
     <>
+      <Seo
+        title="Track Your Order"
+        description="Real-time order tracking for your shipments."
+      />
       <OrderHero />
 
       <section id="pageNotReadyBanner1">

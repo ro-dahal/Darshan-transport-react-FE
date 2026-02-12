@@ -12,16 +12,16 @@ export const FOOTER_COLUMNS: FooterColumn[] = [
   {
     title: 'Company',
     links: [
-      { label: 'About us', href: '../about' },
+      { label: 'About us', href: '/about' },
       { label: 'Team', href: '#' },
       { label: 'FAQs', href: '#' },
-      { label: 'Contact', href: '../contact' },
+      { label: 'Contact', href: '/contact' },
     ],
   },
   {
     title: 'Services',
     links: [
-      { label: 'Brand Summary', href: '../services' },
+      { label: 'Brand Summary', href: '/services' },
       { label: 'Distribution & Delivery', href: '/services#distribution-delivery' },
       { label: 'Thrid-Party Logistics (3PL)', href: '/services#third-party-logistics' },
       { label: 'Packaging & Handling', href: '/services#packaging-handling' },
