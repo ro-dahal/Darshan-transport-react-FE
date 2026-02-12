@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 
 export interface HeroSectionProps {
   description: string;
@@ -69,8 +70,8 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ description }) => {
         <h1 style={{ color: '#fcaf17' }}>Zero Hassle</h1>
         <p>{description}</p>
         <div className="hero-cta-group">
-          <a href="/order" className="cta-button cta-primary">Track Your Shipment</a>
-          <a href="/get-quote" className="cta-button cta-secondary">Get a Delivery Quote</a>
+          <Link to="/order" className="cta-button cta-primary">Track Your Shipment</Link>
+          <Link to="/get-quote" className="cta-button cta-secondary">Get a Delivery Quote</Link>
         </div>
       </section>
     </section>

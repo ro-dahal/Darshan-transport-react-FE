@@ -30,11 +30,11 @@ export interface ReviewTestimonial {
   company: string;
 }
 
-export const HOME_HERO_DESCRIPTION = `Fast, safe and reliable transport for 
+export const HOME_HERO_DESCRIPTION = `Fast, safe and reliable transport for
 businesses and individuals across Nepal.
 Your goods move. You stay stress-free.`;
 
-export const HOME_ABOUT_DESCRIPTION = `We keep it simple — clear communication, fair pricing, and 
+export const HOME_ABOUT_DESCRIPTION = `We keep it simple — clear communication, fair pricing, and
 on-time delivery.
 No hidden charges. No confusion.
 Just smooth logistics from start to finish.`;
@@ -56,22 +56,22 @@ export const HOME_CLIENT_LOGOS: LogoItem[] = [
 
 export const HOME_VIDEO_TESTIMONIALS: VideoTestimonial[] = [
   {
-    source: 'img/video-thumbnail1.mp4',
-    poster: 'poster1.jpg',
+    source: '/img/video-thumbnail1.mp4',
+    poster: '/img/video-thumbnail1.mp4', // Fallback to same for now if posters missing
     name: 'Ravi Thakur',
     title: 'Head of Logistics',
     company: 'NovaXpress',
   },
   {
-    source: 'img/video-thumbnail1.mp4',
-    poster: 'poster2.jpg',
+    source: '/img/video-thumbnail1.mp4',
+    poster: '/img/video-thumbnail1.mp4',
     name: 'Meena Joshi',
     title: 'CEO',
     company: 'BlueOrbit Retail',
   },
   {
-    source: 'img/video-thumbnail1.mp4',
-    poster: 'poster3.jpg',
+    source: '/img/video-thumbnail1.mp4',
+    poster: '/img/video-thumbnail1.mp4',
     name: 'Arjun Rana',
     title: 'Sr. Officer',
     company: 'Zenith Hydro Solutions',
@@ -114,17 +114,33 @@ export const HOME_REVIEW_TESTIMONIALS: ReviewTestimonial[] = [
     name: 'Wholesale Supplier',
     company: 'Butwal',
   },
-  {
-    image: person3,
-    quote:
-      '“Strong communication. Makes logistics easier for us.”',
-    name: 'Wholesale Supplier',
-    company: 'Butwal',
-  },
-  
 ];
 
 export const HOME_ASSETS = {
   heroAnimation: gifOperations,
   nepalMap,
 };
+
+export const MAJOR_LOCATIONS = [
+  ['Kathmandu Valley', 'Pokhara', 'Butwal', 'Narayanghat', 'Birjung', 'Damauli', 'Dumre', 'Dulegauda', 'Kushma'],
+  ['Lamjung', 'Jhapa', 'Abukhaireni', 'Baglung', 'Beni', 'Syangja', 'Walling', 'Galyang']
+];
+
+export const OUR_SERVICES_DATA = [
+  {
+    title: 'Parcel & Courier Delivery',
+    desc: 'For small packages, documents, and urgent items.',
+  },
+  {
+    title: 'Cargo & Bulk Transport',
+    desc: 'For business shipments moving in volume.',
+  },
+  {
+    title: 'Office Shifting & Corporate Moves',
+    desc: 'Careful packing, smooth relocation.',
+  },
+  {
+    title: 'E-commerce Delivery Support',
+    desc: 'Pickups, COD handling, order deliveries.',
+  },
+];

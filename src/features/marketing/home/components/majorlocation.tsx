@@ -1,4 +1,5 @@
-import React from 'react'
+import React from 'react';
+import { MAJOR_LOCATIONS } from '../data/homeContent';
 import './OurServices.css';
 
 const MajorLocation: React.FC = () => {
@@ -12,40 +13,22 @@ const MajorLocation: React.FC = () => {
         textAlign: 'center',
       }}
     >
-      <div style={{maxWidth: 1100, margin: '0 auto'}}>
+      <div style={{ maxWidth: 1100, margin: '0 auto' }}>
         <h2 className="kicker">WE DELIVER ACROSS NEPAL</h2>
         <h3 className="headline">FROM MAJOR CITIES TO REMOTE TOWNS</h3>
 
-        <div style={{display: 'flex', justifyContent: 'center', gap: 500}}>
-          <ul style={{listStyle: 'none', padding: 0, margin: 0, textAlign: 'left'}}>
-            <li style={{marginBottom: 14}}> - Kathmandu Valley</li>
-            <li style={{marginBottom: 14}}> - Pokhara</li>
-            <li style={{marginBottom: 14}}> - Butwal</li>
-            <li style={{marginBottom: 14}}> - Narayanghat</li>
-            <li style={{marginBottom: 14}}> - Birjung</li>
-            <li style={{marginBottom: 14}}> - Damauli</li>
-            <li style={{marginBottom: 14}}> - Dumre</li>
-            <li style={{marginBottom: 14}}> - Dulegauda</li>
-            <li style={{marginBottom: 14}}> - Kushma</li>
-
-          </ul>
-
-          <ul style={{listStyle: 'none', padding: 0, margin: 0, textAlign: 'left'}}>
-            <li style={{marginBottom: 14}}> - Lamjung</li>
-            <li style={{marginBottom: 14}}> - Lamjung</li>
-            <li style={{marginBottom: 14}}> - Jhapa</li>
-            <li style={{marginBottom: 14}}> - Abukhaireni</li>
-            <li style={{marginBottom: 14}}> - Baglung</li>
-            <li style={{marginBottom: 14}}> - Beni</li>
-            <li style={{marginBottom: 14}}> - Syangja</li>
-            <li style={{marginBottom: 14}}> - Walling</li>
-            <li style={{marginBottom: 14}}> - Galyang</li>
-
-          </ul>
+        <div style={{ display: 'flex', justifyContent: 'center', gap: '50px', flexWrap: 'wrap' }}>
+          {MAJOR_LOCATIONS.map((column, colIdx) => (
+            <ul key={colIdx} style={{ listStyle: 'none', padding: 0, margin: 0, textAlign: 'left', minWidth: '200px' }}>
+              {column.map((loc, locIdx) => (
+                <li key={locIdx} style={{ marginBottom: 14 }}> - {loc}</li>
+              ))}
+            </ul>
+          ))}
         </div>
       </div>
     </section>
-  )
-}
+  );
+};
 
-export default MajorLocation
+export default MajorLocation;

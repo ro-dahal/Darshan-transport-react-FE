@@ -6,9 +6,9 @@ interface WhatsAppFloatProps {
   message?: string;
 }
 
-const WhatsAppFloat: React.FC<WhatsAppFloatProps> = ({ 
-  phoneNumber, 
-  message = "Hello! I'd like to inquire about your services." 
+const WhatsAppFloat: React.FC<WhatsAppFloatProps> = ({
+  phoneNumber,
+  message = "Hello! I'd like to inquire about your services."
 }) => {
   const handleClick = () => {
     const encodedMessage = encodeURIComponent(message);
@@ -17,7 +17,18 @@ const WhatsAppFloat: React.FC<WhatsAppFloatProps> = ({
   };
 
   return (
-    <div className="whatsapp-float" onClick={handleClick}>
+    <div
+      className="whatsapp-float"
+      onClick={handleClick}
+      role="button"
+      tabIndex={0}
+      aria-label="Chat on WhatsApp"
+      onKeyDown={(e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          handleClick();
+        }
+      }}
+    >
       <div className="whatsapp-icon">
         <svg
           width="24"

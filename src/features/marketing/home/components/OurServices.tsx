@@ -1,24 +1,6 @@
 import React from 'react';
+import { OUR_SERVICES_DATA } from '../data/homeContent';
 import './OurServices.css';
-
-const services = [
-  {
-    title: 'Parcel & Courier Delivery',
-    desc: 'For small packages, documents, and urgent items.',
-  },
-  {
-    title: 'Cargo & Bulk Transport',
-    desc: 'For business shipments moving in volume.',
-  },
-  {
-    title: 'Office Shifting & Corporate Moves',
-    desc: 'Careful packing, smooth relocation.',
-  },
-  {
-    title: 'E-commerce Delivery Support',
-    desc: 'Pickups, COD handling, order deliveries.',
-  },
-];
 
 export const OurServices: React.FC = () => (
   <section className="our-services">
@@ -27,7 +9,7 @@ export const OurServices: React.FC = () => (
       <h3 className="headline">WE MOVE EVERYTHING THAT MATTERS.</h3>
 
       <div className="services-grid">
-        {services.map((s) => (
+        {OUR_SERVICES_DATA.map((s) => (
           <article className="service-card" key={s.title}>
             <span className="service-icon" aria-hidden>
               {/* simple outlined box/truck style icon using currentColor */}

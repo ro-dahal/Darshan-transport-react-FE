@@ -4,7 +4,6 @@ import logo from '../../../assets/img/logo-bar.png';
 import { NAV_LINKS } from './navLinks';
 import { useNavbarController } from './useNavbarController';
 
-
 export const Navbar: React.FC = () => {
   const { headerRef, menuOpen, toggleMenu, closeMenu, activePath } = useNavbarController();
   const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
@@ -31,16 +30,11 @@ export const Navbar: React.FC = () => {
           {NAV_LINKS.map((link) => (
             <li
               key={link.to}
-              className={`${link.dropdown ? 'has-dropdown' :  ''} ${
+              className={`${link.dropdown ? 'has-dropdown' : ''} ${
                 activeDropdown === link.to ? 'active-dropdown' : ''
               }`}
               onMouseEnter={() => link.dropdown && setActiveDropdown(link.to)}
               onMouseLeave={() => link.dropdown && setActiveDropdown(null)}
-              onClick={() => {
-                if (link. dropdown && window.innerWidth <= 768) {
-                  setActiveDropdown(activeDropdown === link.to ? null : link.to);
-                }
-              }}
             >
               <Link
                 to={link.to}
@@ -48,7 +42,8 @@ export const Navbar: React.FC = () => {
                 onClick={(e) => {
                   if (link.dropdown && window.innerWidth <= 768) {
                     e.preventDefault();
-                  } else if (! link.dropdown) {
+                    setActiveDropdown(activeDropdown === link.to ? null : link.to);
+                  } else if (!link.dropdown) {
                     closeMenu();
                   }
                 }}
