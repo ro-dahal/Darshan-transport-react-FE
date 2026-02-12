@@ -1,7 +1,9 @@
-import React from "react";
-import type { PropsWithChildren } from "react";
+import React, { type PropsWithChildren } from "react";
+import { HelmetProvider } from "react-helmet-async";
 import { OrderTrackingProvider } from "../../features/order-tracking/services/OrderTrackingProvider";
 
 export const AppProviders: React.FC<PropsWithChildren> = ({ children }) => (
-  <OrderTrackingProvider>{children}</OrderTrackingProvider>
+  <HelmetProvider>
+    <OrderTrackingProvider>{children}</OrderTrackingProvider>
+  </HelmetProvider>
 );

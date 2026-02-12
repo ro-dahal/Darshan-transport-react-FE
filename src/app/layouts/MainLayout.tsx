@@ -6,16 +6,21 @@ import { ScrollToTop } from "../../layout/components/Scroll/ScrollToTop";
 import { Footer } from "../../layout/components/Footer";
 import WhatsAppFloat from "../../features/marketing/shared/components/WhatsAppFloat";
 
+import { CONTACT_CONFIG } from '../../core/config/contactConfig';
+
 export const MainLayout: React.FC = () => (
-  <>
+  <div className="app-container">
     <ScrollToTop />
     <Preloader />
     <Navbar />
-    <Outlet />
+    <main className="main-content">
+      <Outlet />
+    </main>
     <Footer />
+    {/* Global Floating WhatsApp Component */}
     <WhatsAppFloat
-      phoneNumber="+9779705422317"
-      message="Hello! I'm interested in your transport services."
+      phoneNumber={CONTACT_CONFIG.whatsapp}
+      message="Hello Darshan Transport! I'd like to inquire about your services."
     />
-  </>
+  </div>
 );
