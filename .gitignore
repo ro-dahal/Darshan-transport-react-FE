@@ -11,6 +11,11 @@ node_modules
 dist
 dist-ssr
 *.local
+.env
+.env.development
+.env.test
+.env.production
+
 
 # Editor directories and files
 .vscode/*
@@ -28,4 +33,5 @@ DOCUMENTATION.txt
 
 # Ignore AI agent instructions (kept local-only)
 .github/copilot-instructions.md
-
+.agent
+.agents
