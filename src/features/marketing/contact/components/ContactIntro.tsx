@@ -1,5 +1,4 @@
-import React from "react";
-import '../../../../assets/style.css';
+import { CONTACT_CONFIG } from "../../../../core/config/contactConfig";
 
 export const ContactIntro: React.FC = () => (
   <div className="contact-info">
@@ -7,13 +6,13 @@ export const ContactIntro: React.FC = () => (
     <p>We’re here to help you with all your logistics and transport needs.</p>
     <ul>
       <li>
-        <strong>Address:</strong> Transport Nagar, Ring Road, Kathmandu
+        <strong>Address:</strong> {CONTACT_CONFIG.address}
       </li>
       <li>
-        <strong>Phone:</strong> 01 5926452, 5927452
+        <strong>Phone:</strong> {CONTACT_CONFIG.phoneDisplay}
       </li>
       <li>
-        <strong>Email:</strong> info@darshantransport.com.np
+        <strong>Email:</strong> {CONTACT_CONFIG.email}
       </li>
     </ul>
   </div>

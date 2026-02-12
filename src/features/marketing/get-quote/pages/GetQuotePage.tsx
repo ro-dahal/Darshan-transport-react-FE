@@ -4,6 +4,8 @@ import { ContactMap } from '../../contact/components/ContactMap';
 import { ContactDirectoryTable } from '../../contact/components/ContactDirectoryTable';
 import { useContactDirectory } from '../../contact/hooks/useContactDirectory';
 
+import { Seo } from '../../shared/components/Seo';
+
 export const GetQuotePage: React.FC = () => {
   const {
     bookingOffices,
@@ -19,6 +21,10 @@ export const GetQuotePage: React.FC = () => {
 
   return (
     <section className="get-quote-section">
+      <Seo
+        title="Get a Quote"
+        description="Request a free quote for your delivery and logistics needs."
+      />
       <h2>Get a Quote</h2>
       <div className="get-quote-map-area">
         <ContactMap mapUrl={mapUrl} loading={loading} mapRef={mapRef} />
