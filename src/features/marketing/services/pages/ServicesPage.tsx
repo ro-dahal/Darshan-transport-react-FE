@@ -1,10 +1,11 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect } from 'react';
 import { SERVICES_HERO, SERVICES_STATS, SERVICES_CARDS } from '../data/servicesContent';
 import { ServicesHero } from '../components/ServicesHero';
 import { GrowthSection } from '../components/GrowthSection';
 import { ServicesGrid } from '../components/ServicesGrid';
-import Benifits from '../components/Benifits';
+import Benefits from '../components/Benefits';
 import Process from '../components/Process';
+import { Seo } from '../../shared/components/Seo';
 import Services from '../components/Services';
 import Serve from '../components/Serve';
 import { useLocation } from 'react-router-dom';
@@ -15,7 +16,6 @@ import CtaSection from '../components/Cta';
 
 export const ServicesPage: React.FC = () => {
   const location = useLocation();
-  const servicesRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     document.body.classList.add('services-page');
@@ -42,6 +42,10 @@ export const ServicesPage: React.FC = () => {
 
   return (
     <>
+      <Seo
+        title="Our Services"
+        description="Warehousing, Distribution, 3PL, Packaging & Handling, and Fleet Services across Nepal."
+      />
       <ServicesHero
         backgroundImage={SERVICES_HERO.backgroundImage}
         title={SERVICES_HERO.title}
@@ -49,11 +53,9 @@ export const ServicesPage: React.FC = () => {
       />
       <GrowthSection stats={SERVICES_STATS} />
       <ServicesGrid services={SERVICES_CARDS} />
-      <Benifits />
+      <Benefits />
       <Process />
-      <div ref={servicesRef}>
-        <Services />
-      </div>
+      <Services />
       <ReachSection />
       <Serve />
       <CtaSection />

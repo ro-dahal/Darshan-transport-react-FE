@@ -1,0 +1,94 @@
+export interface ServiceDetail {
+  id: string;
+  title: string;
+  features: string[];
+  seo: string;
+  isArea?: boolean;
+}
+
+export const SERVICES_ACCORDION_DATA: ServiceDetail[] = [
+  {
+    id: 'warehouse-inventory',
+    title: 'Warehouse & Inventory Management',
+    features: [
+      'Secure warehouse space',
+      'Barcode tracking',
+      'Daily stock reports',
+      'Pick & pack',
+      'Reconciliation',
+    ],
+    seo: 'warehouse Nepal, inventory management Nepal',
+  },
+  {
+    id: 'distribution-delivery',
+    title: 'Distribution & Delivery',
+    features: [
+      'City-to-city shipment',
+      'B2B & B2C delivery',
+      'Wholesale distribution',
+      'Same-day dispatch',
+      'Return handling',
+    ],
+    seo: 'logistics Nepal, delivery Nepal, distribution Nepal',
+  },
+  {
+    id: 'third-party-logistics',
+    title: 'Third-Party Logistics (3PL)',
+    features: [
+      'Storage',
+      'Packaging',
+      'Shipping',
+      'Tracking',
+      'Reverse logistics',
+    ],
+    seo: '3PL Nepal, fulfillment Nepal',
+  },
+  {
+    id: 'packaging-handling',
+    title: 'Packaging & Handling',
+    features: [
+      'Packaging',
+      'Handling',
+      'Custom packing solutions',
+      'Safe transit',
+      'Labeling',
+    ],
+    seo: 'packaging Nepal, handling Nepal',
+  },
+  {
+    id: 'fleet-services',
+    title: 'Fleet Services',
+    features: [
+      'Vehicles & drivers',
+      'Route planning',
+      'Daily/monthly contracts',
+      'Maintenance included',
+    ],
+    seo: 'fleet Nepal, transport rental Nepal',
+  },
+  {
+    id: 'service-area',
+    title: 'Service Areas',
+    features: [
+      'Kathmandu Valley',
+      'Pokhara',
+      'Itahari',
+      'Biratnagar',
+      'Butwal',
+      'Nepalgunj',
+      'Full District Coverage List →',
+    ],
+    seo: 'logistics Kathmandu, cargo Biratnagar, Nepalgunj delivery',
+    isArea: true,
+  },
+];
+
+export const ALL_DISTRICTS = [
+  'Bhojpur', 'Dhankuta', 'Ilam', 'Jhapa', 'Khotang', 'Morang', 'Okhaldhunga', 'Panchthar', 'Sankhuwasabha', 'Solukhumbu', 'Sunsari', 'Taplejung', 'Terhathum', 'Udayapur',
+  'Bara', 'Dhanusa', 'Mahottari', 'Parsa', 'Rautahat', 'Saptari', 'Sarlahi', 'Siraha',
+  'Bhaktapur', 'Chitwan', 'Dhading', 'Dolakha', 'Kathmandu', 'Kavrepalanchok', 'Lalitpur', 'Makwanpur', 'Nuwakot', 'Ramechhap', 'Rasuwa', 'Sindhuli', 'Sindhupalchok',
+  'Baglung', 'Gorkha', 'Kaski', 'Lamjung', 'Manang', 'Mustang', 'Myagdi', 'Nawalpur', 'Parbat', 'Syangja', 'Tanahun',
+  'Arghakhanchi', 'Banke', 'Bardiya', 'Dang', 'Eastern Rukum', 'Gulmi', 'Kapilvastu', 'Parasi', 'Palpa', 'Pyuthan', 'Rolpa', 'Rupandehi',
+  'Dailekh', 'Dolpa', 'Humla', 'Jajarkot', 'Jumla', 'Kalikot', 'Mugu', 'Salyan', 'Surkhet', 'Western Rukum',
+  'Achham', 'Baitadi', 'Bajhang', 'Bajura', 'Dadeldhura', 'Darchula', 'Doti', 'Kailali', 'Kanchanpur',
+];

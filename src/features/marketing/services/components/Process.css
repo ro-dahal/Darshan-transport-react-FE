@@ -16,27 +16,15 @@
 
 /* Custom grid for process steps */
 .process-steps-custom {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 0;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 36px;
+  max-width: 1000px;
+  margin: 0 auto;
 }
 
 .process-steps-row {
-  display: flex;
-  justify-content: center;
-  width: 100%;
-  gap: 36px;
-  margin-bottom: 0;
-}
-
-.process-steps-row-top {
-  margin-bottom: 36px;
-}
-
-.process-steps-row-bottom {
-  margin-top: 0;
-  margin-left: -250px;
+  display: contents; /* Allow children to participate in the outer grid */
 }
 
 .process-step-spacer {
@@ -106,10 +94,25 @@
   }
 }
 
-@media (max-width: 900px) {
+@media (max-width: 991px) {
   .process-steps-custom {
-    gap: 18px;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 30px 20px;
+    padding: 0 20px;
   }
+}
+
+@media (max-width: 600px) {
+  .process-steps-custom {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+  .process-step {
+    max-width: 100%;
+  }
+}
+
+@media (max-width: 900px) {
   .process-steps-row {
     flex-direction: column;
     align-items: center;

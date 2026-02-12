@@ -1,7 +1,7 @@
 import React from 'react';
-import './Benifits.css';
+import './Benefits.css';
 
-const benifitsList = [
+const benefitsList = [
   'Nationwide coverage across major cities & districts',
   'End-to-end logistics: Store → Load → Deliver',
   'Lower operational cost',
@@ -11,15 +11,15 @@ const benifitsList = [
   'Scales as you grow',
 ];
 
-const Benifits: React.FC = () => (
-  <section className="benifits-section">
-    <h2 className="benifits-title">BENIFITS OF CHOOSING DARSHAN LOGISTICS</h2>
-    <ul className="benifits-list">
-      {benifitsList.map((item, idx) => (
+const Benefits: React.FC = () => (
+  <section className="benefits-section">
+    <h2 className="benefits-title">BENEFITS OF CHOOSING DARSHAN LOGISTICS</h2>
+    <ul className="benefits-list">
+      {benefitsList.map((item, idx) => (
         <li key={idx}>{item}</li>
       ))}
     </ul>
   </section>
 );
 
-export default Benifits;
+export default Benefits;
