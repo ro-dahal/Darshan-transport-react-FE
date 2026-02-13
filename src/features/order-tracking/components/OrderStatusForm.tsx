@@ -29,48 +29,27 @@ export const OrderStatusForm: React.FC<OrderStatusFormProps> = ({
       return <ServiceStatusAlert message={error.split("|")[1]} type="error" />;
     }
 
-    return <p style={{ marginTop: 15, color: "red" }}>{error}</p>;
+    return <p className="mt-4 text-red-600 font-medium bg-red-50 p-3 rounded border border-red-200">{error}</p>;
   };
 
   return (
-    <section
-      style={{
-        border: "1px solid #ddd",
-        borderRadius: 6,
-        padding: 16,
-        marginBottom: 20,
-        background: "#fff",
-      }}
-    >
-      <h3 style={{ color: "#fcaf17", margin: 0 }}>Check Delivery Status</h3>
-      <div style={{ margin: "12px 0" }}>
-        <label htmlFor="invoice">Invoice Number: </label>
+    <section className="border border-[#ddd] rounded-md p-4 mb-5 bg-white shadow-sm">
+      <h3 className="text-primary m-0 text-lg font-bold">Check Delivery Status</h3>
+      <div className="my-3">
+        <label htmlFor="invoice" className="font-medium text-gray-700">Invoice Number: </label>
         <input
           id="invoice"
           type="text"
           value={invoiceNumber}
           onChange={(event) => onInvoiceChange(event.target.value)}
           placeholder="000001"
-          style={{
-            marginLeft: 5,
-            padding: 6,
-            border: "1px solid #ccc",
-            borderRadius: 4,
-          }}
+          className="ml-1.5 p-1.5 border border-[#ccc] rounded text-base outline-none focus:border-primary focus:ring-1 focus:ring-primary w-40"
         />
       </div>
       <button
         type="button"
         onClick={onSubmit}
-        style={{
-          backgroundColor: "#fcaf17",
-          color: "white",
-          border: "none",
-          padding: "8px 14px",
-          borderRadius: 4,
-          cursor: loading ? "not-allowed" : "pointer",
-          opacity: loading ? 0.7 : 1,
-        }}
+        className={`bg-primary text-white border-none py-2 px-3.5 rounded cursor-pointer font-medium transition-opacity ${loading ? 'opacity-70 cursor-not-allowed' : 'hover:bg-primary-hover'}`}
         disabled={loading}
       >
         {loading ? "Checking..." : "Check Status"}

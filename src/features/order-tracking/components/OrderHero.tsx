@@ -1,13 +1,13 @@
 import React from 'react';
+import headerBg from '../../../assets/img/1.jpg';
 
 export const OrderHero: React.FC = () => (
   <section
     id="about-us-header"
-    style={{
-      textAlign: 'center',
-      padding: '40px 20px 10px 20px',
-    }}
+    className="w-full h-[30vh] bg-cover bg-center flex justify-center text-center flex-col p-3.5 relative max-md:h-[25vh] max-md:p-5"
+    style={{ backgroundImage: `url(${headerBg})` }}
   >
-    <h1 style={{ fontSize: '2rem', fontWeight: 'bold' }}>Order Tracker</h1>
+    <div className="absolute inset-0 bg-black/40 z-0"></div>
+    <h1 className="text-white text-[50px] [text-shadow:3px_3px_8px_rgba(0,0,0,0.7)] max-md:text-4xl max-sm:text-[28px] relative z-10 font-bold">Order Tracker</h1>
   </section>
 );

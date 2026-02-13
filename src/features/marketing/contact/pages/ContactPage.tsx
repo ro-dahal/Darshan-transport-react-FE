@@ -18,8 +18,8 @@ export const ContactPage: React.FC = () => {
       />
       <PageHeader />
       <PageDesc />
-    <section className="contact-section">
-      <div className="contact-container">
+    <section className="py-16 bg-[#fafafa]">
+      <div className="max-w-4xl mx-auto px-5 flex flex-col gap-12">
         <ContactIntro />
         <ContactForm onSubmit={() => window.alert('Message sent! (Demo only)')} />
       </div>

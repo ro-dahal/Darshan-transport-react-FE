@@ -3,9 +3,10 @@ import { FaEnvelope, FaPhone, FaMapMarkerAlt, FaFacebook, FaLinkedin, FaInstagra
 import type { ContactChannel, SocialLink } from '../data/contactInfo';
 
 const CONTACT_ICONS: Record<ContactChannel['icon'], React.ReactElement> = {
-  email: <FaEnvelope style={{ fontSize: '1.3rem', marginBottom: 6 }} />,
-  phone: <FaPhone style={{ fontSize: '1.3rem', marginBottom: 6 }} />,
-  location: <FaMapMarkerAlt style={{ fontSize: '1.3rem', marginBottom: 6 }} />,
+  email: <FaEnvelope className="text-[1.3rem] mb-1.5" />,
+  phone: <FaPhone className="text-[1.3rem] mb-1.5" />,
+  location: <FaMapMarkerAlt className="text-[1.3rem] mb-1.5" />,
+  // fallback or other icons if added
 };
 
 const SOCIAL_ICON_MAP: Record<SocialLink['key'], React.ReactElement> = {
@@ -21,29 +22,26 @@ export interface ContactCardProps {
 }
 
 export const ContactCard: React.FC<ContactCardProps> = ({ channels, socialLinks }) => (
-  <aside className="order-contact-box">
-    <h2 style={{ margin: '0 0 12px', fontSize: '1.8rem', fontWeight: 'bold' }}>Get in touch!</h2>
-    <p style={{ margin: '0 0 25px', fontSize: '1rem' }}>We’d love to hear from you.</p>
+  <aside className="bg-primary text-white rounded-md p-7 px-5 text-center max-[900px]:order-2 h-fit">
+    <h2 className="m-[0_0_12px] text-[1.8rem] font-bold">Get in touch!</h2>
+    <p className="m-[0_0_25px] text-base">We’d love to hear from you.</p>
 
     {channels.map((channel) => (
-      <div key={channel.label} style={{ marginBottom: 22 }}>
+      <div key={channel.label} className="mb-[22px] flex flex-col items-center">
         {CONTACT_ICONS[channel.icon]}
-        <div>{channel.label}</div>
-        <div style={{ fontWeight: 500 }}>{channel.value}</div>
+        <div className="opacity-90">{channel.label}</div>
+        <div className="font-medium text-lg">{channel.value}</div>
       </div>
     ))}
 
-    <div
-      style={{
-        marginTop: 24,
-        fontSize: '1.3rem',
-        display: 'flex',
-        justifyContent: 'center',
-        gap: '30px',
-      }}
-    >
+    <div className="mt-6 text-[1.3rem] flex justify-center gap-[30px]">
       {socialLinks.map((link) => (
-        <a key={link.key} href={link.href} aria-label={link.label} style={{ color: 'inherit', cursor: 'pointer' }}>
+        <a
+          key={link.key}
+          href={link.href}
+          aria-label={link.label}
+          className="text-inherit cursor-pointer hover:text-white/80 hover:scale-110 transition-all"
+        >
           {SOCIAL_ICON_MAP[link.key]}
         </a>
       ))}

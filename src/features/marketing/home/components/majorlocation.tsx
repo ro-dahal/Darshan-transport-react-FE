@@ -1,27 +1,18 @@
 import React from 'react';
 import { MAJOR_LOCATIONS } from '../data/homeContent';
-import './OurServices.css';
 
 const MajorLocation: React.FC = () => {
   return (
-    <section
-      className="major-locations"
-      style={{
-        background: '#6e6e6e',
-        padding: '56px 20px',
-        color: '#ffffff',
-        textAlign: 'center',
-      }}
-    >
-      <div style={{ maxWidth: 1100, margin: '0 auto' }}>
-        <h2 className="kicker">WE DELIVER ACROSS NEPAL</h2>
-        <h3 className="headline">FROM MAJOR CITIES TO REMOTE TOWNS</h3>
+    <section className="bg-[#6e6e6e] py-14 px-5 text-white text-center">
+      <div className="max-w-[1100px] mx-auto">
+        <h2 className="text-center text-primary tracking-[1px] font-light text-[25px] leading-[1.2] mb-1.5">WE DELIVER ACROSS NEPAL</h2>
+        <h3 className="text-center text-primary mb-9 text-[25px] font-bold">FROM MAJOR CITIES TO REMOTE TOWNS</h3>
 
-        <div style={{ display: 'flex', justifyContent: 'center', gap: '50px', flexWrap: 'wrap' }}>
+        <div className="flex justify-center gap-[50px] flex-wrap">
           {MAJOR_LOCATIONS.map((column, colIdx) => (
-            <ul key={colIdx} style={{ listStyle: 'none', padding: 0, margin: 0, textAlign: 'left', minWidth: '200px' }}>
+            <ul key={colIdx} className="list-none p-0 m-0 text-left min-w-[200px]">
               {column.map((loc, locIdx) => (
-                <li key={locIdx} style={{ marginBottom: 14 }}> - {loc}</li>
+                <li key={locIdx} className="mb-3.5"> - {loc}</li>
               ))}
             </ul>
           ))}
