@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 
 // Define props type if you want to pass width, height, or style
 type NepalMapProps = {
@@ -10,9 +10,33 @@ type NepalMapProps = {
 const svgStyles: React.CSSProperties = {
   width: "80vw",
   height: "auto",
-
   display: "block",
 };
+
+type PinLocation = {
+  id: string;
+  type: "booking" | "delivery";
+  label: string;
+  address: string;
+  x: number;
+  y: number;
+};
+
+const PIN_LOCATIONS: PinLocation[] = [
+  { id: "b1", type: "booking", label: "Head Office", address: "Rani Pauwa, Pokhara", x: 490, y: 300 },
+  { id: "b2", type: "booking", label: "Branch Office", address: "Transport Nagar, Ring Road, Kathmandu", x: 618, y: 330 },
+  { id: "b3", type: "booking", label: "Branch Office", address: "Dhawaha, Butwal", x: 430, y: 375 },
+  { id: "b4", type: "booking", label: "Branch Office", address: "Yantra Sala Margha, Narayanghat", x: 530, y: 360 },
+  { id: "b5", type: "booking", label: "Branch Office", address: "Adarsh Nagar, Birgunj", x: 597, y: 425 },
+  { id: "d1", type: "delivery", label: "Delivery", address: "Pokhara", x: 500, y: 288 },
+  { id: "d2", type: "delivery", label: "Delivery", address: "Kathmandu", x: 640, y: 320 },
+  { id: "d3", type: "delivery", label: "Delivery", address: "Kushma / Beni / Baglung", x: 448, y: 285 },
+  { id: "d4", type: "delivery", label: "Delivery", address: "Damauli / Aabukhaireni / Lamjung / Gorkha", x: 535, y: 280 },
+  { id: "d5", type: "delivery", label: "Delivery", address: "Syangja / Waling / Galyang", x: 475, y: 335 },
+];
+
+const BOOKING_COLOR = "#F59E0B";
+const DELIVERY_COLOR = "#3B82F6";
 
 const NepalMap: React.FC<NepalMapProps> = ({
   width = 1000,
@@ -20,6 +44,47 @@ const NepalMap: React.FC<NepalMapProps> = ({
   style = {},
 }) => {
   const [hoveredPath, setHoveredPath] = useState<string | null>(null);
+  const [hoveredPin, setHoveredPin] = useState<string | null>(null);
+  const [activePinIndex, setActivePinIndex] = useState<number>(-1);
+  const [isMobile, setIsMobile] = useState<boolean>(false);
+  const containerRef = useRef<HTMLDivElement>(null);
+  const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth < 1024);
+    };
+    handleResize();
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
+  useEffect(() => {
+    const el = containerRef.current;
+    if (!el) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting && !intervalRef.current) {
+          let idx = 0;
+          setActivePinIndex(0);
+          intervalRef.current = setInterval(() => {
+            idx = (idx + 1) % PIN_LOCATIONS.length;
+            setActivePinIndex(idx);
+          }, 2000);
+        } else if (!entry.isIntersecting && intervalRef.current) {
+          clearInterval(intervalRef.current);
+          intervalRef.current = null;
+          setActivePinIndex(-1);
+        }
+      },
+      { threshold: 0.3 }
+    );
+    observer.observe(el);
+    return () => {
+      observer.disconnect();
+      if (intervalRef.current) clearInterval(intervalRef.current);
+    };
+  }, []);
   // Info data for each region (random placeholder)
   const regionInfo: Record<string, { title: string; items: string[]}> = {
     NPBA: {
@@ -74,16 +139,48 @@ const NepalMap: React.FC<NepalMapProps> = ({
   };
 
   const info = hoveredPath && regionInfo[hoveredPath];
+  const activePin = PIN_LOCATIONS[activePinIndex] || (hoveredPin ? PIN_LOCATIONS.find(p => p.id === hoveredPin) : null);
 
   return (
-    <div style={{
+    <div ref={containerRef} style={{
       position: "relative",
-      margin: 0,
-      minHeight: "100vh",
+      margin: "0 auto",
+      width: "100%",
+      maxWidth: "1200px",
       display: "flex",
-      justifyContent: "center",
+      flexDirection: "column",
       alignItems: "center",
+      padding: "40px 20px",
     }}>
+      {/* Mobile Info Box (Visible on S to L) */}
+      {isMobile && activePin && (
+        <div style={{
+          width: "100%",
+          maxWidth: "400px",
+          marginBottom: "20px",
+          background: "rgba(15, 23, 42, 0.95)",
+          backdropFilter: "blur(8px)",
+          borderRadius: "16px",
+          padding: "20px",
+          border: `1px solid ${activePin.type === 'booking' ? BOOKING_COLOR : DELIVERY_COLOR}44`,
+          boxShadow: "0 10px 25px -5px rgba(0, 0, 0, 0.3)",
+          animation: "tooltipIn 0.4s ease-out",
+          textAlign: "center"
+        }}>
+          <div style={{
+            color: activePin.type === 'booking' ? BOOKING_COLOR : DELIVERY_COLOR,
+            fontSize: "14px",
+            fontWeight: 800,
+            letterSpacing: "2px",
+            marginBottom: "8px"
+          }}>
+            {activePin.type === 'booking' ? "📦 BOOKING AREA" : "🚚 DELIVERY AREA"}
+          </div>
+          <div style={{ color: "#F8FAFC", fontSize: "18px", fontWeight: 600 }}>
+            {activePin.address}
+          </div>
+        </div>
+      )}
       {/* Info box for hovered region */}
       {info && (
         <div
@@ -274,7 +371,175 @@ const NepalMap: React.FC<NepalMapProps> = ({
         <circle className="Rapti" cx="324.8" cy="303.8" id="NPRA"/>
         <circle className="Bheri" cx="222.8" cy="279.3" id="NPBH"/>
       </g>
+
+      {/* Animated Pins */}
+      <defs>
+        <style>{`
+          @keyframes pinBounce {
+            0% { transform: scale(1); }
+            30% { transform: scale(1.4); }
+            50% { transform: scale(0.9); }
+            100% { transform: scale(1.25); }
+          }
+          @keyframes pinPulse {
+            0%, 100% { r: 3; opacity: 0.8; }
+            50% { r: 7; opacity: 0.2; }
+          }
+          .map-pin { transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+          .map-pin.active { animation: pinBounce 0.5s forwards; }
+
+          /* Intensified scaling for mobile */
+          @media screen and (max-width: 1024px) {
+            .map-pin.active {
+               transform: scale(2.5) !important;
+               animation: none; /* Disable bounce to keep it steady and large */
+            }
+          }
+
+          .pin-pulse { animation: pinPulse 2s ease-in-out infinite; }
+          .tooltip-fade { animation: tooltipIn 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards; }
+          @keyframes tooltipIn {
+            0% { opacity: 0; transform: translateY(8px) scale(0.95); }
+            100% { opacity: 1; transform: translateY(0) scale(1); }
+          }
+
+          /* Responsive Font Scaling for SVG */
+          .tooltip-title { font-size: 14px; font-weight: 800; }
+          .tooltip-addr { font-size: 12px; font-weight: 500; }
+          .legend-title { font-size: 11px; font-weight: 700; }
+          .legend-label { font-size: 12px; font-weight: 600; }
+
+          @media screen and (max-width: 1024px) {
+            .tooltip-title { font-size: 16px; }
+            .tooltip-addr { font-size: 14px; }
+            .legend-title { font-size: 13px; }
+            .legend-label { font-size: 14px; }
+          }
+
+          @media screen and (max-width: 640px) {
+            .tooltip-title { font-size: 20px; }
+            .tooltip-addr { font-size: 18px; }
+            .legend-title { font-size: 16px; }
+            .legend-label { font-size: 18px; }
+          }
+        `}</style>
+      </defs>
+
+      {/* Pins Layer */}
+      <g id="pins-layer">
+        {PIN_LOCATIONS.map((pin, i) => {
+          const color = pin.type === "booking" ? BOOKING_COLOR : DELIVERY_COLOR;
+          const isActive = hoveredPin ? hoveredPin === pin.id : i === activePinIndex;
+          return (
+            <g
+              key={pin.id}
+              className={`map-pin ${isActive ? "active" : ""}`}
+              style={{ cursor: "pointer", transformOrigin: `${pin.x}px ${pin.y}px` }}
+              onMouseEnter={() => setHoveredPin(pin.id)}
+              onMouseLeave={() => setHoveredPin(null)}
+            >
+              <path
+                d={`M${pin.x},${pin.y} c0,-12 -9,-20 -9,-28 a9,9 0 1,1 18,0 c0,8 -9,16 -9,28z`}
+                fill={color}
+                stroke="#fff"
+                strokeWidth={1.5}
+                filter="drop-shadow(0 2px 4px rgba(0,0,0,0.4))"
+              />
+              <circle cx={pin.x} cy={pin.y - 24} r={3.5} fill="#fff" />
+              {isActive && (
+                <circle cx={pin.x} cy={pin.y} r={3} fill={color} opacity={0.5} className="pin-pulse" />
+              )}
+            </g>
+          );
+        })}
+      </g>
+
+      {/* Tooltip Layer (Always on top) - HIDDEN ON MOBILE */}
+      {!isMobile && (
+        <g id="tooltip-layer">
+          {PIN_LOCATIONS.map((pin, i) => {
+            const color = pin.type === "booking" ? BOOKING_COLOR : DELIVERY_COLOR;
+            const isActive = hoveredPin ? hoveredPin === pin.id : i === activePinIndex;
+            if (!isActive) return null;
+
+            return (
+              <g key={`tooltip-${pin.id}`} className="tooltip-fade" style={{ pointerEvents: 'none' }}>
+                <rect
+                  x={pin.x - 125}
+                  y={pin.y - 105}
+                  width={250}
+                  height={70}
+                  rx={14}
+                  fill="#0F172A"
+                  opacity={0.99}
+                  filter="drop-shadow(0 8px 20px rgba(0,0,0,0.6))"
+                  stroke={color}
+                  strokeWidth={1}
+                  strokeOpacity={0.4}
+                />
+                <polygon
+                  points={`${pin.x - 12},${pin.y - 42} ${pin.x + 12},${pin.y - 42} ${pin.x},${pin.y - 28}`}
+                  fill="#0F172A"
+                  opacity={0.99}
+                />
+                <text
+                  x={pin.x}
+                  y={pin.y - 78}
+                  textAnchor="middle"
+                  fill={color}
+                  className="tooltip-title"
+                  letterSpacing="1px"
+                >
+                  {pin.type === "booking" ? "\ud83d\udce6 BOOKING AREA" : "\ud83d\ude9a DELIVERY AREA"}
+                </text>
+                <text
+                  x={pin.x}
+                  y={pin.y - 54}
+                  textAnchor="middle"
+                  fill="#F1F5F9"
+                  className="tooltip-addr"
+                >
+                  {pin.address.length > 32 ? pin.address.slice(0, 30) + "..." : pin.address}
+                </text>
+              </g>
+            );
+          })}
+        </g>
+      )}
     </svg>
+
+    {/* HTML Legend (Below the map) */}
+    <div style={{
+      marginTop: "30px",
+      background: "#0F172A",
+      padding: "20px 30px",
+      borderRadius: "16px",
+      border: "1px solid #334155",
+      boxShadow: "0 4px 12px rgba(0,0,0,0.2)",
+      display: "flex",
+      flexDirection: "column",
+      gap: "12px",
+      minWidth: "220px"
+    }}>
+      <div style={{
+        color: "#94A3B8",
+        fontSize: "11px",
+        fontWeight: 700,
+        letterSpacing: "1.5px",
+        textAlign: "center",
+        marginBottom: "4px"
+      }}>
+        SERVICE NETWORK
+      </div>
+      <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
+        <div style={{ width: "16px", height: "16px", borderRadius: "5px", background: BOOKING_COLOR }}></div>
+        <div style={{ color: "#F8FAFC", fontSize: "14px", fontWeight: 600 }}>Booking Point</div>
+      </div>
+      <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
+        <div style={{ width: "16px", height: "16px", borderRadius: "5px", background: DELIVERY_COLOR }}></div>
+        <div style={{ color: "#F8FAFC", fontSize: "14px", fontWeight: 600 }}>Delivery Point</div>
+      </div>
+    </div>
   </div>
 );
 }
