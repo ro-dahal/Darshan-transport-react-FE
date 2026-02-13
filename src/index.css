@@ -1,2 +1,110 @@
-@import './assets/style.css';
-@import './assets/responsive.css';
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400;500;600;700;800;900&display=swap");
+@import "tailwindcss";
+
+/* ===== Tailwind v4 Theme (brand tokens) ===== */
+@theme {
+  /* Brand colors */
+  --color-primary: #fcaf17;
+  --color-primary-hover: #c98300;
+  --color-primary-light: #ffd98e;
+  --color-secondary: #1a4e8a;
+
+  /* Neutral palette */
+  --color-text-dark: #333333;
+  --color-text-medium: #444444;
+  --color-text-light: #dadada;
+  --color-border-light: #e0e0e0;
+  --color-bg-light: #f5f7fa;
+  --color-bg-icon: #eaf2fb;
+
+  /* Font families */
+  --font-sans: 'Montserrat', sans-serif;
+}
+
+/* ===== Global base resets ===== */
+@layer base {
+  *,
+  *::before,
+  *::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: var(--font-sans);
+  }
+
+  img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+  }
+
+  html {
+    margin: 0;
+    padding: 0;
+    background: #1a1a1a; /* Match navbar to hide top line/gap artifacts */
+    overflow-x: hidden;
+  }
+
+  body {
+    margin: 0;
+    background: #1a1a1a; /* Match navbar to hide hairline rendering artifacts */
+    color: var(--color-text-dark);
+    padding-top: var(--head-height, 90px);
+    overflow-x: hidden;
+  }
+
+  /* Restore light background for page content */
+  .app-container {
+    background-color: #fff;
+    min-height: 100vh;
+  }
+
+  #headerr {
+    border-top: none !important;
+    margin-top: 0 !important;
+  }
+
+  :root {
+    --head-height: 90px;
+  }
+}
+
+/* ===== Keyframe animations ===== */
+@keyframes scroll {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+@keyframes whatsapp-pulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+  100% { transform: scale(1); }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes slideIn {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ===== Accessibility ===== */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* ===== Legacy CSS imports (Commented out for migration) ===== */
+/* @import './assets/style.css'; */
+/* @import './assets/responsive.css'; */

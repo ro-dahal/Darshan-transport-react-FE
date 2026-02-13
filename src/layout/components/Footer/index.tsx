@@ -9,23 +9,26 @@ import { FOOTER_COLUMNS } from './footerLinks';
 import { CONTACT_CONFIG } from '../../../core/config/contactConfig';
 
 export const Footer: React.FC = () => (
-  <footer className="footer">
-    <div className="footer-container">
+  <footer className="bg-[#5d5d5d] text-white pt-[50px] px-5 pb-5 font-sans">
+    <div className="flex max-w-[1200px] mx-auto gap-[60px] items-start flex-wrap max-xl:flex-nowrap max-xl:gap-4 max-xl:justify-between max-sm:flex-col max-sm:items-center max-sm:gap-[30px]">
 
       {/* LOGO + PARAGRAPH GROUP */}
-      <div className="footer-brand">
-        <img src={logo} alt="Darshan Transport Logo" />
-        <p>
-          Nepal’s trusted partner for warehousing, nationwide delivery, and 3PL solutions.
+      <div className="flex items-start gap-px max-w-[420px] max-xl:max-w-[150px] max-xl:flex-col max-xl:items-start max-xl:shrink-0 max-xl:mr-0 max-sm:max-w-full max-sm:mb-5 max-sm:items-center">
+        <img src={logo} alt="Darshan Transport Logo" className="w-[120px] flex-shrink-0 max-xl:w-[120px] max-xl:mb-2.5 max-sm:w-[150px]" />
+        <p className="m-0 text-sm leading-[1.6] text-[#ddd] mt-2.5 max-w-[230px] max-xl:w-full max-xl:max-w-full max-xl:mt-0 max-sm:max-w-full max-sm:mx-auto">
+          Nepal's trusted partner for warehousing, nationwide delivery, and 3PL solutions.
           Reliable, safe, and on-time logistics for businesses of all sizes.
         </p>
       </div>
 
       {/* OTHER COLUMNS */}
       {FOOTER_COLUMNS.map((column) => (
-        <div className={`footer-column${column.title === 'Services' ? ' footer-column-services' : ''}`} key={column.title}>
-          <h4>{column.title}</h4>
-          <ul>
+        <div
+          className={`flex-1 min-w-[180px] max-xl:min-w-0 max-xl:w-auto max-sm:min-w-[180px] max-sm:text-center max-sm:w-full ${column.title === 'Services' ? 'xl:-ml-8' : ''}`}
+          key={column.title}
+        >
+          <h4 className="text-base font-semibold mb-[15px] text-white">{column.title}</h4>
+          <ul className="list-none p-0 m-0">
             {column.title === 'Connect'
               ? column.links.map((link) => {
                   let href = link.href;
@@ -34,29 +37,34 @@ export const Footer: React.FC = () => (
                   if (link.label.startsWith('+977')) href = `tel:${CONTACT_CONFIG.phone.replace(/\s/g, '')}`;
 
                   return (
-                    <li key={link.label}>
-                      <a href={href} target="_blank" rel="noopener noreferrer" className="footer-social-link">
+                    <li key={link.label} className="mb-2">
+                      <a
+                        href={href}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="flex items-center gap-2.5 no-underline text-inherit transition-colors duration-200 font-medium break-words"
+                      >
                         {link.label === 'Facebook' && (
-                          <span className="footer-social-icon">
-                            <img src={facebookIcon} alt="Facebook" width={24} height={24} />
+                          <span className="w-[38px] h-[38px] flex items-center justify-center rounded-full mr-1.5 transition-all duration-200">
+                            <img src={facebookIcon} alt="Facebook" width={24} height={24} className="w-10 h-10 block brightness-0 invert" />
                           </span>
                         )}
                         {link.label === 'Instagram' && (
-                          <span className="footer-social-icon">
-                            <img src={instagramIcon} alt="Instagram" width={24} height={24} />
+                          <span className="w-[38px] h-[38px] flex items-center justify-center rounded-full mr-1.5 transition-all duration-200">
+                            <img src={instagramIcon} alt="Instagram" width={24} height={24} className="w-10 h-10 block brightness-0 invert" />
                           </span>
                         )}
                         {link.label === 'WhatsApp' && (
-                          <span className="footer-social-icon">
-                            <img src={whatsappIcon} alt="WhatsApp" width={24} height={24} />
+                          <span className="w-[38px] h-[38px] flex items-center justify-center rounded-full mr-1.5 transition-all duration-200">
+                            <img src={whatsappIcon} alt="WhatsApp" width={24} height={24} className="w-10 h-10 block brightness-0 invert" />
                           </span>
                         )}
                         {link.label === 'LinkedIn' && (
-                          <span className="footer-social-icon">
-                            <img src={linkedinIcon} alt="LinkedIn" width={24} height={24} />
+                          <span className="w-[38px] h-[38px] flex items-center justify-center rounded-full mr-1.5 transition-all duration-200">
+                            <img src={linkedinIcon} alt="LinkedIn" width={24} height={24} className="w-10 h-10 block brightness-0 invert" />
                           </span>
                         )}
-                        <span className="footer-social-label">{link.label}</span>
+                        <span className="hover:text-white">{link.label}</span>
                       </a>
                     </li>
                   );
@@ -68,11 +76,11 @@ export const Footer: React.FC = () => (
                   if (link.label.startsWith('+977')) href = `tel:${CONTACT_CONFIG.phone.replace(/\s/g, '')}`;
 
                   return (
-                    <li key={link.label}>
+                    <li key={link.label} className="mb-2">
                       {href.startsWith('/') ? (
-                        <Link to={href}>{link.label}</Link>
+                        <Link to={href} className="text-[#ccc] no-underline transition-colors duration-300 hover:text-white">{link.label}</Link>
                       ) : (
-                        <a href={href} target={href.startsWith('http') ? '_blank' : undefined} rel={href.startsWith('http') ? 'noopener noreferrer' : undefined}>
+                        <a href={href} target={href.startsWith('http') ? '_blank' : undefined} rel={href.startsWith('http') ? 'noopener noreferrer' : undefined} className="text-[#ccc] no-underline transition-colors duration-300 hover:text-white break-words">
                           {link.label}
                         </a>
                       )}
@@ -85,11 +93,11 @@ export const Footer: React.FC = () => (
 
     </div>
 
-    <div className="footer-bottom">
+    <div className="text-center pt-5 text-sm text-[#ccc]">
       <p>
         Copyright © {new Date().getFullYear()} Darshan Transport |
-        <Link to="/privacy-policy"> Privacy Policy</Link> |
-        <Link to="/terms-conditions"> Terms & Conditions</Link>
+        <Link to="/privacy-policy" className="text-[#ccc] no-underline mx-[5px] hover:text-white"> Privacy Policy</Link> |
+        <Link to="/terms-conditions" className="text-[#ccc] no-underline mx-[5px] hover:text-white"> Terms & Conditions</Link>
       </p>
     </div>
   </footer>
