@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { useLocation } from 'react-router-dom';
-import { useTransition } from '../../../core/contexts/TransitionContext';
+import { useTransition } from '../../../core/hooks/useTransition';
 
 export function usePreloader() {
   const [hidden, setHidden] = useState(false);

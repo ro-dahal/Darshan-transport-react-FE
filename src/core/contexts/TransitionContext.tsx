@@ -1,13 +1,5 @@
-import React, { createContext, useCallback, useContext, useState } from 'react';
-
-interface TransitionContextType {
-  isTransitioning: boolean;
-  startTransition: (callback: () => void) => void;
-}
-
-const TransitionContext = createContext<TransitionContextType | undefined>(
-  undefined
-);
+import React, { useCallback, useState } from 'react';
+import { TransitionContext } from './transitionContextBase';
 
 export const TransitionProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
@@ -36,12 +28,4 @@ export const TransitionProvider: React.FC<{ children: React.ReactNode }> = ({
       {children}
     </TransitionContext.Provider>
   );
-};
-
-export const useTransition = () => {
-  const context = useContext(TransitionContext);
-  if (context === undefined) {
-    throw new Error('useTransition must be used within a TransitionProvider');
-  }
-  return context;
 };

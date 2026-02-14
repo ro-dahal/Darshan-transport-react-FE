@@ -1,6 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useTransition } from '../contexts/TransitionContext';
+import { useTransition } from '../hooks/useTransition';
 
 interface TransitionLinkProps extends React.AnchorHTMLAttributes<HTMLAnchorElement> {
   to: string;
