@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useNavigate, useLocation } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import logo from '../../../assets/img/optimized/logo-bar.webp';
 import { NAV_LINKS } from './navLinks';
 import { useNavbarController } from './useNavbarController';
@@ -9,7 +9,6 @@ export const Navbar: React.FC = () => {
   const { headerRef, menuOpen, toggleMenu, closeMenu, activePath } =
     useNavbarController();
   const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
-  const navigate = useNavigate();
   const location = useLocation();
 
   return (

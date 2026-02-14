@@ -5,7 +5,9 @@ interface PageHeaderProps {
   title?: string;
 }
 
-export const PageHeader: React.FC<PageHeaderProps> = ({ title = 'About Us' }) => (
+export const PageHeader: React.FC<PageHeaderProps> = ({
+  title = 'About Us',
+}) => (
   <section
     id="about-us-header"
     className="w-full h-[30vh] bg-cover bg-center flex justify-center text-center flex-col p-3.5 relative max-md:h-[25vh] max-md:p-5"
