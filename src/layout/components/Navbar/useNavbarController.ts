@@ -27,7 +27,10 @@ export function useNavbarController() {
     const updateHeight = () => {
       const height = element.getBoundingClientRect().height;
       headerHeightRef.current = Math.ceil(height);
-      document.documentElement.style.setProperty('--head-height', `${headerHeightRef.current}px`);
+      document.documentElement.style.setProperty(
+        '--head-height',
+        `${headerHeightRef.current}px`
+      );
       element.style.removeProperty('transform');
     };
 
@@ -61,7 +64,10 @@ export function useNavbarController() {
 
       rafRef.current = window.requestAnimationFrame(() => {
         const currentY = window.scrollY || window.pageYOffset;
-        const maxHeight = headerHeightRef.current || element.getBoundingClientRect().height || 0;
+        const maxHeight =
+          headerHeightRef.current ||
+          element.getBoundingClientRect().height ||
+          0;
 
         if (menuOpen) {
           show();
@@ -112,11 +118,29 @@ export function useNavbarController() {
   useEffect(() => {
     const element = headerRef.current;
     if (!element) return;
+
+    // Force show navbar on route change
     element.classList.remove('nav-hidden');
     element.style.pointerEvents = 'auto';
     element.style.transform = 'translateY(0)';
-    lastScrollY.current = 0;
+
+    // Sync lastScrollY to current scroll position immediately
+    // This prevents the scroll handler from seeing a large "delta" if the browser
+    // restored a scroll position before this effect ran.
+    lastScrollY.current = window.scrollY;
+
     setMenuOpen(false);
+
+    // Double check visibility after a short delay to counter persistent scroll restoration
+    const timer = setTimeout(() => {
+      if (window.scrollY === 0) {
+        element.classList.remove('nav-hidden');
+        element.style.transform = 'translateY(0)';
+        lastScrollY.current = 0;
+      }
+    }, 100);
+
+    return () => clearTimeout(timer);
   }, [location.pathname]);
 
   return {

@@ -1,17 +1,13 @@
-import React from "react";
-import { Outlet } from "react-router-dom";
-import { Navbar } from "../../layout/components/Navbar";
-import { Preloader } from "../../layout/components/Preloader";
-import { ScrollToTop } from "../../layout/components/Scroll/ScrollToTop";
-import { Footer } from "../../layout/components/Footer";
-import WhatsAppFloat from "../../features/marketing/shared/components/WhatsAppFloat";
+import React from 'react';
+import { Outlet } from 'react-router-dom';
+import { Navbar } from '../../layout/components/Navbar';
+import { Footer } from '../../layout/components/Footer';
+import WhatsAppFloat from '../../features/marketing/shared/components/WhatsAppFloat';
 
 import { CONTACT_CONFIG } from '../../core/config/contactConfig';
 
 export const MainLayout: React.FC = () => (
   <div className="app-container">
-    <ScrollToTop />
-    <Preloader />
     <Navbar />
     <main className="main-content">
       <Outlet />
