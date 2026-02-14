@@ -30,7 +30,9 @@ export const MetaTags: React.FC<MetaTagsProps> = ({
   noindex = false,
   structuredData,
 }) => {
-  const fullTitle = title.includes('Darshan') ? title : `${title} | Darshan Transport`;
+  const fullTitle = title.includes('Darshan')
+    ? title
+    : `${title} | Darshan Transport`;
 
   return (
     <Helmet>
