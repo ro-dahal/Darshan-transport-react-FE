@@ -23,13 +23,13 @@
   background: #f7f7f7;
   border-radius: 12px;
   margin-bottom: 18px;
-  box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
   overflow: hidden;
   transition: box-shadow 0.2s;
 }
 
 .service-dropdown.open {
-  box-shadow: 0 6px 24px rgba(252,175,23,0.13);
+  box-shadow: 0 6px 24px rgba(252, 175, 23, 0.13);
 }
 
 .service-dropdown-title {
@@ -71,8 +71,14 @@
 }
 
 @keyframes fadeIn {
-  from { opacity: 0; transform: translateY(-10px); }
-  to { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .service-features {
@@ -100,7 +106,7 @@
   background: #fffbe6;
   border-radius: 8px;
   padding: 16px 12px;
-  box-shadow: 0 2px 8px rgba(252,175,23,0.08);
+  box-shadow: 0 2px 8px rgba(252, 175, 23, 0.08);
 }
 
 .districts-list strong {

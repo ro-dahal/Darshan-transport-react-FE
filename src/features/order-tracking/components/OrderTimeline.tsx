@@ -18,7 +18,10 @@ export interface OrderTimelineProps {
   steps: OrderStatusStep[];
 }
 
-export const OrderTimeline: React.FC<OrderTimelineProps> = ({ status, steps }) => {
+export const OrderTimeline: React.FC<OrderTimelineProps> = ({
+  status,
+  steps,
+}) => {
   const containerRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
@@ -26,18 +29,23 @@ export const OrderTimeline: React.FC<OrderTimelineProps> = ({ status, steps }) =
     if (!container) return;
 
     const updateTrack = () => {
-      const circles = container.querySelectorAll<HTMLElement>('.timeline-circle');
+      const circles =
+        container.querySelectorAll<HTMLElement>('.timeline-circle');
       if (circles.length === 0) {
         return;
       }
 
       const containerRect = container.getBoundingClientRect();
       const firstCircleRect = circles[0].getBoundingClientRect();
-      const lastCircleRect = circles[circles.length - 1].getBoundingClientRect();
+      const lastCircleRect =
+        circles[circles.length - 1].getBoundingClientRect();
 
-      const firstCenterX = firstCircleRect.left - containerRect.left + firstCircleRect.width / 2;
-      const lastCenterX = lastCircleRect.left - containerRect.left + lastCircleRect.width / 2;
-      const centerY = firstCircleRect.top - containerRect.top + firstCircleRect.height / 2;
+      const firstCenterX =
+        firstCircleRect.left - containerRect.left + firstCircleRect.width / 2;
+      const lastCenterX =
+        lastCircleRect.left - containerRect.left + lastCircleRect.width / 2;
+      const centerY =
+        firstCircleRect.top - containerRect.top + firstCircleRect.height / 2;
 
       const trackHeight = 6;
       const left = Math.max(0, firstCenterX);
@@ -55,7 +63,8 @@ export const OrderTimeline: React.FC<OrderTimelineProps> = ({ status, steps }) =
       let progressWidth = 0;
       if (clampedIndex >= 0 && clampedIndex < circles.length) {
         const currentRect = circles[clampedIndex].getBoundingClientRect();
-        const currentCenterX = currentRect.left - containerRect.left + currentRect.width / 2;
+        const currentCenterX =
+          currentRect.left - containerRect.left + currentRect.width / 2;
         progressWidth = Math.max(0, currentCenterX - firstCenterX);
       }
 
@@ -90,7 +99,10 @@ export const OrderTimeline: React.FC<OrderTimelineProps> = ({ status, steps }) =
   );
 
   return (
-    <div className="flex items-center justify-between max-w-3xl mx-auto select-none relative pt-6 px-2.5 max-sm:flex-col max-sm:gap-4" ref={containerRef}>
+    <div
+      className="flex items-center justify-between max-w-3xl mx-auto select-none relative pt-6 px-2.5 max-sm:flex-col max-sm:gap-4"
+      ref={containerRef}
+    >
       {/* Track Background */}
       <div
         className="absolute h-1.5 bg-gray-200 rounded-full z-0 block max-sm:hidden transition-all duration-300"
@@ -118,17 +130,30 @@ export const OrderTimeline: React.FC<OrderTimelineProps> = ({ status, steps }) =
         const isActive = index === clampedIndex;
 
         // Base circle classes
-        let circleClasses = "timeline-circle w-14 h-14 rounded-full bg-white border-[3px] border-gray-200 flex justify-center items-center text-[1.35rem] text-gray-200 transition-all duration-300 relative z-20";
-        if (isCompleted || isActive) circleClasses = circleClasses.replace("border-gray-200", "border-primary").replace("text-gray-200", "text-primary");
-        if (isActive) circleClasses += " scale-105 shadow-[0_0_12px_rgba(252,175,23,0.4)]";
+        let circleClasses =
+          'timeline-circle w-14 h-14 rounded-full bg-white border-[3px] border-gray-200 flex justify-center items-center text-[1.35rem] text-gray-200 transition-all duration-300 relative z-20';
+        if (isCompleted || isActive)
+          circleClasses = circleClasses
+            .replace('border-gray-200', 'border-primary')
+            .replace('text-gray-200', 'text-primary');
+        if (isActive)
+          circleClasses += ' scale-105 shadow-[0_0_12px_rgba(252,175,23,0.4)]';
 
         // Connector lines (between circles) - simplified as one separate line per gap
-        let lineClasses = "timeline-line h-[3px] w-full bg-gray-200 absolute top-7 left-1/2 transform translate-x-0 z-10 max-sm:hidden";
-        if (isCompleted) lineClasses = lineClasses.replace("bg-gray-200", "bg-primary");
+        let lineClasses =
+          'timeline-line h-[3px] w-full bg-gray-200 absolute top-7 left-1/2 transform translate-x-0 z-10 max-sm:hidden';
+        if (isCompleted)
+          lineClasses = lineClasses.replace('bg-gray-200', 'bg-primary');
 
         return (
-          <div className="flex flex-col items-center relative flex-1 min-w-[110px] max-sm:flex-row max-sm:justify-start max-sm:gap-3 max-sm:w-full" key={step.key}>
-            <div className={circleClasses} aria-current={isActive ? 'step' : undefined}>
+          <div
+            className="flex flex-col items-center relative flex-1 min-w-[110px] max-sm:flex-row max-sm:justify-start max-sm:gap-3 max-sm:w-full"
+            key={step.key}
+          >
+            <div
+              className={circleClasses}
+              aria-current={isActive ? 'step' : undefined}
+            >
               {buildStepIcon(step)}
             </div>
 
@@ -153,11 +178,11 @@ export const OrderTimeline: React.FC<OrderTimelineProps> = ({ status, steps }) =
                 Tailwind: `hidden` by default or visible? Original: `display: block`.
                 I'll allow them but they are `max-sm:hidden`.
             */}
-             {index < steps.length - 1 && (
-                <span className={lineClasses}></span>
-             )}
+            {index < steps.length - 1 && <span className={lineClasses}></span>}
 
-            <span className="mt-3 font-semibold text-[#333] text-[0.95rem] max-sm:m-0 max-sm:text-base">{step.label}</span>
+            <span className="mt-3 font-semibold text-[#333] text-[0.95rem] max-sm:m-0 max-sm:text-base">
+              {step.label}
+            </span>
           </div>
         );
       })}

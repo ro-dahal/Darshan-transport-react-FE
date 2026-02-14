@@ -1,9 +1,9 @@
-import gifOperations from '../../../../assets/img/gif2.gif';
-import nepalMap from '../../../../assets/img/nepal-map.png';
-import clientLogo1 from '../../../../assets/img/Logo-01.png';
-import clientLogo2 from '../../../../assets/img/Logo-02.png';
-import person1 from '../../../../assets/img/person1.jpg';
-import person3 from '../../../../assets/img/person3.jpg';
+import gifOperations from '../../../../assets/img/optimized/gif2.webp';
+import nepalMap from '../../../../assets/img/optimized/nepal-map.webp';
+import clientLogo1 from '../../../../assets/img/optimized/Logo-01.webp';
+import clientLogo2 from '../../../../assets/img/optimized/Logo-02.webp';
+import person1 from '../../../../assets/img/optimized/person1.webp';
+import person3 from '../../../../assets/img/optimized/person3.webp';
 
 export interface StatItem {
   value: string;
@@ -82,35 +82,31 @@ export const HOME_REVIEW_TESTIMONIALS: ReviewTestimonial[] = [
   {
     image: person1,
     quote:
-      "“Very reliable service. My goods always reach on time, and the team updates me clearly.”",
+      '“Very reliable service. My goods always reach on time, and the team updates me clearly.”',
     name: 'Business Owner',
     company: 'Kathmandu',
   },
   {
     image: person3,
-    quote:
-      '“We send shipments almost every week. Smooth and stress-free.”',
+    quote: '“We send shipments almost every week. Smooth and stress-free.”',
     name: 'Retail Partner',
     company: 'Pokhara',
   },
   {
     image: person1,
-    quote:
-      '“Good handling, fair pricing, and quick pickup.”',
+    quote: '“Good handling, fair pricing, and quick pickup.”',
     name: 'Ecommerce Seller',
     company: 'Lalitpur',
   },
   {
     image: person1,
-    quote:
-      '“They treat our products with care. No damage, no hidden charges.”',
+    quote: '“They treat our products with care. No damage, no hidden charges.”',
     name: 'Corporate Client',
     company: 'Bhaktapur',
   },
   {
     image: person3,
-    quote:
-      '“Strong communication. Makes logistics easier for us.”',
+    quote: '“Strong communication. Makes logistics easier for us.”',
     name: 'Wholesale Supplier',
     company: 'Butwal',
   },
@@ -122,8 +118,27 @@ export const HOME_ASSETS = {
 };
 
 export const MAJOR_LOCATIONS = [
-  ['Kathmandu Valley', 'Pokhara', 'Butwal', 'Narayanghat', 'Birjung', 'Damauli', 'Dumre', 'Dulegauda', 'Kushma'],
-  ['Lamjung', 'Jhapa', 'Abukhaireni', 'Baglung', 'Beni', 'Syangja', 'Walling', 'Galyang']
+  [
+    'Kathmandu Valley',
+    'Pokhara',
+    'Butwal',
+    'Narayanghat',
+    'Birjung',
+    'Damauli',
+    'Dumre',
+    'Dulegauda',
+    'Kushma',
+  ],
+  [
+    'Lamjung',
+    'Jhapa',
+    'Abukhaireni',
+    'Baglung',
+    'Beni',
+    'Syangja',
+    'Walling',
+    'Galyang',
+  ],
 ];
 
 export const OUR_SERVICES_DATA = [

@@ -1,9 +1,9 @@
-import gifOperations from '../../../../assets/img/gif2.gif';
-import nepalMap from '../../../../assets/img/nepal-map.png';
-import clientLogo1 from '../../../../assets/img/Logo-01.png';
-import clientLogo2 from '../../../../assets/img/Logo-02.png';
-import person1 from '../../../../assets/img/person1.jpg';
-import person2 from '../../../../assets/img/person2.png';
+import gifOperations from '../../../../assets/img/optimized/gif2.webp';
+import nepalMap from '../../../../assets/img/optimized/nepal-map.webp';
+import clientLogo1 from '../../../../assets/img/optimized/Logo-01.webp';
+import clientLogo2 from '../../../../assets/img/optimized/Logo-02.webp';
+import person1 from '../../../../assets/img/optimized/person1.webp';
+import person2 from '../../../../assets/img/optimized/person2.webp';
 
 export interface StatItem {
   value: string;
@@ -45,9 +45,9 @@ export const ABOUT_CLIENT_LOGOS: LogoItem[] = [
 ];
 
 export const ABOUT_DESCRIPTION = [
-  "Darshan Logistics is a nationwide cargo and transport company built for bulk loads, full-truck shipments, and large-volume distribution across Nepal.",
-  "We partner with manufacturers, wholesalers, distributors, importers, and enterprise clients who need safe, consistent, and large-scale delivery — not small parcel service. Our core strength is in heavy cargo handling, long-distance routes, multi-city supply chains, and reliable fleet operations.",
-  "Every day, we move tonnes of goods across Nepal with one promise: Your cargo arrives safely, on time, and handled with care."
+  'Darshan Logistics is a nationwide cargo and transport company built for bulk loads, full-truck shipments, and large-volume distribution across Nepal.',
+  'We partner with manufacturers, wholesalers, distributors, importers, and enterprise clients who need safe, consistent, and large-scale delivery — not small parcel service. Our core strength is in heavy cargo handling, long-distance routes, multi-city supply chains, and reliable fleet operations.',
+  'Every day, we move tonnes of goods across Nepal with one promise: Your cargo arrives safely, on time, and handled with care.',
 ];
 
 export const ABOUT_FOUNDERS: FounderProfile[] = [
@@ -69,13 +69,48 @@ export const ABOUT_FOUNDERS: FounderProfile[] = [
 ];
 
 export const ABOUT_CORE_VALUES: CoreValueItem[] = [
-  { icon: '❤️', title: 'Built for Heavy Loads & Bulk Cargo', description: 'Specialized in full-truck loads, industrial materials, machinery, FMCG stock, and large-volume business shipments.' },
-  { icon: '🤝', title: 'Strong Nationwide Network', description: 'Branches across major hubs allow safe, structured movement of goods through controlled routes.' },
-  { icon: '✊', title: 'On-Time & Consistent Delivery', description: 'Planned routes, fixed schedules, and strict timelines help avoid delays.' },
-  { icon: '💡', title: 'Safe, Professional Handling', description: 'Each load is checked, secured, and monitored before dispatch.' },
-  { icon: '🏆', title: 'Business-Centric Operations', description: 'Designed for wholesalers, distributors, and large-volume suppliers needing recurring or multi-city delivery.' },
-  { icon: '⚙️', title: 'Reliable Fleet & Trained Team', description: 'Verified drivers and trained handlers ensure accuracy and safety from loading to delivery.' },
-  { icon: '✊', title: 'Technology-Ready Logistics', description: 'Digital workflows ensure faster processing, clear records, and transparent communication.' },
+  {
+    icon: '❤️',
+    title: 'Built for Heavy Loads & Bulk Cargo',
+    description:
+      'Specialized in full-truck loads, industrial materials, machinery, FMCG stock, and large-volume business shipments.',
+  },
+  {
+    icon: '🤝',
+    title: 'Strong Nationwide Network',
+    description:
+      'Branches across major hubs allow safe, structured movement of goods through controlled routes.',
+  },
+  {
+    icon: '✊',
+    title: 'On-Time & Consistent Delivery',
+    description:
+      'Planned routes, fixed schedules, and strict timelines help avoid delays.',
+  },
+  {
+    icon: '💡',
+    title: 'Safe, Professional Handling',
+    description:
+      'Each load is checked, secured, and monitored before dispatch.',
+  },
+  {
+    icon: '🏆',
+    title: 'Business-Centric Operations',
+    description:
+      'Designed for wholesalers, distributors, and large-volume suppliers needing recurring or multi-city delivery.',
+  },
+  {
+    icon: '⚙️',
+    title: 'Reliable Fleet & Trained Team',
+    description:
+      'Verified drivers and trained handlers ensure accuracy and safety from loading to delivery.',
+  },
+  {
+    icon: '✊',
+    title: 'Technology-Ready Logistics',
+    description:
+      'Digital workflows ensure faster processing, clear records, and transparent communication.',
+  },
 ];
 
 export const ABOUT_ASSETS = {

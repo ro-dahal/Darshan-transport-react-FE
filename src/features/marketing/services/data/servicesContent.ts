@@ -1,4 +1,4 @@
-import bgImage from '../../../../assets/img/bg.jpg';
+import bgImage from '../../../../assets/img/optimized/bg.webp';
 
 export interface ServiceCard {
   icon: string;
@@ -48,13 +48,15 @@ export const SERVICES_CARDS: ServiceCard[] = [
     // description:
     //   'Comprehensive security protocols to protect your valuable goods at every stage of the logistics journey.',
     iconType: 'emoji',
-  },{
+  },
+  {
     icon: '🔒',
     label: 'SMEs scaling distribution',
     // description:
     //   'Comprehensive security protocols to protect your valuable goods at every stage of the logistics journey.',
     iconType: 'emoji',
-  },{
+  },
+  {
     icon: '🔒',
     label: 'Companies needing 3PL support',
     // description:

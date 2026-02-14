@@ -1,5 +1,5 @@
-import React from "react";
-import { ServiceStatusAlert } from "./ServiceStatusAlert";
+import React from 'react';
+import { ServiceStatusAlert } from './ServiceStatusAlert';
 
 export interface OrderStatusFormProps {
   invoiceNumber: string;
@@ -19,24 +19,32 @@ export const OrderStatusForm: React.FC<OrderStatusFormProps> = ({
   const renderError = () => {
     if (!error) return null;
 
-    if (error.startsWith("SERVICE_UNAVAILABLE|")) {
+    if (error.startsWith('SERVICE_UNAVAILABLE|')) {
       return (
-        <ServiceStatusAlert message={error.split("|")[1]} type="unavailable" />
+        <ServiceStatusAlert message={error.split('|')[1]} type="unavailable" />
       );
     }
 
-    if (error.startsWith("SERVER_ERROR|")) {
-      return <ServiceStatusAlert message={error.split("|")[1]} type="error" />;
+    if (error.startsWith('SERVER_ERROR|')) {
+      return <ServiceStatusAlert message={error.split('|')[1]} type="error" />;
     }
 
-    return <p className="mt-4 text-red-600 font-medium bg-red-50 p-3 rounded border border-red-200">{error}</p>;
+    return (
+      <p className="mt-4 text-red-600 font-medium bg-red-50 p-3 rounded border border-red-200">
+        {error}
+      </p>
+    );
   };
 
   return (
     <section className="border border-[#ddd] rounded-md p-4 mb-5 bg-white shadow-sm">
-      <h3 className="text-primary m-0 text-lg font-bold">Check Delivery Status</h3>
+      <h3 className="text-primary m-0 text-lg font-bold">
+        Check Delivery Status
+      </h3>
       <div className="my-3">
-        <label htmlFor="invoice" className="font-medium text-gray-700">Invoice Number: </label>
+        <label htmlFor="invoice" className="font-medium text-gray-700">
+          Invoice Number:{' '}
+        </label>
         <input
           id="invoice"
           type="text"
@@ -52,7 +60,7 @@ export const OrderStatusForm: React.FC<OrderStatusFormProps> = ({
         className={`bg-primary text-white border-none py-2 px-3.5 rounded cursor-pointer font-medium transition-opacity ${loading ? 'opacity-70 cursor-not-allowed' : 'hover:bg-primary-hover'}`}
         disabled={loading}
       >
-        {loading ? "Checking..." : "Check Status"}
+        {loading ? 'Checking...' : 'Check Status'}
       </button>
       {renderError()}
     </section>

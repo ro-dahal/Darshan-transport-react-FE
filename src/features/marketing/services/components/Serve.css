@@ -1,5 +1,5 @@
 /* CTA section for services */
- .cta-section-services {
+.cta-section-services {
   /* background: url('/src/assets/img/cargo-truck.png') center/cover no-repeat; */
   background: #fcaf17;
   color: #fff;
@@ -27,8 +27,10 @@
   border-radius: 8px;
   text-decoration: none;
   font-size: 1.1rem;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-  transition: background 0.2s, color 0.2s;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  transition:
+    background 0.2s,
+    color 0.2s;
   border: none;
   outline: none;
   cursor: pointer;
@@ -82,7 +84,9 @@
   max-width: 240px;
   padding: 28px 20px 18px 24px;
   position: relative;
-  transition: box-shadow 0.2s, transform 0.2s;
+  transition:
+    box-shadow 0.2s,
+    transform 0.2s;
   text-align: left;
 }
 

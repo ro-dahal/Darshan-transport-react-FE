@@ -1,5 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { SERVICES_ACCORDION_DATA, ALL_DISTRICTS } from '../data/servicesAccordionData';
+import {
+  SERVICES_ACCORDION_DATA,
+  ALL_DISTRICTS,
+} from '../data/servicesAccordionData';
 
 export const Services: React.FC = () => {
   const [openIndex, setOpenIndex] = useState<number | null>(null);
@@ -11,7 +14,7 @@ export const Services: React.FC = () => {
       const hash = window.location.hash;
       if (hash) {
         const anchor = hash.replace('#', '');
-        const idx = SERVICES_ACCORDION_DATA.findIndex(s => s.id === anchor);
+        const idx = SERVICES_ACCORDION_DATA.findIndex((s) => s.id === anchor);
         if (idx !== -1) {
           setOpenIndex(idx);
           setTimeout(() => {
@@ -42,7 +45,9 @@ export const Services: React.FC = () => {
 
   return (
     <section className="bg-white text-[#222] py-14 pb-12 text-center">
-      <h2 className="text-[2.2rem] font-extrabold text-primary mb-10 tracking-[0.5px] max-md:text-[1.3rem] max-md:mb-[18px]">Services</h2>
+      <h2 className="text-[2.2rem] font-extrabold text-primary mb-10 tracking-[0.5px] max-md:text-[1.3rem] max-md:mb-[18px]">
+        Services
+      </h2>
       <div className="max-w-[800px] mx-auto text-left max-md:w-full max-md:px-1">
         {SERVICES_ACCORDION_DATA.map((service, idx) => (
           <div
@@ -55,7 +60,9 @@ export const Services: React.FC = () => {
               onClick={() => handleToggle(idx)}
             >
               {service.title}
-              <span className={`text-[1.1rem] ml-3 text-primary transition-colors duration-200 ${openIndex === idx ? '!text-[#222]' : ''}`}>
+              <span
+                className={`text-[1.1rem] ml-3 text-primary transition-colors duration-200 ${openIndex === idx ? '!text-[#222]' : ''}`}
+              >
                 {openIndex === idx ? '▲' : '▼'}
               </span>
             </button>
@@ -64,7 +71,10 @@ export const Services: React.FC = () => {
             >
               <ul className="my-[18px] mb-2.5 ml-[18px] list-disc">
                 {service.features.map((f, i) => (
-                  <li key={i} className="text-[1.08rem] mb-2 text-[#444] leading-[1.6]">
+                  <li
+                    key={i}
+                    className="text-[1.08rem] mb-2 text-[#444] leading-[1.6]"
+                  >
                     {f === 'Full District Coverage List →' ? (
                       <span
                         className="text-primary cursor-pointer font-semibold underline"
@@ -79,16 +89,25 @@ export const Services: React.FC = () => {
                       >
                         {f}
                       </span>
-                    ) : f}
+                    ) : (
+                      f
+                    )}
                   </li>
                 ))}
               </ul>
               {service.isArea && showDistricts && (
                 <div className="my-[18px] mb-2.5 bg-[#fffbe6] rounded-lg p-4 px-3 shadow-[0_2px_8px_rgba(252,175,23,0.08)] max-md:p-2.5 max-md:px-1">
-                  <strong className="text-primary text-[1.1rem]">All 77 Districts:</strong>
+                  <strong className="text-primary text-[1.1rem]">
+                    All 77 Districts:
+                  </strong>
                   <div className="flex flex-wrap gap-[10px_18px] mt-2.5 max-md:gap-[6px_8px]">
                     {ALL_DISTRICTS.map((d, i) => (
-                      <span key={i} className="bg-primary text-white rounded-md px-2.5 py-1 text-[0.98rem] font-medium max-md:text-[0.85rem] max-md:px-1.5 max-md:py-[3px]">{d}</span>
+                      <span
+                        key={i}
+                        className="bg-primary text-white rounded-md px-2.5 py-1 text-[0.98rem] font-medium max-md:text-[0.85rem] max-md:px-1.5 max-md:py-[3px]"
+                      >
+                        {d}
+                      </span>
                     ))}
                   </div>
                 </div>

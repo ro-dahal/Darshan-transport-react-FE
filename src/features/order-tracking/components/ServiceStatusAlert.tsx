@@ -1,22 +1,22 @@
-import React from "react";
+import React from 'react';
 
 interface ServiceStatusAlertProps {
   message: string;
-  type?: "unavailable" | "error";
+  type?: 'unavailable' | 'error';
 }
 
 export const ServiceStatusAlert: React.FC<ServiceStatusAlertProps> = ({
   message,
-  type = "unavailable",
+  type = 'unavailable',
 }) => {
-  const isUnavailable = type === "unavailable";
+  const isUnavailable = type === 'unavailable';
 
   return (
     <div
       className={`flex items-center p-4 rounded-lg my-5 border animate-[slideIn_0.3s_ease-out] ${
         isUnavailable
-          ? "bg-[#fff9eb] border-[#ffcc00] text-[#856404]"
-          : "bg-[#fff5f5] border-[#feb2b2] text-[#c53030]"
+          ? 'bg-[#fff9eb] border-[#ffcc00] text-[#856404]'
+          : 'bg-[#fff5f5] border-[#feb2b2] text-[#c53030]'
       }`}
     >
       <div className="w-10 h-10 mr-4 shrink-0">
@@ -48,7 +48,7 @@ export const ServiceStatusAlert: React.FC<ServiceStatusAlertProps> = ({
       </div>
       <div className="flex-1">
         <h4 className="m-[0_0_4px_0] text-[1.1rem] font-bold text-inherit">
-          {isUnavailable ? "Service Currently Unavailable" : "System Error"}
+          {isUnavailable ? 'Service Currently Unavailable' : 'System Error'}
         </h4>
         <p className="m-0 text-[0.95rem] leading-[1.4] opacity-90">{message}</p>
       </div>

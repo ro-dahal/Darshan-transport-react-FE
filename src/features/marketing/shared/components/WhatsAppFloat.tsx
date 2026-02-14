@@ -7,7 +7,7 @@ interface WhatsAppFloatProps {
 
 const WhatsAppFloat: React.FC<WhatsAppFloatProps> = ({
   phoneNumber,
-  message = "Hello! I'd like to inquire about your services."
+  message = "Hello! I'd like to inquire about your services.",
 }) => {
   const handleClick = () => {
     const encodedMessage = encodeURIComponent(message);

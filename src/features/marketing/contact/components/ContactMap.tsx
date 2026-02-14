@@ -6,8 +6,15 @@ export interface ContactMapProps {
   mapRef: React.RefObject<HTMLDivElement | null>;
 }
 
-export const ContactMap: React.FC<ContactMapProps> = ({ mapUrl, loading, mapRef }) => (
-  <div className="w-full h-[400px] rounded-xl overflow-hidden shadow-md relative bg-gray-100 border border-gray-200" ref={mapRef}>
+export const ContactMap: React.FC<ContactMapProps> = ({
+  mapUrl,
+  loading,
+  mapRef,
+}) => (
+  <div
+    className="w-full h-[400px] rounded-xl overflow-hidden shadow-md relative bg-gray-100 border border-gray-200"
+    ref={mapRef}
+  >
     <iframe
       id="locationMap"
       src={mapUrl}

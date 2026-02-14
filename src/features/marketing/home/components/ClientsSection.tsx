@@ -15,7 +15,10 @@ export const ClientsSection: React.FC<ClientsSectionProps> = ({ logos }) => (
     </h3>
     <div className="overflow-hidden relative w-full">
       <div className="flex items-center flex-nowrap w-fit animate-[scroll_30s_linear_infinite] will-change-transform gap-0 motion-reduce:animate-none">
-        <div className="flex items-center gap-10 pr-10 flex-[0_0_auto]" aria-hidden="false">
+        <div
+          className="flex items-center gap-10 pr-10 flex-[0_0_auto]"
+          aria-hidden="false"
+        >
           {logos.map((logo, index) => (
             <img
               key={`${logo.alt}-${index}`}
@@ -27,7 +30,10 @@ export const ClientsSection: React.FC<ClientsSectionProps> = ({ logos }) => (
             />
           ))}
         </div>
-        <div className="flex items-center gap-10 pr-10 flex-[0_0_auto]" aria-hidden="true">
+        <div
+          className="flex items-center gap-10 pr-10 flex-[0_0_auto]"
+          aria-hidden="true"
+        >
           {logos.map((logo, index) => (
             <img
               key={`dup-${logo.alt}-${index}`}

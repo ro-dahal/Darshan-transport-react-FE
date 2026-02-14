@@ -9,13 +9,22 @@ function buildMapUrl(search: string): string {
 }
 
 export function useContactDirectory() {
-  const [selectedBooking, setSelectedBooking] = useState<OfficeRow>(BOOKING_OFFICES[0]);
-  const [selectedDelivery, setSelectedDelivery] = useState<OfficeRow>(DELIVERY_OFFICES[0]);
-  const [lastSelectedType, setLastSelectedType] = useState<DirectoryType>('booking');
-  const [mapUrl, setMapUrl] = useState<string>(buildMapUrl(BOOKING_OFFICES[0].search));
+  const [selectedBooking, setSelectedBooking] = useState<OfficeRow>(
+    BOOKING_OFFICES[0]
+  );
+  const [selectedDelivery, setSelectedDelivery] = useState<OfficeRow>(
+    DELIVERY_OFFICES[0]
+  );
+  const [lastSelectedType, setLastSelectedType] =
+    useState<DirectoryType>('booking');
+  const [mapUrl, setMapUrl] = useState<string>(
+    buildMapUrl(BOOKING_OFFICES[0].search)
+  );
   const [loading, setLoading] = useState<boolean>(false);
   const firstLoadRef = useRef(true);
   const mapRef = useRef<HTMLDivElement | null>(null);
+
+  const [isManual, setIsManual] = useState(false);
 
   useEffect(() => {
     if (firstLoadRef.current) {
@@ -23,10 +32,19 @@ export function useContactDirectory() {
       return;
     }
 
-    setLoading(true);
-    const timer = window.setTimeout(() => setLoading(false), 1200);
+    // Only scroll if it was a manual user interaction
+    if (!isManual) return;
 
-    const query = lastSelectedType === 'booking' ? selectedBooking.search : selectedDelivery.search;
+    setLoading(true);
+    const timer = window.setTimeout(() => {
+      setLoading(false);
+      setIsManual(false); // Reset after loading finishes
+    }, 1200);
+
+    const query =
+      lastSelectedType === 'booking'
+        ? selectedBooking.search
+        : selectedDelivery.search;
     setMapUrl(buildMapUrl(query));
 
     if (mapRef.current) {
@@ -36,9 +54,10 @@ export function useContactDirectory() {
     return () => {
       window.clearTimeout(timer);
     };
-  }, [lastSelectedType, selectedBooking, selectedDelivery]);
+  }, [lastSelectedType, selectedBooking, selectedDelivery, isManual]);
 
   const selectOffice = (office: OfficeRow, type: DirectoryType) => {
+    setIsManual(true);
     if (type === 'booking') {
       setSelectedBooking(office);
     } else {

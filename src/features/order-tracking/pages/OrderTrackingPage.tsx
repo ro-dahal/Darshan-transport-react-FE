@@ -1,14 +1,14 @@
-import React from "react";
-import { useOrderTracking } from "../hooks/useOrderTracking";
-import { ORDER_STATUS_STEPS } from "../data/statusSteps";
-import { CONTACT_CHANNELS, SOCIAL_LINKS } from "../data/contactInfo";
-import { OrderHero } from "../components/OrderHero";
-import { ContactCard } from "../components/ContactCard";
-import { OrderLocationSelector } from "../components/OrderLocationSelector";
-import { OrderStatusForm } from "../components/OrderStatusForm";
-import { DeliveryInfoCard } from "../components/DeliveryInfoCard";
-import { ServiceStatusAlert } from "../components/ServiceStatusAlert";
-import { Seo } from "../../marketing/shared/components/Seo";
+import React from 'react';
+import { useOrderTracking } from '../hooks/useOrderTracking';
+import { ORDER_STATUS_STEPS } from '../data/statusSteps';
+import { CONTACT_CHANNELS, SOCIAL_LINKS } from '../data/contactInfo';
+import { OrderHero } from '../components/OrderHero';
+import { ContactCard } from '../components/ContactCard';
+import { OrderLocationSelector } from '../components/OrderLocationSelector';
+import { OrderStatusForm } from '../components/OrderStatusForm';
+import { DeliveryInfoCard } from '../components/DeliveryInfoCard';
+import { ServiceStatusAlert } from '../components/ServiceStatusAlert';
+import { MetaTags } from '../../../core/components/MetaTags';
 
 export const OrderTrackingPage: React.FC = () => {
   const {
@@ -24,12 +24,12 @@ export const OrderTrackingPage: React.FC = () => {
     actions: { selectSeries, updateInvoiceNumber, submit },
   } = useOrderTracking();
 
-  const isServiceDown = error?.startsWith("SERVICE_UNAVAILABLE|");
-  const isServerError = error?.startsWith("SERVER_ERROR|");
+  const isServiceDown = error?.startsWith('SERVICE_UNAVAILABLE|');
+  const isServerError = error?.startsWith('SERVER_ERROR|');
 
   return (
-    <>
-      <Seo
+    <div className="order-tracking-wrapper">
+      <MetaTags
         title="Track Your Order"
         description="Real-time order tracking for your shipments."
       />
@@ -42,13 +42,13 @@ export const OrderTrackingPage: React.FC = () => {
           <div className="max-[900px]:order-1">
             {isServiceDown && (
               <ServiceStatusAlert
-                message={error.split("|")[1]}
+                message={error.split('|')[1]}
                 type="unavailable"
               />
             )}
 
             {isServerError && (
-              <ServiceStatusAlert message={error.split("|")[1]} type="error" />
+              <ServiceStatusAlert message={error.split('|')[1]} type="error" />
             )}
 
             <OrderLocationSelector
@@ -75,6 +75,6 @@ export const OrderTrackingPage: React.FC = () => {
           </div>
         </div>
       </section>
-    </>
+    </div>
   );
 };

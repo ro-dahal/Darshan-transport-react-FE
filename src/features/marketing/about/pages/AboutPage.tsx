@@ -16,22 +16,37 @@ import { ClientsSection } from '../../home/components/ClientsSection';
 import BusinessGrowthSection from '../components/BusinessGrowthSection';
 import { CallToAction } from '../components/Calltoaction';
 
-import { Seo } from '../../shared/components/Seo';
+import { MetaTags } from '../../../../core/components/MetaTags';
 
 export const AboutPage: React.FC = () => (
-  <>
-    <Seo
+  <div className="about-page-wrapper">
+    <MetaTags
       title="About Us"
       description="We keep it simple — clear communication, fair pricing, and on-time delivery. No hidden charges. No confusion."
     />
     <PageHeader />
-    <StorySection description={ABOUT_DESCRIPTION} stats={ABOUT_STATS} animationSrc={ABOUT_ASSETS.animation} />
-    <DifferencesSection />
-    <CoreValuesSection values={ABOUT_CORE_VALUES} />
-    <FounderSection profiles={ABOUT_FOUNDERS} />
-    <BusinessGrowthSection />
-    <ClientsSection logos={ABOUT_CLIENT_LOGOS} />
+    <div className="section-optimize">
+      <StorySection
+        description={ABOUT_DESCRIPTION}
+        stats={ABOUT_STATS}
+        animationSrc={ABOUT_ASSETS.animation}
+      />
+    </div>
+    <div className="section-optimize">
+      <DifferencesSection />
+    </div>
+    <div className="section-optimize">
+      <CoreValuesSection values={ABOUT_CORE_VALUES} />
+    </div>
+    <div className="section-optimize">
+      <FounderSection profiles={ABOUT_FOUNDERS} />
+    </div>
+    <div className="section-optimize">
+      <BusinessGrowthSection />
+    </div>
+    <div className="section-optimize">
+      <ClientsSection logos={ABOUT_CLIENT_LOGOS} />
+    </div>
     <CallToAction />
-
-  </>
+  </div>
 );

@@ -13,7 +13,9 @@ function parseEnvBaseUrl(): string {
   try {
     return new URL(raw).toString();
   } catch {
-    console.warn('[appConfig] Invalid VITE_API_BASE_URL value, falling back to window.origin');
+    console.warn(
+      '[appConfig] Invalid VITE_API_BASE_URL value, falling back to window.origin'
+    );
     return '';
   }
 }
@@ -33,7 +35,10 @@ export function resolveApiBaseUrl(): string {
     return origin;
   }
 
-  const pageIsLocal = typeof window !== 'undefined' ? isLocalHost(window.location.hostname) : false;
+  const pageIsLocal =
+    typeof window !== 'undefined'
+      ? isLocalHost(window.location.hostname)
+      : false;
   const envHostIsLocal = isLocalHost(new URL(envBase).hostname);
 
   if (envHostIsLocal && !pageIsLocal) {

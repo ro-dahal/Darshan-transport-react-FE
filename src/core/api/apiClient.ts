@@ -1,4 +1,4 @@
-import { appConfig } from "../config/appConfig";
+import { appConfig } from '../config/appConfig';
 
 export interface ApiEnvelope<T> {
   success: boolean;
@@ -38,8 +38,8 @@ async function ensureOk(response: Response): Promise<Response> {
 
     // If the response is HTML (starts with <!DOCTYPE or <html), don't show it to the user
     if (
-      text?.trim().toLowerCase().startsWith("<!doctype") ||
-      text?.trim().toLowerCase().startsWith("<html")
+      text?.trim().toLowerCase().startsWith('<!doctype') ||
+      text?.trim().toLowerCase().startsWith('<html')
     ) {
       throw new Error(
         `SERVER_ERROR|We encountered an unexpected error on our server. Status: ${response.status}`
@@ -58,14 +58,23 @@ export function createApiClient({
   return {
     async get<TResponse>(path: string): Promise<TResponse> {
       const url = buildUrl(path, baseUrl);
+      // Generate a unique correlation ID for this request to enable end-to-end tracing.
+      const correlationId = `web-${crypto.randomUUID()}`;
+
       try {
-        const response = await ensureOk(await fetchImpl(url));
+        const response = await ensureOk(
+          await fetchImpl(url, {
+            headers: {
+              'X-Correlation-ID': correlationId,
+            },
+          })
+        );
         return (await response.json()) as TResponse;
       } catch (error: unknown) {
         // Handle fetch level errors (network down, CORS, etc.)
-        if (error instanceof TypeError && error.message === "Failed to fetch") {
+        if (error instanceof TypeError && error.message === 'Failed to fetch') {
           throw new Error(
-            "SERVICE_UNAVAILABLE|The tracking service is currently under maintenance. Please try again later."
+            'SERVICE_UNAVAILABLE|The tracking service is currently under maintenance. Please try again later.'
           );
         }
         // Re-throw unexpected errors

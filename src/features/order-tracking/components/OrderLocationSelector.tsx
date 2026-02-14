@@ -6,11 +6,17 @@ export interface OrderLocationSelectorProps {
   onSelect(series: string): void;
 }
 
-export const OrderLocationSelector: React.FC<OrderLocationSelectorProps> = ({ seriesList, selectedSeries, onSelect }) => (
+export const OrderLocationSelector: React.FC<OrderLocationSelectorProps> = ({
+  seriesList,
+  selectedSeries,
+  onSelect,
+}) => (
   <section className="border border-[#ddd] rounded-md p-4 mb-5 bg-white shadow-sm">
     <h3 className="text-primary m-0 text-lg font-bold">Location</h3>
     <div className="mt-2.5 flex items-center">
-      <label htmlFor="series" className="font-medium text-gray-700">Select Location: </label>
+      <label htmlFor="series" className="font-medium text-gray-700">
+        Select Location:{' '}
+      </label>
       <select
         id="series"
         value={selectedSeries}

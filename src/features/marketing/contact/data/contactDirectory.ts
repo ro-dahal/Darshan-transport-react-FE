@@ -30,7 +30,7 @@ export const BOOKING_OFFICES: OfficeRow[] = [
     address: 'Dhawaha, Butwal',
     contact: '+977 9801914212',
     location: 'Butwal, Nepal',
-    search: "Darshan Transport - Butwal Branch",
+    search: 'Darshan Transport - Butwal Branch',
   },
   {
     sn: 4,

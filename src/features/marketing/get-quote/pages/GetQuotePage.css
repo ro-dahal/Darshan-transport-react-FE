@@ -15,8 +15,8 @@
   gap: 2rem;
   justify-content: center;
 }
-.get-quote-section h2{
-    color: #fcaf17;
+.get-quote-section h2 {
+  color: #fcaf17;
 }
 
 @media (max-width: 900px) {

@@ -1,5 +1,13 @@
 import React from 'react';
-import { FaEnvelope, FaPhone, FaMapMarkerAlt, FaFacebook, FaLinkedin, FaInstagram, FaYoutube } from 'react-icons/fa';
+import {
+  FaEnvelope,
+  FaPhone,
+  FaMapMarkerAlt,
+  FaFacebook,
+  FaLinkedin,
+  FaInstagram,
+  FaYoutube,
+} from 'react-icons/fa';
 import type { ContactChannel, SocialLink } from '../data/contactInfo';
 
 const CONTACT_ICONS: Record<ContactChannel['icon'], React.ReactElement> = {
@@ -21,7 +29,10 @@ export interface ContactCardProps {
   socialLinks: SocialLink[];
 }
 
-export const ContactCard: React.FC<ContactCardProps> = ({ channels, socialLinks }) => (
+export const ContactCard: React.FC<ContactCardProps> = ({
+  channels,
+  socialLinks,
+}) => (
   <aside className="bg-primary text-white rounded-md p-7 px-5 text-center max-[900px]:order-2 h-fit">
     <h2 className="m-[0_0_12px] text-[1.8rem] font-bold">Get in touch!</h2>
     <p className="m-[0_0_25px] text-base">We’d love to hear from you.</p>

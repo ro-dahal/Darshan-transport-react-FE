@@ -1,16 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
+import { Helmet } from 'react-helmet-async';
 
 export interface HeroSectionProps {
   description: string;
 }
 
 // import background images from assets so the bundler can resolve them
-import bg1 from '../../../../assets/img/background.jpg';
-import bg2 from '../../../../assets/img/background1.jpg';
-import bg3 from '../../../../assets/img/background2.jpg';
-import rightArrow from '../../../../assets/img/right-arrow.png';
-
+import bg1 from '../../../../assets/img/optimized/background.webp';
+import bg2 from '../../../../assets/img/optimized/background1.webp';
+import bg3 from '../../../../assets/img/optimized/background2.webp';
+import rightArrow from '../../../../assets/img/optimized/right-arrow.webp';
 
 const IMAGES = [bg1, bg2, bg3];
 
@@ -19,7 +19,10 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ description }) => {
   const intervalRef = React.useRef<number | null>(null);
 
   const startInterval = () => {
-    intervalRef.current = window.setInterval(() => setIndex((i) => (i + 1) % IMAGES.length), 5000);
+    intervalRef.current = window.setInterval(
+      () => setIndex((i) => (i + 1) % IMAGES.length),
+      5000
+    );
   };
 
   useEffect(() => {
@@ -51,6 +54,9 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ description }) => {
       onMouseEnter={pause}
       onMouseLeave={resume}
     >
+      <Helmet>
+        <link rel="preload" as="image" href={bg1} fetchPriority="high" />
+      </Helmet>
       <div
         className="absolute top-0 left-0 flex h-full w-full transition-transform duration-600 ease-[cubic-bezier(0.22,0.61,0.36,1)] will-change-transform z-[1]"
         style={trackStyle}
@@ -70,7 +76,11 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ description }) => {
         aria-label="Previous slide"
         onClick={() => setIndex((i) => (i - 1 + IMAGES.length) % IMAGES.length)}
       >
-        <img src={rightArrow} alt="Previous" className="w-[22px] h-[22px] brightness-0 invert rotate-180" />
+        <img
+          src={rightArrow}
+          alt="Previous"
+          className="w-[22px] h-[22px] brightness-0 invert rotate-180"
+        />
       </button>
 
       <button
@@ -78,7 +88,11 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ description }) => {
         aria-label="Next slide"
         onClick={() => setIndex((i) => (i + 1) % IMAGES.length)}
       >
-        <img src={rightArrow} alt="Next" className="w-[22px] h-[22px] brightness-0 invert" />
+        <img
+          src={rightArrow}
+          alt="Next"
+          className="w-[22px] h-[22px] brightness-0 invert"
+        />
       </button>
 
       <section

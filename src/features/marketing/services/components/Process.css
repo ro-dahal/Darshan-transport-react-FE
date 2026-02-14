@@ -13,7 +13,6 @@
   letter-spacing: 0.5px;
 }
 
-
 /* Custom grid for process steps */
 .process-steps-custom {
   display: grid;
@@ -38,7 +37,7 @@
 .process-step {
   background: #fff;
   border-radius: 16px;
-  box-shadow: 0 4px 24px rgba(0,0,0,0.08);
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.08);
   padding: 32px 18px 28px 18px;
   min-width: 180px;
   max-width: 200px;
@@ -46,13 +45,15 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  transition: transform 0.2s, box-shadow 0.2s;
+  transition:
+    transform 0.2s,
+    box-shadow 0.2s;
   position: relative;
 }
 
 .process-step:hover {
   transform: translateY(-8px) scale(1.04);
-  box-shadow: 0 8px 32px rgba(252,175,23,0.18);
+  box-shadow: 0 8px 32px rgba(252, 175, 23, 0.18);
 }
 
 .process-step-number {
@@ -67,7 +68,7 @@
   align-items: center;
   justify-content: center;
   margin-bottom: 18px;
-  box-shadow: 0 2px 8px rgba(252,175,23,0.18);
+  box-shadow: 0 2px 8px rgba(252, 175, 23, 0.18);
 }
 
 .process-step-title {
@@ -87,7 +88,8 @@
   .process-steps-row {
     gap: 18px;
   }
-  .process-step, .process-step-spacer {
+  .process-step,
+  .process-step-spacer {
     min-width: 120px;
     max-width: 160px;
     padding: 18px 8px 14px 8px;
@@ -121,7 +123,8 @@
   .process-steps-row-bottom {
     margin-left: 0;
   }
-  .process-step, .process-step-spacer {
+  .process-step,
+  .process-step-spacer {
     min-width: 0;
     max-width: 100%;
     padding: 18px 8px 14px 8px;

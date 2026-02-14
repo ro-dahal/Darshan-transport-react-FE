@@ -6,7 +6,11 @@ export interface ServicesHeroProps {
   description: string;
 }
 
-export const ServicesHero: React.FC<ServicesHeroProps> = ({ backgroundImage, title, description }) => (
+export const ServicesHero: React.FC<ServicesHeroProps> = ({
+  backgroundImage,
+  title,
+  description,
+}) => (
   <section
     className="relative h-[60vh] md:h-[50vh] flex items-center justify-center bg-cover bg-center text-white text-center px-4"
     style={{

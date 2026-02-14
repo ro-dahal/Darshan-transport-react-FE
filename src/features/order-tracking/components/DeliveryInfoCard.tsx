@@ -8,13 +8,18 @@ export interface DeliveryInfoCardProps {
   steps: OrderStatusStep[];
 }
 
-export const DeliveryInfoCard: React.FC<DeliveryInfoCardProps> = ({ record, steps }) => (
+export const DeliveryInfoCard: React.FC<DeliveryInfoCardProps> = ({
+  record,
+  steps,
+}) => (
   <section className="mb-5">
     <div className="border border-primary rounded-md p-[22px_10px_18px_10px] bg-white mb-[18px]">
       <OrderTimeline status={record.status} steps={steps} />
     </div>
     <div className="border border-primary rounded-md p-[18px_16px] bg-white text-[1.08rem]">
-      <span className="text-primary text-xl font-bold mb-2 block">Delivery Information:</span>
+      <span className="text-primary text-xl font-bold mb-2 block">
+        Delivery Information:
+      </span>
       {record.message && (
         <div>
           <b>Message:</b> {record.message}

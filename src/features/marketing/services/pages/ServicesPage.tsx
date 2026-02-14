@@ -1,18 +1,21 @@
 import React, { useEffect } from 'react';
-import { SERVICES_HERO, SERVICES_STATS, SERVICES_CARDS } from '../data/servicesContent';
+import {
+  SERVICES_HERO,
+  SERVICES_STATS,
+  SERVICES_CARDS,
+} from '../data/servicesContent';
 import { ServicesHero } from '../components/ServicesHero';
 import { GrowthSection } from '../components/GrowthSection';
 import { ServicesGrid } from '../components/ServicesGrid';
 import Benefits from '../components/Benefits';
 import Process from '../components/Process';
-import { Seo } from '../../shared/components/Seo';
+import { MetaTags } from '../../../../core/components/MetaTags';
 import Services from '../components/Services';
 import Serve from '../components/Serve';
 import { useLocation } from 'react-router-dom';
 import { ReachSection } from '../components/ReachSection';
 // ...existing code...
 import CtaSection from '../components/Cta';
-
 
 export const ServicesPage: React.FC = () => {
   const location = useLocation();
@@ -41,10 +44,10 @@ export const ServicesPage: React.FC = () => {
   }, [location.hash]);
 
   return (
-    <>
-      <Seo
-        title="Our Services"
-        description="Warehousing, Distribution, 3PL, Packaging & Handling, and Fleet Services across Nepal."
+    <div className="services-page-wrapper">
+      <MetaTags
+        title="Our Services | Darshan Transport Nepal"
+        description="Warehousing, Distribution, 3PL, Packaging & Handling, and Fleet Services across Nepal. Your goods move. You stay stress-free."
       />
       <ServicesHero
         backgroundImage={SERVICES_HERO.backgroundImage}
@@ -59,6 +62,6 @@ export const ServicesPage: React.FC = () => {
       <ReachSection />
       <Serve />
       <CtaSection />
-    </>
+    </div>
   );
 };

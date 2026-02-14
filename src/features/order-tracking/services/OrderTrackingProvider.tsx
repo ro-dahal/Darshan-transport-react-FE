@@ -8,8 +8,18 @@ export interface OrderTrackingProviderProps extends PropsWithChildren {
   service?: OrderTrackingService;
 }
 
-export const OrderTrackingProvider: React.FC<OrderTrackingProviderProps> = ({ children, service }) => {
-  const value = useMemo<OrderTrackingService>(() => service ?? createHttpOrderTrackingService(), [service]);
+export const OrderTrackingProvider: React.FC<OrderTrackingProviderProps> = ({
+  children,
+  service,
+}) => {
+  const value = useMemo<OrderTrackingService>(
+    () => service ?? createHttpOrderTrackingService(),
+    [service]
+  );
 
-  return <OrderTrackingServiceContext.Provider value={value}>{children}</OrderTrackingServiceContext.Provider>;
+  return (
+    <OrderTrackingServiceContext.Provider value={value}>
+      {children}
+    </OrderTrackingServiceContext.Provider>
+  );
 };
