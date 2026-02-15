@@ -13,6 +13,7 @@ function parseEnvBaseUrl(): string {
   try {
     return new URL(raw).toString();
   } catch {
+    // eslint-disable-next-line no-console
     console.warn(
       '[appConfig] Invalid VITE_API_BASE_URL value, falling back to window.origin'
     );

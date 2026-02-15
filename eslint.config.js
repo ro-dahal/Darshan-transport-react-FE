@@ -25,6 +25,8 @@ export default tseslint.config([
     },
     rules: {
       'prettier/prettier': 'error',
+      'no-console': 'warn',
+      '@typescript-eslint/no-unused-vars': 'error',
     },
     languageOptions: {
       ecmaVersion: 2020,

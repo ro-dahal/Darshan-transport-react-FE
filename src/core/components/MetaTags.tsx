@@ -40,6 +40,7 @@ export const MetaTags: React.FC<MetaTagsProps> = ({
       <title>{fullTitle}</title>
       <meta name="title" content={fullTitle} />
       <meta name="description" content={description} />
+      <meta name="theme-color" content="#fcaf17" />
       {noindex && <meta name="robots" content="noindex, nofollow" />}
       {canonical && <link rel="canonical" href={canonical} />}
 
@@ -63,6 +64,8 @@ export const MetaTags: React.FC<MetaTagsProps> = ({
       <meta property="twitter:title" content={fullTitle} />
       <meta property="twitter:description" content={description} />
       <meta property="twitter:image" content={image} />
+      <meta name="twitter:site" content="@DarshanTransport" />
+      <meta name="twitter:creator" content="@DarshanTransport" />
     </Helmet>
   );
 };

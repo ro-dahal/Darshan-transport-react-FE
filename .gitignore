@@ -29,6 +29,7 @@ dist-ssr
 *.sw?
 
 DOCUMENTATION.txt
+bundle-analysis.html
 
 
 # Ignore AI agent instructions (kept local-only)

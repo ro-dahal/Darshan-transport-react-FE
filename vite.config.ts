@@ -5,8 +5,10 @@ import viteCompression from 'vite-plugin-compression';
 import { VitePWA } from 'vite-plugin-pwa';
 import { visualizer } from 'rollup-plugin-visualizer';
 
-// Declare Node's process to satisfy TypeScript without @types/node
-declare const process: { env?: Record<string, string | undefined> };
+import dns from 'dns';
+
+// Resolve IPv6 vs IPv4 local networking issues
+dns.setDefaultResultOrder('verbatim');
 
 // https://vite.dev/config/
 export default defineConfig({
@@ -55,7 +57,8 @@ export default defineConfig({
       output: {
         manualChunks: {
           vendor: ['react', 'react-dom', 'react-router-dom'],
-          ui: ['react-icons', 'react-helmet-async'],
+          'ui-icons': ['react-icons'],
+          'ui-meta': ['react-helmet-async'],
         },
       },
     },
