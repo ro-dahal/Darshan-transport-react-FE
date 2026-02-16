@@ -1,9 +1,9 @@
 export const CONTACT_CONFIG = {
-  phone: '+977 9809991233',
-  phoneDisplay: '+977 9809991233',
-  whatsapp: '9779809991233',
+  phone: '+977 015926452 / 015927452 / 9705422317',
+  phoneDisplay: '+977 015926452 / 015927452 / 9705422317',
+  whatsapp: '+9779705422317',
   email: 'info@darshantransport.com.np',
-  address: 'Gyaneshwor, Kathmandu, Nepal',
+  address: 'Sano Bharyang, Kathmandu, Nepal',
   facebook:
     'https://www.facebook.com/people/Darshan-transport/100064806130243/',
   instagram: 'https://www.instagram.com/darshantransportnp/',

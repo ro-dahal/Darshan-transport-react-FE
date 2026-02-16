@@ -4,25 +4,25 @@ import { useNavigate } from 'react-router-dom';
 const locations = [
   {
     city: 'Kathmandu',
-    area: 'PepsiCola',
+    area: 'Sano Bharyang',
     image:
       'https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=600&q=80',
   },
   {
     city: 'Pokhara',
-    area: 'Ramghat',
+    area: 'Ranipauwa',
     image:
       'https://images.unsplash.com/photo-1464983953574-0892a716854b?auto=format&fit=crop&w=600&q=80',
   },
   {
     city: 'Chitwan',
-    area: 'Beltadi - 2',
+    area: 'Yentra Sala Marga',
     image:
       'https://images.unsplash.com/photo-1502082553048-f009c37129b9?auto=format&fit=crop&w=600&q=80',
   },
   {
-    city: 'Hetauda',
-    area: 'Hupra Chour-4',
+    city: 'Butwal',
+    area: 'Dhawaha',
     image:
       'https://images.unsplash.com/photo-1465101046530-73398c7f28ca?auto=format&fit=crop&w=600&q=80',
   },
