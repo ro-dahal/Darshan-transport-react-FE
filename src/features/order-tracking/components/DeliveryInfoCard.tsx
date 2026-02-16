@@ -3,6 +3,24 @@ import type { DeliveryRecord } from '../types/DeliveryRecord';
 import type { OrderStatusStep } from '../data/statusSteps';
 import { OrderTimeline } from './OrderTimeline';
 
+/**
+ * Formats a date string into a user-friendly display format.
+ * Handles ISO strings and SQL Server datetime strings.
+ */
+function formatDate(dateStr?: string | null): string | null {
+  if (!dateStr) return null;
+  const date = new Date(dateStr);
+  if (isNaN(date.getTime())) return null;
+  return date.toLocaleString('en-US', {
+    year: 'numeric',
+    month: 'short',
+    day: 'numeric',
+    hour: 'numeric',
+    minute: '2-digit',
+    hour12: true,
+  });
+}
+
 export interface DeliveryInfoCardProps {
   record: DeliveryRecord;
   steps: OrderStatusStep[];
@@ -43,6 +61,21 @@ export const DeliveryInfoCard: React.FC<DeliveryInfoCardProps> = ({
       {record.to && (
         <div>
           <b>To:</b> {record.to}
+        </div>
+      )}
+      {formatDate(record.bookingDate) && (
+        <div>
+          <b>Booked On:</b> {formatDate(record.bookingDate)}
+        </div>
+      )}
+      {formatDate(record.dispatchDate) && (
+        <div>
+          <b>Dispatched On:</b> {formatDate(record.dispatchDate)}
+        </div>
+      )}
+      {formatDate(record.arrivalDate) && (
+        <div>
+          <b>Arrived On:</b> {formatDate(record.arrivalDate)}
         </div>
       )}
       {record.error && (

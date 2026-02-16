@@ -8,4 +8,7 @@ export interface DeliveryRecord {
   to?: string;
   message?: string;
   error?: string;
+  bookingDate?: string | null;
+  dispatchDate?: string | null;
+  arrivalDate?: string | null;
 }
