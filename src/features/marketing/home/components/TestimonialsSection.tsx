@@ -1,9 +1,8 @@
 import React, { useState, useMemo } from 'react';
-import type { ReviewTestimonial, VideoTestimonial } from '../data/homeContent';
+import type { ReviewTestimonial } from '../data/homeContent';
 import { useBreakpoint } from '../../../../core/hooks/useBreakpoint';
 
 export interface TestimonialsSectionProps {
-  videos: VideoTestimonial[];
   reviews: ReviewTestimonial[];
 }
 

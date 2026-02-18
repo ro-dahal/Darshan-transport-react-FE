@@ -102,9 +102,9 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ description }) => {
         <h1 className="text-[60px] leading-[80px] text-white max-lg:text-[45px] max-lg:leading-[60px] max-md:text-[32px] max-md:leading-[40px] max-sm:text-[28px] max-sm:leading-[35px]">
           Nationwide Delivery
         </h1>
-        <h1 className="text-[60px] leading-[80px] text-primary max-lg:text-[45px] max-lg:leading-[60px] max-md:text-[32px] max-md:leading-[40px] max-sm:text-[28px] max-sm:leading-[35px]">
+        <h2 className="text-[60px] leading-[80px] text-primary max-lg:text-[45px] max-lg:leading-[60px] max-md:text-[32px] max-md:leading-[40px] max-sm:text-[28px] max-sm:leading-[35px]">
           Zero Hassle
-        </h1>
+        </h2>
         <p className="text-base text-text-light my-[15px] max-md:text-sm max-sm:text-xs">
           {description}
         </p>
