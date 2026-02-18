@@ -5,6 +5,18 @@ import { useContactDirectory } from '../../contact/hooks/useContactDirectory';
 import { MetaTags } from '../../../../core/components/MetaTags';
 import { PageHeader } from '../../about/components/PageHeader';
 
+const GET_QUOTE_PAGE_STRUCTURED_DATA = {
+  '@context': 'https://schema.org',
+  '@type': 'WebPage',
+  name: 'Get a Quote | Darshan Transport',
+  url: 'https://darshantransport.com/get-quote',
+  isPartOf: {
+    '@type': 'WebSite',
+    name: 'Darshan Transport',
+    url: 'https://darshantransport.com',
+  },
+};
+
 export const GetQuotePage: React.FC = () => {
   const {
     bookingOffices,
@@ -23,6 +35,8 @@ export const GetQuotePage: React.FC = () => {
       <MetaTags
         title="Get a Quote"
         description="Request a free quote for your delivery and logistics needs."
+        canonical="https://darshantransport.com/get-quote"
+        structuredData={GET_QUOTE_PAGE_STRUCTURED_DATA}
       />
       <PageHeader title="Get a Quote" />
 
