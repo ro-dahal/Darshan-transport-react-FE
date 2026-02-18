@@ -8,8 +8,14 @@ import { CONTACT_CONFIG } from '../../core/config/contactConfig';
 
 export const MainLayout: React.FC = () => (
   <div className="app-container">
+    <a
+      href="#main-content"
+      className="absolute -top-20 left-4 z-[2000] bg-primary text-black font-semibold px-4 py-2 rounded-md transition-all focus:top-4"
+    >
+      Skip to main content
+    </a>
     <Navbar />
-    <main className="main-content">
+    <main id="main-content" className="main-content">
       <Outlet />
     </main>
     <Footer />
