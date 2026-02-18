@@ -31,6 +31,8 @@ export const Navbar: React.FC = () => {
           id="mobileMenuToggle"
           onClick={toggleMenu}
           aria-label="Toggle navigation"
+          aria-expanded={menuOpen}
+          aria-controls="navbar"
         >
           <span
             className={`w-6 h-0.5 bg-primary my-[3px] block rounded-sm transition-all duration-300 ease-[cubic-bezier(0.68,-0.55,0.265,1.55)] ${menuOpen ? 'rotate-45 translate-y-[8px]' : ''}`}
