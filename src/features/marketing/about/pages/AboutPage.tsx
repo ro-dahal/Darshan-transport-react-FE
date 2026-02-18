@@ -36,6 +36,7 @@ export const AboutPage: React.FC = () => (
     <MetaTags
       title="About Us | Darshan Transport"
       description="We keep it simple — clear communication, fair pricing, and on-time delivery. No hidden charges. No confusion."
+      canonical="https://darshantransport.com/about"
       structuredData={ABOUT_PAGE_STRUCTURED_DATA}
     />
     <PageHeader />

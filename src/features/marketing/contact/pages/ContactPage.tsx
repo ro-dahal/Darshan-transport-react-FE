@@ -34,6 +34,7 @@ export const ContactPage: React.FC = () => {
       <MetaTags
         title="Contact Us | Darshan Transport"
         description="Get in touch with Darshan Transport. We are here to help with all your logistics needs. Find our office locations across Nepal."
+        canonical="https://darshantransport.com/contact"
         structuredData={CONTACT_PAGE_STRUCTURED_DATA}
       />
       <PageHeader />

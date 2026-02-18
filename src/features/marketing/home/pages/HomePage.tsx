@@ -34,6 +34,7 @@ export const HomePage: React.FC = () => (
     <MetaTags
       title="Darshan Transport | Logistics & Supply Chain Nepal"
       description="Fast, safe and reliable transport for businesses and individuals across Nepal. Your goods move. You stay stress-free."
+      canonical="https://darshantransport.com/"
       structuredData={HOME_PAGE_STRUCTURED_DATA}
     />
     <HeroSection description={HOME_HERO_DESCRIPTION} />
