@@ -18,11 +18,25 @@ import { CallToAction } from '../components/Calltoaction';
 
 import { MetaTags } from '../../../../core/components/MetaTags';
 
+const ABOUT_PAGE_STRUCTURED_DATA = {
+  '@context': 'https://schema.org',
+  '@type': 'AboutPage',
+  name: 'About Darshan Transport',
+  url: 'https://darshantransport.com/about',
+  description:
+    'Learn about Darshan Transport, our values, leadership, and nationwide delivery operations.',
+  publisher: {
+    '@type': 'Organization',
+    name: 'Darshan Transport',
+  },
+};
+
 export const AboutPage: React.FC = () => (
   <div className="about-page-wrapper">
     <MetaTags
-      title="About Us"
+      title="About Us | Darshan Transport"
       description="We keep it simple — clear communication, fair pricing, and on-time delivery. No hidden charges. No confusion."
+      structuredData={ABOUT_PAGE_STRUCTURED_DATA}
     />
     <PageHeader />
     <div className="section-optimize">
