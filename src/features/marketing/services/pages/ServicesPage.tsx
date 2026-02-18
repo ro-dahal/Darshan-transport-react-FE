@@ -17,6 +17,18 @@ import { ReachSection } from '../components/ReachSection';
 // ...existing code...
 import CtaSection from '../components/Cta';
 
+const SERVICES_PAGE_STRUCTURED_DATA = {
+  '@context': 'https://schema.org',
+  '@type': 'Service',
+  provider: {
+    '@type': 'Organization',
+    name: 'Darshan Transport',
+    url: 'https://darshantransport.com',
+  },
+  serviceType: 'Logistics and Transport Services',
+  areaServed: 'NP',
+};
+
 export const ServicesPage: React.FC = () => {
   const location = useLocation();
 
@@ -48,6 +60,8 @@ export const ServicesPage: React.FC = () => {
       <MetaTags
         title="Our Services | Darshan Transport Nepal"
         description="Warehousing, Distribution, 3PL, Packaging & Handling, and Fleet Services across Nepal. Your goods move. You stay stress-free."
+        canonical="https://darshantransport.com/services"
+        structuredData={SERVICES_PAGE_STRUCTURED_DATA}
       />
       <ServicesHero
         backgroundImage={SERVICES_HERO.backgroundImage}
