@@ -1,0 +1,492 @@
+/* ============================================
+   Design 2 — Brutalist / Raw
+   Matches the "Original Design" screenshot
+   Brand gold (#fcaf17) + Navy (#1a4e8a)
+   Archivo Black + Fira Mono
+   ============================================ */
+
+.otv2 {
+  font-family: var(--font-sans), sans-serif;
+  background: #ffffff;
+  color: var(--color-text-dark);
+  min-height: 100vh;
+}
+
+/* ===== Entry Animation ===== */
+@keyframes otv2-slideDown {
+  0% {
+    opacity: 0;
+    transform: translateY(-40px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes otv2-blink {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
+}
+
+.otv2-section {
+  max-width: 1200px;
+  margin: 40px auto 80px; /* Removed negative margin to prevent overlay on banner */
+  padding: 0;
+  display: grid;
+  grid-template-columns: 320px 1fr;
+  gap: 0;
+  border: 1.5px solid rgba(0, 0, 0, 0.1);
+  background: #ffffff;
+  position: relative;
+  z-index: 10;
+  border-radius: 20px;
+  animation: otv2-slideDown 0.8s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+/* ===== Contact Sidebar ===== */
+.otv2-contact {
+  background: var(--color-primary);
+  color: var(--color-text-dark);
+  padding: 40px 30px;
+  position: relative;
+  border-right: 1.5px solid rgba(0, 0, 0, 0.05);
+  border-top-left-radius: 20px;
+  border-bottom-left-radius: 20px;
+}
+
+.otv2-contact-label-box {
+  background: #2b2b2b;
+  color: #ffffff;
+  display: inline-block;
+  padding: 4px 12px;
+  font-weight: 600;
+  font-size: 0.75rem;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  position: absolute;
+  top: 0;
+  left: 30px;
+  transform: translateY(-50%);
+  border-radius: 4px;
+}
+
+.otv2-contact h2 {
+  font-family: var(--font-sans), sans-serif;
+  font-weight: 600;
+  font-size: 3rem;
+  line-height: 0.9;
+  color: var(--color-text-dark);
+  text-transform: uppercase;
+  margin-top: 10px;
+  margin-bottom: 24px;
+}
+
+.otv2-contact p {
+  font-size: 0.8rem;
+  color: var(--color-text-dark);
+  opacity: 0.8;
+  margin-bottom: 40px;
+  line-height: 1.5;
+}
+
+.otv2-contact-item {
+  margin-bottom: 32px;
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+  padding-top: 16px;
+}
+
+.otv2-label {
+  font-size: 1rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: var(--color-text-dark);
+  opacity: 1;
+  margin-bottom: 4px;
+  letter-spacing: 2px;
+}
+
+.otv2-value {
+  font-size: 0.9rem;
+  font-weight: 500;
+  line-height: 1.4;
+  word-break: break-all;
+}
+
+.otv2-social {
+  display: flex;
+  gap: 16px;
+  margin-top: 48px;
+  padding-top: 24px;
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.otv2-social a {
+  color: var(--color-text-dark);
+  font-size: 1.2rem;
+  transition: transform 0.2s;
+}
+
+.otv2-social a:hover {
+  transform: scale(1.2);
+  color: #ffffff;
+}
+
+/* ===== Main Column ===== */
+.otv2-main {
+  background: #ffffff;
+  border-top-right-radius: 20px;
+  border-bottom-right-radius: 20px;
+  padding-top: 40px;
+}
+
+.otv2-main-title {
+  font-family: var(--font-sans), sans-serif;
+  font-weight: 700;
+  font-size: 3rem;
+  color: var(--color-primary);
+  padding: 0 40px;
+  margin-bottom: 8px;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+}
+
+/* ===== Input Sections (Side-by-Side) ===== */
+.otv2-input-section {
+  display: grid;
+  grid-template-columns: 1fr 1.2fr;
+}
+
+.otv2-input-section .otv2-card {
+  border-bottom: none;
+}
+
+.otv2-input-section .otv2-card:first-child {
+  border-right: none;
+}
+
+@media (max-width: 1050px) {
+  .otv2-input-section {
+    grid-template-columns: 1fr;
+  }
+  .otv2-input-section .otv2-card:first-child {
+    border-right: none;
+    border-bottom: 1.5px solid rgba(0, 0, 0, 0.1);
+  }
+  .otv2-result-card {
+    grid-template-columns: 1fr;
+    gap: 32px;
+  }
+  .otv2-timeline {
+    border-left: none;
+    padding-left: 0;
+    flex-direction: row;
+    overflow-x: auto;
+    padding-bottom: 12px;
+    gap: 16px;
+  }
+  .otv2-timeline-step::before {
+    display: none;
+  }
+}
+
+/* ===== Card / Section Group ===== */
+.otv2-card {
+  padding: 32px 40px;
+  border-bottom: 1.5px solid rgba(0, 0, 0, 0.1);
+}
+
+.otv2-card:last-child {
+  border-bottom: none;
+}
+
+.otv2-card h3 {
+  font-family: var(--font-sans), sans-serif;
+  font-weight: 600;
+  font-size: 2rem;
+  text-transform: uppercase;
+  color: var(--color-text-dark);
+  margin-bottom: 24px;
+  display: inline-block;
+  border-bottom: 3px solid var(--color-primary);
+  padding-bottom: 4px;
+}
+
+/* ===== Fields ===== */
+.otv2-field {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  margin-top: 32px;
+}
+
+.otv2-field label {
+  font-weight: 600;
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  color: var(--color-text-dark);
+  min-width: 180px;
+  letter-spacing: 1px;
+}
+
+.otv2-field select,
+.otv2-field input {
+  font-family: var(--font-sans), sans-serif;
+  padding: 14px 18px;
+  border: 1.5px solid var(--color-border-light);
+  border-radius: 12px;
+  font-size: 1.1rem;
+  background: #ffffff;
+  outline: none;
+  width: 100%;
+  max-width: 340px;
+}
+
+.otv2-field input::placeholder {
+  color: #ddd;
+}
+
+/* ===== Button ===== */
+.otv2-btn {
+  background: var(--color-primary);
+  color: var(--color-text-dark);
+  border: 1.5px solid rgba(0, 0, 0, 0.1);
+  border-radius: 12px;
+  padding: 16px 48px;
+  font-family: var(--font-sans), sans-serif;
+  font-weight: 600;
+  font-size: 1.1rem;
+  text-transform: uppercase;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 16px;
+  margin-top: 40px;
+  transition: all 0.2s;
+  box-shadow: 4px 4px 0 rgba(0, 0, 0, 0.05);
+}
+
+.otv2-btn:hover:not(:disabled) {
+  transform: translate(-2px, -2px);
+  box-shadow: 6px 6px 0 rgba(252, 175, 23, 0.2);
+  background: var(--color-primary-hover);
+}
+
+.otv2-btn:active:not(:disabled) {
+  transform: translate(2px, 2px);
+  box-shadow: 2px 2px 0 var(--color-text-dark);
+}
+
+.otv2-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+/* ===== Result Grid ===== */
+.otv2-result-card {
+  display: grid;
+  grid-template-columns: 200px 1fr;
+  align-items: stretch;
+  gap: 40px;
+}
+
+/* ===== Timeline ===== */
+.otv2-timeline {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
+  margin-top: 0;
+  padding: 10px 0 10px 20px;
+  border-left: 2px solid var(--color-primary);
+}
+
+.otv2-timeline-step {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  position: relative;
+  transition: all 0.3s;
+}
+
+.otv2-timeline-step:not(.active):not(.completed) .otv2-step-label {
+  opacity: 0.4;
+}
+
+.otv2-timeline-step:not(.active):not(.completed)::before {
+  border-color: #ccc;
+  box-shadow: 0 0 0 6px #fff;
+}
+
+.otv2-timeline-step::before {
+  content: '';
+  position: absolute;
+  left: -27px;
+  top: 50%;
+  width: 12px;
+  height: 12px;
+  background: #ffffff;
+  border: 2px solid var(--color-primary);
+  border-radius: 50%;
+  transform: translateY(-50%);
+  z-index: 2;
+  box-shadow: 0 0 0 4px #fff;
+}
+
+.otv2-timeline-step.completed::before {
+  background: var(--color-primary);
+  border: none;
+  width: 14px;
+  height: 14px;
+  left: -28px;
+  box-shadow: 0 0 0 6px #fff;
+}
+
+.otv2-timeline-step.active::before {
+  content: '➤';
+  background: #fff;
+  border: none;
+  border-radius: 0;
+  color: var(--color-primary);
+  font-size: 1.4rem;
+  animation: otv2-blink 0.8s infinite;
+  box-shadow: 0 0 0 4px #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 3;
+}
+
+.otv2-step-label {
+  font-weight: 700;
+  text-transform: uppercase;
+  font-size: 0.9rem;
+  letter-spacing: 1px;
+  color: var(--color-text-medium);
+}
+
+.otv2-timeline-step.active .otv2-step-label,
+.otv2-timeline-step.completed .otv2-step-label {
+  color: var(--color-text-dark);
+}
+
+/* ===== Delivery Info ===== */
+.otv2-delivery-info {
+  margin-top: 0;
+  background: var(--color-bg-light);
+  padding: 32px;
+  border: 1.5px solid var(--color-border-light);
+  border-radius: 12px;
+}
+
+.otv2-delivery-row {
+  display: grid;
+  grid-template-columns: 200px 1fr;
+  padding: 16px 0;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.otv2-delivery-row:last-child {
+  border-bottom: none;
+}
+
+.otv2-delivery-row b {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  color: var(--color-text-medium);
+  letter-spacing: 1px;
+  font-weight: 500;
+}
+
+.otv2-delivery-row span {
+  font-weight: 600;
+  color: var(--color-text-dark);
+}
+
+/* ===== Floating Toggle ===== */
+.otv2-toggle-container {
+  position: fixed;
+  bottom: 24px;
+  left: 24px;
+  z-index: 9999;
+  display: flex;
+  gap: 12px;
+}
+
+.otv2-toggle-btn {
+  background: var(--color-secondary);
+  color: #fff;
+  border: 1.5px solid var(--color-secondary);
+  padding: 10px 20px;
+  border-radius: 30px;
+  font-family: var(--font-sans), sans-serif;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  transition: all 0.3s;
+}
+
+.otv2-toggle-btn:hover {
+  background: var(--color-primary);
+  border-color: var(--color-primary);
+  color: var(--color-text-dark);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(252, 175, 23, 0.3);
+}
+
+/* ===== Alert ===== */
+.otv2-alert {
+  background: #ffffff;
+  border: 1.5px solid var(--color-primary-light);
+  border-radius: 12px;
+  padding: 32px 40px;
+  display: flex;
+  gap: 24px;
+  align-items: center;
+  margin: 32px 40px 0;
+}
+
+.otv2-alert-marker {
+  font-size: 2rem;
+  color: var(--color-primary);
+}
+
+.otv2-alert h4 {
+  font-family: var(--font-sans), sans-serif;
+  font-weight: 600;
+  text-transform: uppercase;
+  margin-bottom: 4px;
+  font-size: 1.2rem;
+}
+
+.otv2-alert p {
+  font-size: 0.9rem;
+  color: var(--color-text-dark);
+}
+
+/* ===== Responsive ===== */
+@media (max-width: 960px) {
+  .otv2-section {
+    grid-template-columns: 1fr;
+  }
+  .otv2-contact {
+    border-right: none;
+    border-bottom: 1.5px solid rgba(0, 0, 0, 0.1);
+    border-radius: 16px 16px 0 0;
+  }
+  .otv2-contact::before {
+    border-bottom-left-radius: 0;
+  }
+  .otv2-main {
+    border-radius: 0 0 16px 16px;
+  }
+}

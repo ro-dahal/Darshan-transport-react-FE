@@ -12,7 +12,7 @@ export const OrderHero: React.FC = () => (
     style={{ backgroundImage: `url(${headerBg})` }}
   >
     <div className="absolute inset-0 bg-black/40 z-0"></div>
-    <h1 className="text-white text-[50px] [text-shadow:3px_3px_8px_rgba(0,0,0,0.7)] max-md:text-4xl max-sm:text-[28px] relative z-10 font-bold">
+    <h1 className="text-white text-[50px] [text-shadow:3px_3px_8px_rgba(0,0,0,0.7)] max-md:text-4xl max-sm:text-[28px] relative z-10 font-semibold">
       Order Tracker
     </h1>
   </section>
