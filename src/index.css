@@ -39,6 +39,11 @@
 
   /* Font families */
   --font-sans: 'Montserrat', sans-serif;
+
+  /* Custom animations */
+  --animate-slide-down: otv2-slideDown 0.8s cubic-bezier(0.22, 1, 0.36, 1)
+    forwards;
+  --animate-blink: otv2-blink 0.8s infinite;
 }
 
 /* ===== Global base resets ===== */
@@ -145,6 +150,27 @@
   to {
     opacity: 1;
     transform: translateY(0);
+  }
+}
+
+@keyframes otv2-slideDown {
+  0% {
+    opacity: 0;
+    transform: translateY(-40px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes otv2-blink {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
   }
 }
 
