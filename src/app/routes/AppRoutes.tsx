@@ -30,8 +30,8 @@ const GetQuotePage = React.lazy(() =>
   )
 );
 const OrderTrackingPage = React.lazy(() =>
-  import('../../features/order-tracking/pages/OrderTrackingV2').then(
-    (module) => ({ default: module.OrderTrackingV2 })
+  import('../../features/order-tracking/pages/OrderTracking').then(
+    (module) => ({ default: module.OrderTracking })
   )
 );
 const NotFoundPage = React.lazy(() =>

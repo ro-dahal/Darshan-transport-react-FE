@@ -29,9 +29,9 @@ function formatDate(d?: string | null): string | null {
 }
 
 /* ============================================
-   DESIGN 2 — Brutalist / Raw
+   DESIGN — Brutalist / Raw
    ============================================ */
-export const OrderTrackingV2: React.FC = () => {
+export const OrderTracking: React.FC = () => {
   const {
     state: {
       seriesList,
@@ -61,10 +61,7 @@ export const OrderTrackingV2: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-white font-sans text-text-dark">
-      <MetaTags
-        title="Track Your Order — Design 2"
-        description="Order tracking."
-      />
+      <MetaTags title="Track Your Order" description="Order tracking." />
       <OrderHero />
       {/* Order Tracking Card */}
       <section className="relative z-10 mx-3 mt-10 mb-20 grid max-w-[1200px] grid-cols-[320px_1fr] gap-0 rounded-[20px] border-[1.5px] border-black/10 bg-white animate-slide-down sm:mx-6 xl:mx-auto max-[960px]:grid-cols-1">
