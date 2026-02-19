@@ -4,7 +4,7 @@ import { ORDER_STATUS_STEPS } from '../data/statusSteps';
 import { CONTACT_CHANNELS, SOCIAL_LINKS } from '../data/contactInfo';
 import { OrderHero } from '../components/OrderHero';
 import { MetaTags } from '../../../core/components/MetaTags';
-import { FaFacebook, FaLinkedin, FaInstagram, FaYoutube } from 'react-icons/fa';
+import { FaFacebook, FaLinkedin, FaInstagram } from 'react-icons/fa';
 import type { ContactChannel, SocialLink } from '../data/contactInfo';
 import type { OrderStatusStep } from '../data/statusSteps';
 
@@ -12,7 +12,6 @@ const SOCIAL_ICONS: Record<string, React.ReactElement> = {
   facebook: <FaFacebook />,
   linkedin: <FaLinkedin />,
   instagram: <FaInstagram />,
-  youtube: <FaYoutube />,
 };
 
 function formatDate(d?: string | null): string | null {

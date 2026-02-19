@@ -6,7 +6,6 @@ import {
   FaFacebook,
   FaLinkedin,
   FaInstagram,
-  FaYoutube,
 } from 'react-icons/fa';
 import type { ContactChannel, SocialLink } from '../data/contactInfo';
 
@@ -21,7 +20,6 @@ const SOCIAL_ICON_MAP: Record<SocialLink['key'], React.ReactElement> = {
   facebook: <FaFacebook />,
   linkedin: <FaLinkedin />,
   instagram: <FaInstagram />,
-  youtube: <FaYoutube />,
 };
 
 export interface ContactCardProps {
