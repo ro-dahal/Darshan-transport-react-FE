@@ -10,7 +10,7 @@ export const PageHeader: React.FC<PageHeaderProps> = ({
 }) => (
   <section
     id="about-us-header"
-    className="w-full h-[30vh] bg-cover bg-center flex justify-center text-center flex-col p-3.5 relative max-md:h-[25vh] max-md:p-5"
+    className="w-full h-[30vh] bg-cover flex justify-center text-center flex-col p-3.5 relative max-md:h-[25vh] max-md:p-5"
     style={{ backgroundImage: `url(${headerBg})` }}
   >
     <div className="absolute inset-0 bg-black/40 z-0"></div>

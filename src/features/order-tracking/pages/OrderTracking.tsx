@@ -1,5 +1,6 @@
 import React from 'react';
 import { useOrderTracking } from '../hooks/useOrderTracking';
+import { motion, type Variants } from 'framer-motion';
 import { ORDER_STATUS_STEPS } from '../data/statusSteps';
 import { CONTACT_CHANNELS, SOCIAL_LINKS } from '../data/contactInfo';
 import { OrderHero } from '../components/OrderHero';
@@ -7,6 +8,10 @@ import { MetaTags } from '../../../core/components/MetaTags';
 import { FaFacebook, FaLinkedin, FaInstagram } from 'react-icons/fa';
 import type { ContactChannel, SocialLink } from '../data/contactInfo';
 import type { OrderStatusStep } from '../data/statusSteps';
+import { DebugPanel } from '../components/DebugPanel';
+
+import { DEMO_SCENARIOS } from '../data/demoData';
+import { useOrderTrackingDemo } from '../hooks/useOrderTrackingDemo';
 
 const SOCIAL_ICONS: Record<string, React.ReactElement> = {
   facebook: <FaFacebook />,
@@ -45,8 +50,36 @@ export const OrderTracking: React.FC = () => {
     actions: { selectSeries, updateInvoiceNumber, submit },
   } = useOrderTracking();
 
-  // Use real data
-  const deliveryRecord = realRecord;
+  const {
+    debugRecord,
+    isManualDemoMode,
+    handleDebugSelect,
+    handleManualToggle,
+    setDebugRecord,
+    isDevelopment,
+  } = useOrderTrackingDemo({
+    selectedSeries,
+    invoiceNumber,
+    selectSeries,
+    updateInvoiceNumber,
+  });
+
+  const resultRef = React.useRef<HTMLDivElement>(null);
+
+  // Use real data or debug override
+  const deliveryRecord = debugRecord || realRecord;
+
+  // Scroll to result when a new record is fetched
+  React.useEffect(() => {
+    if (deliveryRecord && resultRef.current) {
+      setTimeout(() => {
+        resultRef.current?.scrollIntoView({
+          behavior: 'smooth',
+          block: 'start',
+        });
+      }, 100);
+    }
+  }, [deliveryRecord]);
 
   const isServiceDown = error?.startsWith('SERVICE_UNAVAILABLE|');
   const isServerError = error?.startsWith('SERVER_ERROR|');
@@ -58,6 +91,37 @@ export const OrderTracking: React.FC = () => {
       ORDER_STATUS_STEPS.length - 1
     )
   );
+
+  const isMobile =
+    typeof window !== 'undefined' ? window.innerWidth < 1024 : false;
+
+  const containerVariants: Variants = {
+    hidden: { opacity: 0 },
+    show: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.25, // Slower stagger
+      },
+    },
+  };
+
+  const itemVariants: Variants = {
+    hidden: { opacity: 0, y: 30 },
+    show: {
+      opacity: 1,
+      y: 0,
+      transition: { type: 'spring', stiffness: 50, damping: 15 }, // Smoother spring
+    },
+  };
+
+  const mobileItemVariants: Variants = {
+    hidden: { opacity: 0, x: -30 },
+    show: {
+      opacity: 1,
+      x: 0,
+      transition: { type: 'spring', stiffness: 50, damping: 15 }, // Smoother spring
+    },
+  };
 
   return (
     <div className="min-h-screen bg-white font-sans text-text-dark">
@@ -151,11 +215,19 @@ export const OrderTracking: React.FC = () => {
                   onChange={(e) => selectSeries(e.target.value)}
                   className="w-full max-w-full rounded-xl border-[1.5px] border-border-light bg-white px-[18px] py-[14px] text-[1.1rem] outline-none sm:max-w-[340px]"
                 >
-                  {seriesList.map((s) => (
-                    <option key={s} value={s}>
-                      {s}
-                    </option>
-                  ))}
+                  {isManualDemoMode
+                    ? Array.from(
+                        new Set(DEMO_SCENARIOS.map((s) => s.series))
+                      ).map((s) => (
+                        <option key={s} value={s}>
+                          {s}
+                        </option>
+                      ))
+                    : seriesList.map((s) => (
+                        <option key={s} value={s}>
+                          {s}
+                        </option>
+                      ))}
                 </select>
               </div>
             </div>
@@ -172,14 +244,32 @@ export const OrderTracking: React.FC = () => {
                 >
                   INVOICE NO:
                 </label>
-                <input
-                  id="v2-invoice"
-                  type="text"
-                  value={invoiceNumber}
-                  onChange={(e) => updateInvoiceNumber(e.target.value)}
-                  placeholder="000001"
-                  className="w-full max-w-full rounded-xl border-[1.5px] border-border-light bg-white px-[18px] py-[14px] text-[1.1rem] outline-none placeholder:text-[#ddd] sm:max-w-[340px]"
-                />
+                {isManualDemoMode ? (
+                  <select
+                    id="v2-invoice"
+                    value={invoiceNumber}
+                    onChange={(e) => updateInvoiceNumber(e.target.value)}
+                    className="w-full max-w-full rounded-xl border-[1.5px] border-border-light bg-white px-[18px] py-[14px] text-[1.1rem] outline-none sm:max-w-[340px]"
+                  >
+                    <option value="">Select Demo Invoice</option>
+                    {DEMO_SCENARIOS.filter(
+                      (s) => !selectedSeries || s.series === selectedSeries
+                    ).map((s) => (
+                      <option key={s.key} value={s.invoice}>
+                        {s.invoice} ({s.label})
+                      </option>
+                    ))}
+                  </select>
+                ) : (
+                  <input
+                    id="v2-invoice"
+                    type="text"
+                    value={invoiceNumber}
+                    onChange={(e) => updateInvoiceNumber(e.target.value)}
+                    placeholder="000001"
+                    className="w-full max-w-full rounded-xl border-[1.5px] border-border-light bg-white px-[18px] py-[14px] text-[1.1rem] outline-none placeholder:text-[#ddd] sm:max-w-[340px]"
+                  />
+                )}
               </div>
               {!isServiceDown && !isServerError && error && (
                 <div className="mt-2 text-sm text-red-600">ERR: {error}</div>
@@ -191,7 +281,21 @@ export const OrderTracking: React.FC = () => {
             <button
               type="button"
               className="inline-flex w-full cursor-pointer items-center justify-center gap-4 whitespace-nowrap rounded-xl border-[1.5px] border-black/10 bg-primary px-12 py-4 text-[1.1rem] font-semibold text-text-dark uppercase shadow-[4px_4px_0_rgba(0,0,0,0.05)] transition-all duration-200 sm:w-auto sm:justify-start hover:-translate-x-[2px] hover:-translate-y-[2px] hover:bg-primary-hover hover:shadow-[6px_6px_0_rgba(252,175,23,0.2)] active:translate-x-[2px] active:translate-y-[2px] active:shadow-[2px_2px_0_#333] disabled:cursor-not-allowed disabled:opacity-40 disabled:shadow-none disabled:hover:translate-x-0 disabled:hover:translate-y-0 disabled:hover:bg-primary disabled:hover:shadow-none"
-              onClick={submit}
+              onClick={() => {
+                if (isManualDemoMode) {
+                  const matched = DEMO_SCENARIOS.find(
+                    (s) =>
+                      s.series === selectedSeries && s.invoice === invoiceNumber
+                  );
+                  if (matched) {
+                    setDebugRecord(matched.record);
+                  } else {
+                    alert('No matching demo scenario found.');
+                  }
+                } else {
+                  submit();
+                }
+              }}
               disabled={isLoading || !isReady}
             >
               {isLoading ? '> CHECKING...' : 'CHECK STATUS'}
@@ -200,10 +304,19 @@ export const OrderTracking: React.FC = () => {
 
           {/* Result */}
           {deliveryRecord && (
-            <div className="grid grid-cols-[160px_1fr] items-stretch gap-10 border-b-0 px-4 py-6 sm:px-6 sm:py-7 lg:gap-6 lg:px-10 lg:py-8 xl:grid-cols-[200px_1fr] xl:gap-10 max-[1023px]:grid-cols-1 max-[1023px]:gap-8">
+            <div
+              ref={resultRef}
+              key={deliveryRecord.bookingDate || JSON.stringify(deliveryRecord)}
+              className="grid grid-cols-[160px_1fr] items-stretch gap-10 border-b-0 px-4 py-6 sm:px-6 sm:py-7 lg:gap-6 lg:px-10 lg:py-8 xl:grid-cols-[200px_1fr] xl:gap-10 max-[1023px]:grid-cols-1 max-[1023px]:gap-8"
+            >
               {/* Terminal Timeline */}
               {/* Terminal Timeline */}
-              <div className="relative flex h-full flex-col justify-between py-[10px] pl-5 lg:pl-4 xl:pl-5 max-[1023px]:flex-row max-[1023px]:items-center max-[1023px]:justify-between max-[1023px]:gap-0 max-[1023px]:overflow-hidden max-[1023px]:pb-4 max-[1023px]:pl-0 max-[1023px]:pt-0">
+              <motion.div
+                variants={containerVariants}
+                initial="hidden"
+                animate="show"
+                className="relative flex h-full flex-col justify-between py-[10px] pl-5 lg:pl-4 xl:pl-5 max-[1023px]:flex-row max-[1023px]:items-center max-[1023px]:justify-between max-[1023px]:gap-0 max-[1023px]:overflow-hidden max-[1023px]:pb-4 max-[1023px]:pl-0 max-[1023px]:pt-0"
+              >
                 {ORDER_STATUS_STEPS.map((step: OrderStatusStep, i: number) => {
                   const isCompleted = i < clampedIndex;
                   const isActive = i === clampedIndex;
@@ -225,7 +338,11 @@ export const OrderTracking: React.FC = () => {
                   }`;
 
                   return (
-                    <div key={step.key} className={stepClass}>
+                    <motion.div
+                      key={step.key}
+                      className={stepClass}
+                      variants={isMobile ? mobileItemVariants : itemVariants}
+                    >
                       {/* Vertical Segment (Desktop/Laptop) */}
                       {i < ORDER_STATUS_STEPS.length - 1 && (
                         <div
@@ -276,13 +393,23 @@ export const OrderTracking: React.FC = () => {
                       >
                         {step.label}
                       </span>
-                    </div>
+                    </motion.div>
                   );
                 })}
-              </div>
+              </motion.div>
 
               {/* Delivery info */}
-              <div className="rounded-xl border-[1.5px] border-border-light bg-bg-light p-8">
+              <motion.div
+                initial={{ opacity: 0, y: 30 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{
+                  delay: 0.8, // Wait for timeline to mostly finish
+                  type: 'spring',
+                  stiffness: 40,
+                  damping: 12,
+                }}
+                className="rounded-xl border-[1.5px] border-border-light bg-bg-light p-8"
+              >
                 <h4 className="mb-4 text-lg font-bold text-text-dark uppercase">
                   DELIVERY INFO
                 </h4>
@@ -376,11 +503,18 @@ export const OrderTracking: React.FC = () => {
                     </span>
                   </div>
                 )}
-              </div>
+              </motion.div>
             </div>
           )}
         </div>
       </section>
+      {isDevelopment && (
+        <DebugPanel
+          onSelect={handleDebugSelect}
+          manualMode={isManualDemoMode}
+          onToggleManualMode={handleManualToggle}
+        />
+      )}
     </div>
   );
 };
