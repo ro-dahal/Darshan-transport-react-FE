@@ -51,6 +51,7 @@ export const OrderStatusForm: React.FC<OrderStatusFormProps> = ({
           value={invoiceNumber}
           onChange={(event) => onInvoiceChange(event.target.value)}
           placeholder="000001"
+          autoComplete="off"
           className="ml-1.5 p-1.5 border border-[#ccc] rounded text-base outline-none focus:border-primary focus:ring-1 focus:ring-primary w-40"
         />
       </div>

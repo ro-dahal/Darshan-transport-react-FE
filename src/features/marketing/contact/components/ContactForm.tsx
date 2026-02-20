@@ -68,6 +68,7 @@ export const ContactForm: React.FC<ContactFormProps> = ({ onSubmit }) => {
           type="text"
           placeholder="Your Name"
           required
+          autoComplete="name"
           className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-all"
         />
         <label htmlFor="contact-email" className="sr-only">
@@ -79,6 +80,7 @@ export const ContactForm: React.FC<ContactFormProps> = ({ onSubmit }) => {
           type="email"
           placeholder="Your Email"
           required
+          autoComplete="email"
           className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-all"
         />
         <label htmlFor="contact-message" className="sr-only">

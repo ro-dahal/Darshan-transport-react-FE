@@ -267,6 +267,7 @@ export const OrderTracking: React.FC = () => {
                     value={invoiceNumber}
                     onChange={(e) => updateInvoiceNumber(e.target.value)}
                     placeholder="000001"
+                    autoComplete="off"
                     className="w-full max-w-full rounded-xl border-[1.5px] border-border-light bg-white px-[18px] py-[14px] text-[1.1rem] outline-none placeholder:text-[#ddd] sm:max-w-[340px]"
                   />
                 )}
