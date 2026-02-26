@@ -62,6 +62,22 @@ The API client guards against invalid URLs and ignores `localhost` overrides whe
 
 Refer to in-code comments for additional guidance on extending each feature module.
 
+## 📦 Order tracking response contract
+
+The order-tracking UI calls:
+
+- `GET /api/v1/delivery/status/:series/:invoiceNumber`
+
+Expected response envelope:
+
+- `success: boolean`
+- `data: DeliveryRecord`
+
+`DeliveryRecord` includes an optional `source` field used by the UI:
+
+- `public_pod`: status resolved via ERP public POD tracking and the UI shows **POD CONFIRMED**.
+- `legacy_db`: status resolved via legacy DT backend database lookup.
+
 ## ⚡ Performance & Optimization
 
 The application is heavily optimized for fast loading on 3G networks and high-latency environments:

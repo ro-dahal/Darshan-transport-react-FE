@@ -30,6 +30,7 @@ function formatDate(d?: string | null): string | null {
     hour: 'numeric',
     minute: '2-digit',
     hour12: true,
+    timeZone: 'UTC', // timestamps are stored in KTM time; read literally without browser offset
   });
 }
 
@@ -414,6 +415,16 @@ export const OrderTracking: React.FC = () => {
                 <h4 className="mb-4 text-lg font-bold text-text-dark uppercase">
                   DELIVERY INFO
                 </h4>
+                {deliveryRecord.source === 'public_pod' && (
+                  <div className="grid grid-cols-1 gap-1 border-b border-black/5 py-4 last:border-b-0 sm:grid-cols-[140px_1fr] xl:sm:grid-cols-[200px_1fr] sm:gap-0">
+                    <b className="text-xs font-medium tracking-[1px] text-text-medium uppercase">
+                      POD STATUS
+                    </b>
+                    <span className="font-semibold text-text-dark sm:text-right">
+                      POD CONFIRMED
+                    </span>
+                  </div>
+                )}
                 {deliveryRecord.message && (
                   <div className="grid grid-cols-1 gap-1 border-b border-black/5 py-4 last:border-b-0 sm:grid-cols-[140px_1fr] xl:sm:grid-cols-[200px_1fr] sm:gap-0">
                     <b className="text-xs font-medium tracking-[1px] text-text-medium uppercase">

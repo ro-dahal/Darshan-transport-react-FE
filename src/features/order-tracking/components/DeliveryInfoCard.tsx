@@ -18,6 +18,7 @@ function formatDate(dateStr?: string | null): string | null {
     hour: 'numeric',
     minute: '2-digit',
     hour12: true,
+    timeZone: 'UTC', // timestamps are stored in KTM time; read literally without browser offset
   });
 }
 

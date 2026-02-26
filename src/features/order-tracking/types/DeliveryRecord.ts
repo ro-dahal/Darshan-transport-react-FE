@@ -11,4 +11,5 @@ export interface DeliveryRecord {
   bookingDate?: string | null;
   dispatchDate?: string | null;
   arrivalDate?: string | null;
+  source?: 'public_pod' | 'legacy_db';
 }
