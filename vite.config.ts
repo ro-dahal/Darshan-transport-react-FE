@@ -50,7 +50,7 @@ export default defineConfig({
       filename: 'bundle-analysis.html',
       gzipSize: true,
       brotliSize: true,
-    }),
+    }) as any,
   ],
   build: {
     rollupOptions: {
