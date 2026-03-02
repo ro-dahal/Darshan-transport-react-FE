@@ -78,6 +78,8 @@ Expected response envelope:
 - `public_pod`: status resolved via ERP public POD tracking and the UI shows **POD CONFIRMED**.
 - `legacy_db`: status resolved via legacy DT backend database lookup.
 
+> **Note:** The DT Frontend and Backend systems do not manage, store, or accept uploads for Proof of Delivery (POD). The POD feature is an operational tool exclusively handled by the external **DT-ERP** system. The DT Website acts purely as a read-only consumer, highlighting the verified `public_pod` status when available from the ERP tracking API.
+
 ## ⚡ Performance & Optimization
 
 The application is heavily optimized for fast loading on 3G networks and high-latency environments:
