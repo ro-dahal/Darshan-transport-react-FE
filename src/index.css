@@ -101,14 +101,6 @@
 }
 
 /* ===== Keyframe animations ===== */
-@keyframes scroll {
-  0% {
-    transform: translateX(0);
-  }
-  100% {
-    transform: translateX(-50%);
-  }
-}
 
 @keyframes spin {
   0% {

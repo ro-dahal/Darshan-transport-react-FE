@@ -1,7 +1,16 @@
 import gifOperations from '../../../../assets/img/optimized/gif2.webp';
 import nepalMap from '../../../../assets/img/optimized/nepal-map.webp';
-import clientLogo1 from '../../../../assets/img/optimized/Logo-01.webp';
-import clientLogo2 from '../../../../assets/img/optimized/Logo-02.webp';
+import udnLogo from '../../../../assets/Company logos/UDN.jpg';
+import cgLogo from '../../../../assets/Company logos/cg.png';
+import dhiLogo from '../../../../assets/Company logos/dhi.jpg';
+import dubarLogo from '../../../../assets/Company logos/dubar.png';
+import hitechLogo from '../../../../assets/Company logos/hitech.png';
+import neotricLogo from '../../../../assets/Company logos/neotric.png';
+import peLogo from '../../../../assets/Company logos/pe.jpg';
+import readmoreLogo from '../../../../assets/Company logos/readmore.png';
+import sujaldairyLogo from '../../../../assets/Company logos/sujaldairy.jpg';
+import sujalfoodLogo from '../../../../assets/Company logos/sujalfood.png';
+import treveniLogo from '../../../../assets/Company logos/treveni.jpg';
 import person1 from '../../../../assets/img/optimized/person1.webp';
 import person3 from '../../../../assets/img/optimized/person3.webp';
 
@@ -46,12 +55,17 @@ export const HOME_STATS: StatItem[] = [
 ];
 
 export const HOME_CLIENT_LOGOS: LogoItem[] = [
-  { src: clientLogo1, alt: 'Client 1 Logo' },
-  { src: clientLogo2, alt: 'Client 2 Logo' },
-  { src: clientLogo1, alt: 'Client 3 Logo' },
-  { src: clientLogo2, alt: 'Client 4 Logo' },
-  { src: clientLogo1, alt: 'Client 5 Logo' },
-  { src: clientLogo2, alt: 'Client 6 Logo' },
+  { src: udnLogo, alt: 'UDN' },
+  { src: cgLogo, alt: 'CG' },
+  { src: dhiLogo, alt: 'DHI' },
+  { src: dubarLogo, alt: 'Dubar' },
+  { src: hitechLogo, alt: 'Hi-Tech' },
+  { src: neotricLogo, alt: 'Neotric' },
+  { src: peLogo, alt: 'PE' },
+  { src: readmoreLogo, alt: 'Readmore' },
+  { src: sujaldairyLogo, alt: 'Sujal Dairy' },
+  { src: sujalfoodLogo, alt: 'Sujal Food' },
+  { src: treveniLogo, alt: 'Treveni' },
 ];
 
 export const HOME_VIDEO_TESTIMONIALS: VideoTestimonial[] = [
