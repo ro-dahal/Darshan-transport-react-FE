@@ -12,6 +12,7 @@ import { DebugPanel } from '../components/DebugPanel';
 
 import { DEMO_SCENARIOS } from '../data/demoData';
 import { useOrderTrackingDemo } from '../hooks/useOrderTrackingDemo';
+import { EMPTY_INVOICE_ERROR_MESSAGE } from '../utils/invoiceNumber';
 
 const SOCIAL_ICONS: Record<string, React.ReactElement> = {
   facebook: <FaFacebook />,
@@ -84,6 +85,7 @@ export const OrderTracking: React.FC = () => {
 
   const isServiceDown = error?.startsWith('SERVICE_UNAVAILABLE|');
   const isServerError = error?.startsWith('SERVER_ERROR|');
+  const isEmptyInvoiceError = error === EMPTY_INVOICE_ERROR_MESSAGE;
 
   const clampedIndex = Math.max(
     0,
@@ -267,14 +269,29 @@ export const OrderTracking: React.FC = () => {
                     type="text"
                     value={invoiceNumber}
                     onChange={(e) => updateInvoiceNumber(e.target.value)}
-                    placeholder="000001"
+                    placeholder="000111 or 111"
                     autoComplete="off"
                     className="w-full max-w-full rounded-xl border-[1.5px] border-border-light bg-white px-[18px] py-[14px] text-[1.1rem] outline-none placeholder:text-[#ddd] sm:max-w-[340px]"
                   />
                 )}
               </div>
+              {!isManualDemoMode && (
+                <p className="mt-3 text-sm text-text-dark/60 sm:ml-[146px]">
+                  You can enter just the last digits, for example 111 for
+                  invoice 000111.
+                </p>
+              )}
               {!isServiceDown && !isServerError && error && (
-                <div className="mt-2 text-sm text-red-600">ERR: {error}</div>
+                <div
+                  role={isEmptyInvoiceError ? 'status' : 'alert'}
+                  className={`mt-3 inline-flex rounded-lg border px-4 py-2 text-sm ${
+                    isEmptyInvoiceError
+                      ? 'border-black/10 bg-black/[0.03] text-text-dark/70'
+                      : 'border-[#f0c4c4] bg-[#fff5f5] text-[#8b2d2d]'
+                  }`}
+                >
+                  {error}
+                </div>
               )}
             </div>
           </div>

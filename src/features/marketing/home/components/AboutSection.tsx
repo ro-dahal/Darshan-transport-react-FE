@@ -1,5 +1,9 @@
 import React from 'react';
 import type { StatItem } from '../data/homeContent';
+import fastPickupDeliveryIcon from '../../../../assets/img/Fast_Pickup__Delivery.png';
+import liveTrackingIcon from '../../../../assets/img/live_tracking.png';
+import professionalHandlingIcon from '../../../../assets/img/professional_handelling.png';
+import supportIcon from '../../../../assets/img/support.png';
 
 export interface AboutSectionProps {
   description: string;
@@ -34,121 +38,19 @@ export const AboutSection: React.FC<AboutSectionProps> = ({
       <ul className="list-none p-0 mt-6 flex gap-6 justify-between flex-wrap items-start max-lg:justify-center max-lg:gap-x-5 max-lg:gap-y-[30px]">
         {[
           {
-            icon: (
-              <svg
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth={1.5}
-                xmlns="http://www.w3.org/2000/svg"
-                width="64"
-                height="64"
-              >
-                <path
-                  d="M3 7h13v10H3z"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-                <path
-                  d="M16 9l3-2v10"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-                <circle cx="7.5" cy="17.5" r="1.5" />
-                <circle cx="18.5" cy="17.5" r="1.5" />
-              </svg>
-            ),
+            iconSrc: fastPickupDeliveryIcon,
             text: 'Fast Pickup & Delivery',
           },
           {
-            icon: (
-              <svg
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth={1.5}
-                xmlns="http://www.w3.org/2000/svg"
-                width="64"
-                height="64"
-              >
-                <path
-                  d="M12 2v6"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-                <circle
-                  cx="12"
-                  cy="14"
-                  r="6"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-                <path
-                  d="M12 14l2-2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-              </svg>
-            ),
+            iconSrc: liveTrackingIcon,
             text: 'Live Tracking',
           },
           {
-            icon: (
-              <svg
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth={1.5}
-                xmlns="http://www.w3.org/2000/svg"
-                width="64"
-                height="64"
-              >
-                <rect
-                  x="3"
-                  y="4"
-                  width="18"
-                  height="12"
-                  rx="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-                <path
-                  d="M7 8h10"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-                <path
-                  d="M7 12h10"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-                <path
-                  d="M7 16h10"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-              </svg>
-            ),
+            iconSrc: professionalHandlingIcon,
             text: 'Professional Handling',
           },
           {
-            icon: (
-              <svg
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth={1.5}
-                xmlns="http://www.w3.org/2000/svg"
-                width="64"
-                height="64"
-              >
-                <path
-                  d="M12 2l3 5 5 .5-4 3 1 5-5-3-5 3 1-5-4-3 5-.5L12 2z"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-              </svg>
-            ),
+            iconSrc: supportIcon,
             text: 'Support When You Need It',
           },
         ].map((feature) => (
@@ -157,10 +59,16 @@ export const AboutSection: React.FC<AboutSectionProps> = ({
             className="flex flex-col items-center gap-2 flex-[1_1_22%] max-w-[220px] text-center max-lg:flex-[1_1_40%] max-lg:max-w-[180px]"
           >
             <span
-              className="text-primary w-16 h-16 flex items-center justify-center"
-              aria-hidden
+              className="w-16 h-16 flex items-center justify-center"
             >
-              {feature.icon}
+              <img
+                className="w-16 h-16 object-contain"
+                src={feature.iconSrc}
+                alt=""
+                loading="lazy"
+                decoding="async"
+                aria-hidden="true"
+              />
             </span>
             <span className="text-sm font-semibold text-text-dark">
               {feature.text}

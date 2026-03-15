@@ -1,6 +1,10 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import type { DeliveryRecord } from '../types/DeliveryRecord';
 import { useOrderTrackingService } from '../services/OrderTrackingServiceContext';
+import {
+  EMPTY_INVOICE_ERROR_MESSAGE,
+  normalizeInvoiceNumberForSearch,
+} from '../utils/invoiceNumber';
 
 /**
  * State representation for the Order Tracking view model.
@@ -92,11 +96,16 @@ export function useOrderTracking(): OrderTrackingViewModel {
       setError('Please select a location series.');
       return;
     }
-    if (!invoiceNumber.trim()) {
-      setError('Please enter a valid invoice number.');
+    const trimmedInvoiceNumber = invoiceNumber.trim();
+
+    if (!trimmedInvoiceNumber) {
+      setError(EMPTY_INVOICE_ERROR_MESSAGE);
       setDeliveryRecord(null);
       return;
     }
+
+    const normalizedInvoiceNumber =
+      normalizeInvoiceNumberForSearch(trimmedInvoiceNumber);
 
     setError('');
     setIsLoading(true);
@@ -105,7 +114,7 @@ export function useOrderTracking(): OrderTrackingViewModel {
     try {
       const record = await service.loadDeliveryStatus(
         selectedSeries,
-        invoiceNumber.trim()
+        normalizedInvoiceNumber
       );
       setDeliveryRecord(record);
     } catch (err: unknown) {
