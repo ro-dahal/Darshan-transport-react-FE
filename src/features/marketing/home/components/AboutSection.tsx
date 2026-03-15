@@ -58,9 +58,7 @@ export const AboutSection: React.FC<AboutSectionProps> = ({
             key={feature.text}
             className="flex flex-col items-center gap-2 flex-[1_1_22%] max-w-[220px] text-center max-lg:flex-[1_1_40%] max-lg:max-w-[180px]"
           >
-            <span
-              className="w-16 h-16 flex items-center justify-center"
-            >
+            <span className="w-16 h-16 flex items-center justify-center">
               <img
                 className="w-16 h-16 object-contain"
                 src={feature.iconSrc}
