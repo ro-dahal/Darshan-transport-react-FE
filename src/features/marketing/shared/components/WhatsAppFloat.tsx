@@ -1,4 +1,8 @@
 import React from 'react';
+import {
+  DEFAULT_WHATSAPP_MESSAGE,
+  buildWhatsAppUrl,
+} from '../../../../core/utils/whatsapp';
 
 interface WhatsAppFloatProps {
   phoneNumber: string;
@@ -7,11 +11,10 @@ interface WhatsAppFloatProps {
 
 const WhatsAppFloat: React.FC<WhatsAppFloatProps> = ({
   phoneNumber,
-  message = "Hello! I'd like to inquire about your services.",
+  message = DEFAULT_WHATSAPP_MESSAGE,
 }) => {
   const handleClick = () => {
-    const encodedMessage = encodeURIComponent(message);
-    const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodedMessage}`;
+    const whatsappUrl = buildWhatsAppUrl(phoneNumber, message);
     window.open(whatsappUrl, '_blank');
   };
 

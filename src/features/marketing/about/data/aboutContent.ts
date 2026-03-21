@@ -11,6 +11,11 @@ import readmoreLogo from '../../../../assets/Company logos/readmore.png';
 import sujaldairyLogo from '../../../../assets/Company logos/sujaldairy.jpg';
 import sujalfoodLogo from '../../../../assets/Company logos/sujalfood.png';
 import treveniLogo from '../../../../assets/Company logos/treveni.jpg';
+import builtForHeavyLoadsIcon from '../../../../assets/img/Built for heavy loads.png';
+import strongNationwideNetworkIcon from '../../../../assets/img/strong Nationwide Network.png';
+import ontimeConsistentDeliveryIcon from '../../../../assets/img/ontime & consistent delivey.png';
+import safeProfessionalHandlingIcon from '../../../../assets/img/Safe professional handling.png';
+import businessCentricOperationIcon from '../../../../assets/img/business centric operation.png';
 import person1 from '../../../../assets/img/optimized/person1.webp';
 import person2 from '../../../../assets/img/optimized/person2.webp';
 
@@ -36,6 +41,7 @@ export interface CoreValueItem {
   icon: string;
   title: string;
   description: string;
+  iconType?: 'emoji' | 'image';
 }
 
 export const ABOUT_STATS: StatItem[] = [
@@ -84,34 +90,39 @@ export const ABOUT_FOUNDERS: FounderProfile[] = [
 
 export const ABOUT_CORE_VALUES: CoreValueItem[] = [
   {
-    icon: '❤️',
+    icon: builtForHeavyLoadsIcon,
     title: 'Built for Heavy Loads & Bulk Cargo',
     description:
       'Specialized in full-truck loads, industrial materials, machinery, FMCG stock, and large-volume business shipments.',
+    iconType: 'image',
   },
   {
-    icon: '🤝',
+    icon: strongNationwideNetworkIcon,
     title: 'Strong Nationwide Network',
     description:
       'Branches across major hubs allow safe, structured movement of goods through controlled routes.',
+    iconType: 'image',
   },
   {
-    icon: '✊',
+    icon: ontimeConsistentDeliveryIcon,
     title: 'On-Time & Consistent Delivery',
     description:
       'Planned routes, fixed schedules, and strict timelines help avoid delays.',
+    iconType: 'image',
   },
   {
-    icon: '💡',
+    icon: safeProfessionalHandlingIcon,
     title: 'Safe, Professional Handling',
     description:
       'Each load is checked, secured, and monitored before dispatch.',
+    iconType: 'image',
   },
   {
-    icon: '🏆',
+    icon: businessCentricOperationIcon,
     title: 'Business-Centric Operations',
     description:
       'Designed for wholesalers, distributors, and large-volume suppliers needing recurring or multi-city delivery.',
+    iconType: 'image',
   },
   {
     icon: '⚙️',

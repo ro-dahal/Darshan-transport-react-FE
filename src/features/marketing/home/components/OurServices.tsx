@@ -18,23 +18,34 @@ export const OurServices: React.FC = () => (
             key={s.title}
           >
             <span className="flex-shrink-0" aria-hidden>
-              <svg
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth={1.6}
-                xmlns="http://www.w3.org/2000/svg"
-                className="w-12 h-12 text-primary"
-              >
-                <rect x="1" y="4" width="14" height="11" rx="1.5" />
-                <path
-                  d="M15 8h4l3 3v4"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
+              {s.iconType === 'image' ? (
+                <img
+                  src={s.icon}
+                  alt=""
+                  loading="lazy"
+                  decoding="async"
+                  aria-hidden="true"
+                  className="w-12 h-12 object-contain"
                 />
-                <circle cx="6.5" cy="17.5" r="1.5" />
-                <circle cx="18.5" cy="17.5" r="1.5" />
-              </svg>
+              ) : (
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth={1.6}
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="w-12 h-12 text-primary"
+                >
+                  <rect x="1" y="4" width="14" height="11" rx="1.5" />
+                  <path
+                    d="M15 8h4l3 3v4"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                  <circle cx="6.5" cy="17.5" r="1.5" />
+                  <circle cx="18.5" cy="17.5" r="1.5" />
+                </svg>
+              )}
             </span>
             <div>
               <h4 className="m-0 mb-1.5 text-base font-bold text-black">

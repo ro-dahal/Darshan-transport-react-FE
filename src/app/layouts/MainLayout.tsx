@@ -20,9 +20,6 @@ export const MainLayout: React.FC = () => (
     </main>
     <Footer />
     {/* Global Floating WhatsApp Component */}
-    <WhatsAppFloat
-      phoneNumber={CONTACT_CONFIG.whatsapp}
-      message="Hello Darshan Transport! I'd like to inquire about your services."
-    />
+    <WhatsAppFloat phoneNumber={CONTACT_CONFIG.whatsapp} />
   </div>
 );

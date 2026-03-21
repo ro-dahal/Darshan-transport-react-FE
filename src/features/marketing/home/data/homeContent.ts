@@ -11,6 +11,7 @@ import readmoreLogo from '../../../../assets/Company logos/readmore.png';
 import sujaldairyLogo from '../../../../assets/Company logos/sujaldairy.jpg';
 import sujalfoodLogo from '../../../../assets/Company logos/sujalfood.png';
 import treveniLogo from '../../../../assets/Company logos/treveni.jpg';
+import parcelCourierDeliveryIcon from '../../../../assets/img/Parcel & Courier Delivery.png';
 import person1 from '../../../../assets/img/optimized/person1.webp';
 import person3 from '../../../../assets/img/optimized/person3.webp';
 
@@ -37,6 +38,13 @@ export interface ReviewTestimonial {
   quote: string;
   name: string;
   company: string;
+}
+
+export interface HomeServiceItem {
+  title: string;
+  desc: string;
+  icon?: string;
+  iconType?: 'image';
 }
 
 export const HOME_HERO_DESCRIPTION = `Fast, safe and reliable transport for
@@ -155,10 +163,12 @@ export const MAJOR_LOCATIONS = [
   ],
 ];
 
-export const OUR_SERVICES_DATA = [
+export const OUR_SERVICES_DATA: HomeServiceItem[] = [
   {
     title: 'Parcel & Courier Delivery',
     desc: 'For small packages, documents, and urgent items.',
+    icon: parcelCourierDeliveryIcon,
+    iconType: 'image',
   },
   {
     title: 'Cargo & Bulk Transport',

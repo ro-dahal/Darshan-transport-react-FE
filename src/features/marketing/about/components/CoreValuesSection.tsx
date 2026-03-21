@@ -30,8 +30,25 @@ export const CoreValuesSection: React.FC<CoreValuesSectionProps> = ({
             }`}
           >
             <div className="flex-[0_0_72px] flex items-center justify-center max-sm:w-14 max-sm:h-14 max-sm:mb-0">
-              <span className="flex items-center justify-center w-[72px] h-[72px] bg-bg-icon rounded-2xl text-[2.7rem] text-secondary max-sm:w-14 max-sm:h-14 max-sm:text-[2rem] max-sm:rounded-[10px]">
-                {value.icon}
+              <span
+                className={`flex items-center justify-center w-[72px] h-[72px] rounded-2xl max-sm:w-14 max-sm:h-14 max-sm:rounded-[10px] ${
+                  value.iconType === 'image'
+                    ? 'bg-transparent'
+                    : 'bg-bg-icon text-[2.7rem] text-secondary max-sm:text-[2rem]'
+                }`}
+              >
+                {value.iconType === 'image' ? (
+                  <img
+                    src={value.icon}
+                    alt=""
+                    loading="lazy"
+                    decoding="async"
+                    aria-hidden="true"
+                    className="w-full h-full object-contain"
+                  />
+                ) : (
+                  value.icon
+                )}
               </span>
             </div>
             <div className="flex-[1_1_auto] flex flex-col justify-center">

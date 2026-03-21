@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import logo from '../../../assets/img/optimized/logo1.webp';
 import { FOOTER_COLUMNS } from './footerLinks';
 import { CONTACT_CONFIG } from '../../../core/config/contactConfig';
+import { buildWhatsAppUrl } from '../../../core/utils/whatsapp';
 import facebookIcon from '../../../assets/img/facebook.png';
 import instagramIcon from '../../../assets/img/instagram.png';
 import whatsappIcon from '../../../assets/img/whatsapp.png';
@@ -47,7 +48,7 @@ export const Footer: React.FC = () => (
               ? column.links.map((link) => {
                   let href = link.href;
                   if (link.label === 'WhatsApp')
-                    href = `https://wa.me/${CONTACT_CONFIG.whatsapp}`;
+                    href = buildWhatsAppUrl(CONTACT_CONFIG.whatsapp);
                   if (link.label.includes('@'))
                     href = `mailto:${CONTACT_CONFIG.email}`;
                   if (link.label.startsWith('+977'))
@@ -99,7 +100,7 @@ export const Footer: React.FC = () => (
               : column.links.map((link) => {
                   let href = link.href;
                   if (link.label === 'WhatsApp')
-                    href = `https://wa.me/${CONTACT_CONFIG.whatsapp}`;
+                    href = buildWhatsAppUrl(CONTACT_CONFIG.whatsapp);
                   if (link.label.includes('@'))
                     href = `mailto:${CONTACT_CONFIG.email}`;
                   if (link.label.startsWith('+977'))
