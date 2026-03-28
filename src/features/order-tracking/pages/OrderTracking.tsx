@@ -74,7 +74,7 @@ export const OrderTracking: React.FC = () => {
 
   // Use real data or debug override
   const deliveryRecord = debugRecord || realRecord;
-  const activeError = isErrorHidden ? '' : (debugError || error);
+  const activeError = isErrorHidden ? '' : debugError || error;
 
   // Scroll to result when a new record is fetched
   React.useEffect(() => {
@@ -188,7 +188,9 @@ export const OrderTracking: React.FC = () => {
                 <h4 className="mb-1 text-xl font-semibold uppercase">
                   SERVICE UNAVAILABLE
                 </h4>
-                <p className="text-sm text-text-dark">{activeError?.split('|')[1]}</p>
+                <p className="text-sm text-text-dark">
+                  {activeError?.split('|')[1]}
+                </p>
               </div>
             </div>
           )}
@@ -199,7 +201,9 @@ export const OrderTracking: React.FC = () => {
                 <h4 className="mb-1 text-xl font-semibold uppercase">
                   SYSTEM ERROR
                 </h4>
-                <p className="text-sm text-text-dark">{activeError?.split('|')[1]}</p>
+                <p className="text-sm text-text-dark">
+                  {activeError?.split('|')[1]}
+                </p>
               </div>
             </div>
           )}

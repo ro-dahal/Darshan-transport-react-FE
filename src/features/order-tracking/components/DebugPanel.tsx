@@ -32,7 +32,9 @@ export const DebugPanel: React.FC<DebugPanelProps> = ({
       setDebugError('');
     } else {
       setDebugRecord(null);
-      setDebugError('SERVICE_UNAVAILABLE|Service is temporarily down for maintenance.');
+      setDebugError(
+        'SERVICE_UNAVAILABLE|Service is temporarily down for maintenance.'
+      );
     }
   };
 
@@ -52,7 +54,7 @@ export const DebugPanel: React.FC<DebugPanelProps> = ({
           <h4 className="text-xs font-bold text-gray-500 uppercase tracking-wider border-b border-gray-100 pb-1 mb-1">
             Debug Tools
           </h4>
-          
+
           <div className="flex flex-col gap-2 mb-2">
             <div className="flex items-center gap-2">
               <input
@@ -62,7 +64,10 @@ export const DebugPanel: React.FC<DebugPanelProps> = ({
                 onChange={(e) => onToggleManualMode(e.target.checked)}
                 className="h-4 w-4 cursor-pointer"
               />
-              <label htmlFor="manual-mode" className="text-xs font-medium cursor-pointer">
+              <label
+                htmlFor="manual-mode"
+                className="text-xs font-medium cursor-pointer"
+              >
                 Manual Entry Mode
               </label>
             </div>
@@ -75,7 +80,10 @@ export const DebugPanel: React.FC<DebugPanelProps> = ({
                 onChange={(e) => setIsErrorHidden(e.target.checked)}
                 className="h-4 w-4 cursor-pointer"
               />
-              <label htmlFor="hide-errors" className="text-xs font-medium cursor-pointer text-blue-600">
+              <label
+                htmlFor="hide-errors"
+                className="text-xs font-medium cursor-pointer text-blue-600"
+              >
                 Hide All Errors
               </label>
             </div>
@@ -88,7 +96,10 @@ export const DebugPanel: React.FC<DebugPanelProps> = ({
                 onChange={toggleServiceDown}
                 className="h-4 w-4 cursor-pointer"
               />
-              <label htmlFor="service-down" className="text-xs font-medium cursor-pointer text-orange-600">
+              <label
+                htmlFor="service-down"
+                className="text-xs font-medium cursor-pointer text-orange-600"
+              >
                 Service Down (503)
               </label>
             </div>
@@ -101,7 +112,10 @@ export const DebugPanel: React.FC<DebugPanelProps> = ({
                 onChange={toggleServerError}
                 className="h-4 w-4 cursor-pointer"
               />
-              <label htmlFor="server-error" className="text-xs font-medium cursor-pointer text-red-600">
+              <label
+                htmlFor="server-error"
+                className="text-xs font-medium cursor-pointer text-red-600"
+              >
                 Server Error (500)
               </label>
             </div>
