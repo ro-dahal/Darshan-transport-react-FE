@@ -1,4 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { MAP_PINS, REGION_INFO } from './pinLocations';
+import { getWrappedPinIndex, type PinDirection } from './pinNavigation';
 
 // Define props type if you want to pass width, height, or style
 type NepalMapProps = {
@@ -12,100 +14,21 @@ const svgStyles: React.CSSProperties = {
   overflow: 'visible',
 };
 
-type PinLocation = {
-  id: string;
-  type: 'booking' | 'delivery';
-  label: string;
-  address: string;
-  x: number;
-  y: number;
-};
-
-const PIN_LOCATIONS: PinLocation[] = [
-  {
-    id: 'b1',
-    type: 'booking',
-    label: 'Head Office',
-    address: 'Rani Pauwa, Pokhara',
-    x: 490,
-    y: 300,
-  },
-  {
-    id: 'b2',
-    type: 'booking',
-    label: 'Branch Office',
-    address: 'Transport Nagar, Ring Road, Kathmandu',
-    x: 618,
-    y: 330,
-  },
-  {
-    id: 'b3',
-    type: 'booking',
-    label: 'Branch Office',
-    address: 'Dhawaha, Butwal',
-    x: 430,
-    y: 375,
-  },
-  {
-    id: 'b4',
-    type: 'booking',
-    label: 'Branch Office',
-    address: 'Yantra Sala Margha, Narayanghat',
-    x: 530,
-    y: 360,
-  },
-  {
-    id: 'b5',
-    type: 'booking',
-    label: 'Branch Office',
-    address: 'Adarsh Nagar, Birgunj',
-    x: 597,
-    y: 425,
-  },
-  {
-    id: 'd1',
-    type: 'delivery',
-    label: 'Delivery',
-    address: 'Pokhara',
-    x: 500,
-    y: 288,
-  },
-  {
-    id: 'd2',
-    type: 'delivery',
-    label: 'Delivery',
-    address: 'Kathmandu',
-    x: 640,
-    y: 320,
-  },
-  {
-    id: 'd3',
-    type: 'delivery',
-    label: 'Delivery',
-    address: 'Kushma / Beni / Baglung',
-    x: 448,
-    y: 285,
-  },
-  {
-    id: 'd4',
-    type: 'delivery',
-    label: 'Delivery',
-    address: 'Damauli / Aabukhaireni / Lamjung / Gorkha',
-    x: 535,
-    y: 280,
-  },
-  {
-    id: 'd5',
-    type: 'delivery',
-    label: 'Delivery',
-    address: 'Syangja / Waling / Galyang',
-    x: 475,
-    y: 335,
-  },
-];
-
 const BOOKING_COLOR = '#F59E0B';
 const DELIVERY_COLOR = '#3B82F6';
+
+const PIN_NAV_BUTTON_STYLE: React.CSSProperties = {
+  appearance: 'none',
+  border: '1px solid #334155',
+  background: '#111827',
+  color: '#F8FAFC',
+  borderRadius: '999px',
+  padding: '10px 16px',
+  fontSize: '14px',
+  fontWeight: 700,
+  cursor: 'pointer',
+  minWidth: '96px',
+};
 
 /**
  * Interactive SVG Map of Nepal with animated branch pins and automatic region rotation.
@@ -154,7 +77,7 @@ const NepalMap: React.FC<NepalMapProps> = ({ style = {} }) => {
           let idx = 0;
           setActivePinIndex(0);
           intervalRef.current = setInterval(() => {
-            idx = (idx + 1) % PIN_LOCATIONS.length;
+            idx = (idx + 1) % MAP_PINS.length;
             setActivePinIndex(idx);
           }, 2000);
         } else if (!entry.isIntersecting && intervalRef.current) {
@@ -172,67 +95,28 @@ const NepalMap: React.FC<NepalMapProps> = ({ style = {} }) => {
       if (intervalRef.current) clearInterval(intervalRef.current);
     };
   }, []);
-  // Info data for each region (random placeholder)
-  const regionInfo: Record<string, { title: string; items: string[] }> = {
-    NPBA: {
-      title: 'Kathmandu Info:',
-      items: ['Transport Nagar, Ring Road, Kathmandu'],
-    },
-    NPKA: {
-      title: 'Karnali Info:',
-      items: ['None'],
-    },
-    NPMA: {
-      title: 'Mahakali Info:',
-      items: ['None'],
-    },
-    NPSE: {
-      title: 'Seti Info:',
-      items: ['None'],
-    },
-    NPDH: {
-      title: 'Dhawalagiri Info:',
-      items: ['None'],
-    },
-    NPGA: {
-      title: 'Gandaki Info:',
-      items: [
-        'Rani Pauwa, Pokhara',
-        'Kushma / Beni / Baglung',
-        'Damauli / Aabukhaireni / Lamjung / Gorkha',
-        'Syangja / Waling / Galyang',
-      ],
-    },
-    NPJA: {
-      title: 'Janakpur Info:',
-      items: ['None'],
-    },
-    NPSA: {
-      title: 'Sagarmatha Info:',
-      items: ['None'],
-    },
-    NPKO: {
-      title: 'Bhojpur Info:',
-      items: ['None'],
-    },
-    NPME: {
-      title: 'Mechi Info:',
-      items: ['None'],
-    },
-    NPNA: {
-      title: 'Narayani Info:',
-      items: ['Adarsh Nagar, Birgunj'],
-    },
-    NPLU: {
-      title: 'Lumbini Info:',
-      items: ['Dhawaha, Butwal', 'Yantra Sala Margha, Narayanghat'],
-    },
+  const info = hoveredPath && REGION_INFO[hoveredPath];
+  const activePin =
+    MAP_PINS[activePinIndex] ||
+    (hoveredPin ? MAP_PINS.find((pin) => pin.id === hoveredPin) : null);
+  const displayedPinIndex = activePin
+    ? MAP_PINS.findIndex((pin) => pin.id === activePin.id)
+    : -1;
+
+  const stopAutoRotation = () => {
+    if (intervalRef.current) {
+      clearInterval(intervalRef.current);
+      intervalRef.current = null;
+    }
   };
 
-  const info = hoveredPath && regionInfo[hoveredPath];
-  const activePin =
-    PIN_LOCATIONS[activePinIndex] ||
-    (hoveredPin ? PIN_LOCATIONS.find((p) => p.id === hoveredPin) : null);
+  const navigatePins = (direction: PinDirection) => {
+    stopAutoRotation();
+    setHoveredPin(null);
+    setActivePinIndex((currentIndex) =>
+      getWrappedPinIndex(currentIndex, MAP_PINS.length, direction)
+    );
+  };
 
   return (
     <div
@@ -258,7 +142,7 @@ const NepalMap: React.FC<NepalMapProps> = ({ style = {} }) => {
             transform: 'translateX(-50%)',
             width: 'calc(100% - 40px)',
             maxWidth: '400px',
-            height: '120px', // Strictly fixed height for stability
+            minHeight: '120px',
             display: 'flex',
             flexDirection: 'column',
             justifyContent: 'center',
@@ -591,7 +475,7 @@ const NepalMap: React.FC<NepalMapProps> = ({ style = {} }) => {
 
           {/* Pins Layer */}
           <g id="pins-layer">
-            {PIN_LOCATIONS.map((pin, i) => {
+            {MAP_PINS.map((pin, i) => {
               const color =
                 pin.type === 'booking' ? BOOKING_COLOR : DELIVERY_COLOR;
               const isActive = hoveredPin
@@ -601,10 +485,7 @@ const NepalMap: React.FC<NepalMapProps> = ({ style = {} }) => {
               const handlePinClick = () => {
                 setActivePinIndex(i);
                 // Pause auto-rotation when user manually selects a pin
-                if (intervalRef.current) {
-                  clearInterval(intervalRef.current);
-                  intervalRef.current = null;
-                }
+                stopAutoRotation();
               };
 
               return (
@@ -705,6 +586,48 @@ const NepalMap: React.FC<NepalMapProps> = ({ style = {} }) => {
             </div>
           </div>
         )}
+      </div>
+
+      <div
+        style={{
+          marginTop: '24px',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          gap: '14px',
+          flexWrap: 'wrap',
+          width: '100%',
+        }}
+      >
+        <button
+          type="button"
+          style={PIN_NAV_BUTTON_STYLE}
+          onClick={() => navigatePins('previous')}
+          aria-label="Show previous service pin"
+        >
+          ← Previous
+        </button>
+        <div
+          style={{
+            minWidth: '88px',
+            color: '#CBD5E1',
+            fontSize: '13px',
+            fontWeight: 700,
+            textAlign: 'center',
+          }}
+        >
+          {displayedPinIndex >= 0
+            ? `${displayedPinIndex + 1} / ${MAP_PINS.length}`
+            : `0 / ${MAP_PINS.length}`}
+        </div>
+        <button
+          type="button"
+          style={PIN_NAV_BUTTON_STYLE}
+          onClick={() => navigatePins('next')}
+          aria-label="Show next service pin"
+        >
+          Next →
+        </button>
       </div>
 
       {/* HTML Legend (Below the map) */}

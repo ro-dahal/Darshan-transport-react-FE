@@ -11,6 +11,7 @@ import readmoreLogo from '../../../../assets/Company logos/readmore.png';
 import sujaldairyLogo from '../../../../assets/Company logos/sujaldairy.jpg';
 import sujalfoodLogo from '../../../../assets/Company logos/sujalfood.png';
 import treveniLogo from '../../../../assets/Company logos/treveni.jpg';
+import parcelCourierDeliveryIcon from '../../../../assets/img/Parcel & Courier Delivery.png';
 import builtForHeavyLoadsIcon from '../../../../assets/img/Built for heavy loads.png';
 import strongNationwideNetworkIcon from '../../../../assets/img/strong Nationwide Network.png';
 import ontimeConsistentDeliveryIcon from '../../../../assets/img/ontime & consistent delivey.png';
@@ -125,16 +126,18 @@ export const ABOUT_CORE_VALUES: CoreValueItem[] = [
     iconType: 'image',
   },
   {
-    icon: '⚙️',
+    icon: parcelCourierDeliveryIcon,
     title: 'Reliable Fleet & Trained Team',
     description:
       'Verified drivers and trained handlers ensure accuracy and safety from loading to delivery.',
+    iconType: 'image',
   },
   {
-    icon: '✊',
+    icon: parcelCourierDeliveryIcon,
     title: 'Technology-Ready Logistics',
     description:
       'Digital workflows ensure faster processing, clear records, and transparent communication.',
+    iconType: 'image',
   },
 ];
 

@@ -1,4 +1,5 @@
 import bgImage from '../../../../assets/img/optimized/bg.webp';
+import parcelCourierDeliveryIcon from '../../../../assets/img/Parcel & Courier Delivery.png';
 
 export interface ServiceCard {
   icon: string;
@@ -22,45 +23,45 @@ export const SERVICES_STATS = [
 
 export const SERVICES_CARDS: ServiceCard[] = [
   {
-    icon: '🔒',
+    icon: parcelCourierDeliveryIcon,
     label: 'E-commerce brands',
     // description:
     //   'Secure, convenient, and scalable warehousing for all your storage and distribution needs, with seamless inventory management.',
-    iconType: 'emoji',
+    iconType: 'image',
   },
   {
-    icon: '📦',
+    icon: parcelCourierDeliveryIcon,
     label: 'Importers & exporters',
     // description:
     //   'Specialized handling and management of parcels and freight, ensuring safety and compliance from pickup to delivery.',
-    iconType: 'emoji',
+    iconType: 'image',
   },
   {
-    icon: '🗺️',
+    icon: parcelCourierDeliveryIcon,
     label: 'Manufacturers & wholesalers',
     // description:
     //   'Advanced route planning for efficient and timely deliveries, reducing transit time and costs for your business.',
-    iconType: 'emoji',
+    iconType: 'image',
   },
   {
-    icon: '🔒',
+    icon: parcelCourierDeliveryIcon,
     label: 'Retail chains',
     // description:
     //   'Comprehensive security protocols to protect your valuable goods at every stage of the logistics journey.',
-    iconType: 'emoji',
+    iconType: 'image',
   },
   {
-    icon: '🔒',
+    icon: parcelCourierDeliveryIcon,
     label: 'SMEs scaling distribution',
     // description:
     //   'Comprehensive security protocols to protect your valuable goods at every stage of the logistics journey.',
-    iconType: 'emoji',
+    iconType: 'image',
   },
   {
-    icon: '🔒',
+    icon: parcelCourierDeliveryIcon,
     label: 'Companies needing 3PL support',
     // description:
     //   'Comprehensive security protocols to protect your valuable goods at every stage of the logistics journey.',
-    iconType: 'emoji',
+    iconType: 'image',
   },
 ];

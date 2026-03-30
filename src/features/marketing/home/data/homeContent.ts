@@ -181,13 +181,19 @@ export const OUR_SERVICES_DATA: HomeServiceItem[] = [
   {
     title: 'Cargo & Bulk Transport',
     desc: 'For business shipments moving in volume.',
+    icon: parcelCourierDeliveryIcon,
+    iconType: 'image',
   },
   {
     title: 'Office Shifting & Corporate Moves',
     desc: 'Careful packing, smooth relocation.',
+    icon: parcelCourierDeliveryIcon,
+    iconType: 'image',
   },
   {
     title: 'E-commerce Delivery Support',
     desc: 'Pickups, COD handling, order deliveries.',
+    icon: parcelCourierDeliveryIcon,
+    iconType: 'image',
   },
 ];
