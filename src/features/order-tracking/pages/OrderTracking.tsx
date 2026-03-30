@@ -54,10 +54,14 @@ export const OrderTracking: React.FC = () => {
 
   const {
     debugRecord,
+    debugError,
     isManualDemoMode,
+    isErrorHidden,
     handleDebugSelect,
     handleManualToggle,
     setDebugRecord,
+    setDebugError,
+    setIsErrorHidden,
     isDevelopment,
   } = useOrderTrackingDemo({
     selectedSeries,
@@ -70,6 +74,7 @@ export const OrderTracking: React.FC = () => {
 
   // Use real data or debug override
   const deliveryRecord = debugRecord || realRecord;
+  const activeError = isErrorHidden ? '' : debugError || error;
 
   // Scroll to result when a new record is fetched
   React.useEffect(() => {
@@ -83,9 +88,9 @@ export const OrderTracking: React.FC = () => {
     }
   }, [deliveryRecord]);
 
-  const isServiceDown = error?.startsWith('SERVICE_UNAVAILABLE|');
-  const isServerError = error?.startsWith('SERVER_ERROR|');
-  const isEmptyInvoiceError = error === EMPTY_INVOICE_ERROR_MESSAGE;
+  const isServiceDown = activeError?.startsWith('SERVICE_UNAVAILABLE|');
+  const isServerError = activeError?.startsWith('SERVER_ERROR|');
+  const isEmptyInvoiceError = activeError === EMPTY_INVOICE_ERROR_MESSAGE;
 
   const clampedIndex = Math.max(
     0,
@@ -134,10 +139,10 @@ export const OrderTracking: React.FC = () => {
       <section className="relative z-10 mx-3 mt-10 mb-20 grid max-w-[1200px] grid-cols-[320px_1fr] gap-0 rounded-[20px] border-[1.5px] border-black/10 bg-white animate-slide-down sm:mx-6 xl:mx-auto max-[960px]:grid-cols-1">
         {/* ─── Contact ─── */}
         <aside className="relative border-r-[1.5px] border-black/5 bg-primary px-[30px] py-10 text-text-dark rounded-tl-[20px] rounded-bl-[20px] max-[960px]:rounded-tl-[16px] max-[960px]:rounded-tr-[16px] max-[960px]:rounded-bl-none max-[960px]:border-r-0 max-[960px]:border-b-[1.5px] max-[960px]:border-black/10">
-          <div className="absolute top-0 left-[30px] inline-block -translate-y-1/2 rounded bg-[#2b2b2b] px-3 py-1 text-xs font-semibold tracking-[2px] text-white uppercase">
+          <div className="absolute top-0 left-[30px] inline-block -translate-y-1/2 rounded bg-[#2b2b2b] px-3 py-1 text-xs font-bold text-white uppercase">
             CONTACT
           </div>
-          <h2 className="mt-[10px] mb-6 text-3xl leading-[0.9] font-semibold text-text-dark uppercase sm:text-4xl lg:text-5xl">
+          <h2 className="mt-[10px] mb-6 text-3xl leading-[0.9] font-bold text-text-dark uppercase sm:text-4xl lg:text-5xl">
             GET IN TOUCH!
           </h2>
           <p className="mb-10 text-xs leading-relaxed opacity-80">
@@ -148,7 +153,7 @@ export const OrderTracking: React.FC = () => {
               key={ch.label}
               className="mb-4 border-t border-black/10 pt-4 sm:mb-6 lg:mb-8"
             >
-              <div className="mb-1 text-base font-bold tracking-[2px] uppercase">
+              <div className="mb-1 text-base font-bold uppercase">
                 {ch.label.toUpperCase()}
               </div>
               <div className="break-all text-sm leading-[1.4] font-medium">
@@ -172,7 +177,7 @@ export const OrderTracking: React.FC = () => {
 
         {/* ─── Main ─── */}
         <div className="bg-white pt-10 rounded-tr-[20px] rounded-br-[20px] max-[960px]:rounded-tr-none max-[960px]:rounded-bl-[16px] max-[960px]:rounded-br-[16px]">
-          <h3 className="mb-2 px-4 text-2xl leading-[1.1] font-bold tracking-[-0.02em] text-primary sm:px-6 sm:text-3xl lg:px-10 lg:text-5xl">
+          <h3 className="mb-2 px-4 text-2xl leading-[1.1] font-bold text-primary sm:px-6 sm:text-3xl lg:px-10 lg:text-5xl">
             CHECK DELIVERY STATUS
           </h3>
 
@@ -183,7 +188,9 @@ export const OrderTracking: React.FC = () => {
                 <h4 className="mb-1 text-xl font-semibold uppercase">
                   SERVICE UNAVAILABLE
                 </h4>
-                <p className="text-sm text-text-dark">{error.split('|')[1]}</p>
+                <p className="text-sm text-text-dark">
+                  {activeError?.split('|')[1]}
+                </p>
               </div>
             </div>
           )}
@@ -194,7 +201,9 @@ export const OrderTracking: React.FC = () => {
                 <h4 className="mb-1 text-xl font-semibold uppercase">
                   SYSTEM ERROR
                 </h4>
-                <p className="text-sm text-text-dark">{error.split('|')[1]}</p>
+                <p className="text-sm text-text-dark">
+                  {activeError?.split('|')[1]}
+                </p>
               </div>
             </div>
           )}
@@ -208,7 +217,7 @@ export const OrderTracking: React.FC = () => {
               <div className="mt-8 flex flex-col items-start gap-2 sm:flex-row sm:items-center sm:gap-6">
                 <label
                   htmlFor="v2-series"
-                  className="text-[0.85rem] font-semibold tracking-[1px] uppercase sm:min-w-[120px]"
+                  className="text-[0.85rem] font-bold uppercase sm:min-w-[120px]"
                 >
                   SERIES:
                 </label>
@@ -243,7 +252,7 @@ export const OrderTracking: React.FC = () => {
               <div className="mt-0 flex flex-col items-start gap-2 sm:mt-8 sm:flex-row sm:items-center sm:gap-6">
                 <label
                   htmlFor="v2-invoice"
-                  className="text-[0.85rem] font-semibold tracking-[1px] uppercase sm:min-w-[120px]"
+                  className="text-[0.85rem] font-bold uppercase sm:min-w-[120px]"
                 >
                   INVOICE NO:
                 </label>
@@ -281,7 +290,7 @@ export const OrderTracking: React.FC = () => {
                   invoice 000111.
                 </p>
               )}
-              {!isServiceDown && !isServerError && error && (
+              {!isServiceDown && !isServerError && activeError && (
                 <div
                   role={isEmptyInvoiceError ? 'status' : 'alert'}
                   className={`mt-3 inline-flex rounded-lg border px-4 py-2 text-sm ${
@@ -290,7 +299,7 @@ export const OrderTracking: React.FC = () => {
                       : 'border-[#f0c4c4] bg-[#fff5f5] text-[#8b2d2d]'
                   }`}
                 >
-                  {error}
+                  {activeError}
                 </div>
               )}
             </div>
@@ -404,7 +413,7 @@ export const OrderTracking: React.FC = () => {
                       </div>
 
                       <span
-                        className={`text-[0.9rem] font-bold tracking-[1px] uppercase lg:text-[0.8rem] xl:text-[0.9rem] max-[1023px]:text-[0.75rem] max-[1023px]:text-center ${
+                        className={`text-[0.85rem] font-bold uppercase lg:text-[0.75rem] xl:text-[0.85rem] max-[1023px]:text-[0.7rem] max-[1023px]:text-center ${
                           isActive || isCompleted
                             ? 'text-text-dark'
                             : 'text-text-medium opacity-40'
@@ -434,7 +443,7 @@ export const OrderTracking: React.FC = () => {
                 </h4>
                 {deliveryRecord.source === 'public_pod' && (
                   <div className="grid grid-cols-1 gap-1 border-b border-black/5 py-4 last:border-b-0 sm:grid-cols-[140px_1fr] xl:sm:grid-cols-[200px_1fr] sm:gap-0">
-                    <b className="text-xs font-medium tracking-[1px] text-text-medium uppercase">
+                    <b className="text-xs font-bold text-text-medium uppercase">
                       POD STATUS
                     </b>
                     <span className="font-semibold text-text-dark sm:text-right">
@@ -444,7 +453,7 @@ export const OrderTracking: React.FC = () => {
                 )}
                 {deliveryRecord.message && (
                   <div className="grid grid-cols-1 gap-1 border-b border-black/5 py-4 last:border-b-0 sm:grid-cols-[140px_1fr] xl:sm:grid-cols-[200px_1fr] sm:gap-0">
-                    <b className="text-xs font-medium tracking-[1px] text-text-medium uppercase">
+                    <b className="text-xs font-bold text-text-medium uppercase">
                       MESSAGE
                     </b>
                     <span className="font-semibold text-text-dark sm:text-right">
@@ -454,7 +463,7 @@ export const OrderTracking: React.FC = () => {
                 )}
                 {deliveryRecord.consigner && (
                   <div className="grid grid-cols-1 gap-1 border-b border-black/5 py-4 last:border-b-0 sm:grid-cols-[140px_1fr] xl:sm:grid-cols-[200px_1fr] sm:gap-0">
-                    <b className="text-xs font-medium tracking-[1px] text-text-medium uppercase">
+                    <b className="text-xs font-bold text-text-medium uppercase">
                       CONSIGNER
                     </b>
                     <span className="font-semibold text-text-dark sm:text-right">
@@ -464,7 +473,7 @@ export const OrderTracking: React.FC = () => {
                 )}
                 {deliveryRecord.consignee && (
                   <div className="grid grid-cols-1 gap-1 border-b border-black/5 py-4 last:border-b-0 sm:grid-cols-[140px_1fr] xl:sm:grid-cols-[200px_1fr] sm:gap-0">
-                    <b className="text-xs font-medium tracking-[1px] text-text-medium uppercase">
+                    <b className="text-xs font-bold text-text-medium uppercase">
                       CONSIGNEE
                     </b>
                     <span className="font-semibold text-text-dark sm:text-right">
@@ -474,7 +483,7 @@ export const OrderTracking: React.FC = () => {
                 )}
                 {deliveryRecord.from && (
                   <div className="grid grid-cols-1 gap-1 border-b border-black/5 py-4 last:border-b-0 sm:grid-cols-[140px_1fr] xl:sm:grid-cols-[200px_1fr] sm:gap-0">
-                    <b className="text-xs font-medium tracking-[1px] text-text-medium uppercase">
+                    <b className="text-xs font-bold text-text-medium uppercase">
                       ORIGIN
                     </b>
                     <span className="font-semibold text-text-dark sm:text-right">
@@ -484,7 +493,7 @@ export const OrderTracking: React.FC = () => {
                 )}
                 {deliveryRecord.to && (
                   <div className="grid grid-cols-1 gap-1 border-b border-black/5 py-4 last:border-b-0 sm:grid-cols-[140px_1fr] xl:sm:grid-cols-[200px_1fr] sm:gap-0">
-                    <b className="text-xs font-medium tracking-[1px] text-text-medium uppercase">
+                    <b className="text-xs font-bold text-text-medium uppercase">
                       DEST
                     </b>
                     <span className="font-semibold text-text-dark sm:text-right">
@@ -494,7 +503,7 @@ export const OrderTracking: React.FC = () => {
                 )}
                 {formatDate(deliveryRecord.bookingDate) && (
                   <div className="grid grid-cols-1 gap-1 border-b border-black/5 py-4 last:border-b-0 sm:grid-cols-[140px_1fr] xl:sm:grid-cols-[200px_1fr] sm:gap-0">
-                    <b className="text-xs font-medium tracking-[1px] text-text-medium uppercase">
+                    <b className="text-xs font-bold text-text-medium uppercase">
                       BOOKED
                     </b>
                     <span className="font-semibold text-text-dark sm:text-right">
@@ -504,7 +513,7 @@ export const OrderTracking: React.FC = () => {
                 )}
                 {formatDate(deliveryRecord.dispatchDate) && (
                   <div className="grid grid-cols-1 gap-1 border-b border-black/5 py-4 last:border-b-0 sm:grid-cols-[140px_1fr] xl:sm:grid-cols-[200px_1fr] sm:gap-0">
-                    <b className="text-xs font-medium tracking-[1px] text-text-medium uppercase">
+                    <b className="text-xs font-bold text-text-medium uppercase">
                       DISPATCHED
                     </b>
                     <span className="font-semibold text-text-dark sm:text-right">
@@ -514,7 +523,7 @@ export const OrderTracking: React.FC = () => {
                 )}
                 {formatDate(deliveryRecord.arrivalDate) && (
                   <div className="grid grid-cols-1 gap-1 border-b border-black/5 py-4 last:border-b-0 sm:grid-cols-[140px_1fr] xl:sm:grid-cols-[200px_1fr] sm:gap-0">
-                    <b className="text-xs font-medium tracking-[1px] text-text-medium uppercase">
+                    <b className="text-xs font-bold text-text-medium uppercase">
                       ARRIVED
                     </b>
                     <span className="font-semibold text-text-dark sm:text-right">
@@ -524,7 +533,7 @@ export const OrderTracking: React.FC = () => {
                 )}
                 {deliveryRecord.error && (
                   <div className="grid grid-cols-1 gap-1 border-b border-black/5 py-4 last:border-b-0 sm:grid-cols-[140px_1fr] xl:sm:grid-cols-[200px_1fr] sm:gap-0">
-                    <b className="text-xs font-medium tracking-[1px] text-text-medium uppercase">
+                    <b className="text-xs font-bold text-text-medium uppercase">
                       NOTES
                     </b>
                     <span className="font-semibold text-text-dark sm:text-right">
@@ -542,6 +551,11 @@ export const OrderTracking: React.FC = () => {
           onSelect={handleDebugSelect}
           manualMode={isManualDemoMode}
           onToggleManualMode={handleManualToggle}
+          debugError={debugError}
+          setDebugError={setDebugError}
+          setDebugRecord={setDebugRecord}
+          isErrorHidden={isErrorHidden}
+          setIsErrorHidden={setIsErrorHidden}
         />
       )}
     </div>

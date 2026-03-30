@@ -11,10 +11,14 @@ interface UseOrderTrackingDemoProps {
 
 interface UseOrderTrackingDemoReturn {
   debugRecord: DeliveryRecord | null;
+  debugError: string;
   isManualDemoMode: boolean;
+  isErrorHidden: boolean;
   handleDebugSelect: (scenario: DemoScenario | null) => void;
   handleManualToggle: (enabled: boolean) => void;
   setDebugRecord: (record: DeliveryRecord | null) => void;
+  setDebugError: (error: string) => void;
+  setIsErrorHidden: (hidden: boolean) => void;
   isDevelopment: boolean;
 }
 
@@ -31,7 +35,9 @@ export function useOrderTrackingDemo({
   const isDevelopment = import.meta.env.DEV;
 
   const [debugRecord, setDebugRecord] = useState<DeliveryRecord | null>(null);
+  const [debugError, setDebugError] = useState<string>('');
   const [isManualDemoMode, setIsManualDemoMode] = useState(false);
+  const [isErrorHidden, setIsErrorHidden] = useState(false);
 
   // Magic Input: Watch for manual entry of demo credentials
   // ONLY active in development
@@ -46,6 +52,8 @@ export function useOrderTrackingDemo({
 
     if (matchedScenario) {
       setDebugRecord(matchedScenario.record);
+      setDebugError('');
+      setIsErrorHidden(false);
     } else if (debugRecord && !selectedSeries.startsWith('DEMO')) {
       const isscenario = DEMO_SCENARIOS.some((s) => s.record === debugRecord);
       if (isscenario) {
@@ -65,10 +73,14 @@ export function useOrderTrackingDemo({
 
     if (scenario) {
       setDebugRecord(scenario.record);
+      setDebugError('');
+      setIsErrorHidden(false);
       selectSeries(scenario.series);
       updateInvoiceNumber(scenario.invoice);
     } else {
       setDebugRecord(null);
+      setDebugError('');
+      setIsErrorHidden(false);
       updateInvoiceNumber('');
     }
   };
@@ -79,8 +91,11 @@ export function useOrderTrackingDemo({
     setIsManualDemoMode(enabled);
     if (!enabled) {
       setDebugRecord(null);
+      setDebugError('');
+      setIsErrorHidden(false);
     } else {
       setDebugRecord(null);
+      setDebugError('');
     }
   };
 
@@ -88,20 +103,28 @@ export function useOrderTrackingDemo({
   if (!isDevelopment) {
     return {
       debugRecord: null,
+      debugError: '',
       isManualDemoMode: false,
+      isErrorHidden: false,
       handleDebugSelect: () => {},
       handleManualToggle: () => {},
       setDebugRecord: () => {},
+      setDebugError: () => {},
+      setIsErrorHidden: () => {},
       isDevelopment: false,
     };
   }
 
   return {
     debugRecord,
+    debugError,
     isManualDemoMode,
+    isErrorHidden,
     handleDebugSelect,
     handleManualToggle,
     setDebugRecord,
+    setDebugError,
+    setIsErrorHidden,
     isDevelopment: true,
   };
 }
