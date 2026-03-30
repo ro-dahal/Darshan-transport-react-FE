@@ -52,7 +52,7 @@ export const FOOTER_COLUMNS: FooterColumn[] = [
         label: 'LinkedIn',
         href: 'https://www.linkedin.com/company/darshan-transport-np/posts/?feedView=all',
       },
-      { label: '+977 9809991233', href: '#' },
+      { label: '+977 9801914225', href: '#' },
       { label: 'info@darshantransport.com.np', href: '#' },
     ],
   },

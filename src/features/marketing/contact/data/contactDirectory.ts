@@ -73,7 +73,7 @@ export const DELIVERY_OFFICES: OfficeRow[] = [
     address: 'Kushma / Beni / Baglung',
     contact: '+977 9801914215',
     location: 'Kushma, Nepal',
-    search: 'Kushma Beni Nepal',
+    search: '28.260740741840284, 83.60496532215558',
   },
   {
     sn: 4,
