@@ -44,7 +44,7 @@ export const GetQuotePage: React.FC = () => {
         <div className="max-w-[900px] mx-auto mb-8">
           <ContactMap mapUrl={mapUrl} loading={loading} mapRef={mapRef} />
         </div>
-        <div className="flex flex-wrap gap-8 justify-center items-center max-[900px]:flex-col max-[900px]:gap-6">
+        <div className="flex flex-wrap gap-8 justify-center items-start max-[900px]:flex-col max-[900px]:gap-6">
           <div className="flex-1 min-w-[300px] max-w-xl">
             <ContactDirectoryTable
               title="Booking Area"
