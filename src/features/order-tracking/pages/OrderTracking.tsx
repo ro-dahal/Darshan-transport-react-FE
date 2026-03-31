@@ -156,7 +156,7 @@ export const OrderTracking: React.FC = () => {
               <div className="mb-1 text-base font-bold uppercase">
                 {ch.label.toUpperCase()}
               </div>
-              <div className="break-all text-sm leading-[1.4] font-medium">
+              <div className="text-sm font-medium leading-[1.4] max-lg:whitespace-nowrap lg:whitespace-pre-line">
                 {ch.value}
               </div>
             </div>

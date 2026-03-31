@@ -24,7 +24,7 @@ export const CONTACT_CHANNELS: ContactChannel[] = [
   },
   {
     label: 'Address',
-    value: 'Transport Nagar, Sano Bharyang, Kathmandu',
+    value: 'Transport Nagar, Sano Bharyang,\nKathmandu',
     icon: 'location',
   },
 ];
