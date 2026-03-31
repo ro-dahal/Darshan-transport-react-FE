@@ -19,7 +19,7 @@ const CONTACT_PAGE_STRUCTURED_DATA = {
       '@type': 'ContactPoint',
       contactType: 'customer support',
       telephone: '+9779801914226',
-      email: 'darshan.transport.2053@gmail.com',
+      email: 'info@darshantransport.com.np',
       areaServed: 'NP',
       availableLanguage: ['en', 'ne'],
     },
@@ -42,7 +42,17 @@ export const ContactPage: React.FC = () => {
       <section className="py-16 bg-[#fafafa]">
         <div className="max-w-4xl mx-auto px-5 flex flex-col gap-12">
           <ContactIntro />
-          <ContactForm onSubmit={async () => Promise.resolve()} />
+          <ContactForm
+            onSubmit={async (payload) => {
+              const subject = encodeURIComponent(
+                `Contact from ${payload.name}`
+              );
+              const body = encodeURIComponent(
+                `Name: ${payload.name}\nEmail: ${payload.email}\n\n${payload.message}`
+              );
+              window.location.href = `mailto:info@darshantransport.com.np?subject=${subject}&body=${body}`;
+            }}
+          />
         </div>
       </section>
       <OfficeLocationsSection />
