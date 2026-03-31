@@ -54,7 +54,7 @@ const ProcessFixed: React.FC = () => (
 );
 
 const ProcessCard = ({ step, idx }: { step: ProcessStep; idx: number }) => (
-  <div className="bg-white rounded-2xl shadow-[0_4px_24px_rgba(0,0,0,0.08)] py-8 px-[18px] pb-7 w-[200px] flex flex-col items-center transition-all duration-200 hover:-translate-y-2 hover:scale-[1.04] hover:shadow-[0_8px_32px_rgba(252,175,23,0.18)] max-xl:w-[160px] max-xl:p-[18px_8px_14px] max-sm:w-full">
+  <div className="bg-white rounded-2xl shadow-[0_4px_24px_rgba(0,0,0,0.08)] py-8 px-[18px] pb-7 w-[200px] flex flex-col items-center transition-all duration-200 hover:-translate-y-2 hover:scale-[1.04] hover:shadow-[0_8px_32px_rgba(252,175,23,0.18)] max-xl:w-[160px] max-xl:p-[18px_8px_14px] max-sm:w-full max-sm:max-w-[280px]">
     <div className="bg-primary text-white text-[1.7rem] font-bold w-12 h-12 rounded-full flex items-center justify-center mb-[18px] shadow-[0_2px_8px_rgba(252,175,23,0.18)]">
       {idx + 1}
     </div>

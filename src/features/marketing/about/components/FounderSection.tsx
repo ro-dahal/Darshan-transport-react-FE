@@ -20,7 +20,7 @@ export const FounderSection: React.FC<FounderSectionProps> = ({ profiles }) => (
             >
               {/* Text Column */}
               <div className="flex-1 order-2 lg:order-1 self-center">
-                <h2 className="text-[2.5rem] font-bold text-black mb-6 text-center lg:text-left max-lg:text-[2rem] max-md:text-[1.8rem] max-sm:text-[1.5rem]">
+                <h2 className="text-[2.5rem] font-bold text-black mb-6 text-center lg:text-left max-lg:text-[2rem] max-md:text-[1.8rem] max-sm:text-[1.4rem]">
                   {profile.role}
                 </h2>
                 <p className="text-base leading-[1.8] text-text-dark mb-[30px] text-justify">
@@ -50,7 +50,7 @@ export const FounderSection: React.FC<FounderSectionProps> = ({ profiles }) => (
                 <img
                   src={profile.image}
                   alt={`${profile.signatureLabel} portrait`}
-                  className="w-full max-w-[450px] shadow-[0_4px_12px_rgba(0,0,0,0.15)] border-4 border-white rounded-sm"
+                  className="w-full max-w-[450px] shadow-[0_4px_12px_rgba(0,0,0,0.15)] border-4 border-white rounded-sm max-sm:max-w-full"
                 />
               </div>
             </div>

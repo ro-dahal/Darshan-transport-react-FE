@@ -2,7 +2,7 @@ import React from 'react';
 
 export const DifferencesSection: React.FC = () => (
   <section className="py-10 px-5 pb-[60px] max-w-[1200px] mx-auto mb-10">
-    <div className="grid grid-cols-[1fr_8px_1fr] gap-10 items-start max-lg:grid-cols-1">
+    <div className="grid grid-cols-[1fr_8px_1fr] gap-10 items-start max-lg:grid-cols-1 max-lg:gap-6 max-md:gap-4">
       <div className="flex flex-col gap-[18px]">
         <h4 className="text-primary text-sm font-bold mb-1.5">OUR MISSION</h4>
         <div className="bg-transparent py-2">

@@ -5,7 +5,7 @@ export interface GrowthSectionProps {
 }
 
 export const GrowthSection: React.FC<GrowthSectionProps> = ({ stats }) => (
-  <section className="bg-[#757575] text-white py-12 px-0 text-center max-sm:py-8 max-sm:pb-6">
+  <section className="bg-[#757575] text-white py-12 px-5 text-center max-sm:py-8 max-sm:pb-6">
     <div className="mb-[68px]">
       <h4 className="text-primary text-2xl font-normal tracking-[1px] mb-2 m-0">
         Our Growth

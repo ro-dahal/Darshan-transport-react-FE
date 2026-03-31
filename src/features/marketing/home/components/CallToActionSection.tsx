@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 
 export const CallToActionSection: React.FC = () => (
   <section className="bg-primary py-9 px-4 flex justify-center items-center">
-    <div className="flex flex-wrap items-center justify-between max-w-[1200px] w-full max-md:flex-col max-md:text-center max-md:gap-5">
+    <div className="flex flex-wrap items-center justify-between max-w-[1200px] w-full gap-4 max-md:flex-col max-md:text-center max-md:gap-5 max-sm:px-4">
       <h2 className="text-4xl max-md:text-[28px] max-sm:text-2xl font-black text-black m-0 leading-[1.2]">
         Ready to send your Goods?
         <br />

@@ -16,7 +16,7 @@ export const CoreValuesSection: React.FC<CoreValuesSectionProps> = ({
         Why Choose Us
       </h2>
     </div>
-    <div className="grid grid-cols-2 gap-x-[60px] gap-y-10 max-w-[1100px] mx-auto px-6 max-lg:grid-cols-1 max-lg:gap-7">
+    <div className="grid grid-cols-2 gap-x-[60px] gap-y-10 max-w-[1100px] mx-auto px-6 max-lg:grid-cols-1 max-lg:gap-7 max-sm:px-3">
       {values.map((value, index) => {
         const isLastOdd =
           index === values.length - 1 && values.length % 2 !== 0;

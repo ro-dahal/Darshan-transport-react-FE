@@ -40,7 +40,7 @@ export const OfficeLocationsSection: React.FC = () => {
       <div className="flex gap-8 justify-center mb-8 flex-wrap max-lg:gap-5 max-md:flex-col max-md:items-center">
         {locations.map((loc) => (
           <div
-            className="w-[260px] h-[300px] rounded-[10px] bg-cover bg-center relative overflow-hidden shadow-[0_2px_16px_rgba(0,0,0,0.08)] flex items-end transition-transform duration-200 hover:-translate-y-1.5 hover:shadow-[0_6px_24px_rgba(0,0,0,0.16)] max-lg:w-[210px] max-lg:h-[240px]"
+            className="w-[260px] h-[300px] rounded-[10px] bg-cover bg-center relative overflow-hidden shadow-[0_2px_16px_rgba(0,0,0,0.08)] flex items-end transition-transform duration-200 hover:-translate-y-1.5 hover:shadow-[0_6px_24px_rgba(0,0,0,0.16)] max-lg:w-[210px] max-lg:h-[240px] max-md:w-full max-md:max-w-[320px] max-md:h-[220px]"
             key={loc.city + loc.area}
             style={{ backgroundImage: `url(${loc.image})` }}
           >

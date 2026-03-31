@@ -97,9 +97,9 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ description }) => {
 
       <section
         id="hero"
-        className="relative z-[2] h-full flex flex-col justify-center items-start py-0 px-[140px] pr-20 max-w-[720px] max-md:px-5 max-md:py-20 max-md:text-center max-sm:px-[15px] max-sm:py-[60px]"
+        className="relative z-[2] h-full flex flex-col justify-center items-start py-0 px-[140px] pr-20 max-w-[720px] max-xl:px-16 max-lg:px-10 max-md:px-5 max-md:py-20 max-md:items-center max-md:text-center max-md:max-w-full max-sm:px-4 max-sm:py-[60px]"
       >
-        <div className="relative w-full max-w-[580px] max-md:max-w-full">
+        <div className="relative w-full max-w-[580px] max-md:max-w-[500px] max-sm:max-w-full">
           <div
             className="relative overflow-hidden rounded-[32px] bg-black/25 px-10 py-12 backdrop-blur-sm max-md:px-6 max-md:py-8"
             style={{

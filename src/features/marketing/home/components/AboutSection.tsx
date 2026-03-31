@@ -16,7 +16,7 @@ export const AboutSection: React.FC<AboutSectionProps> = ({
   animationSrc,
 }) => (
   <section className="flex flex-col py-[60px] px-5 max-lg:py-10 max-lg:px-[30px] max-md:py-[30px] max-md:px-[15px]">
-    <div className="flex-[1_1_500px] px-25">
+    <div className="flex-[1_1_500px] px-25 max-xl:px-16 max-lg:px-10 max-md:px-5 max-sm:px-3">
       <h1 className="text-[28px] font-bold text-[#2c3e50] mb-[50px] text-primary">
         Transport Solutions Built for Business
       </h1>

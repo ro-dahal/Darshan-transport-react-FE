@@ -32,7 +32,7 @@ const HowItWorks: React.FC = () => {
         {HOW_IT_WORKS_STEPS.map((step) => (
           <div
             key={step.title}
-            className="bg-[#f6b434] text-[#111] w-[240px] h-[200px] pt-[18px] pb-4 px-4 rounded-[20px] flex flex-col items-center justify-start text-center gap-2 transition-all duration-200 hover:shadow-[10px_14px_0_0_#e0e0e0] hover:-translate-y-1 hover:scale-[1.03]"
+            className="bg-[#f6b434] text-[#111] w-[240px] h-[200px] pt-[18px] pb-4 px-4 rounded-[20px] flex flex-col items-center justify-start text-center gap-2 transition-all duration-200 hover:shadow-[10px_14px_0_0_#e0e0e0] hover:-translate-y-1 hover:scale-[1.03] max-sm:w-full max-sm:max-w-[280px]"
           >
             <div className="bg-white w-16 h-16 rounded-[20px] flex items-center justify-center mb-3 overflow-hidden">
               <img

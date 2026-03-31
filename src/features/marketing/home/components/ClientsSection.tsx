@@ -42,7 +42,7 @@ const AnimatedLogo: React.FC<{
     <motion.div
       ref={logoRef}
       style={{ scale, opacity, filter }}
-      className="flex-shrink-0 w-[200px] h-[110px] flex items-center justify-center will-change-transform"
+      className="flex-shrink-0 w-[200px] h-[110px] flex items-center justify-center will-change-transform max-md:w-[150px] max-md:h-[80px] max-sm:w-[120px] max-sm:h-[65px]"
     >
       <img
         src={logo.src}
@@ -108,7 +108,7 @@ export const ClientsSection: React.FC<ClientsSectionProps> = ({ logos }) => {
         <motion.div
           ref={contentRef}
           style={{ x }}
-          className="flex items-center gap-32 w-max will-change-transform"
+          className="flex items-center gap-32 w-max will-change-transform max-md:gap-16 max-sm:gap-10"
         >
           {/* Main set */}
           {logos.map((logo, index) => (

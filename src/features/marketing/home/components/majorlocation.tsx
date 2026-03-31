@@ -12,7 +12,7 @@ const MajorLocation: React.FC = () => {
           FROM MAJOR CITIES TO REMOTE TOWNS
         </h3>
 
-        <div className="flex justify-center gap-[50px] flex-wrap">
+        <div className="flex justify-center gap-[50px] flex-wrap max-md:gap-6 max-sm:flex-col max-sm:items-center">
           {MAJOR_LOCATIONS.map((column, colIdx) => (
             <ul
               key={colIdx}
