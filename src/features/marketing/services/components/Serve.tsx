@@ -46,7 +46,7 @@ const Serve: React.FC = () => (
               aria-hidden="true"
               loading="lazy"
               decoding="async"
-              className="w-10 h-10 object-contain"
+              className="w-10 h-10 object-contain brightness-0 invert"
             />
           </div>
           <div className="text-[1.08rem] font-semibold text-white tracking-wide">

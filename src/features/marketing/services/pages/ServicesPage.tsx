@@ -58,8 +58,8 @@ export const ServicesPage: React.FC = () => {
   return (
     <div className="services-page-wrapper">
       <MetaTags
-        title="Our Services | Darshan Transport Nepal"
-        description="Warehousing, Distribution, 3PL, Packaging & Handling, and Fleet Services across Nepal. Your goods move. You stay stress-free."
+        title="Transport & Logistics Services in Nepal | Bulk Cargo, 3PL & Delivery"
+        description="Explore Darshan Transport's logistics services in Nepal including bulk cargo transport, full-truck shipments, warehousing, 3PL, and distribution support for businesses."
         canonical="https://darshantransport.com/services"
         structuredData={SERVICES_PAGE_STRUCTURED_DATA}
       />

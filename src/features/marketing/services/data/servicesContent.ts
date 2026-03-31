@@ -1,4 +1,4 @@
-import bgImage from '../../../../assets/img/optimized/bg.webp';
+import bgImage from '../../../../assets/img/WhatsApp Image 2026-03-31 at 16.51.11.jpeg';
 import parcelCourierDeliveryIcon from '../../../../assets/img/Parcel & Courier Delivery.png';
 
 export interface ServiceCard {
@@ -10,9 +10,9 @@ export interface ServiceCard {
 
 export const SERVICES_HERO = {
   backgroundImage: bgImage,
-  title: 'Our Logistics Services in Nepal',
+  title: 'Transport & Logistics Services in Nepal',
   description:
-    'Reliable warehousing, nationwide delivery, and complete 3PL solutions for businesses that want speed, safety, and consistency.',
+    'Reliable cargo movement, warehousing, and distribution solutions designed for businesses across Nepal.',
 };
 
 export const SERVICES_STATS = [

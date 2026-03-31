@@ -12,7 +12,7 @@ export const ServicesHero: React.FC<ServicesHeroProps> = ({
   description,
 }) => (
   <section
-    className="relative h-[60vh] md:h-[50vh] flex items-center justify-center bg-cover bg-center text-white text-center px-4"
+    className="relative h-[60vh] md:h-[50vh] flex items-center justify-center bg-cover bg-top text-white text-center px-4"
     style={{
       backgroundImage: `url(${backgroundImage})`,
     }}
