@@ -24,7 +24,7 @@ const ABOUT_PAGE_STRUCTURED_DATA = {
   name: 'About Darshan Transport',
   url: 'https://darshantransport.com/about',
   description:
-    'Learn about Darshan Transport, our values, leadership, and nationwide delivery operations.',
+    'Learn about Darshan Transport, a Nepal-based logistics company offering bulk cargo transport, full-truck shipments, warehousing, and distribution support for businesses.',
   publisher: {
     '@type': 'Organization',
     name: 'Darshan Transport',
@@ -34,8 +34,8 @@ const ABOUT_PAGE_STRUCTURED_DATA = {
 export const AboutPage: React.FC = () => (
   <div className="about-page-wrapper">
     <MetaTags
-      title="About Us | Darshan Transport"
-      description="We keep it simple — clear communication, fair pricing, and on-time delivery. No hidden charges. No confusion."
+      title="About Darshan Transport | Logistics & Transport Company in Nepal"
+      description="Learn about Darshan Transport, a Nepal-based logistics company offering bulk cargo transport, full-truck shipments, warehousing, and distribution support for businesses."
       canonical="https://darshantransport.com/about"
       structuredData={ABOUT_PAGE_STRUCTURED_DATA}
     />
