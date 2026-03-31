@@ -33,7 +33,7 @@ const AnimatedLogo: React.FC<{
     proximity.set(normalizedDistance);
   });
 
-  const scale = useTransform(proximity, [0, 1], [1.2, 0.8]);
+  const scale = useTransform(proximity, [0, 1], [1.4, 0.85]);
   const opacity = useTransform(proximity, [0, 1], [1, 0.3]);
   const grayscaleAmount = useTransform(proximity, [0, 1], [0, 100]);
   const filter = useTransform(grayscaleAmount, (v) => `grayscale(${v}%)`);
@@ -42,7 +42,7 @@ const AnimatedLogo: React.FC<{
     <motion.div
       ref={logoRef}
       style={{ scale, opacity, filter }}
-      className="flex-shrink-0 w-[140px] h-[80px] flex items-center justify-center will-change-transform"
+      className="flex-shrink-0 w-[200px] h-[110px] flex items-center justify-center will-change-transform"
     >
       <img
         src={logo.src}

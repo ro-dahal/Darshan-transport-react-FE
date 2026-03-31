@@ -16,6 +16,7 @@ import { CallToActionSection } from '../components/CallToActionSection';
 import OurServices from '../components/OurServices';
 import MajorLocation from '../components/majorlocation';
 import HowItWorks from '../components/HowItWorks';
+import { FAQSection } from '../components/FAQSection';
 import { MetaTags } from '../../../../core/components/MetaTags';
 
 const HOME_PAGE_STRUCTURED_DATA = {
@@ -25,15 +26,15 @@ const HOME_PAGE_STRUCTURED_DATA = {
   url: 'https://darshantransport.com',
   logo: 'https://darshantransport.com/LogoTab.png',
   description:
-    'Fast, safe and reliable transport for businesses and individuals across Nepal.',
+    'Darshan Transport provides bulk cargo transport, full-truck shipments, warehousing, and logistics services across Nepal for businesses that need reliable delivery support.',
   areaServed: 'NP',
 };
 
 export const HomePage: React.FC = () => (
   <div className="flex flex-col min-h-screen">
     <MetaTags
-      title="Darshan Transport | Logistics & Supply Chain Nepal"
-      description="Fast, safe and reliable transport for businesses and individuals across Nepal. Your goods move. You stay stress-free."
+      title="Transport & Logistics Company in Nepal | Bulk Cargo & 3PL | Darshan Transport"
+      description="Darshan Transport provides bulk cargo transport, full-truck shipments, warehousing, and logistics services across Nepal for businesses that need reliable delivery support."
       canonical="https://darshantransport.com/"
       structuredData={HOME_PAGE_STRUCTURED_DATA}
     />
@@ -57,6 +58,7 @@ export const HomePage: React.FC = () => (
     <div className="section-optimize">
       <TestimonialsSection reviews={HOME_REVIEW_TESTIMONIALS} />
     </div>
+    <FAQSection />
     <CallToActionSection />
   </div>
 );

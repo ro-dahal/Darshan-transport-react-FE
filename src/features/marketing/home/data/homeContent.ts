@@ -47,14 +47,10 @@ export interface HomeServiceItem {
   iconType?: 'image';
 }
 
-export const HOME_HERO_DESCRIPTION = `Fast, safe and reliable transport for
-businesses and individuals across Nepal.
-Your goods move. You stay stress-free.`;
+export const HOME_HERO_DESCRIPTION = `Reliable transport, full-truck shipments, warehousing, and distribution support for businesses across Nepal.`;
 
-export const HOME_ABOUT_DESCRIPTION = `We keep it simple — clear communication, fair pricing, and
-on-time delivery.
-No hidden charges. No confusion.
-Just smooth logistics from start to finish.`;
+export const HOME_ABOUT_DESCRIPTION = `Darshan Transport is a transport and logistics company in Nepal supporting businesses with bulk cargo movement, full-truck shipments, and warehousing solutions.
+We help companies move goods safely, efficiently, and on time across major routes and cities.`;
 
 export const HOME_STATS: StatItem[] = [
   { value: '100k+', label: 'Deliveries' },

@@ -7,9 +7,9 @@ export interface HeroSectionProps {
 }
 
 // import background images from assets so the bundler can resolve them
-import bg1 from '../../../../assets/img/optimized/background.webp';
-import bg2 from '../../../../assets/img/optimized/background1.webp';
-import bg3 from '../../../../assets/img/optimized/background2.webp';
+import bg1 from '../../../../assets/img/WhatsApp Image 2026-03-31 at 17.29.43.jpeg';
+import bg2 from '../../../../assets/img/WhatsApp Image 2026-03-31 at 17.52.04.jpeg';
+import bg3 from '../../../../assets/img/WhatsApp Image 2026-03-31 at 17.55.01.jpeg';
 import rightArrow from '../../../../assets/img/optimized/right-arrow.webp';
 
 const IMAGES = [bg1, bg2, bg3];
@@ -99,28 +99,48 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ description }) => {
         id="hero"
         className="relative z-[2] h-full flex flex-col justify-center items-start py-0 px-[140px] pr-20 max-w-[720px] max-md:px-5 max-md:py-20 max-md:text-center max-sm:px-[15px] max-sm:py-[60px]"
       >
-        <h1 className="text-[60px] leading-[80px] text-white max-lg:text-[45px] max-lg:leading-[60px] max-md:text-[32px] max-md:leading-[40px] max-sm:text-[28px] max-sm:leading-[35px]">
-          Nationwide Delivery
-        </h1>
-        <h2 className="text-[60px] leading-[80px] text-primary max-lg:text-[45px] max-lg:leading-[60px] max-md:text-[32px] max-md:leading-[40px] max-sm:text-[28px] max-sm:leading-[35px]">
-          Zero Hassle
-        </h2>
-        <p className="text-base text-text-light my-[15px] max-md:text-sm max-sm:text-xs">
-          {description}
-        </p>
-        <div className="flex gap-[18px] mt-6 max-lg:flex-col max-lg:items-center max-lg:w-full max-lg:max-w-[400px] max-lg:mx-auto">
-          <Link
-            to="/order"
-            className="bg-primary text-white font-bold no-underline py-3.5 px-8 rounded-lg text-lg shadow-[0_2px_8px_rgba(0,0,0,0.08)] transition-all duration-200 border-none cursor-pointer hover:bg-primary-hover hover:shadow-[0_4px_16px_rgba(252,175,23,0.18)] max-lg:w-full max-lg:text-center max-md:py-[15px] max-md:px-[30px] max-md:text-base max-sm:py-3 max-sm:px-[25px] max-sm:text-sm max-sm:min-h-[44px]"
+        <div className="relative w-full max-w-[580px] max-md:max-w-full">
+          <div
+            className="relative overflow-hidden rounded-[32px] bg-black/25 px-10 py-12 backdrop-blur-sm max-md:px-6 max-md:py-8"
+            style={{
+              WebkitMaskImage:
+                'linear-gradient(to right, transparent, black 12%, black 88%, transparent), linear-gradient(to bottom, transparent, black 10%, black 90%, transparent)',
+              maskImage:
+                'linear-gradient(to right, transparent, black 12%, black 88%, transparent), linear-gradient(to bottom, transparent, black 10%, black 90%, transparent)',
+              WebkitMaskComposite: 'destination-in',
+              maskComposite: 'intersect',
+            }}
           >
-            Track Your Shipment
-          </Link>
-          <Link
-            to="/get-quote"
-            className="bg-white text-primary font-bold no-underline py-3.5 px-8 rounded-lg text-lg shadow-[0_4px_20px_rgba(27,27,27,0.18)] transition-all duration-200 border-none cursor-pointer hover:bg-primary hover:text-white max-lg:w-full max-lg:text-center max-md:py-[15px] max-md:px-[30px] max-md:text-base max-sm:py-3 max-sm:px-[25px] max-sm:text-sm max-sm:min-h-[44px]"
-          >
-            Get a Delivery Quote
-          </Link>
+            <div className="relative z-[1]">
+              <h1 className="text-[60px] leading-[80px] font-bold text-white max-lg:text-[45px] max-lg:leading-[60px] max-md:text-[32px] max-md:leading-[40px] max-sm:text-[28px] max-sm:leading-[35px]">
+                Bulk Cargo &
+              </h1>
+              <h2 className="text-[60px] leading-[80px] font-bold text-primary max-lg:text-[45px] max-lg:leading-[60px] max-md:text-[32px] max-md:leading-[40px] max-sm:text-[28px] max-sm:leading-[35px]">
+                Logistics Services Across Nepal
+              </h2>
+              <p className="text-base text-text-light my-[15px] max-md:text-sm max-sm:text-xs">
+                {description}
+              </p>
+              <div className="flex gap-[18px] mt-6 max-lg:flex-col max-lg:items-center max-lg:w-full max-lg:max-w-[400px] max-lg:mx-auto">
+                <Link
+                  to="/order"
+                  className="bg-primary text-white font-bold no-underline py-3.5 px-8 rounded-lg text-lg shadow-[0_2px_8px_rgba(0,0,0,0.08)] transition-all duration-200 border-none cursor-pointer hover:bg-primary-hover hover:shadow-[0_4px_16px_rgba(252,175,23,0.18)] max-lg:w-full max-lg:text-center max-md:py-[15px] max-md:px-[30px] max-md:text-base max-sm:py-3 max-sm:px-[25px] max-sm:text-sm max-sm:min-h-[44px]"
+                >
+                  Track Your Shipment
+                </Link>
+                <Link
+                  to="/get-quote"
+                  className="bg-white text-primary font-bold no-underline py-3.5 px-8 rounded-lg text-lg shadow-[0_4px_20px_rgba(27,27,27,0.18)] transition-all duration-200 border-none cursor-pointer hover:bg-primary hover:text-white max-lg:w-full max-lg:text-center max-md:py-[15px] max-md:px-[30px] max-md:text-base max-sm:py-3 max-sm:px-[25px] max-sm:text-sm max-sm:min-h-[44px]"
+                >
+                  Get a Delivery Quote
+                </Link>
+              </div>
+              <p className="mt-6 max-w-[520px] text-sm leading-6 text-text-light/90 max-lg:mx-auto max-lg:text-center max-md:text-xs">
+                Built for high-volume cargo, structured delivery, and dependable
+                logistics operations.
+              </p>
+            </div>
+          </div>
         </div>
       </section>
     </section>

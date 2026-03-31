@@ -18,7 +18,7 @@ export const AboutSection: React.FC<AboutSectionProps> = ({
   <section className="flex flex-col py-[60px] px-5 max-lg:py-10 max-lg:px-[30px] max-md:py-[30px] max-md:px-[15px]">
     <div className="flex-[1_1_500px] px-25">
       <h1 className="text-[28px] font-bold text-[#2c3e50] mb-[50px] text-primary">
-        Your Cargo Deserves Care
+        Transport Solutions Built for Business
       </h1>
       <div className="grid grid-cols-[1.2fr_0.8fr] items-center gap-10 mb-10 max-lg:grid-cols-1 max-lg:gap-[30px] max-md:gap-5 [&>*]:min-w-0">
         <p className="text-justify text-base leading-[1.6] mb-10">
