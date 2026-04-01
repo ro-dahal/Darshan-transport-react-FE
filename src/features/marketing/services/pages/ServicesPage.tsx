@@ -65,6 +65,7 @@ export const ServicesPage: React.FC = () => {
       />
       <ServicesHero
         backgroundImage={SERVICES_HERO.backgroundImage}
+        mobileBackgroundImage={SERVICES_HERO.mobileBackgroundImage}
         title={SERVICES_HERO.title}
         description={SERVICES_HERO.description}
       />

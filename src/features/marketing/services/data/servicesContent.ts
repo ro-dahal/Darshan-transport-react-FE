@@ -1,4 +1,5 @@
 import bgImage from '../../../../assets/img/WhatsApp Image 2026-03-31 at 16.51.11.jpeg';
+import bgImageMobile from '../../../../assets/img/WhatsApp Image 2026-03-31 at 16.32.44.jpeg';
 import parcelCourierDeliveryIcon from '../../../../assets/img/Parcel & Courier Delivery.png';
 
 export interface ServiceCard {
@@ -10,6 +11,7 @@ export interface ServiceCard {
 
 export const SERVICES_HERO = {
   backgroundImage: bgImage,
+  mobileBackgroundImage: bgImageMobile,
   title: 'Transport & Logistics Services in Nepal',
   description:
     'Reliable cargo movement, warehousing, and distribution solutions designed for businesses across Nepal.',

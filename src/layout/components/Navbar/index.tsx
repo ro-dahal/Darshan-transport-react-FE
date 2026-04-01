@@ -129,7 +129,10 @@ export const Navbar: React.FC = () => {
                       className={`absolute top-[calc(100%+15px)] left-0 bg-[#1a1a1a] min-w-[280px] shadow-[0_8px_16px_rgba(0,0,0,0.3)] list-none m-0 z-[9999] rounded-lg overflow-hidden transition-all duration-300 block max-md:static max-md:shadow-none max-md:bg-white/5 max-md:pl-0 max-md:rounded-none max-md:border-white/10 ${isDropdownOpen ? 'max-h-[500px] opacity-100 visible pointer-events-auto py-[15px] max-md:border-t' : 'max-h-0 opacity-0 invisible pointer-events-none py-0'}`}
                     >
                       {link.dropdown.map((item) => (
-                        <li key={item.to} className="p-0 m-0 block w-full static">
+                        <li
+                          key={item.to}
+                          className="p-0 m-0 block w-full static"
+                        >
                           <TransitionLink
                             to={item.to}
                             className={`block py-3 px-[25px] text-white opacity-80 no-underline transition-all duration-200 whitespace-nowrap w-full text-[15px] font-medium hover:bg-[rgba(252,175,23,0.2)] hover:!text-primary hover:opacity-100 max-md:py-3.5 max-md:px-4 max-md:text-white/80 max-md:text-base max-md:text-center max-md:border-b max-md:border-white/10 max-md:last:border-b-0 ${activePath === item.to ? '!bg-white/10 !text-primary !opacity-100' : ''}`}

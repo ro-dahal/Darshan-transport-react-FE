@@ -33,7 +33,7 @@ const AnimatedLogo: React.FC<{
     proximity.set(normalizedDistance);
   });
 
-  const scale = useTransform(proximity, [0, 1], [1.4, 0.85]);
+  const scale = useTransform(proximity, [0, 1], [1.4, 0.68]);
   const opacity = useTransform(proximity, [0, 1], [1, 0.3]);
   const grayscaleAmount = useTransform(proximity, [0, 1], [0, 100]);
   const filter = useTransform(grayscaleAmount, (v) => `grayscale(${v}%)`);

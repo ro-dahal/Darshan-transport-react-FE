@@ -50,7 +50,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ description }) => {
   return (
     <section
       id="main-bg"
-      className="h-[90vh] w-full relative overflow-hidden"
+      className="relative h-[calc(100svh-var(--head-height,68px))] w-full overflow-hidden md:h-[90vh]"
       onMouseEnter={pause}
       onMouseLeave={resume}
     >
@@ -72,7 +72,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ description }) => {
       </div>
 
       <button
-        className="absolute top-1/2 -translate-y-1/2 left-5 bg-black/35 border-none p-2.5 rounded-full cursor-pointer z-[4] flex items-center justify-center focus:outline-none focus:shadow-[0_0_0_3px_rgba(252,175,23,0.15)]"
+        className="absolute top-1/2 -translate-y-1/2 left-5 bg-black/35 border-none p-2.5 rounded-full cursor-pointer z-[4] hidden items-center justify-center focus:outline-none focus:shadow-[0_0_0_3px_rgba(252,175,23,0.15)] md:flex"
         aria-label="Previous slide"
         onClick={() => setIndex((i) => (i - 1 + IMAGES.length) % IMAGES.length)}
       >
@@ -84,7 +84,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ description }) => {
       </button>
 
       <button
-        className="absolute top-1/2 -translate-y-1/2 right-5 bg-black/35 border-none p-2.5 rounded-full cursor-pointer z-[4] flex items-center justify-center focus:outline-none focus:shadow-[0_0_0_3px_rgba(252,175,23,0.15)]"
+        className="absolute top-1/2 -translate-y-1/2 right-5 bg-black/35 border-none p-2.5 rounded-full cursor-pointer z-[4] hidden items-center justify-center focus:outline-none focus:shadow-[0_0_0_3px_rgba(252,175,23,0.15)] md:flex"
         aria-label="Next slide"
         onClick={() => setIndex((i) => (i + 1) % IMAGES.length)}
       >
@@ -97,28 +97,30 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ description }) => {
 
       <section
         id="hero"
-        className="relative z-[2] h-full flex flex-col justify-center items-start py-0 px-[140px] pr-20 max-w-[720px] max-xl:px-16 max-lg:px-10 max-md:px-5 max-md:py-20 max-md:items-center max-md:text-center max-md:max-w-full max-sm:px-4 max-sm:py-[60px]"
+        className="relative z-[2] flex h-full max-w-[720px] flex-col items-start justify-center px-[140px] pr-20 py-0 max-xl:px-16 max-lg:px-10 max-md:max-w-full max-md:items-center max-md:justify-end max-md:px-5 max-md:pb-[8svh] max-md:pt-0 max-md:text-center max-sm:px-4 max-sm:pb-[6svh]"
       >
         <div className="relative w-full max-w-[580px] max-md:max-w-[500px] max-sm:max-w-full">
-          <div
-            className="relative overflow-hidden rounded-[32px] bg-black/15 px-10 py-12 backdrop-blur-[2px] max-md:px-6 max-md:py-8"
-            style={{
-              WebkitMaskImage:
-                'linear-gradient(to right, transparent, black 12%, black 88%, transparent), linear-gradient(to bottom, transparent, black 10%, black 90%, transparent)',
-              maskImage:
-                'linear-gradient(to right, transparent, black 12%, black 88%, transparent), linear-gradient(to bottom, transparent, black 10%, black 90%, transparent)',
-              WebkitMaskComposite: 'destination-in',
-              maskComposite: 'intersect',
-            }}
-          >
+          <div className="relative overflow-hidden rounded-[32px] px-10 py-12 max-md:px-6 max-md:py-8">
+            <div
+              aria-hidden="true"
+              className="absolute inset-0 rounded-[32px] bg-black/15 backdrop-blur-[2px] max-md:bg-black/28"
+              style={{
+                WebkitMaskImage:
+                  'linear-gradient(to right, transparent, black 12%, black 88%, transparent), linear-gradient(to bottom, transparent, black 10%, black 90%, transparent)',
+                maskImage:
+                  'linear-gradient(to right, transparent, black 12%, black 88%, transparent), linear-gradient(to bottom, transparent, black 10%, black 90%, transparent)',
+                WebkitMaskComposite: 'destination-in',
+                maskComposite: 'intersect',
+              }}
+            />
             <div className="relative z-[1]">
-              <h1 className="text-[60px] leading-[80px] font-bold text-white max-lg:text-[45px] max-lg:leading-[60px] max-md:text-[32px] max-md:leading-[40px] max-sm:text-[28px] max-sm:leading-[35px]">
+              <h1 className="text-[60px] leading-[80px] font-bold text-white drop-shadow-[0_3px_14px_rgba(0,0,0,0.45)] max-lg:text-[45px] max-lg:leading-[60px] max-md:text-[34px] max-md:leading-[42px] max-sm:text-[30px] max-sm:leading-[37px]">
                 Bulk Cargo &
               </h1>
-              <h2 className="text-[60px] leading-[80px] font-bold text-primary max-lg:text-[45px] max-lg:leading-[60px] max-md:text-[32px] max-md:leading-[40px] max-sm:text-[28px] max-sm:leading-[35px]">
+              <h2 className="text-[60px] leading-[80px] font-bold text-primary drop-shadow-[0_3px_14px_rgba(0,0,0,0.4)] max-lg:text-[45px] max-lg:leading-[60px] max-md:text-[34px] max-md:leading-[42px] max-sm:text-[30px] max-sm:leading-[37px]">
                 Logistics Services Across Nepal
               </h2>
-              <p className="text-base text-text-light my-[15px] max-md:text-sm max-sm:text-xs">
+              <p className="my-[15px] text-base leading-7 text-white/90 drop-shadow-[0_2px_10px_rgba(0,0,0,0.4)] max-md:text-base max-md:leading-7 max-sm:text-sm max-sm:leading-6">
                 {description}
               </p>
               <div className="flex gap-[18px] mt-6 max-lg:flex-col max-lg:items-center max-lg:w-full max-lg:max-w-[400px] max-lg:mx-auto">
@@ -135,7 +137,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ description }) => {
                   Get a Delivery Quote
                 </Link>
               </div>
-              <p className="mt-6 max-w-[520px] text-sm leading-6 text-text-light max-lg:mx-auto max-lg:text-center max-md:text-xs">
+              <p className="mt-6 max-w-[520px] text-sm leading-6 text-white/85 drop-shadow-[0_2px_10px_rgba(0,0,0,0.4)] max-lg:mx-auto max-lg:text-center max-md:text-sm max-md:leading-6">
                 Built for high-volume cargo, structured delivery, and dependable
                 logistics operations.
               </p>
