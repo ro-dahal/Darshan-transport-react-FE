@@ -10,7 +10,10 @@ export const FAQPage: React.FC = () => (
       description="Find answers to frequently asked questions about Darshan Transport's bulk cargo, full-truck shipments, warehousing, and logistics services across Nepal."
       canonical="https://darshantransport.com/faq"
     />
-    <PageHeader title="FAQs" />
+    <PageHeader
+      title="Frequently Asked Questions"
+      subtitle="Clear answers for quotes, shipment support, warehousing, and business logistics across Nepal."
+    />
     <FAQSection />
   </div>
 );
