@@ -11,60 +11,80 @@ export const StorySection: React.FC<StorySectionProps> = ({
   description,
   animationSrc,
 }) => (
-  <section className="flex flex-col py-[60px] px-5 max-lg:py-10 max-lg:px-[30px] max-md:py-[30px] max-md:px-[15px]">
-    <div className="flex-[1_1_500px] px-25 max-xl:px-16 max-lg:px-10 max-md:px-5 max-sm:px-3">
-      <h2 className="text-[32px] font-bold text-[#2c3e50] mb-3 max-md:text-[26px]">
-        About Darshan Transport
-      </h2>
-      <p className="text-base leading-[1.6] text-gray-600 mb-12 max-w-[700px]">
-        A transport and logistics company in Nepal focused on bulk cargo,
-        business logistics, and reliable delivery across major routes.
-      </p>
+  <section className="py-[60px] px-5 max-lg:py-10 max-lg:px-[30px] max-md:py-[30px] max-md:px-[15px]">
+    <div className="mx-auto max-w-[1180px]">
+      <div className="max-w-[760px]">
+        <span className="text-primary text-sm font-bold tracking-[0.18em] uppercase">
+          About Darshan Transport
+        </span>
+        <h2 className="mt-3 text-[32px] font-bold leading-[1.2] text-[#2c3e50] max-md:text-[26px]">
+          A logistics partner built for dependable cargo movement across Nepal
+        </h2>
+        <p className="mt-5 max-w-[680px] text-[1.02rem] leading-[1.8] text-gray-600">
+          We support business logistics with structured transport operations,
+          bulk cargo expertise, and reliable delivery coordination across major
+          commercial routes.
+        </p>
+      </div>
 
-      <h4 className="text-primary text-sm mb-2.5">WHO WE ARE</h4>
-      <h3 className="text-[24px] font-bold text-[#2c3e50] mb-[50px] max-md:text-[20px]">
-        Reliable bulk cargo transport across Nepal
-      </h3>
-      <div className="grid grid-cols-[1.2fr_0.8fr] items-center gap-10 mb-10 max-lg:grid-cols-1 max-lg:gap-[30px] max-md:gap-5 [&>*]:min-w-0">
-        <div className="text-justify text-base leading-[1.6] mb-10">
-          {description.map((para, i) => (
-            <p key={i} className="mb-[2.2em]">
-              {para}
-            </p>
-          ))}
+      <div className="mt-14 grid grid-cols-[minmax(0,1.1fr)_minmax(320px,0.9fr)] items-start gap-12 max-lg:grid-cols-1 max-lg:gap-8">
+        <div className="min-w-0">
+          <span className="text-primary text-sm font-bold tracking-[0.18em] uppercase">
+            Who We Are
+          </span>
+          <h3 className="mt-3 max-w-[14ch] text-[26px] font-bold leading-[1.25] text-[#2c3e50] max-md:text-[21px]">
+            Reliable bulk cargo transport across Nepal
+          </h3>
+          <div className="mt-8 max-w-[680px] space-y-6 text-base leading-[1.9] text-text-medium">
+            {description.map((para, i) => (
+              <p key={i}>{para}</p>
+            ))}
+          </div>
         </div>
-        <img
-          className="w-full max-w-[520px] rounded-lg object-contain mx-auto max-md:max-w-full"
-          src={animationSrc}
-          alt="Our operations animated"
-          loading="lazy"
-          decoding="async"
-        />
+
+        <div className="flex justify-center lg:justify-end">
+          <img
+            className="w-full max-w-[520px] object-contain"
+            src={animationSrc}
+            alt="Our operations animated"
+            loading="lazy"
+            decoding="async"
+          />
+        </div>
       </div>
 
-      <div className="mt-10 mb-10">
-        <h4 className="text-primary text-sm mb-2.5">WHAT WE DO</h4>
-        <p className="text-justify text-base leading-[1.6] mb-6">
-          We provide transport and logistics services for businesses that
-          require regular, large-scale, or organized cargo movement. Our
-          operations are built to handle bulk goods, support distribution
-          networks, and improve delivery coordination across Nepal.
-        </p>
-      </div>
+      <div className="mt-14 border-t border-border-light pt-10">
+        <div className="grid gap-10 lg:grid-cols-2 lg:gap-12">
+          <div className="min-w-0">
+            <h4 className="text-primary text-sm font-bold tracking-[0.18em] uppercase">
+              What We Do
+            </h4>
+            <p className="mt-4 max-w-[540px] text-base leading-[1.85] text-text-medium">
+              We provide transport and logistics services for businesses that
+              require regular, large-scale, or organized cargo movement. Our
+              operations are built to handle bulk goods, support distribution
+              networks, and improve delivery coordination across Nepal.
+            </p>
+          </div>
 
-      <div className="mb-10">
-        <h4 className="text-primary text-sm mb-2.5">
-          OUR APPROACH TO LOGISTICS
-        </h4>
-        <p className="text-justify text-base leading-[1.6] mb-4">
-          We focus on practical logistics solutions that support business
-          operations. Our approach is based on clear planning, efficient
-          transport coordination, and reliable delivery performance.
-        </p>
-        <p className="text-justify text-base leading-[1.6]">
-          Instead of one-time delivery services, we support businesses with
-          structured transport systems that can handle ongoing cargo movement.
-        </p>
+          <div className="min-w-0">
+            <h4 className="text-primary text-sm font-bold tracking-[0.18em] uppercase">
+              Our Approach to Logistics
+            </h4>
+            <div className="mt-4 max-w-[560px] space-y-4 text-base leading-[1.85] text-text-medium">
+              <p>
+                We focus on practical logistics solutions that support business
+                operations. Our approach is based on clear planning, efficient
+                transport coordination, and reliable delivery performance.
+              </p>
+              <p>
+                Instead of one-time delivery services, we support businesses
+                with structured transport systems that can handle ongoing cargo
+                movement.
+              </p>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </section>

@@ -101,7 +101,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ description }) => {
       >
         <div className="relative w-full max-w-[580px] max-md:max-w-[500px] max-sm:max-w-full">
           <div
-            className="relative overflow-hidden rounded-[32px] bg-black/25 px-10 py-12 backdrop-blur-sm max-md:px-6 max-md:py-8"
+            className="relative overflow-hidden rounded-[32px] bg-black/15 px-10 py-12 backdrop-blur-[2px] max-md:px-6 max-md:py-8"
             style={{
               WebkitMaskImage:
                 'linear-gradient(to right, transparent, black 12%, black 88%, transparent), linear-gradient(to bottom, transparent, black 10%, black 90%, transparent)',
@@ -135,7 +135,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ description }) => {
                   Get a Delivery Quote
                 </Link>
               </div>
-              <p className="mt-6 max-w-[520px] text-sm leading-6 text-text-light/90 max-lg:mx-auto max-lg:text-center max-md:text-xs">
+              <p className="mt-6 max-w-[520px] text-sm leading-6 text-text-light max-lg:mx-auto max-lg:text-center max-md:text-xs">
                 Built for high-volume cargo, structured delivery, and dependable
                 logistics operations.
               </p>
