@@ -34,6 +34,11 @@ const OrderTrackingPage = React.lazy(() =>
     (module) => ({ default: module.OrderTracking })
   )
 );
+const FAQPage = React.lazy(() =>
+  import('../../features/marketing/faq/pages/FAQPage').then((module) => ({
+    default: module.FAQPage,
+  }))
+);
 const NotFoundPage = React.lazy(() =>
   import('../../features/marketing/shared/pages/NotFoundPage').then(
     (module) => ({ default: module.NotFoundPage })
@@ -62,6 +67,7 @@ export const AppRoutes: React.FC = () => (
           <Route path="/contact" element={<ContactPage />} />
           <Route path="/order" element={<OrderTrackingPage />} />
           <Route path="/get-quote" element={<GetQuotePage />} />
+          <Route path="/faq" element={<FAQPage />} />
 
           <Route path="*" element={<NotFoundPage />} />
         </Route>

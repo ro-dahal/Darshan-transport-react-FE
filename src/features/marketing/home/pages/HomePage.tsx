@@ -16,7 +16,6 @@ import { CallToActionSection } from '../components/CallToActionSection';
 import OurServices from '../components/OurServices';
 import MajorLocation from '../components/majorlocation';
 import HowItWorks from '../components/HowItWorks';
-import { FAQSection } from '../components/FAQSection';
 import { MetaTags } from '../../../../core/components/MetaTags';
 
 const HOME_PAGE_STRUCTURED_DATA = {
@@ -58,7 +57,6 @@ export const HomePage: React.FC = () => (
     <div className="section-optimize">
       <TestimonialsSection reviews={HOME_REVIEW_TESTIMONIALS} />
     </div>
-    <FAQSection />
     <CallToActionSection />
   </div>
 );

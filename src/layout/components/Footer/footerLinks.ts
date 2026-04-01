@@ -14,7 +14,7 @@ export const FOOTER_COLUMNS: FooterColumn[] = [
     links: [
       { label: 'About us', href: '/about' },
       { label: 'Team', href: '#' },
-      { label: 'FAQs', href: '#' },
+      { label: 'FAQs', href: '/faq' },
       { label: 'Contact', href: '/contact' },
     ],
   },
