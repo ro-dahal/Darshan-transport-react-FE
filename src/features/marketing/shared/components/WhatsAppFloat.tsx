@@ -1,4 +1,6 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import { motion } from 'framer-motion';
+import { useLocation } from 'react-router-dom';
 import {
   DEFAULT_WHATSAPP_MESSAGE,
   buildWhatsAppUrl,
@@ -13,14 +15,43 @@ const WhatsAppFloat: React.FC<WhatsAppFloatProps> = ({
   phoneNumber,
   message = DEFAULT_WHATSAPP_MESSAGE,
 }) => {
+  const [isVisible, setIsVisible] = useState(true);
+  const { pathname } = useLocation();
+
+  useEffect(() => {
+    const hero =
+      document.getElementById('about-v2-hero') ??
+      document.getElementById('services-v2-hero');
+
+    if (!hero) {
+      setIsVisible(true);
+      return;
+    }
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        setIsVisible(!entry.isIntersecting);
+      },
+      {
+        threshold: 0,
+      }
+    );
+
+    observer.observe(hero);
+
+    return () => observer.disconnect();
+  }, [pathname]);
+
   const handleClick = () => {
     const whatsappUrl = buildWhatsAppUrl(phoneNumber, message);
     window.open(whatsappUrl, '_blank');
   };
 
   return (
-    <div
-      className="fixed width-[60px] height-[60px] bottom-10 right-10 bg-[#25d366] text-white rounded-[50px] text-center text-[30px] shadow-[2px_2px_3px_#999] z-[100] cursor-pointer flex items-center justify-center transition-all duration-300 hover:bg-[#128c7e] hover:scale-110 group animate-[whatsapp-pulse_2.5s_infinite] max-sm:bottom-5 max-sm:right-5 max-sm:w-[50px] max-sm:h-[50px] max-sm:text-[24px]"
+    <motion.div
+      animate={{ opacity: isVisible ? 1 : 0, y: isVisible ? 0 : 12 }}
+      style={{ pointerEvents: isVisible ? 'auto' : 'none' }}
+      className="fixed bottom-10 right-10 bg-[#25d366] text-white rounded-full w-[60px] h-[60px] shadow-[2px_2px_3px_#999] z-[100] cursor-pointer flex items-center justify-center transition-all duration-300 hover:bg-[#128c7e] hover:scale-110 group animate-[whatsapp-pulse_2.5s_infinite] max-sm:bottom-5 max-sm:right-5 max-sm:w-[50px] max-sm:h-[50px]"
       onClick={handleClick}
       role="button"
       tabIndex={0}
@@ -50,7 +81,7 @@ const WhatsAppFloat: React.FC<WhatsAppFloatProps> = ({
       <div className="absolute top-[50%] -left-[140px] -translate-y-[50%] bg-[#333] text-white py-[5px] px-2.5 rounded-[4px] text-[14px] opacity-0 invisible transition-all duration-300 pointer-events-none group-hover:opacity-100 group-hover:left-[calc(-100%_-_80px)] group-hover:visible after:content-[''] after:absolute after:top-[50%] after:left-[100%] after:-mt-[5px] after:border-[5px] after:border-solid after:border-transparent after:border-l-[#333] max-sm:hidden">
         Chat with us
       </div>
-    </div>
+    </motion.div>
   );
 };
 

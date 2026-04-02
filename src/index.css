@@ -172,6 +172,11 @@
   contain-intrinsic-size: 500px; /* Placeholder height */
 }
 
+/* ===== About V2 Utilities ===== */
+.clip-cta-angle {
+  clip-path: polygon(55% 0, 100% 0, 100% 100%, 45% 100%);
+}
+
 /* ===== Preloader Styles ===== */
 #preloader {
   position: fixed;

@@ -17,19 +17,6 @@ const svgStyles: React.CSSProperties = {
 const BOOKING_COLOR = '#F59E0B';
 const DELIVERY_COLOR = '#3B82F6';
 
-const PIN_NAV_BUTTON_STYLE: React.CSSProperties = {
-  appearance: 'none',
-  border: '1px solid #334155',
-  background: '#111827',
-  color: '#F8FAFC',
-  borderRadius: '999px',
-  padding: '10px 16px',
-  fontSize: '14px',
-  fontWeight: 700,
-  cursor: 'pointer',
-  minWidth: '96px',
-};
-
 /**
  * Interactive SVG Map of Nepal with animated branch pins and automatic region rotation.
  * Features:
@@ -142,16 +129,16 @@ const NepalMap: React.FC<NepalMapProps> = ({ style = {} }) => {
             transform: 'translateX(-50%)',
             width: 'calc(100% - 40px)',
             maxWidth: '400px',
-            minHeight: '120px',
+            minHeight: '100px',
             display: 'flex',
             flexDirection: 'column',
             justifyContent: 'center',
-            background: 'rgba(15, 23, 42, 0.95)',
-            backdropFilter: 'blur(8px)',
+            background: 'rgba(15, 23, 42, 0.9)',
+            backdropFilter: 'blur(16px)',
             borderRadius: '16px',
             padding: '20px',
-            border: `1px solid ${activePin.type === 'booking' ? BOOKING_COLOR : DELIVERY_COLOR}44`,
-            boxShadow: '0 10px 25px -5px rgba(0, 0, 0, 0.3)',
+            border: `1px solid ${activePin.type === 'booking' ? BOOKING_COLOR : DELIVERY_COLOR}33`,
+            boxShadow: `0 12px 32px rgba(0,0,0,0.35), 0 0 24px ${activePin.type === 'booking' ? BOOKING_COLOR : DELIVERY_COLOR}10`,
             animation: 'tooltipIn 0.4s ease-out',
             textAlign: 'center',
           }}
@@ -160,7 +147,7 @@ const NepalMap: React.FC<NepalMapProps> = ({ style = {} }) => {
             style={{
               color:
                 activePin.type === 'booking' ? BOOKING_COLOR : DELIVERY_COLOR,
-              fontSize: '14px',
+              fontSize: '11px',
               fontWeight: 800,
               letterSpacing: '2px',
               marginBottom: '8px',
@@ -182,22 +169,32 @@ const NepalMap: React.FC<NepalMapProps> = ({ style = {} }) => {
             position: 'absolute',
             top: 24,
             right: 24,
-            background: '#fff',
-            border: '1px solid #ccc',
-            borderRadius: 8,
-            padding: '16px 24px',
-            minWidth: 220,
+            background: 'rgba(15, 23, 42, 0.9)',
+            backdropFilter: 'blur(16px)',
+            border: '1px solid rgba(51,65,85,0.5)',
+            borderRadius: 12,
+            padding: '16px 22px',
+            minWidth: 200,
             zIndex: 10,
-            boxShadow: '0 2px 12px rgba(0,0,0,0.10)',
-            fontSize: 16,
+            boxShadow: '0 8px 24px rgba(0,0,0,0.3)',
+            fontSize: 14,
             textAlign: 'left',
-            color: '#222',
+            color: '#F1F5F9',
           }}
         >
-          <strong>{info.title}</strong>
+          <strong
+            style={{ color: '#F59E0B', fontSize: 13, letterSpacing: '0.5px' }}
+          >
+            {info.title}
+          </strong>
           <ul style={{ margin: '8px 0 0 0', padding: 0, listStyle: 'none' }}>
             {info.items.map((item) => (
-              <li key={item}>{item}</li>
+              <li
+                key={item}
+                style={{ color: '#94A3B8', fontSize: 13, padding: '2px 0' }}
+              >
+                {item}
+              </li>
             ))}
           </ul>
         </div>
@@ -535,14 +532,15 @@ const NepalMap: React.FC<NepalMapProps> = ({ style = {} }) => {
               transform: 'translate(-50%, -100%)',
               zIndex: 50,
               pointerEvents: 'none',
-              width: '240px',
+              width: '220px',
               display: 'flex',
               flexDirection: 'column',
-              background: '#0F172A',
+              background: 'rgba(15, 23, 42, 0.9)',
+              backdropFilter: 'blur(16px)',
               borderRadius: '14px',
-              padding: '12px',
-              border: `1px solid ${activePin.type === 'booking' ? BOOKING_COLOR : DELIVERY_COLOR}66`,
-              boxShadow: '0 8px 25px rgba(0,0,0,0.5)',
+              padding: '14px 16px',
+              border: `1px solid ${activePin.type === 'booking' ? BOOKING_COLOR : DELIVERY_COLOR}44`,
+              boxShadow: `0 12px 32px rgba(0,0,0,0.5), 0 0 20px ${activePin.type === 'booking' ? BOOKING_COLOR : DELIVERY_COLOR}15`,
               textAlign: 'center',
             }}
           >
@@ -557,17 +555,17 @@ const NepalMap: React.FC<NepalMapProps> = ({ style = {} }) => {
                 height: 0,
                 borderLeft: '6px solid transparent',
                 borderRight: '6px solid transparent',
-                borderTop: '6px solid #0F172A',
+                borderTop: '6px solid rgba(15, 23, 42, 0.9)',
               }}
             />
             <div
               style={{
                 color:
                   activePin.type === 'booking' ? BOOKING_COLOR : DELIVERY_COLOR,
-                fontSize: '13px',
+                fontSize: '10px',
                 fontWeight: 800,
-                letterSpacing: '1px',
-                marginBottom: '4px',
+                letterSpacing: '2px',
+                marginBottom: '6px',
               }}
             >
               {activePin.type === 'booking'
@@ -577,8 +575,8 @@ const NepalMap: React.FC<NepalMapProps> = ({ style = {} }) => {
             <div
               style={{
                 color: '#F1F5F9',
-                fontSize: '12px',
-                fontWeight: 500,
+                fontSize: '13px',
+                fontWeight: 600,
                 lineHeight: 1.3,
               }}
             >
@@ -590,97 +588,172 @@ const NepalMap: React.FC<NepalMapProps> = ({ style = {} }) => {
 
       <div
         style={{
-          marginTop: '24px',
+          marginTop: '20px',
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
-          gap: '14px',
+          gap: '16px',
           flexWrap: 'wrap',
           width: '100%',
         }}
       >
-        <button
-          type="button"
-          style={PIN_NAV_BUTTON_STYLE}
-          onClick={() => navigatePins('previous')}
-          aria-label="Show previous service pin"
-        >
-          ← Previous
-        </button>
+        {/* Navigation row */}
         <div
           style={{
-            minWidth: '88px',
-            color: '#CBD5E1',
-            fontSize: '13px',
-            fontWeight: 700,
-            textAlign: 'center',
+            display: 'flex',
+            alignItems: 'center',
+            gap: '12px',
+            background: 'rgba(15,23,42,0.7)',
+            backdropFilter: 'blur(12px)',
+            borderRadius: '999px',
+            padding: '6px 8px',
+            border: '1px solid rgba(51,65,85,0.5)',
           }}
         >
-          {displayedPinIndex >= 0
-            ? `${displayedPinIndex + 1} / ${MAP_PINS.length}`
-            : `0 / ${MAP_PINS.length}`}
-        </div>
-        <button
-          type="button"
-          style={PIN_NAV_BUTTON_STYLE}
-          onClick={() => navigatePins('next')}
-          aria-label="Show next service pin"
-        >
-          Next →
-        </button>
-      </div>
+          <button
+            type="button"
+            style={{
+              appearance: 'none',
+              border: 'none',
+              background: 'rgba(255,255,255,0.06)',
+              color: '#CBD5E1',
+              borderRadius: '50%',
+              width: '36px',
+              height: '36px',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              fontSize: '16px',
+              cursor: 'pointer',
+              transition: 'background 0.2s, color 0.2s',
+            }}
+            onClick={() => navigatePins('previous')}
+            aria-label="Show previous service pin"
+            onMouseEnter={(e) => {
+              e.currentTarget.style.background = 'rgba(252,175,23,0.15)';
+              e.currentTarget.style.color = '#F59E0B';
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.background = 'rgba(255,255,255,0.06)';
+              e.currentTarget.style.color = '#CBD5E1';
+            }}
+          >
+            ‹
+          </button>
 
-      {/* HTML Legend (Below the map) */}
-      <div
-        style={{
-          marginTop: '30px',
-          background: '#0F172A',
-          padding: '20px 30px',
-          borderRadius: '16px',
-          border: '1px solid #334155',
-          boxShadow: '0 4px 12px rgba(0,0,0,0.2)',
-          display: 'flex',
-          flexDirection: 'column',
-          gap: '12px',
-          minWidth: '220px',
-        }}
-      >
+          <div
+            style={{
+              minWidth: '72px',
+              textAlign: 'center',
+              fontSize: '13px',
+              fontWeight: 700,
+              letterSpacing: '0.5px',
+            }}
+          >
+            <span style={{ color: '#F59E0B' }}>
+              {displayedPinIndex >= 0
+                ? String(displayedPinIndex + 1).padStart(2, '0')
+                : '00'}
+            </span>
+            <span style={{ color: '#475569', margin: '0 4px' }}>/</span>
+            <span style={{ color: '#64748B' }}>
+              {String(MAP_PINS.length).padStart(2, '0')}
+            </span>
+          </div>
+
+          <button
+            type="button"
+            style={{
+              appearance: 'none',
+              border: 'none',
+              background: 'rgba(255,255,255,0.06)',
+              color: '#CBD5E1',
+              borderRadius: '50%',
+              width: '36px',
+              height: '36px',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              fontSize: '16px',
+              cursor: 'pointer',
+              transition: 'background 0.2s, color 0.2s',
+            }}
+            onClick={() => navigatePins('next')}
+            aria-label="Show next service pin"
+            onMouseEnter={(e) => {
+              e.currentTarget.style.background = 'rgba(252,175,23,0.15)';
+              e.currentTarget.style.color = '#F59E0B';
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.background = 'rgba(255,255,255,0.06)';
+              e.currentTarget.style.color = '#CBD5E1';
+            }}
+          >
+            ›
+          </button>
+        </div>
+
+        {/* Inline legend */}
         <div
           style={{
-            color: '#94A3B8',
-            fontSize: '11px',
-            fontWeight: 700,
-            letterSpacing: '1.5px',
-            textAlign: 'center',
-            marginBottom: '4px',
+            display: 'flex',
+            alignItems: 'center',
+            gap: '20px',
+            background: 'rgba(15,23,42,0.7)',
+            backdropFilter: 'blur(12px)',
+            borderRadius: '999px',
+            padding: '10px 20px',
+            border: '1px solid rgba(51,65,85,0.5)',
           }}
         >
-          SERVICE NETWORK
-        </div>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-          <div
-            style={{
-              width: '16px',
-              height: '16px',
-              borderRadius: '5px',
-              background: BOOKING_COLOR,
-            }}
-          ></div>
-          <div style={{ color: '#F8FAFC', fontSize: '14px', fontWeight: 600 }}>
-            Booking Point
+          <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+            <div
+              style={{
+                width: '10px',
+                height: '10px',
+                borderRadius: '50%',
+                background: BOOKING_COLOR,
+                boxShadow: `0 0 8px ${BOOKING_COLOR}66`,
+              }}
+            />
+            <span
+              style={{
+                color: '#CBD5E1',
+                fontSize: '12px',
+                fontWeight: 600,
+                letterSpacing: '0.5px',
+              }}
+            >
+              Booking
+            </span>
           </div>
-        </div>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
           <div
             style={{
-              width: '16px',
+              width: '1px',
               height: '16px',
-              borderRadius: '5px',
-              background: DELIVERY_COLOR,
+              background: 'rgba(71,85,105,0.5)',
             }}
-          ></div>
-          <div style={{ color: '#F8FAFC', fontSize: '14px', fontWeight: 600 }}>
-            Delivery Point
+          />
+          <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+            <div
+              style={{
+                width: '10px',
+                height: '10px',
+                borderRadius: '50%',
+                background: DELIVERY_COLOR,
+                boxShadow: `0 0 8px ${DELIVERY_COLOR}66`,
+              }}
+            />
+            <span
+              style={{
+                color: '#CBD5E1',
+                fontSize: '12px',
+                fontWeight: 600,
+                letterSpacing: '0.5px',
+              }}
+            >
+              Delivery
+            </span>
           </div>
         </div>
       </div>
