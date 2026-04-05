@@ -5,8 +5,16 @@ import quotationNep from '../../assets/img/QuotationRate2082Chaitra22Nep.jpeg';
 const STORAGE_KEY = 'dt_quotation_popup_seen_2082_chaitra22';
 
 const slides = [
-  { src: quotationEng, alt: 'Quotation Rate Notice – English', label: 'English' },
-  { src: quotationNep, alt: 'Quotation Rate Notice – नेपाली', label: 'नेपाली' },
+  {
+    src: quotationEng,
+    alt: 'Quotation Rate Notice – English',
+    label: 'English',
+  },
+  {
+    src: quotationNep,
+    alt: 'Quotation Rate Notice – नेपाली',
+    label: 'नेपाली',
+  },
 ];
 
 export const QuotationRatePopup: React.FC = () => {
@@ -17,7 +25,7 @@ export const QuotationRatePopup: React.FC = () => {
   useEffect(() => {
     const alreadySeen = sessionStorage.getItem(STORAGE_KEY);
     if (!alreadySeen) {
-      // Small delay so the page renders first and the popup animates in
+      // Small delay so the page renders first
       const timer = setTimeout(() => setVisible(true), 800);
       return () => clearTimeout(timer);
     }
@@ -62,12 +70,23 @@ export const QuotationRatePopup: React.FC = () => {
       className={`fixed inset-0 z-[100000] flex items-center justify-center p-4 transition-all duration-300 ${
         closing ? 'opacity-0' : 'opacity-100'
       }`}
-      style={{ backgroundColor: 'rgba(0,0,0,0.7)', backdropFilter: 'blur(6px)' }}
-      onClick={handleClose}
+      style={{
+        backgroundColor: 'rgba(0,0,0,0.7)',
+        backdropFilter: 'blur(6px)',
+      }}
       role="dialog"
       aria-modal="true"
       aria-label="Quotation Rate Notice"
     >
+      {/* Invisible backdrop button for closing */}
+      <button
+        className="absolute inset-0 w-full h-full cursor-pointer"
+        style={{ background: 'transparent', border: 'none' }}
+        onClick={handleClose}
+        aria-label="Close popup"
+        tabIndex={-1}
+      />
+
       {/* Modal container */}
       <div
         id="quotation-rate-popup-modal"
@@ -75,7 +94,6 @@ export const QuotationRatePopup: React.FC = () => {
           closing ? 'scale-95 opacity-0' : 'scale-100 opacity-100'
         }`}
         style={{ maxHeight: '90vh' }}
-        onClick={(e) => e.stopPropagation()}
       >
         {/* Header bar */}
         <div
@@ -116,7 +134,11 @@ export const QuotationRatePopup: React.FC = () => {
               stroke="currentColor"
               strokeWidth={2.5}
             >
-              <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M6 18L18 6M6 6l12 12"
+              />
             </svg>
           </button>
         </div>
@@ -124,7 +146,10 @@ export const QuotationRatePopup: React.FC = () => {
         {/* Carousel */}
         <div className="relative">
           {/* Image container */}
-          <div className="overflow-hidden" style={{ maxHeight: 'calc(90vh - 120px)' }}>
+          <div
+            className="overflow-hidden"
+            style={{ maxHeight: 'calc(90vh - 120px)' }}
+          >
             <img
               src={slides[activeSlide].src}
               alt={slides[activeSlide].alt}
@@ -133,27 +158,51 @@ export const QuotationRatePopup: React.FC = () => {
             />
           </div>
 
-          {/* Navigation arrows (if more than 1 slide) */}
+          {/* Navigation arrows */}
           {slides.length > 1 && (
             <>
               <button
                 id="quotation-popup-prev"
-                onClick={() => setActiveSlide((p) => (p === 0 ? slides.length - 1 : p - 1))}
+                onClick={() =>
+                  setActiveSlide((p) => (p === 0 ? slides.length - 1 : p - 1))
+                }
                 className="absolute left-2 top-1/2 -translate-y-1/2 w-9 h-9 rounded-full bg-black/40 hover:bg-black/60 text-white flex items-center justify-center transition-colors cursor-pointer backdrop-blur-sm"
                 aria-label="Previous slide"
               >
-                <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
+                <svg
+                  className="w-5 h-5"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                  strokeWidth={2.5}
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M15 19l-7-7 7-7"
+                  />
                 </svg>
               </button>
               <button
                 id="quotation-popup-next"
-                onClick={() => setActiveSlide((p) => (p === slides.length - 1 ? 0 : p + 1))}
+                onClick={() =>
+                  setActiveSlide((p) => (p === slides.length - 1 ? 0 : p + 1))
+                }
                 className="absolute right-2 top-1/2 -translate-y-1/2 w-9 h-9 rounded-full bg-black/40 hover:bg-black/60 text-white flex items-center justify-center transition-colors cursor-pointer backdrop-blur-sm"
                 aria-label="Next slide"
               >
-                <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
+                <svg
+                  className="w-5 h-5"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                  strokeWidth={2.5}
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M9 5l7 7-7 7"
+                  />
                 </svg>
               </button>
             </>
