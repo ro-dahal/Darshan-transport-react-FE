@@ -6,6 +6,7 @@ import { ScrollToTop } from './core/components/ScrollToTop';
 import { Preloader } from './layout/components/Preloader';
 import { TransitionProvider } from './core/contexts/TransitionContext';
 import { usePerformanceMetrics } from './core/hooks/usePerformanceMetrics';
+import { QuotationRatePopup } from './core/components/QuotationRatePopup';
 
 const App: React.FC = () => {
   usePerformanceMetrics('Global App');
@@ -18,9 +19,11 @@ const App: React.FC = () => {
         <AppProviders>
           <AppRoutes />
         </AppProviders>
+        <QuotationRatePopup />
       </TransitionProvider>
     </BrowserRouter>
   );
 };
 
 export default App;
+
