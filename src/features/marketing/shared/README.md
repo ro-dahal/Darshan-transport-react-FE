@@ -4,14 +4,7 @@ This directory contains reusable UI components specifically designed for the mar
 
 ## Components
 
-### 1. `ReachSection`
-
-A visually striking section that displays the "Our Reach" map of Nepal with a wave background effect.
-
-- **Usage**: Typically used on the Home page to show coverage.
-- **Dependencies**: `NepalMap` layout component.
-
-### 2. `WhatsAppFloat`
+### 1. `WhatsAppFloat`
 
 A floating action button (FAB) that initiates a WhatsApp conversation.
 
@@ -23,6 +16,10 @@ A floating action button (FAB) that initiates a WhatsApp conversation.
   - Custom tooltip on hover (desktop).
   - Fully accessible (aria-labels, keyboard support).
   - Responsive sizing for mobile.
+
+### 2. `ClientCarousel`
+
+A reusable, animated client-logo carousel used across the marketing pages.
 
 ## Design Patterns
 

@@ -13,7 +13,7 @@ export const usePerformanceMetrics = (pageName: string) => {
     if (typeof window === 'undefined' || !window.performance) return;
 
     const captureMetrics = () => {
-      // Use the Navigation Timing API (v2)
+      // Use the Navigation Timing API
       const navigationEntries =
         window.performance.getEntriesByType('navigation');
       if (navigationEntries.length === 0) return;

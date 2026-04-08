@@ -11,12 +11,12 @@ interface LogoItem {
   alt: string;
 }
 
-interface ClientCarouselV2Props {
+interface ClientCarouselProps {
   logos: LogoItem[];
   speed?: number; // px per second
 }
 
-const ClientCarouselV2: React.FC<ClientCarouselV2Props> = ({
+const ClientCarousel: React.FC<ClientCarouselProps> = ({
   logos,
   speed = 50,
 }) => {
@@ -111,4 +111,4 @@ const ClientCarouselV2: React.FC<ClientCarouselV2Props> = ({
   );
 };
 
-export default ClientCarouselV2;
+export default ClientCarousel;

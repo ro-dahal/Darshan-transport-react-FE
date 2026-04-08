@@ -11,12 +11,7 @@ interface WhatsAppFloatProps {
   message?: string;
 }
 
-const HERO_IDS = [
-  'main-bg',
-  'home-v2-hero',
-  'about-v2-hero',
-  'services-v2-hero',
-];
+const HERO_IDS = ['main-bg', 'home-hero', 'about-hero', 'services-hero'];
 
 const findHero = () =>
   HERO_IDS.reduce<HTMLElement | null>(
