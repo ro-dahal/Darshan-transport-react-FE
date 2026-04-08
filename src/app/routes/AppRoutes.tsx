@@ -40,6 +40,11 @@ const FAQPage = React.lazy(() =>
     default: module.FAQPage,
   }))
 );
+const TeamPage = React.lazy(() =>
+  import('../../features/marketing/team/pages/TeamPage').then((module) => ({
+    default: module.TeamPage,
+  }))
+);
 const AboutPageV2 = React.lazy(() =>
   import('../../features/marketing/about/pages/AboutPageV2').then((module) => ({
     default: module.AboutPageV2,
@@ -59,6 +64,11 @@ const ContactPageV2 = React.lazy(() =>
   import('../../features/marketing/contact/pages/ContactPageV2').then(
     (module) => ({ default: module.ContactPageV2 })
   )
+);
+const TeamPageV2 = React.lazy(() =>
+  import('../../features/marketing/team/pages/TeamPageV2').then((module) => ({
+    default: module.TeamPageV2,
+  }))
 );
 const FAQPageV2 = React.lazy(() =>
   import('../../features/marketing/faq/pages/FAQPageV2').then((module) => ({
@@ -99,6 +109,7 @@ export const AppRoutes: React.FC = () => (
         <Route element={<MainLayout />}>
           <Route path="/" element={<HomePage />} />
           <Route path="/about" element={<AboutPage />} />
+          <Route path="/team" element={<TeamPage />} />
           <Route path="/services" element={<ServicesPage />} />
           <Route path="/contact" element={<ContactPage />} />
           <Route path="/order" element={<OrderTrackingPage />} />
@@ -111,6 +122,7 @@ export const AppRoutes: React.FC = () => (
         <Route element={<MainLayoutV2 />}>
           <Route path="/v2" element={<HomePageV2 />} />
           <Route path="/about/v2" element={<AboutPageV2 />} />
+          <Route path="/team/v2" element={<TeamPageV2 />} />
           <Route path="/services/v2" element={<ServicesPageV2 />} />
           <Route path="/contact/v2" element={<ContactPageV2 />} />
           <Route path="/faq/v2" element={<FAQPageV2 />} />

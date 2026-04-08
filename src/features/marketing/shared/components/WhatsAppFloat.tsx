@@ -11,35 +11,73 @@ interface WhatsAppFloatProps {
   message?: string;
 }
 
+const HERO_IDS = [
+  'main-bg',
+  'home-v2-hero',
+  'about-v2-hero',
+  'services-v2-hero',
+];
+
+const findHero = () =>
+  HERO_IDS.reduce<HTMLElement | null>(
+    (found, id) => found ?? document.getElementById(id),
+    null
+  );
+
 const WhatsAppFloat: React.FC<WhatsAppFloatProps> = ({
   phoneNumber,
   message = DEFAULT_WHATSAPP_MESSAGE,
 }) => {
-  const [isVisible, setIsVisible] = useState(true);
+  const [isVisible, setIsVisible] = useState(false);
   const { pathname } = useLocation();
 
   useEffect(() => {
-    const hero =
-      document.getElementById('about-v2-hero') ??
-      document.getElementById('services-v2-hero');
+    setIsVisible(false);
 
-    if (!hero) {
-      setIsVisible(true);
-      return;
-    }
+    let intersectionObserver: IntersectionObserver | null = null;
+    let mutationObserver: MutationObserver | null = null;
+    let raf1 = 0;
+    let raf2 = 0;
 
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        setIsVisible(!entry.isIntersecting);
-      },
-      {
-        threshold: 0,
-      }
-    );
+    const attachIntersection = (hero: HTMLElement) => {
+      mutationObserver?.disconnect();
+      mutationObserver = null;
+      intersectionObserver = new IntersectionObserver(
+        ([entry]) => setIsVisible(!entry.isIntersecting),
+        { threshold: 0 }
+      );
+      intersectionObserver.observe(hero);
+    };
 
-    observer.observe(hero);
+    // Double rAF: first frame queues before paint, second fires after React
+    // has committed the routed child components to the DOM.
+    raf1 = requestAnimationFrame(() => {
+      raf2 = requestAnimationFrame(() => {
+        const hero = findHero();
+        if (hero) {
+          attachIntersection(hero);
+        } else {
+          // No hero on this page — show button
+          setIsVisible(true);
+          // Watch in case a hero mounts slightly later (lazy routes, etc.)
+          mutationObserver = new MutationObserver(() => {
+            const found = findHero();
+            if (found) attachIntersection(found);
+          });
+          mutationObserver.observe(document.body, {
+            childList: true,
+            subtree: true,
+          });
+        }
+      });
+    });
 
-    return () => observer.disconnect();
+    return () => {
+      cancelAnimationFrame(raf1);
+      cancelAnimationFrame(raf2);
+      intersectionObserver?.disconnect();
+      mutationObserver?.disconnect();
+    };
   }, [pathname]);
 
   const handleClick = () => {

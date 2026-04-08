@@ -133,6 +133,7 @@ const HeroV2: React.FC = () => {
 
   return (
     <section
+      id="home-v2-hero"
       ref={ref}
       className="relative w-full h-[calc(100dvh-var(--head-height,90px))] overflow-hidden flex items-end"
     >
@@ -602,8 +603,8 @@ const AnimatedClientLogo: React.FC<{
     proximity.set(Math.min(distance / range, 1));
   });
 
-  const scale = useMotionTransform(proximity, [0, 1], [1.3, 0.7]);
-  const opacity = useMotionTransform(proximity, [0, 1], [1, 0.25]);
+  const scale = useMotionTransform(proximity, [0, 1], [2.0, 0.55]);
+  const opacity = useMotionTransform(proximity, [0, 1], [1, 0.2]);
   const grayscaleAmount = useMotionTransform(proximity, [0, 1], [0, 100]);
   const filter = useMotionTransform(
     grayscaleAmount,
@@ -614,7 +615,7 @@ const AnimatedClientLogo: React.FC<{
     <motion.div
       ref={ref}
       style={{ scale, opacity, filter }}
-      className="flex-shrink-0 w-[180px] h-[100px] flex items-center justify-center will-change-transform max-md:w-[140px] max-md:h-[75px]"
+      className="flex-shrink-0 w-[260px] h-[140px] flex items-center justify-center will-change-transform max-md:w-[180px] max-md:h-[100px]"
     >
       <img
         src={logo.src}
@@ -680,7 +681,7 @@ const ClientsV2: React.FC = () => {
         <motion.div
           ref={contentRef}
           style={{ x }}
-          className="flex items-center gap-24 w-max will-change-transform max-md:gap-14"
+          className="flex items-center gap-56 w-max will-change-transform max-md:gap-28"
         >
           {HOME_CLIENT_LOGOS.map((logo, i) => (
             <AnimatedClientLogo key={`main-${i}`} logo={logo} scrollX={x} />
