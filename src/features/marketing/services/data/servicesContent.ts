@@ -1,6 +1,6 @@
-import bgImage from '../../../../assets/img/WhatsApp Image 2026-03-31 at 16.51.11.jpeg';
-import bgImageMobile from '../../../../assets/img/WhatsApp Image 2026-03-31 at 16.32.44.jpeg';
-import parcelCourierDeliveryIcon from '../../../../assets/img/Parcel & Courier Delivery.png';
+import bgImage from '../../../../assets/img/services-hero-desktop.jpeg';
+import bgImageMobile from '../../../../assets/img/services-hero-mobile.jpeg';
+import parcelCourierDeliveryIcon from '../../../../assets/img/service-parcel-courier-delivery.png';
 
 export interface ServiceCard {
   icon: string;
