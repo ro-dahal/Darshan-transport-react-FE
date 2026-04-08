@@ -1,5 +1,5 @@
 import React from 'react';
-import headerBg from '../../../assets/img/DSC00400.jpg';
+import headerBg from '../../../assets/img/company-hero-logistics-yard.jpg';
 
 /**
  * Hero section for the Order Tracking page.
