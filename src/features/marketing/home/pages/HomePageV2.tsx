@@ -585,115 +585,29 @@ const ReachV2: React.FC = () => (
   </section>
 );
 
-/* ── Clients Marquee ────────────────────────────── */
-const AnimatedClientLogo: React.FC<{
-  logo: { src: string; alt: string };
-  scrollX: MotionValue<number>;
-}> = ({ logo }) => {
-  const ref = useRef<HTMLDivElement>(null);
-  const proximity = useMotionValue(1);
+/* ── Clients Marquee (uses shared carousel) ────────────────────────────── */
+import ClientCarouselV2 from '../../shared/components/ClientCarouselV2';
 
-  useAnimationFrame(() => {
-    if (!ref.current) return;
-    const rect = ref.current.getBoundingClientRect();
-    const centerX = window.innerWidth / 2;
-    const logoCenter = rect.left + rect.width / 2;
-    const distance = Math.abs(centerX - logoCenter);
-    const range = window.innerWidth * 0.35;
-    proximity.set(Math.min(distance / range, 1));
-  });
-
-  const scale = useMotionTransform(proximity, [0, 1], [2.0, 0.55]);
-  const opacity = useMotionTransform(proximity, [0, 1], [1, 0.2]);
-  const grayscaleAmount = useMotionTransform(proximity, [0, 1], [0, 100]);
-  const filter = useMotionTransform(
-    grayscaleAmount,
-    (value) => `grayscale(${value}%)`
-  );
-
-  return (
+const ClientsV2: React.FC = () => (
+  <section className="py-20 px-5 bg-white overflow-hidden max-md:py-12">
     <motion.div
-      ref={ref}
-      style={{ scale, opacity, filter }}
-      className="flex-shrink-0 w-[260px] h-[140px] flex items-center justify-center will-change-transform max-md:w-[180px] max-md:h-[100px]"
+      initial={{ opacity: 0, y: 20 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: '-60px' }}
+      transition={{ duration: 0.6 }}
+      className="text-center mb-14 max-md:mb-8"
     >
-      <img
-        src={logo.src}
-        alt={logo.alt}
-        loading="lazy"
-        decoding="async"
-        className="w-full h-full object-contain"
-      />
+      <span className="block text-primary text-xs font-bold tracking-[0.22em] uppercase mb-3">
+        Trusted By
+      </span>
+      <h2 className="text-[2rem] font-extrabold text-[#1a1a1a] max-md:text-[1.5rem]">
+        Companies That Count on Us
+      </h2>
     </motion.div>
-  );
-};
 
-const ClientsV2: React.FC = () => {
-  const contentRef = useRef<HTMLDivElement>(null);
-  const x = useMotionValue(0);
-  const [contentWidth, setContentWidth] = useState(0);
-
-  useEffect(() => {
-    if (!contentRef.current) return;
-
-    const update = () => {
-      if (contentRef.current) {
-        setContentWidth(contentRef.current.scrollWidth / 2);
-      }
-    };
-
-    update();
-    const observer = new ResizeObserver(update);
-    observer.observe(contentRef.current);
-
-    return () => observer.disconnect();
-  }, []);
-
-  useAnimationFrame((_, delta) => {
-    if (!contentWidth) return;
-
-    let newX = x.get() - (delta / 1000) * 50;
-    if (newX <= -contentWidth) newX += contentWidth;
-    x.set(newX);
-  });
-
-  return (
-    <section className="py-20 px-5 bg-white overflow-hidden max-md:py-12">
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, margin: '-60px' }}
-        transition={{ duration: 0.6 }}
-        className="text-center mb-14 max-md:mb-8"
-      >
-        <span className="block text-primary text-xs font-bold tracking-[0.22em] uppercase mb-3">
-          Trusted By
-        </span>
-        <h2 className="text-[2rem] font-extrabold text-[#1a1a1a] max-md:text-[1.5rem]">
-          Companies That Count on Us
-        </h2>
-      </motion.div>
-
-      <div className="relative w-full py-6 cursor-default touch-none">
-        <div className="absolute left-0 top-0 bottom-0 w-24 bg-gradient-to-r from-white to-transparent z-10 pointer-events-none" />
-        <div className="absolute right-0 top-0 bottom-0 w-24 bg-gradient-to-l from-white to-transparent z-10 pointer-events-none" />
-
-        <motion.div
-          ref={contentRef}
-          style={{ x }}
-          className="flex items-center gap-56 w-max will-change-transform max-md:gap-28"
-        >
-          {HOME_CLIENT_LOGOS.map((logo, i) => (
-            <AnimatedClientLogo key={`main-${i}`} logo={logo} scrollX={x} />
-          ))}
-          {HOME_CLIENT_LOGOS.map((logo, i) => (
-            <AnimatedClientLogo key={`dup-${i}`} logo={logo} scrollX={x} />
-          ))}
-        </motion.div>
-      </div>
-    </section>
-  );
-};
+    <ClientCarouselV2 logos={HOME_CLIENT_LOGOS} />
+  </section>
+);
 
 /* ── Testimonials ───────────────────────────────── */
 const TestimonialsV2: React.FC = () => (

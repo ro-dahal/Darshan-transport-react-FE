@@ -80,8 +80,8 @@ const CONTACT_CHANNELS = [
   {
     icon: '📞',
     label: 'Phone',
-    value: '+977 9801914226',
-    href: 'tel:+9779801914226',
+    value: '+977 9705422317',
+    href: 'tel:+9779705422317',
   },
   {
     icon: '✉️',
@@ -111,13 +111,13 @@ const ContactCards: React.FC = () => (
         initial="hidden"
         whileInView="visible"
         viewport={{ once: true, margin: '-40px' }}
-        className="grid grid-cols-4 gap-5 max-lg:grid-cols-2 max-md:grid-cols-1"
+        className="grid grid-cols-4 gap-5 max-xl:grid-cols-2 max-md:grid-cols-1"
       >
         {CONTACT_CHANNELS.map((ch) => (
           <motion.div
             key={ch.label}
             variants={scaleIn}
-            className="bg-white rounded-xl p-6 border border-gray-100 shadow-sm hover:shadow-lg hover:border-primary/20 transition-all duration-300"
+            className="bg-white rounded-xl p-6 pr-8 border border-gray-100 shadow-sm hover:shadow-lg hover:border-primary/20 transition-all duration-300"
           >
             <span className="text-2xl mb-3 block">{ch.icon}</span>
             <h4 className="text-sm font-bold text-text-medium uppercase tracking-wider mb-2">
@@ -126,7 +126,7 @@ const ContactCards: React.FC = () => (
             {ch.href ? (
               <a
                 href={ch.href}
-                className="text-[#1a1a1a] font-semibold text-base no-underline hover:text-primary transition-colors duration-200 break-all"
+                className="text-[#1a1a1a] font-semibold text-base no-underline hover:text-primary transition-colors duration-200 whitespace-nowrap"
               >
                 {ch.value}
               </a>

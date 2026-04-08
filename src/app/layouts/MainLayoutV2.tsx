@@ -5,6 +5,7 @@ import { FooterV2 } from '../../layout/components/FooterV2';
 import WhatsAppFloat from '../../features/marketing/shared/components/WhatsAppFloat';
 import { VersionSwitcher } from '../../features/marketing/shared/components/VersionSwitcher';
 import { CONTACT_CONFIG } from '../../core/config/contactConfig';
+import { ImportantNoticePopup } from '../../core/components/ImportantNoticePopup';
 
 export const MainLayoutV2: React.FC = () => (
   <div className="app-container">
@@ -21,5 +22,6 @@ export const MainLayoutV2: React.FC = () => (
     <FooterV2 />
     <WhatsAppFloat phoneNumber={CONTACT_CONFIG.whatsapp} />
     <VersionSwitcher />
+    <ImportantNoticePopup />
   </div>
 );
