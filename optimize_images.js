@@ -37,7 +37,9 @@ const SMALL_ICONS = [
   'cargo-truck.png',
   'working-factory.png',
 ];
+const SUPPORTED_INPUT_EXTENSIONS = ['.jpg', '.jpeg', '.png', '.gif'];
 const SKIP_EXTENSIONS = ['.pdf', '.psd', '.mp4', '.svg'];
+const PRESERVE_SOURCE_IMAGES = ['logo-bar.png', 'logo1.png'];
 
 // Social media icons - will be replaced with SVGs, but optimize anyway
 const SOCIAL_ICONS = [
@@ -54,6 +56,10 @@ async function optimizeImage(filename) {
     console.log(`⏭️  Skipping ${filename} (${ext})`);
     return;
   }
+  if (!SUPPORTED_INPUT_EXTENSIONS.includes(ext)) {
+    console.log(`⏭️  Skipping ${filename} (${ext || 'unknown format'})`);
+    return;
+  }
 
   const inputPath = path.join(inputDir, filename);
   const outputName = filename.replace(
@@ -61,6 +67,14 @@ async function optimizeImage(filename) {
     '.webp'
   );
   const outputPath = path.join(outputDir, outputName);
+
+  if (PRESERVE_SOURCE_IMAGES.includes(filename)) {
+    if (fs.existsSync(outputPath)) {
+      fs.unlinkSync(outputPath);
+    }
+    console.log(`🖼️  Preserving original asset ${filename}`);
+    return;
+  }
 
   if (!fs.existsSync(inputPath)) {
     console.warn(`⚠️  File not found: ${filename}`);
