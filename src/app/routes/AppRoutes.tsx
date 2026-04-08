@@ -1,18 +1,17 @@
 import React, { Suspense } from 'react';
 import { Route, Routes } from 'react-router-dom';
 import { MainLayout } from '../layouts/MainLayout';
-import { MainLayoutV2 } from '../layouts/MainLayoutV2';
 import { ErrorBoundary } from '../../core/components/ErrorBoundary';
+import { TEAM_PAGE_ENABLED } from '../../core/config/siteFlags';
 
-// Lazy load pages
-const HomePage = React.lazy(() =>
-  import('../../features/marketing/home/pages/HomePage').then((module) => ({
-    default: module.HomePage,
-  }))
-);
 const AboutPage = React.lazy(() =>
   import('../../features/marketing/about/pages/AboutPage').then((module) => ({
     default: module.AboutPage,
+  }))
+);
+const HomePage = React.lazy(() =>
+  import('../../features/marketing/home/pages/HomePage').then((module) => ({
+    default: module.HomePage,
   }))
 );
 const ServicesPage = React.lazy(() =>
@@ -25,64 +24,24 @@ const ContactPage = React.lazy(() =>
     (module) => ({ default: module.ContactPage })
   )
 );
-const GetQuotePage = React.lazy(() =>
-  import('../../features/marketing/get-quote/pages/GetQuotePage').then(
-    (module) => ({ default: module.GetQuotePage })
-  )
-);
-const OrderTrackingPage = React.lazy(() =>
-  import('../../features/order-tracking/pages/OrderTracking').then(
-    (module) => ({ default: module.OrderTracking })
-  )
+const TeamPage = React.lazy(() =>
+  import('../../features/marketing/team/pages/TeamPage').then((module) => ({
+    default: module.TeamPage,
+  }))
 );
 const FAQPage = React.lazy(() =>
   import('../../features/marketing/faq/pages/FAQPage').then((module) => ({
     default: module.FAQPage,
   }))
 );
-const TeamPage = React.lazy(() =>
-  import('../../features/marketing/team/pages/TeamPage').then((module) => ({
-    default: module.TeamPage,
-  }))
-);
-const AboutPageV2 = React.lazy(() =>
-  import('../../features/marketing/about/pages/AboutPageV2').then((module) => ({
-    default: module.AboutPageV2,
-  }))
-);
-const HomePageV2 = React.lazy(() =>
-  import('../../features/marketing/home/pages/HomePageV2').then((module) => ({
-    default: module.HomePageV2,
-  }))
-);
-const ServicesPageV2 = React.lazy(() =>
-  import('../../features/marketing/services/pages/ServicesPageV2').then(
-    (module) => ({ default: module.ServicesPageV2 })
+const GetQuotePage = React.lazy(() =>
+  import('../../features/marketing/get-quote/pages/GetQuotePage').then(
+    (module) => ({ default: module.GetQuotePage })
   )
 );
-const ContactPageV2 = React.lazy(() =>
-  import('../../features/marketing/contact/pages/ContactPageV2').then(
-    (module) => ({ default: module.ContactPageV2 })
-  )
-);
-const TeamPageV2 = React.lazy(() =>
-  import('../../features/marketing/team/pages/TeamPageV2').then((module) => ({
-    default: module.TeamPageV2,
-  }))
-);
-const FAQPageV2 = React.lazy(() =>
-  import('../../features/marketing/faq/pages/FAQPageV2').then((module) => ({
-    default: module.FAQPageV2,
-  }))
-);
-const GetQuotePageV2 = React.lazy(() =>
-  import('../../features/marketing/get-quote/pages/GetQuotePageV2').then(
-    (module) => ({ default: module.GetQuotePageV2 })
-  )
-);
-const OrderTrackingV2 = React.lazy(() =>
-  import('../../features/order-tracking/pages/OrderTrackingV2').then(
-    (module) => ({ default: module.OrderTrackingV2 })
+const OrderTracking = React.lazy(() =>
+  import('../../features/order-tracking/pages/OrderTracking').then(
+    (module) => ({ default: module.OrderTracking })
   )
 );
 const NotFoundPage = React.lazy(() =>
@@ -109,25 +68,16 @@ export const AppRoutes: React.FC = () => (
         <Route element={<MainLayout />}>
           <Route path="/" element={<HomePage />} />
           <Route path="/about" element={<AboutPage />} />
-          <Route path="/team" element={<TeamPage />} />
+          <Route
+            path="/team"
+            element={TEAM_PAGE_ENABLED ? <TeamPage /> : <NotFoundPage />}
+          />
           <Route path="/services" element={<ServicesPage />} />
           <Route path="/contact" element={<ContactPage />} />
-          <Route path="/order" element={<OrderTrackingPage />} />
+          <Route path="/order" element={<OrderTracking />} />
           <Route path="/get-quote" element={<GetQuotePage />} />
           <Route path="/faq" element={<FAQPage />} />
           <Route path="*" element={<NotFoundPage />} />
-        </Route>
-
-        {/* V2 Routes — uses overhauled NavbarV2 + FooterV2 */}
-        <Route element={<MainLayoutV2 />}>
-          <Route path="/v2" element={<HomePageV2 />} />
-          <Route path="/about/v2" element={<AboutPageV2 />} />
-          <Route path="/team/v2" element={<TeamPageV2 />} />
-          <Route path="/services/v2" element={<ServicesPageV2 />} />
-          <Route path="/contact/v2" element={<ContactPageV2 />} />
-          <Route path="/faq/v2" element={<FAQPageV2 />} />
-          <Route path="/get-quote/v2" element={<GetQuotePageV2 />} />
-          <Route path="/order/v2" element={<OrderTrackingV2 />} />
         </Route>
       </Routes>
     </Suspense>

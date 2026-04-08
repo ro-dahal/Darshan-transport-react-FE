@@ -1,3 +1,5 @@
+import { TEAM_PAGE_ENABLED } from '../../../core/config/siteFlags';
+
 interface FooterLink {
   label: string;
   href: string;
@@ -13,7 +15,7 @@ export const FOOTER_COLUMNS: FooterColumn[] = [
     title: 'Company',
     links: [
       { label: 'About us', href: '/about' },
-      { label: 'Team', href: '/team' },
+      ...(TEAM_PAGE_ENABLED ? [{ label: 'Team', href: '/team' }] : []),
       { label: 'FAQs', href: '/faq' },
       { label: 'Contact', href: '/contact' },
     ],
@@ -27,10 +29,13 @@ export const FOOTER_COLUMNS: FooterColumn[] = [
         href: '/services#distribution-delivery',
       },
       {
-        label: 'Thrid-Party Logistics (3PL)',
+        label: 'Third-Party Logistics (3PL)',
         href: '/services#third-party-logistics',
       },
-      { label: 'Packaging & Handling', href: '/services#packaging-handling' },
+      {
+        label: 'Packaging & Handling',
+        href: '/services#packaging-handling',
+      },
       { label: 'Fleet Services', href: '/services#fleet-services' },
       { label: 'Service Area', href: '/services#service-area' },
       { label: 'Industries Served', href: '/services#warehouse-inventory' },

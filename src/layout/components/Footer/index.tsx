@@ -1,163 +1,229 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import logo from '../../../assets/img/optimized/logo1.webp';
+import { motion } from 'framer-motion';
+import {
+  FaFacebook,
+  FaInstagram,
+  FaWhatsapp,
+  FaLinkedin,
+  FaPhoneAlt,
+  FaEnvelope,
+  FaMapMarkerAlt,
+} from 'react-icons/fa';
+import logo from '../../../assets/img/logo1.png';
 import { FOOTER_COLUMNS } from './footerLinks';
 import { CONTACT_CONFIG } from '../../../core/config/contactConfig';
 import { buildWhatsAppUrl } from '../../../core/utils/whatsapp';
-import facebookIcon from '../../../assets/img/facebook.png';
-import instagramIcon from '../../../assets/img/instagram.png';
-import whatsappIcon from '../../../assets/img/whatsapp.png';
-import linkedinIcon from '../../../assets/img/linkedin.png';
 
-/**
- * Global Site Footer.
- * Organizes site navigation into columns and provides essential contact
- * and social media links. Responsive layout handles mobile centering
- * and tablet/desktop reorganization.
- */
-export const Footer: React.FC = () => (
-  <footer className="bg-[#5d5d5d] text-white pt-[50px] px-5 pb-5 font-sans">
-    <div className="flex max-w-[1200px] mx-auto gap-[60px] items-start flex-wrap max-xl:flex-nowrap max-xl:gap-4 max-xl:justify-between max-sm:flex-col max-sm:items-center max-sm:gap-[30px]">
-      {/* LOGO + PARAGRAPH GROUP */}
-      <div className="flex items-start gap-px max-w-[420px] max-xl:max-w-[150px] max-xl:flex-col max-xl:items-start max-xl:shrink-0 max-xl:mr-0 max-sm:max-w-full max-sm:mb-5 max-sm:items-center">
-        <img
-          src={logo}
-          alt="Darshan Transport Logo"
-          loading="lazy"
-          decoding="async"
-          className="w-[120px] flex-shrink-0 max-xl:w-[120px] max-xl:mb-2.5 max-sm:w-[150px]"
-        />
-        <p className="m-0 text-sm leading-[1.6] text-[#ddd] mt-2.5 max-w-[230px] max-xl:w-full max-xl:max-w-full max-xl:mt-0 max-sm:max-w-full max-sm:mx-auto text-left max-sm:text-center">
-          Nepal's trusted partner for warehousing, nationwide delivery, and 3PL
-          solutions. Reliable, safe, and on-time logistics for businesses of all
-          sizes.
-        </p>
-      </div>
+const fadeUp = {
+  hidden: { opacity: 0, y: 24 },
+  visible: (i: number) => ({
+    opacity: 1,
+    y: 0,
+    transition: {
+      duration: 0.5,
+      delay: i * 0.1,
+      ease: [0.22, 1, 0.36, 1] as [number, number, number, number],
+    },
+  }),
+};
 
-      {/* OTHER COLUMNS */}
-      {FOOTER_COLUMNS.map((column) => (
-        <div
-          className={`flex-1 min-w-[180px] max-xl:min-w-0 max-xl:w-auto max-sm:min-w-[180px] max-sm:text-center max-sm:w-full ${column.title === 'Services' ? 'xl:-ml-8' : ''}`}
-          key={column.title}
+const SOCIAL_ICONS: Record<string, React.ReactNode> = {
+  Facebook: <FaFacebook className="h-5 w-5" />,
+  Instagram: <FaInstagram className="h-5 w-5" />,
+  WhatsApp: <FaWhatsapp className="h-5 w-5" />,
+  LinkedIn: <FaLinkedin className="h-5 w-5" />,
+};
+
+export const Footer: React.FC = () => {
+  const companyCol = FOOTER_COLUMNS[0];
+  const servicesCol = FOOTER_COLUMNS[1];
+  const connectCol = FOOTER_COLUMNS[2];
+
+  const socialLinks = connectCol.links.filter((l) => SOCIAL_ICONS[l.label]);
+  const contactLinks = connectCol.links.filter((l) => !SOCIAL_ICONS[l.label]);
+
+  return (
+    <footer className="relative bg-[#0a0a0a] text-white overflow-hidden">
+      {/* Top accent line */}
+      <div className="h-px bg-gradient-to-r from-transparent via-primary/40 to-transparent" />
+
+      <div className="mx-auto max-w-7xl px-6 pt-16 pb-8 sm:px-10 lg:px-20">
+        {/* Main grid */}
+        <motion.div
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: '-60px' }}
+          className="grid gap-12 sm:grid-cols-2 lg:grid-cols-12"
         >
-          <h4 className="text-base font-semibold mb-[15px] text-white">
-            {column.title}
-          </h4>
-          <ul className="list-none p-0 m-0">
-            {column.title === 'Connect'
-              ? column.links.map((link) => {
-                  let href = link.href;
-                  if (link.label === 'WhatsApp')
-                    href = buildWhatsAppUrl(CONTACT_CONFIG.whatsapp);
-                  if (link.label.includes('@'))
-                    href = `mailto:${CONTACT_CONFIG.email}`;
-                  if (link.label.startsWith('+977'))
-                    href = `tel:${CONTACT_CONFIG.phone.replace(/\s/g, '')}`;
+          {/* Brand column */}
+          <motion.div custom={0} variants={fadeUp} className="lg:col-span-4">
+            <img
+              src={logo}
+              alt="Darshan Transport Logo"
+              loading="lazy"
+              decoding="async"
+              className="h-14 w-auto mb-5"
+            />
+            <p className="text-sm leading-relaxed text-white/50 max-w-xs mb-6">
+              Nepal's trusted partner for warehousing, nationwide delivery, and
+              3PL solutions. Reliable, safe, and on-time logistics for
+              businesses of all sizes.
+            </p>
 
-                  return (
-                    <li key={link.label} className="mb-2">
-                      <a
-                        href={href}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="flex items-center gap-2.5 no-underline text-inherit transition-colors duration-200 font-medium break-words max-sm:justify-center"
-                      >
-                        {link.label === 'Facebook' && (
-                          <img
-                            src={facebookIcon}
-                            alt="Facebook"
-                            className="w-[38px] h-[38px] object-contain transition-transform duration-200 hover:scale-110"
-                          />
-                        )}
-                        {link.label === 'Instagram' && (
-                          <img
-                            src={instagramIcon}
-                            alt="Instagram"
-                            className="w-[38px] h-[38px] object-contain transition-transform duration-200 hover:scale-110"
-                          />
-                        )}
-                        {link.label === 'WhatsApp' && (
-                          <img
-                            src={whatsappIcon}
-                            alt="WhatsApp"
-                            className="w-[38px] h-[38px] object-contain transition-transform duration-200 hover:scale-110"
-                          />
-                        )}
-                        {link.label === 'LinkedIn' && (
-                          <img
-                            src={linkedinIcon}
-                            alt="LinkedIn"
-                            className="w-[38px] h-[38px] object-contain transition-transform duration-200 hover:scale-110"
-                          />
-                        )}
-                        <span className="text-[#ccc] hover:text-white">
-                          {link.label}
-                        </span>
-                      </a>
-                    </li>
-                  );
-                })
-              : column.links.map((link) => {
-                  let href = link.href;
-                  if (link.label === 'WhatsApp')
-                    href = buildWhatsAppUrl(CONTACT_CONFIG.whatsapp);
-                  if (link.label.includes('@'))
-                    href = `mailto:${CONTACT_CONFIG.email}`;
-                  if (link.label.startsWith('+977'))
-                    href = `tel:${CONTACT_CONFIG.phone.replace(/\s/g, '')}`;
+            {/* Social icons */}
+            <div className="flex items-center gap-3">
+              {socialLinks.map((link) => {
+                let href = link.href;
+                if (link.label === 'WhatsApp')
+                  href = buildWhatsAppUrl(CONTACT_CONFIG.whatsapp);
 
-                  return (
-                    <li key={link.label} className="mb-2">
-                      {href.startsWith('/') ? (
-                        <Link
-                          to={href}
-                          className="text-[#ccc] no-underline transition-colors duration-300 hover:text-white"
-                        >
-                          {link.label}
-                        </Link>
-                      ) : (
-                        <a
-                          href={href}
-                          target={
-                            href.startsWith('http') ? '_blank' : undefined
-                          }
-                          rel={
-                            href.startsWith('http')
-                              ? 'noopener noreferrer'
-                              : undefined
-                          }
-                          className="text-[#ccc] no-underline transition-colors duration-300 hover:text-white break-words"
-                        >
-                          {link.label}
-                        </a>
-                      )}
-                    </li>
-                  );
-                })}
-          </ul>
+                return (
+                  <a
+                    key={link.label}
+                    href={href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label={link.label}
+                    className="flex items-center justify-center w-10 h-10 rounded-full bg-white/[0.06] border border-white/[0.08] text-white/60 transition-all duration-200 hover:bg-primary/20 hover:text-primary hover:border-primary/30"
+                  >
+                    {SOCIAL_ICONS[link.label]}
+                  </a>
+                );
+              })}
+            </div>
+          </motion.div>
+
+          {/* Company column */}
+          <motion.div custom={1} variants={fadeUp} className="lg:col-span-2">
+            <h4 className="text-xs font-bold uppercase tracking-[3px] text-white/40 mb-5">
+              {companyCol.title}
+            </h4>
+            <ul className="space-y-3">
+              {companyCol.links.map((link) => (
+                <li key={link.label}>
+                  {link.href.startsWith('/') ? (
+                    <Link
+                      to={link.href}
+                      className="text-sm text-white/60 transition-colors duration-200 hover:text-primary no-underline"
+                    >
+                      {link.label}
+                    </Link>
+                  ) : (
+                    <a
+                      href={link.href}
+                      className="text-sm text-white/60 transition-colors duration-200 hover:text-primary no-underline"
+                    >
+                      {link.label}
+                    </a>
+                  )}
+                </li>
+              ))}
+            </ul>
+          </motion.div>
+
+          {/* Services column */}
+          <motion.div custom={2} variants={fadeUp} className="lg:col-span-3">
+            <h4 className="text-xs font-bold uppercase tracking-[3px] text-white/40 mb-5">
+              {servicesCol.title}
+            </h4>
+            <ul className="space-y-3">
+              {servicesCol.links.map((link) => (
+                <li key={link.label}>
+                  {link.href.startsWith('/') ? (
+                    <Link
+                      to={link.href}
+                      className="text-sm text-white/60 transition-colors duration-200 hover:text-primary no-underline"
+                    >
+                      {link.label}
+                    </Link>
+                  ) : (
+                    <a
+                      href={link.href}
+                      className="text-sm text-white/60 transition-colors duration-200 hover:text-primary no-underline"
+                    >
+                      {link.label}
+                    </a>
+                  )}
+                </li>
+              ))}
+            </ul>
+          </motion.div>
+
+          {/* Contact column */}
+          <motion.div custom={3} variants={fadeUp} className="lg:col-span-3">
+            <h4 className="text-xs font-bold uppercase tracking-[3px] text-white/40 mb-5">
+              Get In Touch
+            </h4>
+            <ul className="space-y-4">
+              <li>
+                <a
+                  href={`tel:${CONTACT_CONFIG.phone.replace(/\s/g, '')}`}
+                  className="flex items-start gap-3 text-sm text-white/60 transition-colors duration-200 hover:text-primary no-underline group"
+                >
+                  <FaPhoneAlt className="h-4 w-4 mt-0.5 shrink-0 text-primary/60 group-hover:text-primary transition-colors" />
+                  <span>{CONTACT_CONFIG.phoneDisplay}</span>
+                </a>
+              </li>
+              <li>
+                <a
+                  href={`mailto:${CONTACT_CONFIG.email}`}
+                  className="flex items-start gap-3 text-sm text-white/60 transition-colors duration-200 hover:text-primary no-underline group"
+                >
+                  <FaEnvelope className="h-4 w-4 mt-0.5 shrink-0 text-primary/60 group-hover:text-primary transition-colors" />
+                  <span>{CONTACT_CONFIG.email}</span>
+                </a>
+              </li>
+              <li className="flex items-start gap-3 text-sm text-white/60">
+                <FaMapMarkerAlt className="h-4 w-4 mt-0.5 shrink-0 text-primary/60" />
+                <span>{CONTACT_CONFIG.address}</span>
+              </li>
+              {contactLinks.map((link) => {
+                // Skip phone/email since handled above
+                if (link.label.startsWith('+977') || link.label.includes('@'))
+                  return null;
+                return (
+                  <li key={link.label}>
+                    <a
+                      href={link.href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-sm text-white/60 transition-colors duration-200 hover:text-primary no-underline"
+                    >
+                      {link.label}
+                    </a>
+                  </li>
+                );
+              })}
+            </ul>
+          </motion.div>
+        </motion.div>
+
+        {/* Divider */}
+        <div className="mt-14 h-px bg-white/[0.06]" />
+
+        {/* Bottom bar */}
+        <div className="mt-6 flex flex-col items-center gap-4 sm:flex-row sm:justify-between">
+          <p className="text-xs text-white/30">
+            &copy; {new Date().getFullYear()} Darshan Transport. All rights
+            reserved.
+          </p>
+          <div className="flex items-center gap-6">
+            <Link
+              to="/privacy-policy"
+              className="text-xs text-white/30 transition-colors duration-200 hover:text-white/60 no-underline"
+            >
+              Privacy Policy
+            </Link>
+            <Link
+              to="/terms-conditions"
+              className="text-xs text-white/30 transition-colors duration-200 hover:text-white/60 no-underline"
+            >
+              Terms &amp; Conditions
+            </Link>
+          </div>
         </div>
-      ))}
-    </div>
-
-    <div className="text-center pt-5 text-sm text-[#ccc]">
-      <p>
-        Copyright © {new Date().getFullYear()} Darshan Transport |
-        <Link
-          to="/privacy-policy"
-          className="text-[#ccc] no-underline mx-[5px] hover:text-white"
-        >
-          {' '}
-          Privacy Policy
-        </Link>{' '}
-        |
-        <Link
-          to="/terms-conditions"
-          className="text-[#ccc] no-underline mx-[5px] hover:text-white"
-        >
-          {' '}
-          Terms & Conditions
-        </Link>
-      </p>
-    </div>
-  </footer>
-);
+      </div>
+    </footer>
+  );
+};

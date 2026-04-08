@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
-import logo from '../../../assets/img/optimized/logo-bar.webp';
+import { motion, AnimatePresence } from 'framer-motion';
+import logo from '../../../assets/img/logo-bar.png';
 import { NAV_LINKS } from './navLinks';
-import { useNavbarController } from './useNavbarController';
+import { useNavbarController } from '../Navbar/useNavbarController';
 import { TransitionLink } from '../../../core/components/TransitionLink';
 
 export const Navbar: React.FC = () => {
@@ -17,157 +18,331 @@ export const Navbar: React.FC = () => {
     setHoveredDropdown(null);
   }, [location.pathname]);
 
+  const isDropdownOpen = (to: string) =>
+    activeDropdown === to || hoveredDropdown === to;
+
   return (
     <header
       id="header"
       ref={headerRef}
-      className="flex items-center justify-between px-[135px] py-2.5 bg-[#1a1a1a] shadow-[0_5px_15px_rgba(0,0,0,0.1)] z-[1000] fixed top-0 left-0 right-0 w-full box-border will-change-transform transition-transform duration-300 ease-in-out max-xl:px-10 max-lg:px-10 max-md:px-5 max-sm:px-[15px]"
+      className="fixed top-0 left-0 right-0 z-[1000] w-full will-change-transform transition-transform duration-300 ease-in-out"
     >
-      <TransitionLink to="/">
-        <img
-          src={logo}
-          className="max-h-[8vh] max-w-full max-lg:max-w-[140px] max-sm:max-w-[120px]"
-          alt="Darshan Transport Logo"
-          fetchPriority="high"
-        />
-      </TransitionLink>
-      <nav
-        aria-label="Main navigation"
-        className="md:absolute md:left-1/2 md:top-1/2 md:-translate-x-1/2 md:-translate-y-1/2 md:z-[1001]"
-      >
-        <ul
-          id="navbar"
-          className={`flex items-center justify-center max-md:fixed max-md:top-[var(--head-height,56px)] max-md:left-0 max-md:right-0 max-md:w-full max-md:flex-col max-md:p-0 max-md:m-0 max-md:bg-[#1a1a1a] max-md:rounded-b-xl max-md:shadow-[0_8px_24px_rgba(0,0,0,0.3)] max-md:z-[1000] ${
-            menuOpen
-              ? 'max-md:!flex max-md:opacity-100 max-md:translate-y-0 max-md:py-5'
-              : 'max-md:hidden max-md:opacity-0 max-md:-translate-y-2.5'
-          } max-md:transition-all max-md:duration-[250ms] max-md:ease-[cubic-bezier(0.4,0,0.2,1)]`}
-        >
-          {NAV_LINKS.map((link) => {
-            const isActive = activePath === link.to;
-            const isDropdownOpen =
-              activeDropdown === link.to || hoveredDropdown === link.to;
-            const isHighlighted = isActive || isDropdownOpen;
-            const shouldRotateChevron = isDropdownOpen;
+      {/* Glassmorphism bar */}
+      <div className="mx-auto flex items-center justify-between px-6 py-3 sm:px-10 lg:px-20 xl:px-[135px] bg-[#0d0d0d]/80 backdrop-blur-xl border-b border-white/[0.06]">
+        {/* Logo */}
+        <TransitionLink to="/" className="shrink-0">
+          <img
+            src={logo}
+            className="h-[80px] w-auto sm:h-[80px] lg:h-[90px]"
+            alt="Darshan Transport Logo"
+            fetchPriority="high"
+            style={{ transform: 'scale(1)', transformOrigin: 'left center' }}
+          />
+        </TransitionLink>
 
-            return (
-              <li
-                key={link.to}
-                className="list-none px-5 relative max-lg:px-2.5 max-md:m-0 max-md:p-0 max-md:w-full max-md:border-b max-md:border-white/10 max-md:transition-all max-md:duration-300 max-md:last:border-b-0 max-md:hover:bg-white/5"
-                onMouseEnter={() => {
-                  if (link.dropdown && window.innerWidth > 768) {
-                    setHoveredDropdown(link.to);
+        {/* Desktop nav */}
+        <nav aria-label="Main navigation" className="hidden md:block">
+          <ul className="flex items-center gap-1">
+            {NAV_LINKS.map((link) => {
+              const isActive = activePath === link.to;
+              const dropOpen = isDropdownOpen(link.to);
+              const highlighted = isActive || dropOpen;
+
+              return (
+                <li
+                  key={link.to}
+                  className="relative"
+                  onMouseEnter={() =>
+                    link.dropdown && setHoveredDropdown(link.to)
                   }
-                }}
-                onMouseLeave={() => {
-                  if (link.dropdown && window.innerWidth > 768) {
-                    setHoveredDropdown(null);
-                  }
-                }}
-              >
-                <TransitionLink
-                  to={link.to}
-                  className={`no-underline text-base font-semibold text-white opacity-70 transition-all duration-200 hover:text-primary max-lg:text-sm max-md:text-lg max-md:font-semibold max-md:py-4 max-md:px-6 max-md:block max-md:text-white/90 max-md:opacity-100 max-md:tracking-[0.5px] max-md:hover:text-primary max-sm:text-base max-sm:font-medium max-sm:py-4 max-sm:px-7 max-sm:flex max-sm:items-center max-sm:justify-center max-sm:min-h-[52px] flex items-center justify-center gap-px ${isHighlighted ? '!text-primary !opacity-100 max-md:bg-white/5' : ''}`}
-                  onClick={(e) => {
-                    if (link.dropdown && window.innerWidth <= 768) {
-                      e.preventDefault();
-                      setActiveDropdown(
-                        activeDropdown === link.to ? null : link.to
-                      );
-                      setHoveredDropdown(null);
-                    } else if (!link.dropdown) {
-                      closeMenu();
-                    }
-                  }}
+                  onMouseLeave={() => link.dropdown && setHoveredDropdown(null)}
                 >
-                  {link.label}
-                  {link.dropdown && (
-                    <span
-                      aria-hidden="true"
-                      className="ml-1 inline-flex h-3 w-3 shrink-0 items-center justify-center text-current transition-transform duration-300 ease-in-out"
-                      style={{
-                        transform: shouldRotateChevron
-                          ? 'rotate(180deg)'
-                          : 'rotate(0deg)',
-                      }}
-                    >
+                  <TransitionLink
+                    to={link.to}
+                    className={`relative flex items-center gap-1 px-4 py-2 text-[13px] font-semibold uppercase tracking-[1.5px] rounded-full transition-all duration-200 ${
+                      highlighted
+                        ? 'text-primary bg-primary/10'
+                        : 'text-white/70 hover:text-white hover:bg-white/[0.05]'
+                    }`}
+                    onClick={(e) => {
+                      if (link.dropdown) {
+                        e.preventDefault();
+                        setActiveDropdown(
+                          activeDropdown === link.to ? null : link.to
+                        );
+                      }
+                    }}
+                  >
+                    {link.label}
+                    {link.dropdown && (
                       <svg
+                        className={`h-3 w-3 transition-transform duration-200 ${dropOpen ? 'rotate-180' : ''}`}
                         viewBox="0 0 12 12"
-                        className="h-full w-full"
                         fill="none"
-                        xmlns="http://www.w3.org/2000/svg"
                       >
                         <path
-                          d="M2.25 7.5L6 3.75L9.75 7.5"
+                          d="M2.5 4.5L6 8L9.5 4.5"
                           stroke="currentColor"
-                          strokeWidth="1.8"
+                          strokeWidth="1.5"
                           strokeLinecap="round"
                           strokeLinejoin="round"
                         />
                       </svg>
-                    </span>
-                  )}
-                </TransitionLink>
-                {link.dropdown && (
-                  <ul
-                    className={`absolute top-[calc(100%+15px)] left-0 bg-[#1a1a1a] min-w-[280px] shadow-[0_8px_16px_rgba(0,0,0,0.3)] list-none m-0 z-[9999] rounded-lg overflow-hidden transition-all duration-300 block max-md:static max-md:shadow-none max-md:bg-white/5 max-md:pl-0 max-md:rounded-none max-md:border-white/10 ${isDropdownOpen ? 'max-h-[500px] opacity-100 visible pointer-events-auto py-[15px] max-md:border-t' : 'max-h-0 opacity-0 invisible pointer-events-none py-0'}`}
-                  >
-                    {link.dropdown.map((item) => (
-                      <li key={item.to} className="p-0 m-0 block w-full static">
-                        <TransitionLink
-                          to={item.to}
-                          className={`block py-3 px-[25px] text-white opacity-80 no-underline transition-all duration-200 whitespace-nowrap w-full text-[15px] font-medium hover:bg-[rgba(252,175,23,0.2)] hover:!text-primary hover:opacity-100 max-md:py-3.5 max-md:px-4 max-md:text-white/80 max-md:text-base max-md:text-center max-md:border-b max-md:border-white/10 max-md:last:border-b-0 ${activePath === item.to ? '!bg-white/10 !text-primary !opacity-100' : ''}`}
-                          onClick={() => {
-                            const anchor = item.to.split('#')[1];
-                            if (location.pathname === '/services' && anchor) {
-                              if (window.location.hash === `#${anchor}`) {
-                                window.location.hash = '';
-                                setTimeout(() => {
-                                  window.location.hash = `#${anchor}`;
-                                }, 0);
-                              } else {
-                                window.location.hash = `#${anchor}`;
-                              }
-                            }
-                            closeMenu();
-                          }}
-                        >
-                          {item.label}
-                        </TransitionLink>
-                      </li>
-                    ))}
-                  </ul>
-                )}
-                {/* Invisible bridge to prevent dropdown from closing */}
-                {link.dropdown && (
-                  <div className="absolute top-full left-0 right-0 h-[15px] bg-transparent max-md:hidden" />
-                )}
-              </li>
-            );
-          })}
-        </ul>
-      </nav>
+                    )}
+                    {/* Active indicator dot */}
+                    {isActive && !link.dropdown && (
+                      <motion.span
+                        layoutId="nav-dot"
+                        className="absolute -bottom-1 left-1/2 -translate-x-1/2 h-1 w-1 rounded-full bg-primary"
+                        transition={{
+                          type: 'spring',
+                          stiffness: 400,
+                          damping: 30,
+                        }}
+                      />
+                    )}
+                  </TransitionLink>
 
-      <div className="relative z-[1001]">
+                  {/* Desktop dropdown */}
+                  {link.dropdown && (
+                    <>
+                      {/* Invisible bridge */}
+                      <div className="absolute top-full left-0 right-0 h-3" />
+                      <AnimatePresence>
+                        {dropOpen && (
+                          <motion.ul
+                            initial={{ opacity: 0, y: 8 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            exit={{ opacity: 0, y: 8 }}
+                            transition={{
+                              duration: 0.2,
+                              ease: [0.22, 1, 0.36, 1] as [
+                                number,
+                                number,
+                                number,
+                                number,
+                              ],
+                            }}
+                            className="absolute top-[calc(100%+12px)] left-0 min-w-[260px] bg-[#141414]/95 backdrop-blur-xl border border-white/[0.08] rounded-xl shadow-[0_16px_48px_rgba(0,0,0,0.4)] py-2 z-[9999]"
+                          >
+                            {link.dropdown.map((item) => (
+                              <li key={item.to}>
+                                <TransitionLink
+                                  to={item.to}
+                                  className={`block px-5 py-3 text-sm font-medium transition-all duration-150 ${
+                                    activePath === item.to
+                                      ? 'text-primary bg-primary/10'
+                                      : 'text-white/70 hover:text-white hover:bg-white/[0.05]'
+                                  }`}
+                                  onClick={() => {
+                                    const anchor = item.to.split('#')[1];
+                                    if (
+                                      location.pathname === '/services' &&
+                                      anchor
+                                    ) {
+                                      if (
+                                        window.location.hash === `#${anchor}`
+                                      ) {
+                                        window.location.hash = '';
+                                        setTimeout(() => {
+                                          window.location.hash = `#${anchor}`;
+                                        }, 0);
+                                      } else {
+                                        window.location.hash = `#${anchor}`;
+                                      }
+                                    }
+                                    closeMenu();
+                                    setActiveDropdown(null);
+                                    setHoveredDropdown(null);
+                                  }}
+                                >
+                                  {item.label}
+                                </TransitionLink>
+                              </li>
+                            ))}
+                          </motion.ul>
+                        )}
+                      </AnimatePresence>
+                    </>
+                  )}
+                </li>
+              );
+            })}
+          </ul>
+        </nav>
+
+        {/* CTA button (desktop) */}
+        <TransitionLink
+          to="/order"
+          className="hidden md:inline-flex items-center gap-2 bg-primary text-[#0d0d0d] text-xs font-bold uppercase tracking-[2px] px-6 py-2.5 rounded-full hover:bg-primary/90 transition-colors duration-200"
+        >
+          Track Order
+          <svg className="h-3.5 w-3.5" viewBox="0 0 16 16" fill="none">
+            <path
+              d="M3 8h10m0 0L9 4m4 4L9 12"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+          </svg>
+        </TransitionLink>
+
+        {/* Mobile menu button */}
         <button
-          className={`hidden max-md:flex flex-col bg-none border-none cursor-pointer p-3 relative rounded-md transition-all duration-300 hover:bg-[rgba(252,176,23,0.377)] ${menuOpen ? 'active' : ''}`}
-          id="mobileMenuToggle"
+          className="flex md:hidden flex-col items-center justify-center w-10 h-10 rounded-lg bg-transparent border border-white/10 cursor-pointer transition-colors duration-200 hover:bg-white/[0.05]"
           onClick={toggleMenu}
           aria-label="Toggle navigation"
           aria-expanded={menuOpen}
           aria-controls="navbar"
         >
           <span
-            className={`w-6 h-0.5 bg-primary my-[3px] block rounded-sm transition-all duration-300 ease-[cubic-bezier(0.68,-0.55,0.265,1.55)] ${menuOpen ? 'rotate-45 translate-y-[8px]' : ''}`}
-          ></span>
+            className={`block w-5 h-[2px] bg-white/80 rounded-full transition-all duration-300 ${
+              menuOpen ? 'rotate-45 translate-y-[6px]' : ''
+            }`}
+          />
           <span
-            className={`w-6 h-0.5 bg-primary my-[3px] block rounded-sm transition-all duration-300 ease-[cubic-bezier(0.68,-0.55,0.265,1.55)] ${menuOpen ? 'opacity-0 -translate-x-5' : ''}`}
-          ></span>
+            className={`block w-5 h-[2px] bg-white/80 rounded-full my-1 transition-all duration-300 ${
+              menuOpen ? 'opacity-0 scale-x-0' : ''
+            }`}
+          />
           <span
-            className={`w-6 h-0.5 bg-primary my-[3px] block rounded-sm transition-all duration-300 ease-[cubic-bezier(0.68,-0.55,0.265,1.55)] ${menuOpen ? '-rotate-45 -translate-y-[8px]' : ''}`}
-          ></span>
+            className={`block w-5 h-[2px] bg-white/80 rounded-full transition-all duration-300 ${
+              menuOpen ? '-rotate-45 -translate-y-[6px]' : ''
+            }`}
+          />
         </button>
       </div>
+
+      {/* Mobile nav */}
+      <AnimatePresence>
+        {menuOpen && (
+          <motion.nav
+            id="navbar"
+            initial={{ opacity: 0, height: 0 }}
+            animate={{ opacity: 1, height: 'auto' }}
+            exit={{ opacity: 0, height: 0 }}
+            transition={{
+              duration: 0.25,
+              ease: [0.4, 0, 0.2, 1] as [number, number, number, number],
+            }}
+            className="md:hidden overflow-hidden bg-[#0d0d0d]/95 backdrop-blur-xl border-b border-white/[0.06]"
+          >
+            <ul className="flex flex-col py-4 px-6">
+              {NAV_LINKS.map((link, i) => {
+                const isActive = activePath === link.to;
+                const dropOpen = isDropdownOpen(link.to);
+
+                return (
+                  <motion.li
+                    key={link.to}
+                    initial={{ opacity: 0, x: -16 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ delay: i * 0.04, duration: 0.25 }}
+                    className="border-b border-white/[0.06] last:border-b-0"
+                  >
+                    <TransitionLink
+                      to={link.to}
+                      className={`flex items-center justify-between py-3.5 text-[15px] font-semibold tracking-wide transition-colors duration-200 ${
+                        isActive
+                          ? 'text-primary'
+                          : 'text-white/80 hover:text-white'
+                      }`}
+                      onClick={(e) => {
+                        if (link.dropdown) {
+                          e.preventDefault();
+                          setActiveDropdown(
+                            activeDropdown === link.to ? null : link.to
+                          );
+                        } else {
+                          closeMenu();
+                        }
+                      }}
+                    >
+                      {link.label}
+                      {link.dropdown && (
+                        <svg
+                          className={`h-4 w-4 transition-transform duration-200 ${dropOpen ? 'rotate-180' : ''}`}
+                          viewBox="0 0 12 12"
+                          fill="none"
+                        >
+                          <path
+                            d="M2.5 4.5L6 8L9.5 4.5"
+                            stroke="currentColor"
+                            strokeWidth="1.5"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                          />
+                        </svg>
+                      )}
+                    </TransitionLink>
+
+                    {/* Mobile dropdown */}
+                    <AnimatePresence>
+                      {link.dropdown && dropOpen && (
+                        <motion.ul
+                          initial={{ opacity: 0, height: 0 }}
+                          animate={{ opacity: 1, height: 'auto' }}
+                          exit={{ opacity: 0, height: 0 }}
+                          transition={{ duration: 0.2 }}
+                          className="overflow-hidden pl-4 pb-2"
+                        >
+                          {link.dropdown.map((item) => (
+                            <li key={item.to}>
+                              <TransitionLink
+                                to={item.to}
+                                className={`block py-2.5 text-sm transition-colors duration-150 ${
+                                  activePath === item.to
+                                    ? 'text-primary'
+                                    : 'text-white/50 hover:text-white/80'
+                                }`}
+                                onClick={() => {
+                                  closeMenu();
+                                  setActiveDropdown(null);
+                                }}
+                              >
+                                {item.label}
+                              </TransitionLink>
+                            </li>
+                          ))}
+                        </motion.ul>
+                      )}
+                    </AnimatePresence>
+                  </motion.li>
+                );
+              })}
+
+              {/* Mobile CTA */}
+              <motion.li
+                initial={{ opacity: 0, x: -16 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{
+                  delay: NAV_LINKS.length * 0.04,
+                  duration: 0.25,
+                }}
+                className="pt-4"
+              >
+                <TransitionLink
+                  to="/order"
+                  onClick={closeMenu}
+                  className="flex items-center justify-center gap-2 w-full bg-primary text-[#0d0d0d] text-sm font-bold uppercase tracking-[2px] px-6 py-3 rounded-full"
+                >
+                  Track Order
+                  <svg className="h-4 w-4" viewBox="0 0 16 16" fill="none">
+                    <path
+                      d="M3 8h10m0 0L9 4m4 4L9 12"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                  </svg>
+                </TransitionLink>
+              </motion.li>
+            </ul>
+          </motion.nav>
+        )}
+      </AnimatePresence>
     </header>
   );
 };

@@ -3,10 +3,8 @@ import { Outlet } from 'react-router-dom';
 import { Navbar } from '../../layout/components/Navbar';
 import { Footer } from '../../layout/components/Footer';
 import WhatsAppFloat from '../../features/marketing/shared/components/WhatsAppFloat';
-import { VersionSwitcher } from '../../features/marketing/shared/components/VersionSwitcher';
-import { ImportantNoticePopup } from '../../core/components/ImportantNoticePopup';
-
 import { CONTACT_CONFIG } from '../../core/config/contactConfig';
+import { ImportantNoticePopup } from '../../core/components/ImportantNoticePopup';
 
 export const MainLayout: React.FC = () => (
   <div className="app-container">
@@ -21,10 +19,7 @@ export const MainLayout: React.FC = () => (
       <Outlet />
     </main>
     <Footer />
-    {/* Global Floating WhatsApp Component */}
     <WhatsAppFloat phoneNumber={CONTACT_CONFIG.whatsapp} />
-    {/* Version Switcher toggle */}
-    <VersionSwitcher />
     <ImportantNoticePopup />
   </div>
 );

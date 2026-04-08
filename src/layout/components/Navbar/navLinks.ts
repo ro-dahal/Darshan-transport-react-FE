@@ -16,7 +16,10 @@ export const NAV_LINKS: NavLink[] = [
     to: '/services',
     label: 'Services',
     dropdown: [
-      { to: '/services#warehouse-inventory', label: 'Ware House & Inventory' },
+      {
+        to: '/services#warehouse-inventory',
+        label: 'Warehouse & Inventory',
+      },
       {
         to: '/services#distribution-delivery',
         label: 'Distribution & Delivery',
@@ -31,6 +34,5 @@ export const NAV_LINKS: NavLink[] = [
     ],
   },
   { to: '/contact', label: 'Contact' },
-  { to: '/order', label: 'Track My Order' },
   { to: '/get-quote', label: 'Get A Quote' },
 ];
