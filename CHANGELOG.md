@@ -5,6 +5,7 @@ All notable changes to the Darshan Transport Frontend project will be documented
 ## [Unreleased]
 
 ### Added
+
 - **Order Tracking Contract Update**: Extended delivery response typing to include the record source and aligned the frontend order-tracking contract with backend responses.
 
 ## [1.4.0] - 2026-02-14
