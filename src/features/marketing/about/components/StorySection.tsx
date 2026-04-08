@@ -1,9 +1,21 @@
 import React from 'react';
-import type { StatItem } from '../data/aboutContent';
+import { motion } from 'framer-motion';
 
-export interface StorySectionProps {
+const fadeUp = {
+  hidden: { opacity: 0, y: 40 },
+  visible: (i: number) => ({
+    opacity: 1,
+    y: 0,
+    transition: {
+      duration: 0.65,
+      delay: i * 0.12,
+      ease: [0.22, 1, 0.36, 1] as [number, number, number, number],
+    },
+  }),
+};
+
+interface StorySectionProps {
   description: string[];
-  stats: StatItem[];
   animationSrc: string;
 }
 
@@ -11,80 +23,104 @@ export const StorySection: React.FC<StorySectionProps> = ({
   description,
   animationSrc,
 }) => (
-  <section className="py-[60px] px-5 max-lg:py-10 max-lg:px-[30px] max-md:py-[30px] max-md:px-[15px]">
-    <div className="mx-auto max-w-[1180px]">
-      <div className="max-w-[760px]">
-        <span className="text-primary text-sm font-bold tracking-[0.18em] uppercase">
-          About Darshan Transport
-        </span>
-        <h2 className="mt-3 text-[32px] font-bold leading-[1.2] text-[#2c3e50] max-md:text-[26px]">
-          A logistics partner built for dependable cargo movement across Nepal
-        </h2>
-        <p className="mt-5 max-w-[680px] text-[1.02rem] leading-[1.8] text-gray-600">
-          We support business logistics with structured transport operations,
-          bulk cargo expertise, and reliable delivery coordination across major
-          commercial routes.
-        </p>
-      </div>
+  <section className="relative py-24 px-8 max-lg:py-16 max-md:py-12 max-md:px-5">
+    {/* Subtle background accent */}
+    <div className="absolute top-0 right-0 w-[40%] h-[60%] bg-gradient-to-bl from-primary/5 to-transparent rounded-bl-[120px] pointer-events-none max-lg:hidden" />
 
-      <div className="mt-14 grid grid-cols-[minmax(0,1.1fr)_minmax(320px,0.9fr)] items-start gap-12 max-lg:grid-cols-1 max-lg:gap-8">
-        <div className="min-w-0">
-          <span className="text-primary text-sm font-bold tracking-[0.18em] uppercase">
-            Who We Are
+    <div className="mx-auto max-w-[1200px] relative z-10">
+      {/* Eyebrow + heading */}
+      <motion.div
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, margin: '-80px' }}
+        className="max-w-[700px]"
+      >
+        <motion.h2
+          variants={fadeUp}
+          custom={0}
+          className="mt-4 text-[2.6rem] font-extrabold leading-[1.12] text-[#1a1a1a] max-md:text-[2rem] max-sm:text-[1.6rem]"
+        >
+          A logistics partner built for
+          <span className="text-primary">
+            {' '}
+            dependable cargo movement across Nepal
           </span>
-          <h3 className="mt-3 max-w-[14ch] text-[26px] font-bold leading-[1.25] text-[#2c3e50] max-md:text-[21px]">
-            Reliable bulk cargo transport across Nepal
-          </h3>
-          <div className="mt-8 max-w-[680px] space-y-6 text-base leading-[1.9] text-text-medium">
-            {description.map((para, i) => (
-              <p key={i}>{para}</p>
+        </motion.h2>
+        <motion.div
+          variants={fadeUp}
+          custom={2}
+          className="mt-3 h-1 w-14 bg-primary rounded-full"
+        />
+      </motion.div>
+
+      {/* Two-column layout */}
+      <div className="mt-16 grid grid-cols-[1fr_0.85fr] items-center gap-16 max-lg:grid-cols-1 max-lg:gap-10">
+        {/* Text column */}
+        <motion.div
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: '-60px' }}
+          className="space-y-6"
+        >
+          {description.map((para, i) => (
+            <motion.p
+              key={i}
+              variants={fadeUp}
+              custom={i}
+              className="text-[1.05rem] leading-[1.85] text-text-medium"
+            >
+              {para}
+            </motion.p>
+          ))}
+
+          {/* Quick-hit highlights */}
+          <motion.div
+            variants={fadeUp}
+            custom={description.length}
+            className="pt-4 grid grid-cols-2 gap-4 max-sm:grid-cols-1"
+          >
+            {[
+              { label: 'Bulk & heavy cargo', icon: '📦' },
+              { label: 'Nationwide coverage', icon: '🗺️' },
+              { label: 'Warehousing support', icon: '🏭' },
+              { label: 'Distribution logistics', icon: '🚚' },
+            ].map((item) => (
+              <div
+                key={item.label}
+                className="flex items-center gap-3 py-2.5 px-4 rounded-lg bg-bg-light border border-border-light"
+              >
+                <span className="text-xl" aria-hidden="true">
+                  {item.icon}
+                </span>
+                <span className="text-sm font-semibold text-text-dark">
+                  {item.label}
+                </span>
+              </div>
             ))}
-          </div>
-        </div>
+          </motion.div>
+        </motion.div>
 
-        <div className="flex justify-center lg:justify-end">
-          <img
-            className="w-full max-w-[520px] object-contain"
-            src={animationSrc}
-            alt="Our operations animated"
-            loading="lazy"
-            decoding="async"
-          />
-        </div>
-      </div>
-
-      <div className="mt-14 border-t border-border-light pt-10">
-        <div className="grid gap-10 lg:grid-cols-2 lg:gap-12">
-          <div className="min-w-0">
-            <h4 className="text-primary text-sm font-bold tracking-[0.18em] uppercase">
-              What We Do
-            </h4>
-            <p className="mt-4 max-w-[540px] text-base leading-[1.85] text-text-medium">
-              We provide transport and logistics services for businesses that
-              require regular, large-scale, or organized cargo movement. Our
-              operations are built to handle bulk goods, support distribution
-              networks, and improve delivery coordination across Nepal.
-            </p>
+        {/* Image / animation column */}
+        <motion.div
+          initial={{ opacity: 0, scale: 0.92 }}
+          whileInView={{ opacity: 1, scale: 1 }}
+          viewport={{ once: true, margin: '-60px' }}
+          transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
+          className="flex justify-center lg:justify-end"
+        >
+          <div className="relative">
+            {/* Decorative frame */}
+            <div className="absolute -inset-3 rounded-2xl border-2 border-primary/20 -z-10 max-md:hidden" />
+            <div className="absolute -inset-6 rounded-3xl border border-primary/8 -z-20 max-md:hidden" />
+            <img
+              className="w-full max-w-[480px] rounded-xl object-contain"
+              src={animationSrc}
+              alt="Our operations animated"
+              loading="lazy"
+              decoding="async"
+            />
           </div>
-
-          <div className="min-w-0">
-            <h4 className="text-primary text-sm font-bold tracking-[0.18em] uppercase">
-              Our Approach to Logistics
-            </h4>
-            <div className="mt-4 max-w-[560px] space-y-4 text-base leading-[1.85] text-text-medium">
-              <p>
-                We focus on practical logistics solutions that support business
-                operations. Our approach is based on clear planning, efficient
-                transport coordination, and reliable delivery performance.
-              </p>
-              <p>
-                Instead of one-time delivery services, we support businesses
-                with structured transport systems that can handle ongoing cargo
-                movement.
-              </p>
-            </div>
-          </div>
-        </div>
+        </motion.div>
       </div>
     </div>
   </section>

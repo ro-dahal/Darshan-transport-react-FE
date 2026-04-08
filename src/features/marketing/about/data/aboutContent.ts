@@ -1,5 +1,5 @@
-import gifOperations from '../../../../assets/img/optimized/gif2.webp';
-import nepalMap from '../../../../assets/img/optimized/nepal-map.webp';
+import gifOperations from '../../../../assets/img/optimized/operations-illustration.webp';
+import nepalMap from '../../../../assets/img/optimized/nepal-coverage-map.webp';
 import udnLogo from '../../../../assets/Company logos/UDN.jpg';
 import cgLogo from '../../../../assets/Company logos/cg.png';
 import dhiLogo from '../../../../assets/Company logos/dhi.jpg';
@@ -11,14 +11,14 @@ import readmoreLogo from '../../../../assets/Company logos/readmore.png';
 import sujaldairyLogo from '../../../../assets/Company logos/sujaldairy.jpg';
 import sujalfoodLogo from '../../../../assets/Company logos/sujalfood.png';
 import treveniLogo from '../../../../assets/Company logos/treveni.jpg';
-import parcelCourierDeliveryIcon from '../../../../assets/img/Parcel & Courier Delivery.png';
-import builtForHeavyLoadsIcon from '../../../../assets/img/Built for heavy loads.png';
-import strongNationwideNetworkIcon from '../../../../assets/img/strong Nationwide Network.png';
-import ontimeConsistentDeliveryIcon from '../../../../assets/img/ontime & consistent delivey.png';
-import safeProfessionalHandlingIcon from '../../../../assets/img/Safe professional handling.png';
-import businessCentricOperationIcon from '../../../../assets/img/business centric operation.png';
-import person1 from '../../../../assets/img/optimized/person1.webp';
-import person2 from '../../../../assets/img/optimized/person2.webp';
+import parcelCourierDeliveryIcon from '../../../../assets/img/service-parcel-courier-delivery.png';
+import builtForHeavyLoadsIcon from '../../../../assets/img/value-built-for-heavy-loads.png';
+import strongNationwideNetworkIcon from '../../../../assets/img/value-strong-nationwide-network.png';
+import ontimeConsistentDeliveryIcon from '../../../../assets/img/value-on-time-consistent-delivery.png';
+import safeProfessionalHandlingIcon from '../../../../assets/img/value-safe-professional-handling.png';
+import businessCentricOperationIcon from '../../../../assets/img/value-business-centric-operations.png';
+import person1 from '../../../../assets/img/optimized/founder-bishal-poudel.webp';
+import person2 from '../../../../assets/img/optimized/founder-anup-acharya.webp';
 
 export interface StatItem {
   value: string;
