@@ -1,5 +1,5 @@
-import gifOperations from '../../../../assets/img/optimized/gif2.webp';
-import nepalMap from '../../../../assets/img/optimized/nepal-map.webp';
+import gifOperations from '../../../../assets/img/optimized/operations-illustration.webp';
+import nepalMap from '../../../../assets/img/optimized/nepal-coverage-map.webp';
 import udnLogo from '../../../../assets/Company logos/UDN.jpg';
 import cgLogo from '../../../../assets/Company logos/cg.png';
 import dhiLogo from '../../../../assets/Company logos/dhi.jpg';
@@ -11,9 +11,9 @@ import readmoreLogo from '../../../../assets/Company logos/readmore.png';
 import sujaldairyLogo from '../../../../assets/Company logos/sujaldairy.jpg';
 import sujalfoodLogo from '../../../../assets/Company logos/sujalfood.png';
 import treveniLogo from '../../../../assets/Company logos/treveni.jpg';
-import parcelCourierDeliveryIcon from '../../../../assets/img/Parcel & Courier Delivery.png';
-import person1 from '../../../../assets/img/optimized/person1.webp';
-import person3 from '../../../../assets/img/optimized/person3.webp';
+import parcelCourierDeliveryIcon from '../../../../assets/img/service-parcel-courier-delivery.png';
+import person1 from '../../../../assets/img/optimized/founder-bishal-poudel.webp';
+import person3 from '../../../../assets/img/optimized/founder-bishnu-prasad-poudyal.webp';
 
 export interface StatItem {
   value: string;
