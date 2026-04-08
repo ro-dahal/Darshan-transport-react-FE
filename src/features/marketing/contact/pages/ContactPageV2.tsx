@@ -98,7 +98,7 @@ const CONTACT_CHANNELS = [
   {
     icon: '⏰',
     label: 'Working Hours',
-    value: 'Sun – Fri: 6 AM – 7 PM',
+    value: 'Sun – Fri: 10 AM – 7 PM',
     href: undefined,
   },
 ];
