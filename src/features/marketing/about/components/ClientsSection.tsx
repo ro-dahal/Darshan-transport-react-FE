@@ -24,6 +24,6 @@ export const ClientsSection: React.FC<ClientsSectionProps> = ({ logos }) => (
       </h2>
     </motion.div>
 
-    <ClientCarousel logos={logos} />
+    <ClientCarousel logos={logos} size="compact" />
   </section>
 );

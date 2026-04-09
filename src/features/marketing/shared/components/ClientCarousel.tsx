@@ -14,15 +14,35 @@ interface LogoItem {
 interface ClientCarouselProps {
   logos: LogoItem[];
   speed?: number; // px per second
+  size?: 'default' | 'compact';
 }
+
+const SIZE_STYLES = {
+  default: {
+    itemClassName:
+      'w-[260px] h-[140px] max-md:w-[180px] max-md:h-[100px]',
+    scaleRange: [2.0, 0.55] as [number, number],
+    sidePaddingRange: [48, 4] as [number, number],
+    gapClassName: 'gap-10 max-md:gap-4',
+  },
+  compact: {
+    itemClassName:
+      'w-[210px] h-[112px] max-md:w-[150px] max-md:h-[84px]',
+    scaleRange: [1.65, 0.5] as [number, number],
+    sidePaddingRange: [36, 4] as [number, number],
+    gapClassName: 'gap-8 max-md:gap-3',
+  },
+} as const;
 
 const ClientCarousel: React.FC<ClientCarouselProps> = ({
   logos,
   speed = 50,
+  size = 'default',
 }) => {
   const contentRef = useRef<HTMLDivElement | null>(null);
   const x = useMotionValue(0);
   const [contentWidth, setContentWidth] = useState(0);
+  const sizeStyles = SIZE_STYLES[size];
 
   useEffect(() => {
     if (!contentRef.current) return;
@@ -61,11 +81,11 @@ const ClientCarousel: React.FC<ClientCarouselProps> = ({
       proximity.set(Math.min(distance / range, 1));
     });
 
-    const scale = useTransform(proximity, [0, 1], [2.0, 0.55]);
+    const scale = useTransform(proximity, [0, 1], sizeStyles.scaleRange);
     const opacity = useTransform(proximity, [0, 1], [1, 0.2]);
     const grayscaleAmount = useTransform(proximity, [0, 1], [0, 100]);
     const filter = useTransform(grayscaleAmount, (v) => `grayscale(${v}%)`);
-    const sidePadding = useTransform(proximity, [0, 1], [48, 4]);
+    const sidePadding = useTransform(proximity, [0, 1], sizeStyles.sidePaddingRange);
 
     return (
       <motion.div
@@ -77,7 +97,7 @@ const ClientCarousel: React.FC<ClientCarouselProps> = ({
           paddingLeft: sidePadding,
           paddingRight: sidePadding,
         }}
-        className="flex-shrink-0 w-[260px] h-[140px] flex items-center justify-center will-change-transform max-md:w-[180px] max-md:h-[100px]"
+        className={`flex-shrink-0 ${sizeStyles.itemClassName} flex items-center justify-center will-change-transform`}
       >
         <img
           src={logo.src}
@@ -98,7 +118,7 @@ const ClientCarousel: React.FC<ClientCarouselProps> = ({
       <motion.div
         ref={contentRef}
         style={{ x }}
-        className="flex items-center gap-10 w-max will-change-transform max-md:gap-4"
+        className={`flex items-center ${sizeStyles.gapClassName} w-max will-change-transform`}
       >
         {logos.map((logo, i) => (
           <AnimatedLogo key={`main-${i}`} logo={logo} />
