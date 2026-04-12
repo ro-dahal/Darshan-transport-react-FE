@@ -11,6 +11,7 @@ import { DebugPanel } from '../components/DebugPanel';
 import { DEMO_SCENARIOS } from '../data/demoData';
 import { useOrderTrackingDemo } from '../hooks/useOrderTrackingDemo';
 import { EMPTY_INVOICE_ERROR_MESSAGE } from '../utils/invoiceNumber';
+import { InvoiceTooltip } from '../components/InvoiceTooltip';
 
 const SOCIAL_ICONS: Record<string, React.ReactElement> = {
   facebook: <FaFacebook />,
@@ -201,8 +202,13 @@ export const OrderTracking: React.FC = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.1 }}
-            className="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden"
+            className="relative bg-white rounded-2xl border border-gray-100 shadow-sm"
           >
+            {/* Tooltip in top right */}
+            <div className="absolute top-8 right-8 z-20 max-md:top-5 max-md:right-5">
+              <InvoiceTooltip />
+            </div>
+
             <div className="p-8 max-md:p-5">
               <h3 className="text-2xl font-extrabold text-primary mb-6 max-md:text-xl">
                 Check Delivery Status
@@ -347,116 +353,229 @@ export const OrderTracking: React.FC = () => {
 
             {/* Result */}
             {deliveryRecord && (
-              <div
-                ref={resultRef}
-                className="border-t border-gray-100 p-8 max-md:p-5"
-              >
-                {/* Timeline */}
+              <div ref={resultRef} className="border-t border-gray-100">
+                {/* ── Status Banner ── */}
                 <motion.div
-                  variants={containerVariants}
-                  initial="hidden"
-                  animate="show"
-                  className="flex items-center justify-between gap-0 mb-10 overflow-x-auto pb-2 max-md:gap-0"
+                  initial={{ opacity: 0, y: -10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.5 }}
+                  className={`px-8 py-5 flex items-center gap-4 max-md:px-5 ${
+                    deliveryRecord.status === 'delivered'
+                      ? 'bg-gradient-to-r from-emerald-50 to-emerald-100/50'
+                      : deliveryRecord.status === 'ongoing'
+                        ? 'bg-gradient-to-r from-primary/5 to-primary/10'
+                        : 'bg-gradient-to-r from-gray-50 to-gray-100/50'
+                  }`}
                 >
-                  {ORDER_STATUS_STEPS.map(
-                    (step: OrderStatusStep, i: number) => {
-                      const isCompleted = i < clampedIndex;
-                      const isActive = i === clampedIndex;
-                      return (
-                        <motion.div
-                          key={step.key}
-                          variants={itemVariants}
-                          className="flex flex-col items-center flex-1 relative"
-                        >
-                          {/* Connector */}
-                          {i > 0 && (
-                            <div
-                              className={`absolute top-3 right-1/2 w-full h-0.5 -z-10 ${i <= clampedIndex ? 'bg-primary' : 'bg-gray-200'}`}
-                            />
-                          )}
-                          {/* Dot */}
-                          <div
-                            className={`w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold mb-2 ${
-                              isActive
-                                ? 'bg-primary text-white ring-4 ring-primary/20'
-                                : isCompleted
-                                  ? 'bg-primary text-white'
-                                  : 'bg-gray-200 text-gray-400'
-                            }`}
-                          >
-                            {isCompleted ? '✓' : isActive ? '●' : ''}
-                          </div>
-                          <span
-                            className={`text-[0.65rem] font-bold uppercase text-center leading-tight ${
-                              isActive || isCompleted
-                                ? 'text-[#1a1a1a]'
-                                : 'text-gray-400'
-                            }`}
-                          >
-                            {step.label}
-                          </span>
-                        </motion.div>
-                      );
-                    }
-                  )}
+                  <div
+                    className={`w-12 h-12 rounded-2xl flex items-center justify-center text-xl shrink-0 ${
+                      deliveryRecord.status === 'delivered'
+                        ? 'bg-emerald-500 text-white shadow-lg shadow-emerald-500/30'
+                        : deliveryRecord.status === 'ongoing'
+                          ? 'bg-primary text-white shadow-lg shadow-primary/30'
+                          : 'bg-gray-300 text-white shadow-lg shadow-gray-300/30'
+                    }`}
+                  >
+                    {deliveryRecord.status === 'delivered'
+                      ? '✓'
+                      : deliveryRecord.status === 'ongoing'
+                        ? '🚛'
+                        : '⏳'}
+                  </div>
+                  <div>
+                    <p className="text-xs font-bold uppercase tracking-widest text-gray-400 mb-0.5">
+                      Current Status
+                    </p>
+                    <p
+                      className={`text-xl font-extrabold capitalize ${
+                        deliveryRecord.status === 'delivered'
+                          ? 'text-emerald-600'
+                          : deliveryRecord.status === 'ongoing'
+                            ? 'text-primary'
+                            : 'text-gray-500'
+                      }`}
+                    >
+                      {deliveryRecord.status === 'delivered'
+                        ? 'Delivered Successfully'
+                        : deliveryRecord.status === 'ongoing'
+                          ? 'In Transit'
+                          : 'Awaiting Dispatch'}
+                    </p>
+                  </div>
                 </motion.div>
 
-                {/* Info Grid */}
+                {/* ── Premium Timeline ── */}
+                <div className="px-8 pt-8 pb-4 max-md:px-5 max-md:pt-6">
+                  <motion.div
+                    variants={containerVariants}
+                    initial="hidden"
+                    animate="show"
+                    className="relative"
+                  >
+                    {/* Background track */}
+                    <div className="absolute top-7 left-[calc(16.66%)] right-[calc(16.66%)] h-1 bg-gray-100 rounded-full max-md:hidden" />
+                    {/* Progress fill */}
+                    <motion.div
+                      className="absolute top-7 left-[calc(16.66%)] h-1 bg-gradient-to-r from-primary to-primary rounded-full max-md:hidden"
+                      initial={{ width: 0 }}
+                      animate={{
+                        width:
+                          clampedIndex === 0
+                            ? '0%'
+                            : clampedIndex === 1
+                              ? '33.33%'
+                              : '66.66%',
+                      }}
+                      transition={{
+                        duration: 1,
+                        delay: 0.3,
+                        ease: [0.22, 1, 0.36, 1],
+                      }}
+                    />
+
+                    <div className="flex items-start justify-between relative z-10 max-md:flex-col max-md:gap-4">
+                      {ORDER_STATUS_STEPS.map(
+                        (step: OrderStatusStep, i: number) => {
+                          const isCompleted = i < clampedIndex;
+                          const isActive = i === clampedIndex;
+                          const stepIcons = ['📦', '🚛', '✅'];
+                          const stepDescriptions = [
+                            'Order received & queued',
+                            'Shipment in transit',
+                            'Package delivered',
+                          ];
+
+                          return (
+                            <motion.div
+                              key={step.key}
+                              variants={itemVariants}
+                              className="flex flex-col items-center flex-1 max-md:flex-row max-md:gap-4 max-md:w-full"
+                            >
+                              {/* Icon circle */}
+                              <div
+                                className={`relative w-14 h-14 rounded-2xl flex items-center justify-center text-2xl mb-3 transition-all duration-500 max-md:mb-0 max-md:shrink-0 ${
+                                  isActive
+                                    ? 'bg-primary text-white shadow-xl shadow-primary/30 scale-110'
+                                    : isCompleted
+                                      ? 'bg-primary/90 text-white shadow-lg shadow-primary/20'
+                                      : 'bg-gray-100 text-gray-300'
+                                }`}
+                              >
+                                {isCompleted ? (
+                                  <svg
+                                    className="w-6 h-6"
+                                    fill="none"
+                                    viewBox="0 0 24 24"
+                                    stroke="currentColor"
+                                    strokeWidth={3}
+                                  >
+                                    <path
+                                      strokeLinecap="round"
+                                      strokeLinejoin="round"
+                                      d="M5 13l4 4L19 7"
+                                    />
+                                  </svg>
+                                ) : (
+                                  <span>{stepIcons[i]}</span>
+                                )}
+                                {isActive && (
+                                  <span className="absolute inset-0 rounded-2xl bg-primary animate-ping opacity-20 pointer-events-none" />
+                                )}
+                              </div>
+
+                              {/* Label & description */}
+                              <div className="text-center max-md:text-left">
+                                <p
+                                  className={`text-sm font-extrabold uppercase tracking-wide leading-tight ${
+                                    isActive || isCompleted
+                                      ? 'text-[#1a1a1a]'
+                                      : 'text-gray-300'
+                                  }`}
+                                >
+                                  {step.label}
+                                </p>
+                                <p
+                                  className={`text-[0.7rem] mt-0.5 leading-snug ${
+                                    isActive || isCompleted
+                                      ? 'text-gray-500'
+                                      : 'text-gray-300'
+                                  }`}
+                                >
+                                  {stepDescriptions[i]}
+                                </p>
+                              </div>
+                            </motion.div>
+                          );
+                        }
+                      )}
+                    </div>
+                  </motion.div>
+                </div>
+
+                {/* ── Delivery Info ── */}
                 <motion.div
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.6, duration: 0.5 }}
-                  className="bg-[#fafafa] rounded-xl p-6 border border-gray-100"
+                  className="px-8 pb-8 max-md:px-5 max-md:pb-5"
                 >
-                  <h4 className="text-sm font-bold text-text-medium uppercase tracking-wider mb-4">
-                    Delivery Info
-                  </h4>
-                  <div className="space-y-0">
-                    {deliveryRecord.source === 'public_pod' && (
-                      <InfoRow label="POD Status" value="POD CONFIRMED" />
-                    )}
-                    {deliveryRecord.message && (
-                      <InfoRow label="Message" value={deliveryRecord.message} />
-                    )}
-                    {deliveryRecord.consigner && (
-                      <InfoRow
-                        label="Consigner"
-                        value={deliveryRecord.consigner}
-                      />
-                    )}
-                    {deliveryRecord.consignee && (
-                      <InfoRow
-                        label="Consignee"
-                        value={deliveryRecord.consignee}
-                      />
-                    )}
-                    {deliveryRecord.from && (
-                      <InfoRow label="Origin" value={deliveryRecord.from} />
-                    )}
-                    {deliveryRecord.to && (
-                      <InfoRow label="Destination" value={deliveryRecord.to} />
-                    )}
-                    {formatDate(deliveryRecord.bookingDate) && (
-                      <InfoRow
-                        label="Booked"
-                        value={formatDate(deliveryRecord.bookingDate)!}
-                      />
-                    )}
-                    {formatDate(deliveryRecord.dispatchDate) && (
-                      <InfoRow
-                        label="Dispatched"
-                        value={formatDate(deliveryRecord.dispatchDate)!}
-                      />
-                    )}
-                    {formatDate(deliveryRecord.arrivalDate) && (
-                      <InfoRow
-                        label="Arrived"
-                        value={formatDate(deliveryRecord.arrivalDate)!}
-                      />
-                    )}
-                    {deliveryRecord.error && (
-                      <InfoRow label="Notes" value={deliveryRecord.error} />
-                    )}
+                  <div className="bg-[#fafafa] rounded-xl p-6 border border-gray-100">
+                    <h4 className="text-sm font-bold text-text-medium uppercase tracking-wider mb-4">
+                      Delivery Info
+                    </h4>
+                    <div className="space-y-0">
+                      {deliveryRecord.source === 'public_pod' && (
+                        <InfoRow label="POD Status" value="POD CONFIRMED" />
+                      )}
+                      {deliveryRecord.message && (
+                        <InfoRow
+                          label="Message"
+                          value={deliveryRecord.message}
+                        />
+                      )}
+                      {deliveryRecord.consigner && (
+                        <InfoRow
+                          label="Consigner"
+                          value={deliveryRecord.consigner}
+                        />
+                      )}
+                      {deliveryRecord.consignee && (
+                        <InfoRow
+                          label="Consignee"
+                          value={deliveryRecord.consignee}
+                        />
+                      )}
+                      {deliveryRecord.from && (
+                        <InfoRow label="Origin" value={deliveryRecord.from} />
+                      )}
+                      {deliveryRecord.to && (
+                        <InfoRow
+                          label="Destination"
+                          value={deliveryRecord.to}
+                        />
+                      )}
+                      {formatDate(deliveryRecord.bookingDate) && (
+                        <InfoRow
+                          label="Booked"
+                          value={formatDate(deliveryRecord.bookingDate)!}
+                        />
+                      )}
+                      {formatDate(deliveryRecord.dispatchDate) && (
+                        <InfoRow
+                          label="Dispatched"
+                          value={formatDate(deliveryRecord.dispatchDate)!}
+                        />
+                      )}
+                      {formatDate(deliveryRecord.arrivalDate) && (
+                        <InfoRow
+                          label="Arrived"
+                          value={formatDate(deliveryRecord.arrivalDate)!}
+                        />
+                      )}
+                      {deliveryRecord.error && (
+                        <InfoRow label="Notes" value={deliveryRecord.error} />
+                      )}
+                    </div>
                   </div>
                 </motion.div>
               </div>

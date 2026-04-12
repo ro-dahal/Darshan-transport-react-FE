@@ -1,5 +1,6 @@
 import React from 'react';
 import { ServiceStatusAlert } from './ServiceStatusAlert';
+import { InvoiceTooltip } from './InvoiceTooltip';
 
 export interface OrderStatusFormProps {
   invoiceNumber: string;
@@ -37,7 +38,12 @@ export const OrderStatusForm: React.FC<OrderStatusFormProps> = ({
   };
 
   return (
-    <section className="border border-[#ddd] rounded-md p-4 mb-5 bg-white shadow-sm">
+    <section className="relative border border-[#ddd] rounded-md p-4 mb-5 bg-white shadow-sm">
+      {/* Tooltip icon in top-right corner */}
+      <div className="absolute top-3 right-3">
+        <InvoiceTooltip />
+      </div>
+
       <h3 className="text-primary m-0 text-lg font-bold">
         Check Delivery Status
       </h3>
