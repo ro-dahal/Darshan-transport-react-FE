@@ -5,13 +5,10 @@ import {
   SERVICES_HERO,
   SERVICES_STATS,
   SERVICES_CARDS,
+  SERVICES_OFFERINGS,
 } from '../data/servicesContent';
-import {
-  SERVICES_ACCORDION_DATA,
-  ALL_DISTRICTS,
-} from '../data/servicesAccordionData';
 import { MetaTags } from '../../../../core/components/MetaTags';
-import parcelCourierDeliveryIcon from '../../../../assets/img/service-parcel-courier-delivery.png';
+import { useBreakpoint } from '../../../../core/hooks/useBreakpoint';
 
 const fadeUp = {
   hidden: { opacity: 0, y: 40 },
@@ -50,6 +47,10 @@ const Hero: React.FC = () => {
     target: ref,
     offset: ['start start', 'end start'],
   });
+  const { isMobile } = useBreakpoint();
+  const heroImage = isMobile
+    ? SERVICES_HERO.mobileBackgroundImage
+    : SERVICES_HERO.backgroundImage;
   const bgY = useTransform(scrollYProgress, [0, 1], ['0%', '16%']);
 
   return (
@@ -59,9 +60,9 @@ const Hero: React.FC = () => {
       className="relative w-full h-[calc(100dvh-var(--head-height,90px))] overflow-hidden flex items-end justify-start"
     >
       <motion.div
-        className="absolute inset-0 w-full h-full bg-center bg-bottom bg-no-repeat bg-contain"
+        className="absolute inset-0 w-full h-full bg-center bg-bottom bg-no-repeat bg-cover"
         style={{
-          backgroundImage: `url(${SERVICES_HERO.backgroundImage})`,
+          backgroundImage: `url(${heroImage})`,
           y: bgY,
         }}
       />
@@ -116,6 +117,49 @@ const Hero: React.FC = () => {
   );
 };
 
+/* ── Animated Number ────────────────────────── */
+const AnimatedNumber: React.FC<{
+  target: number;
+  suffix: string;
+  inView: boolean;
+}> = ({ target, suffix, inView }) => {
+  const [count, setCount] = useState(0);
+
+  useEffect(() => {
+    if (!inView) return;
+
+    let start = 0;
+    const duration = 1000;
+    const step = target / (duration / 16);
+    let raf: number;
+
+    const animate = () => {
+      start += step;
+      if (start >= target) {
+        setCount(target);
+        return;
+      }
+      setCount(Math.floor(start));
+      raf = requestAnimationFrame(animate);
+    };
+
+    raf = requestAnimationFrame(animate);
+    return () => cancelAnimationFrame(raf);
+  }, [inView, target]);
+
+  const formatNumber = (n: number) => {
+    if (n >= 1000) return `${(n / 1000).toFixed(n % 1000 === 0 ? 0 : 1)}k`;
+    return n.toString();
+  };
+
+  return (
+    <span>
+      {formatNumber(count)}
+      {suffix}
+    </span>
+  );
+};
+
 /* ── Growth Stats ───────────────────────────── */
 const Growth: React.FC = () => {
   const [inView, setInView] = useState(false);
@@ -153,7 +197,11 @@ const Growth: React.FC = () => {
               className="text-center"
             >
               <div className="text-primary text-[3rem] font-extrabold leading-none max-md:text-[2.2rem]">
-                {inView ? s.value : '0'}
+                <AnimatedNumber
+                  target={s.value}
+                  suffix={s.suffix}
+                  inView={inView}
+                />
               </div>
               <div className="text-white/60 text-sm font-medium mt-2 uppercase tracking-wider">
                 {s.label}
@@ -168,58 +216,92 @@ const Growth: React.FC = () => {
 
 /* ── Who We Serve Grid ──────────────────────── */
 const ServeGrid: React.FC = () => (
-  <section className="py-24 px-8 max-lg:py-16 max-md:py-12 max-md:px-5">
-    <div className="max-w-[1200px] mx-auto">
+  <section className="relative py-24 px-8 bg-white overflow-hidden max-lg:py-16 max-md:py-12 max-md:px-5">
+    {/* Subtle dot pattern background */}
+    <div
+      className="absolute inset-0 opacity-[0.4] pointer-events-none"
+      style={{
+        backgroundImage: 'radial-gradient(#000000 1px, transparent 1px)',
+        backgroundSize: '32px 32px',
+      }}
+    />
+
+    <div className="relative z-10 max-w-[1240px] mx-auto">
+      {/* Header section */}
       <motion.div
         initial="hidden"
         whileInView="visible"
         viewport={{ once: true, margin: '-60px' }}
-        className="text-center mb-14"
+        className="text-center mb-16"
       >
         <motion.p
           variants={fadeUp}
           custom={0}
-          className="text-primary text-sm font-semibold tracking-[3px] uppercase"
+          className="text-primary text-sm font-bold tracking-[3px] uppercase mb-4"
         >
           Who We Serve
         </motion.p>
         <motion.h2
           variants={fadeUp}
           custom={1}
-          className="mt-3 text-[2.4rem] font-extrabold text-[#1a1a1a] max-md:text-[1.8rem]"
+          className="text-[2.8rem] font-extrabold text-[#1a1a1a] leading-[1.12] max-md:text-[2rem]"
         >
-          We Work With
+          Partnering with Key Industries
         </motion.h2>
       </motion.div>
 
+      {/* Grid */}
       <motion.div
         variants={staggerContainer}
         initial="hidden"
         whileInView="visible"
         viewport={{ once: true, margin: '-40px' }}
-        className="grid grid-cols-3 gap-6 max-lg:grid-cols-2 max-md:grid-cols-1"
+        className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8"
       >
         {SERVICES_CARDS.map((card) => (
           <motion.div
             key={card.label}
             variants={scaleIn}
-            className="group bg-white rounded-xl p-8 border border-gray-100 shadow-sm hover:shadow-xl hover:border-primary/20 transition-all duration-300 flex flex-col items-center text-center"
+            className="group relative bg-white rounded-2xl p-8 lg:p-10 border border-gray-100 shadow-[0_4px_20px_rgb(0,0,0,0.02)] hover:shadow-[0_20px_40px_rgb(0,0,0,0.08)] hover:-translate-y-1.5 transition-all duration-500 flex flex-col items-start overflow-hidden"
           >
-            <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mb-5 group-hover:bg-primary/20 transition-colors duration-300">
+            {/* Top accent bar visible on hover */}
+            <div className="absolute top-0 left-0 w-full h-1.5 bg-gradient-to-r from-primary to-primary/60 origin-left scale-x-0 group-hover:scale-x-100 transition-transform duration-500 ease-out" />
+
+            <div className="w-[60px] h-[60px] rounded-xl bg-primary/5 flex items-center justify-center mb-6 border border-primary/10 group-hover:scale-110 group-hover:bg-primary/10 transition-all duration-500">
               {card.iconType === 'image' ? (
                 <img
                   src={card.icon}
                   alt=""
                   loading="lazy"
                   decoding="async"
-                  className="w-9 h-auto"
+                  className="w-8 h-auto opacity-80 group-hover:opacity-100 transition-opacity"
                   aria-hidden="true"
                 />
               ) : (
-                <span className="text-primary text-2xl">📦</span>
+                <span className="text-primary text-2xl">🌍</span>
               )}
             </div>
-            <h4 className="text-lg font-bold text-[#1a1a1a]">{card.label}</h4>
+
+            <h4 className="text-[1.15rem] font-bold text-[#1a1a1a] leading-[1.6] group-hover:text-primary transition-colors duration-300">
+              {card.label}
+            </h4>
+
+            {/* Decorative arrow in the corner */}
+            <div className="absolute bottom-6 right-6 opacity-0 translate-x-4 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-500 text-primary">
+              <svg
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2.5"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              >
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+                <polyline points="12 5 19 12 12 19"></polyline>
+              </svg>
+            </div>
           </motion.div>
         ))}
       </motion.div>
@@ -229,13 +311,12 @@ const ServeGrid: React.FC = () => (
 
 /* ── Benefits ───────────────────────────────── */
 const BENEFITS = [
-  'Nationwide coverage across major cities & districts',
-  'End-to-end logistics: Store → Load → Deliver',
-  'Lower operational cost',
-  'Fast same-day dispatch',
-  'Real-time stock & delivery visibility',
-  'Fewer errors & smoother flow',
-  'Scales as you grow',
+  'Full-truck and bulk cargo transport across Nepal',
+  'Direct delivery with minimal handling',
+  'Structured logistics process from pickup to delivery',
+  'Real-time coordination and shipment updates',
+  'Strong route network across major cities and industrial areas',
+  'Scalable solutions for growing businesses',
 ];
 
 const Benefits: React.FC = () => (
@@ -258,8 +339,8 @@ const Benefits: React.FC = () => (
           custom={1}
           className="mt-3 text-[2.4rem] font-extrabold text-white max-md:text-[1.8rem]"
         >
-          Benefits of Choosing{' '}
-          <span className="text-primary">Darshan Logistics</span>
+          Why Businesses Choose{' '}
+          <span className="text-primary">Darshan Transport</span>
         </motion.h2>
         <motion.div
           variants={fadeUp}
@@ -294,283 +375,248 @@ const Benefits: React.FC = () => (
 
 /* ── Process ────────────────────────────────── */
 const PROCESS_STEPS = [
-  { title: 'Onboarding', description: 'Understand routes, products, volume.' },
-  { title: 'Setup', description: 'Assign warehouse space, SKUs & codes.' },
   {
-    title: 'Daily Operations',
-    description: 'Pick, pack, dispatch, return handling.',
+    title: 'Requirement Understanding',
+    description:
+      'We understand your cargo type, volume, and delivery locations.',
   },
-  { title: 'Reporting', description: 'Stock levels, shipment updates.' },
-  { title: 'Scale', description: 'Add more cities or product lines anytime.' },
+  {
+    title: 'Planning & Vehicle Allocation',
+    description: 'We assign the right vehicle and plan the route.',
+  },
+  {
+    title: 'Pickup & Loading',
+    description: 'Goods are picked up and loaded securely.',
+  },
+  {
+    title: 'Transport & Tracking',
+    description: 'Shipment is transported with coordination and tracking.',
+  },
+  {
+    title: 'Delivery & Confirmation',
+    description: 'Goods are delivered and confirmed at destination.',
+  },
 ];
 
 const Process: React.FC = () => (
-  <section className="py-24 px-8 bg-[#fafafa] max-lg:py-16 max-md:py-12 max-md:px-5">
-    <div className="max-w-[1000px] mx-auto text-center">
+  <section className="relative py-24 px-8 bg-[#fafafa] overflow-hidden max-lg:py-16 max-md:py-12 max-md:px-5">
+    {/* Decorative Background Accents */}
+    <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-primary/5 rounded-full blur-[120px] pointer-events-none -translate-y-1/2 translate-x-1/3" />
+    <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-primary/5 rounded-full blur-[120px] pointer-events-none translate-y-1/3 -translate-x-1/3" />
+
+    <div className="relative z-10 max-w-[1240px] mx-auto">
       <motion.div
         initial="hidden"
         whileInView="visible"
         viewport={{ once: true, margin: '-60px' }}
+        className="text-center mb-24 max-lg:mb-12"
       >
         <motion.p
           variants={fadeUp}
           custom={0}
-          className="text-primary text-sm font-semibold tracking-[3px] uppercase"
+          className="text-primary text-sm font-bold tracking-[3px] uppercase mb-4"
         >
           Our Process
         </motion.p>
         <motion.h2
           variants={fadeUp}
           custom={1}
-          className="mt-3 text-[2.4rem] font-extrabold text-[#1a1a1a] max-md:text-[1.8rem]"
+          className="text-[2.8rem] font-extrabold text-[#1a1a1a] leading-[1.15] max-md:text-[2rem]"
         >
-          How Our Process Works
+          How We Deliver Excellence
         </motion.h2>
       </motion.div>
 
-      <motion.div
-        variants={staggerContainer}
-        initial="hidden"
-        whileInView="visible"
-        viewport={{ once: true, margin: '-40px' }}
-        className="mt-14 grid grid-cols-5 gap-4 max-lg:grid-cols-3 max-md:grid-cols-2 max-sm:grid-cols-1"
-      >
-        {PROCESS_STEPS.map((step, i) => (
-          <motion.div
-            key={step.title}
-            variants={scaleIn}
-            className="bg-white rounded-xl p-6 border border-gray-100 shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all duration-300 text-center"
-          >
-            <div className="w-11 h-11 rounded-full bg-primary text-white font-bold flex items-center justify-center mx-auto mb-4 shadow-md text-lg">
-              {i + 1}
-            </div>
-            <h4 className="font-bold text-[#1a1a1a] mb-1.5">{step.title}</h4>
-            <p className="text-text-medium text-sm leading-relaxed">
-              {step.description}
-            </p>
-          </motion.div>
-        ))}
-      </motion.div>
-    </div>
-  </section>
-);
+      <div className="relative">
+        {/* Horizontal Line (Desktop) */}
+        <div className="hidden lg:block absolute top-[35px] left-[10%] right-[10%] h-[3px] bg-gradient-to-r from-primary/10 via-primary/30 to-primary/10 rounded-full" />
 
-/* ── Industries ─────────────────────────────── */
-const INDUSTRIES = [
-  'FMCG',
-  'Pharma',
-  'Electronics',
-  'E-Commerce',
-  'Retail & Wholesale',
-  'Manufacturing',
-];
+        {/* Vertical Line (Mobile) */}
+        <div className="block lg:hidden absolute left-[35px] top-[10px] bottom-[10px] w-[3px] bg-gradient-to-b from-primary/10 via-primary/30 to-primary/10 rounded-full" />
 
-const Industries: React.FC = () => (
-  <section className="py-24 px-8 max-lg:py-16 max-md:py-12 max-md:px-5">
-    <div className="max-w-[1000px] mx-auto text-center">
-      <motion.div
-        initial="hidden"
-        whileInView="visible"
-        viewport={{ once: true, margin: '-60px' }}
-      >
-        <motion.p
-          variants={fadeUp}
-          custom={0}
-          className="text-primary text-sm font-semibold tracking-[3px] uppercase"
-        >
-          Industries
-        </motion.p>
-        <motion.h2
-          variants={fadeUp}
-          custom={1}
-          className="mt-3 text-[2.4rem] font-extrabold text-[#1a1a1a] max-md:text-[1.8rem]"
-        >
-          Industries We Serve
-        </motion.h2>
-      </motion.div>
-
-      <motion.div
-        variants={staggerContainer}
-        initial="hidden"
-        whileInView="visible"
-        viewport={{ once: true, margin: '-40px' }}
-        className="mt-14 grid grid-cols-3 gap-5 max-lg:grid-cols-2 max-sm:grid-cols-1"
-      >
-        {INDUSTRIES.map((ind) => (
-          <motion.div
-            key={ind}
-            variants={scaleIn}
-            className="bg-primary text-white rounded-xl p-7 text-left shadow-[6px_8px_0_#e0e0e0] hover:shadow-[10px_12px_0_#d0d0d0] hover:-translate-y-1 transition-all duration-300"
-          >
-            <div className="w-10 h-10 mb-4">
-              <img
-                src={parcelCourierDeliveryIcon}
-                alt=""
-                loading="lazy"
-                decoding="async"
-                className="w-full h-full object-contain brightness-0 invert"
-                aria-hidden="true"
-              />
-            </div>
-            <h4 className="text-lg font-bold">{ind}</h4>
-          </motion.div>
-        ))}
-      </motion.div>
-    </div>
-  </section>
-);
-
-/* ── Services Accordion ─────────────────────── */
-const Accordion: React.FC = () => {
-  const [openIndex, setOpenIndex] = useState<number | null>(null);
-  const [showDistricts, setShowDistricts] = useState(false);
-
-  useEffect(() => {
-    const handleHashChange = () => {
-      const hash = window.location.hash;
-      if (hash) {
-        const anchor = hash.replace('#', '');
-        const idx = SERVICES_ACCORDION_DATA.findIndex((s) => s.id === anchor);
-        if (idx !== -1) {
-          setOpenIndex(idx);
-          setTimeout(() => {
-            document
-              .getElementById(anchor)
-              ?.scrollIntoView({ behavior: 'smooth', block: 'start' });
-          }, 100);
-        }
-      }
-    };
-    handleHashChange();
-    window.addEventListener('hashchange', handleHashChange);
-    return () => window.removeEventListener('hashchange', handleHashChange);
-  }, []);
-
-  return (
-    <section className="py-24 px-8 bg-[#fafafa] max-lg:py-16 max-md:py-12 max-md:px-5">
-      <div className="max-w-[800px] mx-auto">
-        <motion.div
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, margin: '-60px' }}
-          className="text-center mb-12"
-        >
-          <motion.p
-            variants={fadeUp}
-            custom={0}
-            className="text-primary text-sm font-semibold tracking-[3px] uppercase"
-          >
-            Detailed Services
-          </motion.p>
-          <motion.h2
-            variants={fadeUp}
-            custom={1}
-            className="mt-3 text-[2.4rem] font-extrabold text-[#1a1a1a] max-md:text-[1.8rem]"
-          >
-            What We Offer
-          </motion.h2>
-        </motion.div>
-
-        <div className="space-y-4">
-          {SERVICES_ACCORDION_DATA.map((service, idx) => (
+        <div className="grid grid-cols-1 lg:grid-cols-5 gap-8 lg:gap-5 relative">
+          {PROCESS_STEPS.map((step, i) => (
             <motion.div
-              key={service.id}
-              id={service.id}
-              initial={{ opacity: 0, y: 15 }}
+              key={step.title}
+              initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: idx * 0.06, duration: 0.4 }}
-              className={`bg-white rounded-xl overflow-hidden border transition-all duration-200 ${openIndex === idx ? 'border-primary/30 shadow-lg' : 'border-gray-100 shadow-sm'}`}
+              viewport={{ once: true, margin: '-40px' }}
+              transition={{ duration: 0.5, delay: i * 0.1, ease: 'easeOut' }}
+              className="relative flex flex-col items-start lg:items-center max-lg:pl-[84px] max-lg:justify-center max-lg:min-h-[100px]"
             >
-              <button
-                className="w-full text-left p-5 pr-7 flex items-center justify-between cursor-pointer bg-transparent border-none text-lg font-bold text-[#1a1a1a] hover:text-primary transition-colors duration-200"
-                onClick={() => {
-                  setOpenIndex(openIndex === idx ? null : idx);
-                  if (SERVICES_ACCORDION_DATA[idx].isArea)
-                    setShowDistricts(false);
-                }}
-              >
-                {service.title}
-                <motion.span
-                  animate={{ rotate: openIndex === idx ? 180 : 0 }}
-                  transition={{ duration: 0.25 }}
-                  className="text-primary text-sm"
-                >
-                  ▼
-                </motion.span>
-              </button>
+              {/* Timeline Node */}
+              <div className="max-lg:absolute max-lg:left-0 lg:mb-8 flex-shrink-0 w-[74px] h-[74px] bg-[#fafafa] rounded-full border-4 border-white shadow-[0_4px_16px_rgb(0,0,0,0.06)] flex items-center justify-center z-10 transition-transform duration-500 hover:scale-110">
+                <div className="w-12 h-12 rounded-full bg-primary text-white flex items-center justify-center font-bold text-xl relative overflow-hidden group">
+                  <span className="relative z-10">{i + 1}</span>
+                  <div className="absolute inset-0 bg-white/20 scale-0 group-hover:scale-150 transition-transform duration-500 rounded-full" />
+                </div>
+              </div>
 
-              {openIndex === idx && (
-                <motion.div
-                  initial={{ height: 0, opacity: 0 }}
-                  animate={{ height: 'auto', opacity: 1 }}
-                  exit={{ height: 0, opacity: 0 }}
-                  transition={{ duration: 0.3 }}
-                  className="px-5 pb-5"
-                >
-                  <ul className="ml-4 list-disc space-y-2">
-                    {service.features.map((f, fi) => (
-                      <li key={fi} className="text-text-medium leading-relaxed">
-                        {f === 'Full District Coverage List →' ? (
-                          <button
-                            className="text-primary font-semibold underline cursor-pointer bg-transparent border-none p-0 text-base"
-                            onClick={() => setShowDistricts((v) => !v)}
-                          >
-                            {f}
-                          </button>
-                        ) : (
-                          f
-                        )}
-                      </li>
-                    ))}
-                  </ul>
-                  {service.isArea && showDistricts && (
-                    <div className="mt-4 bg-primary/5 rounded-lg p-4 border border-primary/10">
-                      <strong className="text-primary text-sm">
-                        All 77 Districts:
-                      </strong>
-                      <div className="flex flex-wrap gap-2 mt-3">
-                        {ALL_DISTRICTS.map((d, di) => (
-                          <span
-                            key={di}
-                            className="bg-primary text-white rounded-md px-2.5 py-1 text-sm font-medium"
-                          >
-                            {d}
-                          </span>
-                        ))}
-                      </div>
-                    </div>
-                  )}
-                </motion.div>
-              )}
+              {/* Content Card */}
+              <div className="w-full h-full">
+                <div className="group bg-white p-7 max-lg:p-6 rounded-[1.5rem] shadow-[0_8px_24px_rgb(0,0,0,0.03)] border border-gray-100/50 hover:shadow-[0_16px_32px_rgb(0,0,0,0.06)] hover:border-primary/20 hover:-translate-y-2 transition-all duration-500 relative overflow-hidden h-full flex flex-col items-start lg:items-center lg:text-center text-left">
+                  {/* Watermark Number */}
+                  <div className="absolute inset-0 flex lg:items-center max-lg:items-start lg:justify-center max-lg:justify-end max-lg:pr-4 max-lg:pt-2 text-[5rem] lg:text-[7rem] font-black text-[#f8f8f8] select-none pointer-events-none group-hover:text-primary/5 transition-colors duration-500 leading-none">
+                    0{i + 1}
+                  </div>
+
+                  <div className="relative z-10 h-full flex flex-col">
+                    <h4 className="text-[1.15rem] font-bold text-[#1a1a1a] mb-2 group-hover:text-primary transition-colors duration-300">
+                      {step.title}
+                    </h4>
+                    <p className="text-gray-500 leading-[1.65] text-sm">
+                      {step.description}
+                    </p>
+                  </div>
+                </div>
+              </div>
             </motion.div>
           ))}
         </div>
       </div>
-    </section>
-  );
-};
+    </div>
+  </section>
+);
+
+/* ── What We Offer ──────────────────────────────── */
+const Offerings: React.FC = () => (
+  <section className="relative py-24 px-8 bg-[#111] overflow-hidden max-lg:py-16 max-md:py-12 max-md:px-5">
+    {/* Background texture */}
+    <div
+      className="absolute inset-0 opacity-[0.03]"
+      style={{
+        backgroundImage:
+          'linear-gradient(to right, white 1px, transparent 1px), linear-gradient(to bottom, white 1px, transparent 1px)',
+        backgroundSize: '60px 60px',
+      }}
+    />
+    {/* Accent glows */}
+    <div className="absolute top-1/4 left-0 w-[400px] h-[400px] bg-primary/8 rounded-full blur-[140px] pointer-events-none" />
+    <div className="absolute bottom-0 right-0 w-[350px] h-[350px] bg-primary/6 rounded-full blur-[120px] pointer-events-none" />
+
+    <div className="relative z-10 max-w-[1200px] mx-auto">
+      {/* Header */}
+      <motion.div
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, margin: '-60px' }}
+        className="text-center mb-16"
+      >
+        <motion.p
+          variants={fadeUp}
+          custom={0}
+          className="text-primary text-xs font-bold tracking-[0.22em] uppercase mb-4"
+        >
+          What We Offer
+        </motion.p>
+        <motion.h2
+          variants={fadeUp}
+          custom={1}
+          className="text-[2.4rem] font-extrabold text-white leading-[1.15] max-md:text-[1.8rem]"
+        >
+          Our Logistics Services
+        </motion.h2>
+        <motion.p
+          variants={fadeUp}
+          custom={2}
+          className="mt-4 text-white/50 text-base max-w-[550px] mx-auto leading-relaxed"
+        >
+          Comprehensive transport and supply chain solutions tailored for
+          businesses across Nepal.
+        </motion.p>
+      </motion.div>
+
+      {/* Bento grid */}
+      <motion.div
+        variants={staggerContainer}
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, margin: '-40px' }}
+        className="grid grid-cols-3 gap-5 max-lg:grid-cols-2 max-md:grid-cols-1"
+      >
+        {SERVICES_OFFERINGS.map((service, idx) => (
+          <motion.div
+            key={service.slug}
+            variants={scaleIn}
+            className={`group relative rounded-2xl bg-white/[0.04] border border-white/8 p-7 backdrop-blur-sm hover:border-primary/30 hover:bg-white/[0.07] transition-all duration-500 ${
+              idx < 2 ? 'max-lg:col-span-1 lg:col-span-1' : ''
+            }`}
+          >
+            {/* Top accent bar */}
+            <div className="absolute top-0 left-7 w-10 h-[3px] bg-primary/60 rounded-b-full opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+
+            {/* Service number */}
+            <span className="text-white/10 text-[3.5rem] font-extrabold leading-none absolute top-4 right-5 select-none pointer-events-none group-hover:text-primary/15 transition-colors duration-500">
+              {String(idx + 1).padStart(2, '0')}
+            </span>
+
+            {/* Emoji icon */}
+            <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center mb-5 group-hover:bg-primary/20 group-hover:scale-110 transition-all duration-300">
+              <span className="text-2xl" aria-hidden="true">
+                {service.emoji}
+              </span>
+            </div>
+
+            {/* Content */}
+            <h4 className="text-lg font-bold text-white mb-2 leading-snug">
+              {service.title}
+            </h4>
+            <p className="text-white/50 text-sm leading-[1.8] mb-4 text-justify">
+              {service.description}
+            </p>
+
+            {/* Highlight tags */}
+            <div className="flex flex-wrap gap-2 mb-4">
+              {service.highlights.map((h) => (
+                <span
+                  key={h}
+                  className="text-[0.7rem] font-semibold text-primary/80 bg-primary/8 px-2.5 py-1 rounded-full uppercase tracking-wide"
+                >
+                  {h}
+                </span>
+              ))}
+            </div>
+
+            {/* Learn more link */}
+            <Link
+              to={service.slug}
+              className="inline-flex items-center gap-1.5 text-primary font-semibold text-sm hover:gap-3 transition-all duration-300 no-underline mt-auto"
+            >
+              Learn More{' '}
+              <span className="group-hover:translate-x-1 transition-transform duration-300">
+                →
+              </span>
+            </Link>
+
+            {/* Corner hover accent */}
+            <div className="absolute bottom-3 right-3 w-6 h-6 border-r-2 border-b-2 border-primary/20 rounded-br-lg opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+          </motion.div>
+        ))}
+      </motion.div>
+    </div>
+  </section>
+);
 
 /* ── CTA ────────────────────────────────────── */
 const Cta: React.FC = () => (
-  <section className="relative py-20 px-8 bg-primary overflow-hidden max-md:py-14 max-md:px-5">
+  <section className="relative py-14 px-8 bg-primary overflow-hidden max-md:py-12 max-md:px-5">
     <div className="absolute inset-0 opacity-10">
       <div className="absolute bottom-0 right-0 w-[300px] h-[300px] rounded-full bg-white/10 translate-x-1/2 translate-y-1/2" />
     </div>
-    <div className="max-w-[1200px] mx-auto flex items-center justify-between gap-8 relative z-10 max-md:flex-col max-md:text-center">
-      <h2 className="text-[2.4rem] font-extrabold text-[#1a1a1a] leading-[1.15] max-md:text-[1.8rem]">
-        Ready for faster, smoother logistics?
+    <div className="max-w-[1200px] mx-auto flex items-center justify-between gap-12 relative z-10 max-lg:flex-col max-lg:text-center">
+      <h2 className="text-[2.2rem] font-extrabold text-[#1a1a1a] leading-none lg:whitespace-nowrap max-md:text-[1.7rem]">
+        Ready for Reliable Logistics Across Nepal?
       </h2>
-      <div className="flex gap-4 max-sm:flex-col max-sm:w-full">
+      <div className="flex sm:flex-row flex-col gap-4 shrink-0 max-sm:w-full">
         <Link
           to="/get-quote"
-          className="bg-[#1a1a1a] text-white font-bold py-4 px-8 rounded-lg text-base transition-all duration-200 hover:bg-[#333] no-underline max-sm:text-center"
+          className="bg-[#1a1a1a] text-white font-bold py-3.5 px-10 rounded-lg text-base transition-all duration-200 hover:bg-[#333] no-underline whitespace-nowrap text-center"
         >
           Get a Quote
         </Link>
         <Link
           to="/contact"
-          className="bg-white text-[#1a1a1a] font-bold py-4 px-8 rounded-lg text-base transition-all duration-200 hover:bg-white/90 no-underline max-sm:text-center"
+          className="bg-white text-[#1a1a1a] font-bold py-3.5 px-10 rounded-lg text-base transition-all duration-200 hover:bg-white/90 no-underline whitespace-nowrap text-center"
         >
           Contact Us
         </Link>
@@ -580,20 +626,32 @@ const Cta: React.FC = () => (
 );
 
 /* ── Page ───────────────────────────────────── */
+const SERVICES_PAGE_STRUCTURED_DATA = {
+  '@context': 'https://schema.org',
+  '@type': 'Service',
+  name: 'Transport & Logistics Services',
+  areaServed: 'Nepal',
+  provider: {
+    '@type': 'Organization',
+    name: 'Darshan Transport',
+  },
+  serviceType: 'Logistics and Transport',
+};
+
 export const ServicesPage: React.FC = () => (
   <div className="flex flex-col min-h-screen">
     <MetaTags
-      title="Transport & Logistics Services | Darshan Transport Nepal"
-      description="Explore our comprehensive logistics services including bulk cargo transport, warehousing, distribution, and 3PL solutions across Nepal."
+      title="Logistics Services Nepal | Bulk Transport, Warehousing | Darshan Transport"
+      description="Explore logistics services in Nepal including bulk cargo transport, full truckload, warehousing solutions for businesses across Nepal."
       canonical="https://darshantransport.com/services"
+      structuredData={SERVICES_PAGE_STRUCTURED_DATA}
     />
     <Hero />
     <Growth />
     <ServeGrid />
     <Benefits />
     <Process />
-    <Industries />
-    <Accordion />
+    <Offerings />
     <Cta />
   </div>
 );
