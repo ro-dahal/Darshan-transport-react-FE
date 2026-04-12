@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { MetaTags } from '../../../../core/components/MetaTags';
 import { BOOKING_OFFICES, DELIVERY_OFFICES } from '../data/contactDirectory';
+import { CONTACT_CONFIG } from '../../../../core/config/contactConfig';
 
 const fadeUp = {
   hidden: { opacity: 0, y: 40 },
@@ -105,36 +106,38 @@ const CONTACT_CHANNELS = [
 
 const ContactCards: React.FC = () => (
   <section className="py-20 px-8 max-lg:py-14 max-md:py-10 max-md:px-5">
-    <div className="max-w-[1200px] mx-auto">
+    <div className="max-w-[1320px] mx-auto">
       <motion.div
         variants={staggerContainer}
         initial="hidden"
         whileInView="visible"
         viewport={{ once: true, margin: '-40px' }}
-        className="grid grid-cols-4 gap-5 max-xl:grid-cols-2 max-md:grid-cols-1"
+        className="grid grid-cols-4 gap-6 max-xl:grid-cols-2 max-md:grid-cols-1"
       >
         {CONTACT_CHANNELS.map((ch) => (
           <motion.div
             key={ch.label}
             variants={scaleIn}
-            className="bg-white rounded-xl p-6 pr-8 border border-gray-100 shadow-sm hover:shadow-lg hover:border-primary/20 transition-all duration-300"
+            className="bg-white rounded-xl p-8 border border-gray-100 shadow-sm hover:shadow-lg hover:border-primary/20 transition-all duration-300 h-full flex flex-col"
           >
-            <span className="text-2xl mb-3 block">{ch.icon}</span>
+            <span className="text-2xl mb-4 block">{ch.icon}</span>
             <h4 className="text-sm font-bold text-text-medium uppercase tracking-wider mb-2">
               {ch.label}
             </h4>
-            {ch.href ? (
-              <a
-                href={ch.href}
-                className="text-[#1a1a1a] font-semibold text-base no-underline hover:text-primary transition-colors duration-200 whitespace-nowrap"
-              >
-                {ch.value}
-              </a>
-            ) : (
-              <p className="text-[#1a1a1a] font-semibold text-base m-0">
-                {ch.value}
-              </p>
-            )}
+            <div className="mt-auto">
+              {ch.href ? (
+                <a
+                  href={ch.href}
+                  className="text-[#1a1a1a] font-semibold text-base no-underline hover:text-primary transition-colors duration-200 whitespace-nowrap"
+                >
+                  {ch.value}
+                </a>
+              ) : (
+                <p className="text-[#1a1a1a] font-semibold text-base m-0 whitespace-nowrap">
+                  {ch.value}
+                </p>
+              )}
+            </div>
           </motion.div>
         ))}
       </motion.div>
@@ -157,7 +160,7 @@ const ContactForm: React.FC = () => {
     const body = encodeURIComponent(
       `Name: ${formState.name}\nEmail: ${formState.email}\nPhone: ${formState.phone}\n\n${formState.message}`
     );
-    window.location.href = `mailto:info@darshantransport.com.np?subject=${subject}&body=${body}`;
+    window.location.href = `mailto:${CONTACT_CONFIG.email}?subject=${subject}&body=${body}`;
   };
 
   return (
