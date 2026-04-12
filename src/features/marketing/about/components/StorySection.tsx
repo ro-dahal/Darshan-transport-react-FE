@@ -41,10 +41,7 @@ export const StorySection: React.FC<StorySectionProps> = ({
           className="mt-4 text-[2.6rem] font-extrabold leading-[1.12] text-[#1a1a1a] max-md:text-[2rem] max-sm:text-[1.6rem]"
         >
           A logistics partner built for
-          <span className="text-primary">
-            {' '}
-            dependable cargo movement across Nepal
-          </span>
+          <span className="text-primary"> businesses across Nepal</span>
         </motion.h2>
         <motion.div
           variants={fadeUp}
@@ -54,7 +51,7 @@ export const StorySection: React.FC<StorySectionProps> = ({
       </motion.div>
 
       {/* Two-column layout */}
-      <div className="mt-16 grid grid-cols-[1fr_0.85fr] items-center gap-16 max-lg:grid-cols-1 max-lg:gap-10">
+      <div className="mt-10 grid grid-cols-[1fr_0.85fr] items-center gap-16 max-lg:grid-cols-1 max-lg:gap-10">
         {/* Text column */}
         <motion.div
           initial="hidden"
@@ -67,7 +64,7 @@ export const StorySection: React.FC<StorySectionProps> = ({
               key={i}
               variants={fadeUp}
               custom={i}
-              className="text-[1.05rem] leading-[1.85] text-text-medium"
+              className="text-[1.05rem] leading-[1.85] text-text-medium text-justify"
             >
               {para}
             </motion.p>
@@ -108,12 +105,9 @@ export const StorySection: React.FC<StorySectionProps> = ({
           transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
           className="flex justify-center lg:justify-end"
         >
-          <div className="relative">
-            {/* Decorative frame */}
-            <div className="absolute -inset-3 rounded-2xl border-2 border-primary/20 -z-10 max-md:hidden" />
-            <div className="absolute -inset-6 rounded-3xl border border-primary/8 -z-20 max-md:hidden" />
+          <div className="relative lg:-mt-24">
             <img
-              className="w-full max-w-[480px] rounded-xl object-contain"
+              className="w-full max-w-[480px] rounded-xl object-contain drop-shadow-xl"
               src={animationSrc}
               alt="Our operations animated"
               loading="lazy"

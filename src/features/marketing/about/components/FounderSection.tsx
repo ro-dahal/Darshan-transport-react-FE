@@ -51,7 +51,8 @@ export const FounderSection: React.FC<FounderSectionProps> = ({ profiles }) => (
           variants={fadeIn}
           className="text-[2.4rem] font-extrabold leading-[1.12] text-[#1a1a1a] max-md:text-[1.8rem]"
         >
-          The people behind the wheels
+          The people behind{' '}
+          <span className="text-primary">Darshan Transport</span>
         </motion.h2>
       </motion.div>
 
@@ -84,7 +85,9 @@ export const FounderSection: React.FC<FounderSectionProps> = ({ profiles }) => (
                   <img
                     src={profile.image}
                     alt={`${profile.signatureLabel} portrait`}
-                    className="w-full rounded-2xl object-cover shadow-lg"
+                    className={`w-full aspect-[4/5] rounded-2xl object-cover shadow-lg bg-gray-100 ${
+                      profile.imagePosition || 'object-center'
+                    }`}
                     loading="lazy"
                     decoding="async"
                   />
@@ -105,7 +108,7 @@ export const FounderSection: React.FC<FounderSectionProps> = ({ profiles }) => (
                   <span className="absolute -top-2 -left-1 text-primary/20 text-5xl font-serif leading-none select-none">
                     &ldquo;
                   </span>
-                  <p className="text-base leading-[1.85] text-text-medium whitespace-pre-line">
+                  <p className="text-base leading-[1.85] text-text-medium whitespace-pre-line text-justify">
                     {profile.quote.replace(/^"\s*/, '')}
                   </p>
                 </div>
@@ -118,9 +121,7 @@ export const FounderSection: React.FC<FounderSectionProps> = ({ profiles }) => (
                       {profile.signatureLabel}
                     </p>
                     <p className="text-xs text-text-medium mt-0.5">
-                      {profile.role.includes('Co-founder')
-                        ? 'Co-founder'
-                        : profile.role}
+                      {profile.role}
                     </p>
                   </div>
                 </div>

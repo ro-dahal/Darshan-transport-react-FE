@@ -7,7 +7,7 @@ export const CtaSection: React.FC = () => (
     <div className="absolute inset-0 bg-primary" />
     <div className="absolute inset-0 bg-[#1a1a1a] clip-cta-angle max-md:hidden" />
 
-    <div className="relative z-10 max-w-[1200px] mx-auto px-8 py-20 flex items-center justify-between gap-8 max-md:flex-col max-md:text-center max-md:py-14 max-md:px-5">
+    <div className="relative z-10 max-w-[1200px] mx-auto px-8 py-14 flex items-center justify-between gap-8 max-md:flex-col max-md:text-center max-md:py-12 max-md:px-5">
       <motion.div
         initial={{ opacity: 0, x: -20 }}
         whileInView={{ opacity: 1, x: 0 }}

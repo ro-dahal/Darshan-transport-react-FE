@@ -44,6 +44,56 @@ const OrderTracking = React.lazy(() =>
     (module) => ({ default: module.OrderTracking })
   )
 );
+const BulkCargoPage = React.lazy(() =>
+  import('../../features/marketing/services/pages/BulkCargoPage').then(
+    (module) => ({ default: module.BulkCargoPage })
+  )
+);
+const FullTruckLoadPage = React.lazy(() =>
+  import('../../features/marketing/services/pages/FullTruckLoadPage').then(
+    (module) => ({ default: module.FullTruckLoadPage })
+  )
+);
+const WarehousingPage = React.lazy(() =>
+  import('../../features/marketing/services/pages/WarehousingPage').then(
+    (module) => ({ default: module.WarehousingPage })
+  )
+);
+const DistributionPage = React.lazy(() =>
+  import('../../features/marketing/services/pages/DistributionPage').then(
+    (module) => ({ default: module.DistributionPage })
+  )
+);
+const ThirdPartyLogisticsPage = React.lazy(() =>
+  import('../../features/marketing/services/pages/ThirdPartyLogisticsPage').then(
+    (module) => ({ default: module.ThirdPartyLogisticsPage })
+  )
+);
+const PackagingHandlingPage = React.lazy(() =>
+  import('../../features/marketing/services/pages/PackagingHandlingPage').then(
+    (module) => ({ default: module.PackagingHandlingPage })
+  )
+);
+const FleetServicesPage = React.lazy(() =>
+  import('../../features/marketing/services/pages/FleetServicesPage').then(
+    (module) => ({ default: module.FleetServicesPage })
+  )
+);
+const ServiceCoveragePage = React.lazy(() =>
+  import('../../features/marketing/services/pages/ServiceCoveragePage').then(
+    (module) => ({ default: module.ServiceCoveragePage })
+  )
+);
+const PrivacyPolicyPage = React.lazy(() =>
+  import('../../features/marketing/legal/pages/PrivacyPolicyPage').then(
+    (module) => ({ default: module.PrivacyPolicyPage })
+  )
+);
+const TermsConditionsPage = React.lazy(() =>
+  import('../../features/marketing/legal/pages/TermsConditionsPage').then(
+    (module) => ({ default: module.TermsConditionsPage })
+  )
+);
 const NotFoundPage = React.lazy(() =>
   import('../../features/marketing/shared/pages/NotFoundPage').then(
     (module) => ({ default: module.NotFoundPage })
@@ -77,6 +127,34 @@ export const AppRoutes: React.FC = () => (
           <Route path="/order" element={<OrderTracking />} />
           <Route path="/get-quote" element={<GetQuotePage />} />
           <Route path="/faq" element={<FAQPage />} />
+          <Route
+            path="/bulk-cargo-transport-nepal"
+            element={<BulkCargoPage />}
+          />
+          <Route
+            path="/full-truck-load-nepal"
+            element={<FullTruckLoadPage />}
+          />
+          <Route path="/warehousing-3pl-nepal" element={<WarehousingPage />} />
+          <Route
+            path="/distribution-delivery-nepal"
+            element={<DistributionPage />}
+          />
+          <Route
+            path="/third-party-logistics-nepal"
+            element={<ThirdPartyLogisticsPage />}
+          />
+          <Route
+            path="/packaging-handling-nepal"
+            element={<PackagingHandlingPage />}
+          />
+          <Route path="/fleet-services-nepal" element={<FleetServicesPage />} />
+          <Route
+            path="/transport-coverage-nepal"
+            element={<ServiceCoveragePage />}
+          />
+          <Route path="/privacy-policy" element={<PrivacyPolicyPage />} />
+          <Route path="/terms-conditions" element={<TermsConditionsPage />} />
           <Route path="*" element={<NotFoundPage />} />
         </Route>
       </Routes>

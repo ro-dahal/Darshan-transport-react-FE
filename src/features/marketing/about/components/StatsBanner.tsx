@@ -20,7 +20,7 @@ const AnimatedNumber: React.FC<{
     if (!inView) return;
 
     let start = 0;
-    const duration = 2000;
+    const duration = 1000;
     const step = target / (duration / 16);
     let raf: number;
 

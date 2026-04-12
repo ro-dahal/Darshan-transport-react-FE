@@ -74,8 +74,7 @@ export const MissionVision: React.FC = () => (
           <p className="mt-5 text-white/60 text-base leading-[1.85]">
             To simplify cargo movement for businesses across Nepal through
             structured transport, dependable delivery, and practical logistics
-            support. We believe every business deserves a logistics partner that
-            treats their goods with the same care they put into making them.
+            support.
           </p>
           {/* Corner accent */}
           <div className="absolute bottom-4 right-4 w-8 h-8 border-r-2 border-b-2 border-primary/20 rounded-br-lg opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
@@ -98,7 +97,7 @@ export const MissionVision: React.FC = () => (
             To become a trusted logistics partner for businesses across Nepal by
             building a strong transport network, improving service reliability,
             and supporting long-term business growth through dependable
-            logistics solutions and technology-driven operations.
+            logistics solutions.
           </p>
           <div className="absolute bottom-4 right-4 w-8 h-8 border-r-2 border-b-2 border-primary/20 rounded-br-lg opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
         </motion.div>
@@ -109,29 +108,36 @@ export const MissionVision: React.FC = () => (
         initial="hidden"
         whileInView="visible"
         viewport={{ once: true, margin: '-60px' }}
-        className="mt-16 grid lg:grid-cols-2 gap-12 max-md:gap-8"
+        className="mt-16 grid lg:grid-cols-2 gap-8"
       >
-        <motion.div variants={cardVariants} custom={0}>
+        <motion.div
+          variants={cardVariants}
+          custom={0}
+          className="lg:pl-10 max-md:pl-6"
+        >
           <span className="text-primary text-xs font-bold tracking-[0.2em] uppercase">
             What We Do
           </span>
           <p className="mt-4 text-white/55 text-base leading-[1.85] max-w-[520px]">
             We provide transport and logistics services for businesses that
             require regular, large-scale, or organized cargo movement. Our
-            operations handle bulk goods, support distribution networks, and
-            improve delivery coordination across Nepal.
+            operations are built to handle bulk goods, support distribution
+            networks, and improve delivery coordination across Nepal.
           </p>
         </motion.div>
 
-        <motion.div variants={cardVariants} custom={1}>
+        <motion.div
+          variants={cardVariants}
+          custom={1}
+          className="lg:pl-10 max-md:pl-6"
+        >
           <span className="text-primary text-xs font-bold tracking-[0.2em] uppercase">
             Our Approach
           </span>
           <p className="mt-4 text-white/55 text-base leading-[1.85] max-w-[520px]">
-            Clear planning, efficient transport coordination, and reliable
-            delivery performance. We support businesses with structured
-            transport systems built for ongoing cargo movement&mdash;not
-            one-time deliveries.
+            We focus on clear planning, efficient transport coordination, and
+            reliable delivery execution. Our logistics systems are designed for
+            ongoing cargo movement — not one-time deliveries.
           </p>
         </motion.div>
       </motion.div>
