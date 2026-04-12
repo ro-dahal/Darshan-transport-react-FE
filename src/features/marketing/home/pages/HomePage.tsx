@@ -1,12 +1,6 @@
 import React, { useRef, useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import {
-  motion,
-  useScroll,
-  useTransform,
-  AnimatePresence,
-  useInView,
-} from 'framer-motion';
+import { motion, useScroll, useTransform, useInView } from 'framer-motion';
 import {
   HOME_CLIENT_LOGOS,
   HOME_REVIEW_TESTIMONIALS,
@@ -74,7 +68,7 @@ const AnimatedNumber: React.FC<{
     if (!inView) return;
 
     let start = 0;
-    const duration = 2000;
+    const duration = 1000;
     const step = target / (duration / 16);
     let raf: number;
 
@@ -131,22 +125,25 @@ const Hero: React.FC = () => {
     <section
       id="home-hero"
       ref={ref}
-      className="relative w-full h-[calc(100dvh-var(--head-height,90px))] overflow-hidden flex items-end"
+      className="relative w-full h-[calc(100dvh-var(--head-height,90px))] overflow-hidden flex items-center"
     >
-      <AnimatePresence mode="wait">
+      {/* Optimized Background Layers - Rendered once to prevent reloading/memory churn */}
+      {IMAGES.map((img, i) => (
         <motion.div
-          key={index}
+          key={img}
           className="absolute inset-0 w-full h-full bg-center bg-cover"
-          style={{ backgroundImage: `url(${IMAGES[index]})`, y: bgY }}
-          initial={{ opacity: 0, scale: 1.08 }}
-          animate={{ opacity: 1, scale: 1 }}
-          exit={{ opacity: 0 }}
+          style={{ backgroundImage: `url(${img})`, y: bgY }}
+          initial={{ opacity: 0 }}
+          animate={{
+            opacity: i === index ? 1 : 0,
+            scale: i === index ? 1 : 1.08,
+          }}
           transition={{
             duration: 1.2,
-            ease: [0.22, 1, 0.36, 1] as [number, number, number, number],
+            ease: [0.22, 1, 0.36, 1],
           }}
         />
-      </AnimatePresence>
+      ))}
 
       <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/40 to-black/15" />
 
@@ -154,13 +151,13 @@ const Hero: React.FC = () => {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 0.8 }}
-        className="relative z-10 w-full max-w-[1200px] mx-auto px-8 pb-16 max-md:px-5 max-md:pb-10"
+        className="relative z-10 w-full max-w-[1200px] mx-auto px-8 max-md:px-5 max-md:text-center flex flex-col max-md:items-center"
       >
         <motion.p
           initial={{ opacity: 0, x: -20 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ delay: 0.3, duration: 0.6 }}
-          className="text-primary font-semibold text-sm tracking-[3px] uppercase mb-4"
+          className="text-primary font-semibold text-xs tracking-[3px] uppercase mb-4"
         >
           Transport & Logistics
         </motion.p>
@@ -168,24 +165,33 @@ const Hero: React.FC = () => {
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.5, duration: 0.7 }}
-          className="text-white text-[4rem] leading-[1.08] font-extrabold max-w-[700px] max-lg:text-[3rem] max-md:text-[2.4rem] max-sm:text-[2rem]"
+          className="text-white text-[3.2rem] leading-[1.08] font-extrabold max-w-[650px] max-lg:text-[2.6rem] max-md:text-[2rem] max-sm:text-[1.8rem]"
         >
-          Bulk Cargo & <span className="text-primary">Logistics Services</span>{' '}
-          Across Nepal
+          Bulk Cargo, Full-Truck{' '}
+          <span className="text-primary">Logistics Services</span> Across Nepal
         </motion.h1>
         <motion.p
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.7, duration: 0.6 }}
-          className="mt-5 text-white/80 text-lg max-w-[520px] leading-relaxed max-md:text-base"
+          className="mt-5 text-white/80 text-base max-w-[500px] leading-relaxed max-md:text-sm max-md:mx-auto text-justify"
         >
           {HOME_HERO_DESCRIPTION}
+        </motion.p>
+        <motion.p
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.8, duration: 0.6 }}
+          className="mt-3 text-white/55 text-xs max-w-[500px] italic max-md:mx-auto text-justify"
+        >
+          Built for high-volume cargo, structured delivery, and dependable
+          logistics operations.
         </motion.p>
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.9, duration: 0.6 }}
-          className="mt-8 flex gap-4 max-sm:flex-col max-sm:w-full"
+          className="mt-8 flex gap-4 max-sm:flex-col max-sm:w-full max-md:justify-center"
         >
           <Link
             to="/order"
@@ -200,13 +206,14 @@ const Hero: React.FC = () => {
             Get a Quote
           </Link>
         </motion.div>
-
-        {/* Scroll indicator */}
+      </motion.div>
+      {/* Scroll indicator - Aligned to content max-width */}
+      <div className="absolute bottom-16 left-1/2 -translate-x-1/2 w-full max-w-[1200px] px-8 flex justify-end pointer-events-none z-20 max-md:hidden">
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 1.2, duration: 0.8 }}
-          className="absolute bottom-16 right-8 flex items-center gap-3 text-white/40 text-sm max-md:hidden"
+          className="flex items-center gap-3 text-white/40 text-sm pointer-events-auto"
         >
           <span>Scroll</span>
           <span className="w-5 h-8 rounded-full border-2 border-white/25 flex items-start justify-center pt-1.5">
@@ -221,7 +228,7 @@ const Hero: React.FC = () => {
             />
           </span>
         </motion.div>
-      </motion.div>
+      </div>
     </section>
   );
 };
@@ -303,7 +310,7 @@ const AboutSection: React.FC = () => (
           <motion.p
             variants={fadeUp}
             custom={3}
-            className="mt-6 text-text-medium text-[1.05rem] leading-[1.85]"
+            className="mt-6 text-text-medium text-[1.05rem] leading-[1.85] text-justify"
           >
             {HOME_ABOUT_DESCRIPTION}
           </motion.p>
@@ -364,7 +371,7 @@ const ServicesSection: React.FC = () => (
           custom={1}
           className="mt-3 text-[2.4rem] font-extrabold text-[#1a1a1a] max-md:text-[1.8rem]"
         >
-          We Move Everything That Matters
+          Logistics Services for Business Cargo Movement
         </motion.h2>
       </motion.div>
 
@@ -431,19 +438,27 @@ const ServicesSection: React.FC = () => (
 /* ── How It Works ───────────────────────────────── */
 const HOW_IT_WORKS = [
   {
-    title: 'Book Pickup',
-    description: 'Call or message us.',
+    title: 'Share Your Shipment Details',
+    description: 'Tell us about your cargo, route, and transport requirement.',
     icon: bookPickupIcon,
   },
   {
-    title: 'We Collect Your Goods',
-    description: 'From your home or office.',
+    title: 'Get the Right Transport Plan',
+    description:
+      'We recommend the right logistics solution based on shipment volume and destination.',
     icon: weCollectYourGoodsIcon,
   },
   {
-    title: 'Track & Receive',
-    description: 'Delivered on time.',
+    title: 'Pickup, Movement & Delivery',
+    description:
+      'Our team handles transport planning, movement, and delivery support.',
     icon: trackAndReceiveIcon,
+  },
+  {
+    title: 'Track Progress & Support',
+    description:
+      'Stay updated throughout the shipment process with service support when needed.',
+    icon: bookPickupIcon,
   },
 ];
 
@@ -467,7 +482,7 @@ const HowItWorksSection: React.FC = () => (
           custom={1}
           className="mt-3 text-[2.4rem] font-extrabold text-[#1a1a1a] max-md:text-[1.8rem]"
         >
-          Simple. Fast. Reliable.
+          How Our Transport Process Works
         </motion.h2>
       </motion.div>
 
@@ -476,13 +491,13 @@ const HowItWorksSection: React.FC = () => (
         initial="hidden"
         whileInView="visible"
         viewport={{ once: true, margin: '-40px' }}
-        className="mt-14 flex gap-8 justify-center flex-wrap max-sm:flex-col max-sm:items-center"
+        className="mt-14 grid grid-cols-4 gap-6 max-lg:grid-cols-2 max-sm:grid-cols-1 max-sm:items-center max-sm:max-w-[300px] max-sm:mx-auto"
       >
         {HOW_IT_WORKS.map((step, i) => (
           <motion.div
             key={step.title}
             variants={scaleIn}
-            className="relative bg-primary text-white w-[260px] rounded-2xl p-8 pt-12 text-center shadow-[8px_8px_0_#e0e0e0] hover:shadow-[12px_12px_0_#d0d0d0] hover:-translate-y-1 transition-all duration-300 max-sm:w-full max-sm:max-w-[300px]"
+            className="relative bg-primary text-white rounded-2xl p-8 pt-12 text-center shadow-[8px_8px_0_#e0e0e0] hover:shadow-[12px_12px_0_#d0d0d0] hover:-translate-y-1 transition-all duration-300 max-sm:w-full"
           >
             <div className="absolute -top-5 left-1/2 -translate-x-1/2 w-10 h-10 rounded-full bg-[#1a1a1a] text-white text-sm font-bold flex items-center justify-center shadow-md">
               {i + 1}
@@ -531,12 +546,15 @@ const ReachSection: React.FC = () => (
           Our Reach
         </p>
         <h2 className="mt-4 text-[2.8rem] font-extrabold text-white leading-[1.1] max-md:text-[1.8rem]">
-          Delivering Across <span className="text-primary">Nepal</span>
+          Nationwide Transport Coverage Across{' '}
+          <span className="text-primary">Nepal</span>
         </h2>
         <div className="mt-4 h-1 w-14 bg-primary rounded-full mx-auto" />
-        <p className="mt-6 text-white/45 max-w-[540px] mx-auto leading-relaxed text-[0.95rem]">
-          From booking offices to final delivery, our network covers key
-          commercial hubs and delivery zones across the country.
+        <p className="mt-6 text-white/45 max-w-[1010px] mx-auto leading-relaxed text-[0.95rem] text-justify">
+          Darshan Transport supports cargo movement across key commercial hubs,
+          booking offices, and delivery zones in Nepal. Our network is built to
+          help businesses move goods reliably between major cities and service
+          points.
         </p>
       </motion.div>
 
@@ -627,7 +645,7 @@ const TestimonialsSection: React.FC = () => (
           custom={1}
           className="mt-3 text-[2.4rem] font-extrabold text-[#1a1a1a] max-md:text-[1.8rem]"
         >
-          The Voice of Our Customers
+          What Our Customers Say
         </motion.h2>
       </motion.div>
 
@@ -676,31 +694,33 @@ const TestimonialsSection: React.FC = () => (
 
 /* ── CTA ────────────────────────────────────────── */
 const CtaSection: React.FC = () => (
-  <section className="relative py-20 px-8 bg-primary overflow-hidden max-md:py-14 max-md:px-5">
+  <section className="relative py-14 px-8 bg-primary overflow-hidden max-md:py-12 max-md:px-5">
     <div className="absolute inset-0 opacity-10">
       <div className="absolute top-0 left-0 w-[40%] h-full bg-gradient-to-r from-black/20 to-transparent" />
       <div className="absolute bottom-0 right-0 w-[300px] h-[300px] rounded-full bg-white/10 translate-x-1/2 translate-y-1/2" />
     </div>
-    <div className="max-w-[1200px] mx-auto flex items-center justify-between gap-8 relative z-10 max-md:flex-col max-md:text-center">
+    <div className="max-w-[1200px] mx-auto flex items-center justify-between gap-12 relative z-10 max-lg:flex-col max-lg:text-center">
       <div>
-        <h2 className="text-[2.4rem] font-extrabold text-[#1a1a1a] leading-[1.15] max-md:text-[1.8rem]">
-          Ready to send your goods?
-          <br />
-          <span className="text-white">We'll handle the heavy lifting.</span>
+        <h2 className="text-[2.2rem] font-extrabold text-[#1a1a1a] leading-none lg:whitespace-nowrap max-md:text-[1.7rem]">
+          Need Reliable Bulk Transport Across Nepal?
         </h2>
+        <p className="mt-3 text-white text-[1.1rem] font-medium leading-relaxed max-w-[600px] max-lg:mx-auto max-md:text-[1rem]">
+          Talk to Darshan Transport for full-truck shipments, warehousing, and
+          business logistics support.
+        </p>
       </div>
-      <div className="flex gap-4 max-sm:flex-col max-sm:w-full">
+      <div className="flex sm:flex-row flex-col gap-4 shrink-0 max-sm:w-full">
         <Link
-          to="/contact"
-          className="bg-[#1a1a1a] text-white font-bold py-4 px-8 rounded-lg text-base transition-all duration-200 hover:bg-[#333] no-underline max-sm:text-center"
+          to="/get-quote"
+          className="bg-[#1a1a1a] text-white font-bold py-3.5 px-10 rounded-lg text-base transition-all duration-200 hover:bg-[#333] no-underline whitespace-nowrap text-center"
         >
-          Book a Delivery
+          Get a Quote
         </Link>
         <Link
-          to="/order"
-          className="bg-white text-[#1a1a1a] font-bold py-4 px-8 rounded-lg text-base transition-all duration-200 hover:bg-white/90 no-underline max-sm:text-center"
+          to="/contact"
+          className="bg-white text-[#1a1a1a] font-bold py-3.5 px-10 rounded-lg text-base transition-all duration-200 hover:bg-white/90 no-underline whitespace-nowrap text-center"
         >
-          Track Shipment
+          Contact Us
         </Link>
       </div>
     </div>
@@ -708,16 +728,18 @@ const CtaSection: React.FC = () => (
 );
 
 /* ── Page ───────────────────────────────────────── */
-const HOME_PAGE_STRUCTURED_DATA = {
-  '@context': 'https://schema.org',
-  '@type': 'Organization',
-  name: 'Darshan Transport',
-  url: 'https://darshantransport.com',
-  logo: 'https://darshantransport.com/LogoTab.png',
-  description:
-    'Darshan Transport provides bulk cargo transport, full-truck shipments, warehousing, and logistics services across Nepal for businesses that need reliable delivery support.',
-  areaServed: 'NP',
-};
+const HOME_PAGE_STRUCTURED_DATA = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'Organization',
+    name: 'Darshan Transport',
+    url: 'https://darshantransport.com',
+    logo: 'https://darshantransport.com/LogoTab.png',
+    description:
+      'Darshan Transport provides bulk cargo transport, full-truck shipments, warehousing, and logistics services across Nepal for businesses that need reliable delivery support.',
+    areaServed: 'NP',
+  },
+];
 
 export const HomePage: React.FC = () => (
   <div className="flex flex-col min-h-screen">
@@ -729,11 +751,11 @@ export const HomePage: React.FC = () => (
     />
     <Hero />
     <StatsBanner />
+    <ClientsSection />
     <AboutSection />
     <ServicesSection />
     <HowItWorksSection />
     <ReachSection />
-    <ClientsSection />
     <TestimonialsSection />
     <CtaSection />
   </div>

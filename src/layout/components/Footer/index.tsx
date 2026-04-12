@@ -37,8 +37,7 @@ const SOCIAL_ICONS: Record<string, React.ReactNode> = {
 
 export const Footer: React.FC = () => {
   const companyCol = FOOTER_COLUMNS[0];
-  const servicesCol = FOOTER_COLUMNS[1];
-  const connectCol = FOOTER_COLUMNS[2];
+  const connectCol = FOOTER_COLUMNS[1];
 
   const socialLinks = connectCol.links.filter((l) => SOCIAL_ICONS[l.label]);
   const contactLinks = connectCol.links.filter((l) => !SOCIAL_ICONS[l.label]);
@@ -54,10 +53,14 @@ export const Footer: React.FC = () => {
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, margin: '-60px' }}
-          className="grid gap-12 sm:grid-cols-2 lg:grid-cols-12"
+          className="grid gap-y-12 gap-x-10 grid-cols-[auto_1fr] md:grid-cols-12 md:gap-x-12"
         >
           {/* Brand column */}
-          <motion.div custom={0} variants={fadeUp} className="lg:col-span-4">
+          <motion.div
+            custom={0}
+            variants={fadeUp}
+            className="col-span-2 md:col-span-6"
+          >
             <img
               src={logo}
               alt="Darshan Transport Logo"
@@ -95,7 +98,11 @@ export const Footer: React.FC = () => {
           </motion.div>
 
           {/* Company column */}
-          <motion.div custom={1} variants={fadeUp} className="lg:col-span-2">
+          <motion.div
+            custom={1}
+            variants={fadeUp}
+            className="col-span-1 md:col-span-2"
+          >
             <h4 className="text-xs font-bold uppercase tracking-[3px] text-white/40 mb-5">
               {companyCol.title}
             </h4>
@@ -122,36 +129,12 @@ export const Footer: React.FC = () => {
             </ul>
           </motion.div>
 
-          {/* Services column */}
-          <motion.div custom={2} variants={fadeUp} className="lg:col-span-3">
-            <h4 className="text-xs font-bold uppercase tracking-[3px] text-white/40 mb-5">
-              {servicesCol.title}
-            </h4>
-            <ul className="space-y-3">
-              {servicesCol.links.map((link) => (
-                <li key={link.label}>
-                  {link.href.startsWith('/') ? (
-                    <Link
-                      to={link.href}
-                      className="text-sm text-white/60 transition-colors duration-200 hover:text-primary no-underline"
-                    >
-                      {link.label}
-                    </Link>
-                  ) : (
-                    <a
-                      href={link.href}
-                      className="text-sm text-white/60 transition-colors duration-200 hover:text-primary no-underline"
-                    >
-                      {link.label}
-                    </a>
-                  )}
-                </li>
-              ))}
-            </ul>
-          </motion.div>
-
           {/* Contact column */}
-          <motion.div custom={3} variants={fadeUp} className="lg:col-span-3">
+          <motion.div
+            custom={2}
+            variants={fadeUp}
+            className="col-span-1 md:col-span-4"
+          >
             <h4 className="text-xs font-bold uppercase tracking-[3px] text-white/40 mb-5">
               Get In Touch
             </h4>

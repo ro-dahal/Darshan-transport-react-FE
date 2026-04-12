@@ -47,10 +47,9 @@ export interface HomeServiceItem {
   iconType?: 'image';
 }
 
-export const HOME_HERO_DESCRIPTION = `Reliable transport, full-truck shipments, warehousing, and distribution support for businesses across Nepal.`;
+export const HOME_HERO_DESCRIPTION = `Darshan Transport helps businesses move high-volume goods across Nepal with reliable transport, warehousing, and distribution support.`;
 
-export const HOME_ABOUT_DESCRIPTION = `Darshan Transport is a transport and logistics company in Nepal supporting businesses with bulk cargo movement, full-truck shipments, and warehousing solutions.
-We help companies move goods safely, efficiently, and on time across major routes and cities.`;
+export const HOME_ABOUT_DESCRIPTION = `Darshan Transport is a transport and logistics company in Nepal focused on bulk cargo movement, full-truck shipments, and warehousing support. We help businesses move goods safely, efficiently, and on time across key commercial routes and cities.`;
 
 export const HOME_STATS: StatItem[] = [
   { value: '100k+', label: 'Deliveries' },
@@ -100,33 +99,23 @@ export const HOME_REVIEW_TESTIMONIALS: ReviewTestimonial[] = [
   {
     image: person1,
     quote:
-      '“Very reliable service. My goods always reach on time, and the team updates me clearly.”',
-    name: 'Business Owner',
+      '"Reliable bulk transport. Our shipments arrive on time and the coordination is always smooth."',
+    name: 'FMCG Distributor',
     company: 'Kathmandu',
   },
   {
     image: person3,
-    quote: '“We send shipments almost every week. Smooth and stress-free.”',
-    name: 'Retail Partner',
+    quote:
+      '"We move goods regularly, and Darshan Transport has made the process more consistent and easier to manage."',
+    name: 'Retail Supply Partner',
     company: 'Pokhara',
   },
   {
     image: person1,
-    quote: '“Good handling, fair pricing, and quick pickup.”',
-    name: 'Ecommerce Seller',
+    quote:
+      '"Good handling, fair pricing, and dependable pickup support for recurring deliveries."',
+    name: 'Business Customer',
     company: 'Lalitpur',
-  },
-  {
-    image: person1,
-    quote: '“They treat our products with care. No damage, no hidden charges.”',
-    name: 'Corporate Client',
-    company: 'Bhaktapur',
-  },
-  {
-    image: person3,
-    quote: '“Strong communication. Makes logistics easier for us.”',
-    name: 'Wholesale Supplier',
-    company: 'Butwal',
   },
 ];
 
@@ -169,26 +158,26 @@ export const MAJOR_LOCATIONS = [
 
 export const OUR_SERVICES_DATA: HomeServiceItem[] = [
   {
-    title: 'Parcel & Courier Delivery',
-    desc: 'For small packages, documents, and urgent items.',
+    title: 'Bulk Cargo Transport',
+    desc: 'For high-volume goods movement across Nepal with reliable transport coordination.',
     icon: parcelCourierDeliveryIcon,
     iconType: 'image',
   },
   {
-    title: 'Cargo & Bulk Transport',
-    desc: 'For business shipments moving in volume.',
+    title: 'Full-Truck Load Transport',
+    desc: 'Dedicated trucks for larger shipments with better control, direct delivery, and reduced handling.',
     icon: parcelCourierDeliveryIcon,
     iconType: 'image',
   },
   {
-    title: 'Office Shifting & Corporate Moves',
-    desc: 'Careful packing, smooth relocation.',
+    title: 'Warehousing & 3PL',
+    desc: 'Storage, inventory coordination, and logistics support for businesses managing regular goods movement.',
     icon: parcelCourierDeliveryIcon,
     iconType: 'image',
   },
   {
-    title: 'E-commerce Delivery Support',
-    desc: 'Pickups, COD handling, order deliveries.',
+    title: 'Distribution & Delivery Support',
+    desc: 'Planned goods movement across branches, dealers, retailers, and supply networks.',
     icon: parcelCourierDeliveryIcon,
     iconType: 'image',
   },

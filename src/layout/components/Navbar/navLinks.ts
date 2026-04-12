@@ -17,20 +17,28 @@ export const NAV_LINKS: NavLink[] = [
     label: 'Services',
     dropdown: [
       {
-        to: '/services#warehouse-inventory',
-        label: 'Warehouse & Inventory',
+        to: '/bulk-cargo-transport-nepal',
+        label: 'Bulk Cargo Transport',
       },
       {
-        to: '/services#distribution-delivery',
+        to: '/full-truck-load-nepal',
+        label: 'Full Truck Load (FTL)',
+      },
+      {
+        to: '/warehousing-3pl-nepal',
+        label: 'Warehousing & 3PL',
+      },
+      {
+        to: '/distribution-delivery-nepal',
         label: 'Distribution & Delivery',
       },
       {
-        to: '/services#third-party-logistics',
-        label: 'Third-Party Logistics (3PL)',
+        to: '/third-party-logistics-nepal',
+        label: 'Third-Party Logistics',
       },
-      { to: '/services#packaging-handling', label: 'Packaging & Handling' },
-      { to: '/services#fleet-services', label: 'Fleet Services' },
-      { to: '/services#service-area', label: 'Service Area' },
+      { to: '/packaging-handling-nepal', label: 'Packaging & Handling' },
+      { to: '/fleet-services-nepal', label: 'Fleet Services' },
+      { to: '/transport-coverage-nepal', label: 'Service Coverage' },
     ],
   },
   { to: '/contact', label: 'Contact' },

@@ -1,134 +1,165 @@
 import React, { useRef } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
-import { FaLinkedinIn, FaEnvelope } from 'react-icons/fa';
 import { CtaSection } from '../../about/components/CtaSection';
 import { MetaTags } from '../../../../core/components/MetaTags';
-import person1 from '../../../../assets/img/team-bishal-poudel.jpg';
-import person2 from '../../../../assets/img/team-anup-acharya.png';
-import person3 from '../../../../assets/img/team-bishnu-prasad-poudyal.jpg';
-import userPlaceholder from '../../../../assets/img/team-placeholder-user.png';
 import headerBg from '../../../../assets/img/company-hero-logistics-yard.jpg';
+import placeholderImg from '../../../../assets/img/team-placeholder-user.png';
 
-const TEAM_DEPARTMENTS = [
+/* ------------------------------------------------------------------ */
+/*  Types & Data                                                       */
+/* ------------------------------------------------------------------ */
+
+interface TeamMember {
+  name: string;
+  role: string;
+}
+
+interface Department {
+  department: string;
+  description: string;
+  members: TeamMember[];
+}
+
+const TEAM_DEPARTMENTS: Department[] = [
   {
-    department: 'Leadership & Executive',
+    department: 'Executive Leadership',
     description:
-      'Visionary leaders guiding Darshan Transport to new heights in logistics.',
+      'Visionary leaders guiding Darshan Transport towards excellence in logistics across Nepal.',
     members: [
+      { name: 'Hari Bahadur Shrestha', role: 'Founder & Chairman' },
+      { name: 'Arun Kumar Shrestha', role: 'Executive Director' },
+      { name: 'Sukman Shrestha', role: 'Executive Member' },
+      { name: 'Shrawan Kumar Shrestha', role: 'Executive Member' },
+      { name: 'Ram Kumar Shrestha', role: 'Executive Member' },
       {
-        name: 'Bishal Poudel',
-        role: 'Founder & Managing Director',
-        img: person1,
-        description: 'Visionary leader with a decade of logistics experience.',
-        social: {
-          linkedin: '#',
-          email: 'mailto:bishal@darshantransport.com',
-        },
+        name: 'Laxman Kumar Shrestha',
+        role: 'Executive Member & Branch Head',
       },
+      { name: 'Sandesh Shrestha', role: 'Executive Member' },
+      { name: 'Sadeep Shrestha', role: 'Head of Operations & Technology' },
+    ],
+  },
+  {
+    department: 'Finance Department',
+    description:
+      'Managing billing, accounts, and financial operations that keep the business running smoothly.',
+    members: [
+      { name: 'Anjila Karki', role: 'Finance Head' },
+      { name: 'Kamal Bahadur Dhami', role: 'Finance Assistant' },
+      { name: 'Tik Maya Gurung', role: 'Finance Assistant' },
+      { name: 'Puja Ghimire', role: 'Accounts & Operations Support' },
+      { name: 'Kanchan Thapa', role: 'Billing & Collection Officer' },
+      { name: 'Manoj Acharya', role: 'Billing & Collection Officer' },
+    ],
+  },
+  {
+    department: 'Operations & Dispatch',
+    description:
+      'The backbone of daily cargo movement — coordinating pickups, bookings, and dispatches across Nepal.',
+    members: [
+      { name: 'Anita Shrestha', role: 'Dispatch & Delivery Coordinator' },
+      { name: 'Bikash Pariyar', role: 'Dispatch & Delivery Coordinator' },
+      { name: 'Jagat Pun', role: 'Dispatch & Delivery Coordinator' },
       {
-        name: 'Anup Acharya',
-        role: 'Co-Founder & Director of Transport',
-        img: person2,
-        description:
-          'Expert in fleet management and supply chain optimization.',
-        social: {
-          linkedin: '#',
-          email: 'mailto:anup@darshantransport.com',
-        },
+        name: 'Ram Prasad Gurung',
+        role: 'Dispatch & Delivery Coordinator',
       },
+      { name: 'Kripesh Shrestha', role: 'Booking Supervisor' },
+      { name: 'Nandalal Pudasaini', role: 'Operations Supervisor' },
+      { name: 'Sajan Gurung', role: 'Operations Supervisor' },
       {
-        name: 'Bishnu Prasad Poudyal',
-        role: 'Co-Founder & Financial Controller',
-        img: person3,
-        description:
-          'Dedicated financial strategist ensuring sustainable growth.',
-        social: {
-          linkedin: '#',
-          email: 'mailto:bishnu@darshantransport.com',
-        },
+        name: 'Bishal Prasad Yadav',
+        role: 'Booking & Dispatch Executive',
+      },
+      { name: 'Rohit Gurung', role: 'Booking & Dispatch Executive' },
+      { name: 'Sanjeev Chatri', role: 'Booking & Dispatch Executive' },
+      {
+        name: 'Sushil Kumar Nepal',
+        role: 'Booking & Dispatch Executive',
       },
     ],
   },
   {
-    department: 'Operations & Fleet Management',
+    department: 'Branch Operations',
     description:
-      'The backbone of our timely deliveries and robust vehicle fleet.',
+      'Leading regional branches to ensure consistent service quality across the country.',
     members: [
-      {
-        name: 'Ram Kumar',
-        role: 'Operations Head',
-        img: userPlaceholder,
-        description: 'Oversees daily cargo movement and national operations.',
-        social: {
-          linkedin: '#',
-        },
-      },
-      {
-        name: 'Hari Thapa',
-        role: 'Fleet Manager',
-        img: userPlaceholder,
-        description: 'Maintains vehicle health and ensures safe transport.',
-        social: {
-          email: 'mailto:hari@darshantransport.com',
-        },
-      },
-      {
-        name: 'Sita Sharma',
-        role: 'Logistics Coordinator',
-        img: userPlaceholder,
-        description: 'Synchronizes client requirements with field teams.',
-        social: {},
-      },
+      { name: 'Deepak Lamichhane', role: 'Branch Manager' },
+      { name: 'Govinda Shrestha', role: 'Branch Manager' },
+      { name: 'Rajesh Patel', role: 'Branch Manager' },
     ],
   },
   {
-    department: 'Customer Service & Technology',
+    department: 'Dispatch Supervisors',
     description:
-      'Connecting you to our services and providing top-notch tech solutions.',
+      'Overseeing branch-level dispatch operations and ensuring timely cargo movement.',
     members: [
       {
-        name: 'Arjun Karki',
-        role: 'IT Director',
-        img: userPlaceholder,
-        description: 'Drives technological innovation and internal systems.',
-        social: {
-          linkedin: '#',
-          email: 'mailto:arjun@darshantransport.com',
-        },
+        name: 'Chandra Bahadur Magar',
+        role: 'Branch Dispatch Supervisor',
       },
+      { name: 'Lalu K.C', role: 'Branch Dispatch Supervisor' },
+      { name: 'Raj Kumar Shrestha', role: 'Branch Dispatch Supervisor' },
+      { name: 'Sobita Thapa', role: 'Branch Dispatch Supervisor' },
+      { name: 'Suman Darai', role: 'Branch Dispatch Supervisor' },
+      { name: 'Thaneshwor Gaudel', role: 'Branch Dispatch Supervisor' },
+      { name: 'Baburam Shrestha', role: 'Branch Dispatch Supervisor' },
+    ],
+  },
+  {
+    department: 'Fleet Management',
+    description:
+      'Keeping our vehicles running safely and reliably through expert maintenance.',
+    members: [
+      { name: 'Nur Islam Hawari', role: 'Lead Mechanic' },
+      { name: 'Esrafil Alam', role: 'Mechanic' },
+    ],
+  },
+  {
+    department: 'IT & Digital Team',
+    description:
+      'Driving technology, design, and digital growth for Darshan Transport.',
+    members: [
+      { name: 'Subin Gurung', role: 'Lead Developer' },
+      { name: 'Rohan Dahal', role: 'UI/UX & Creative Designer' },
       {
-        name: 'Rina Shrestha',
-        role: 'Support Lead',
-        img: userPlaceholder,
-        description: 'Dedicated to resolving client queries quickly.',
-        social: {
-          email: 'mailto:support@darshantransport.com',
-        },
+        name: 'Sharon Shrestha',
+        role: 'Digital Marketing & Content Manager',
       },
-      {
-        name: 'Binod Tamang',
-        role: 'Client Relations',
-        img: userPlaceholder,
-        description: 'Builds lasting relationships with key stakeholders.',
-        social: {
-          linkedin: '#',
-        },
-      },
+      { name: 'Susam Thapa', role: 'QA & Support Engineer' },
+    ],
+  },
+  {
+    department: 'Support Staff',
+    description:
+      'Ensuring smooth day-to-day office operations and workplace support.',
+    members: [
+      { name: 'Bhesh Maya Gurung', role: 'Office Assistant' },
+      { name: 'Urmila Lama', role: 'Office Assistant' },
     ],
   },
 ];
+
+/* ------------------------------------------------------------------ */
+/*  Structured Data                                                    */
+/* ------------------------------------------------------------------ */
 
 const TEAM_PAGE_STRUCTURED_DATA = {
   '@context': 'https://schema.org',
   '@type': 'AboutPage',
   name: 'Our Team - Darshan Transport',
   url: 'https://darshantransport.com/team',
-  description: 'Meet the dedicated team behind Darshan Transport.',
+  description:
+    'Meet the dedicated team behind Darshan Transport — 45+ professionals driving logistics excellence across Nepal.',
   publisher: {
     '@type': 'Organization',
     name: 'Darshan Transport',
   },
 };
+
+/* ------------------------------------------------------------------ */
+/*  Hero                                                               */
+/* ------------------------------------------------------------------ */
 
 const HeroSectionTeam: React.FC = () => {
   const ref = useRef<HTMLDivElement>(null);
@@ -155,26 +186,30 @@ const HeroSectionTeam: React.FC = () => {
         className="relative z-10 text-center px-4"
       >
         <span className="text-primary font-bold tracking-wider uppercase text-sm mb-4 block">
-          Behind The Wheel
+          Our People
         </span>
         <h1 className="text-white text-5xl md:text-6xl font-extrabold mb-6 leading-tight">
           Meet Our Team
         </h1>
         <p className="text-white/80 max-w-2xl mx-auto text-lg md:text-xl font-light">
-          The brilliant minds and dedicated professionals ensuring your cargo
-          always reaches its destination safely.
+          The dedicated professionals ensuring your cargo always reaches its
+          destination safely — across every department and every route in Nepal.
         </p>
       </motion.div>
     </section>
   );
 };
 
+/* ------------------------------------------------------------------ */
+/*  Page                                                               */
+/* ------------------------------------------------------------------ */
+
 export const TeamPage: React.FC = () => {
   return (
     <div className="team-page-wrapper bg-gray-50 min-h-screen font-sans">
       <MetaTags
         title="Meet Our Team | Darshan Transport"
-        description="Meet the dedicated and experienced team behind Darshan Transport driving logistics excellence across Nepal."
+        description="Meet the 45+ dedicated professionals behind Darshan Transport driving logistics excellence across Nepal."
         canonical="https://darshantransport.com/team"
         structuredData={TEAM_PAGE_STRUCTURED_DATA}
       />
@@ -182,95 +217,77 @@ export const TeamPage: React.FC = () => {
       <HeroSectionTeam />
 
       <main className="container mx-auto px-4 py-24 max-w-[1400px]">
-        {TEAM_DEPARTMENTS.map((dept, deptIdx) => (
-          <div
-            key={deptIdx}
-            className="mb-32 last:mb-10 lg:grid lg:grid-cols-12 lg:gap-12 items-start"
-          >
-            {/* Department Sticky Sidebar Area */}
-            <motion.div
-              initial={{ opacity: 0, x: -30 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true, margin: '-100px' }}
-              transition={{ duration: 0.6 }}
-              className="lg:col-span-4 lg:sticky lg:top-32 text-left mb-12 lg:mb-0"
+        {TEAM_DEPARTMENTS.map((dept, deptIdx) => {
+          return (
+            <div
+              key={deptIdx}
+              className="mb-24 last:mb-10 lg:grid lg:grid-cols-12 lg:gap-12 items-start"
             >
-              <div className="inline-flex items-center space-x-4 mb-4">
-                <span className="h-1 w-12 bg-primary rounded-full"></span>
-                <span className="text-primary font-bold uppercase tracking-widest text-sm">
-                  Department
+              {/* Department Sticky Sidebar */}
+              <motion.div
+                initial={{ opacity: 0, x: -30 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true, margin: '-100px' }}
+                transition={{ duration: 0.6 }}
+                className="lg:col-span-4 lg:sticky lg:top-32 text-left mb-10 lg:mb-0"
+              >
+                <div className="inline-flex items-center space-x-4 mb-4">
+                  <span className="h-1 w-12 bg-primary rounded-full" />
+                  <span className="text-primary font-bold uppercase tracking-widest text-sm">
+                    Department
+                  </span>
+                </div>
+                <h2 className="text-3xl md:text-4xl font-extrabold text-gray-900 tracking-tight leading-tight mb-4">
+                  {dept.department}
+                </h2>
+                <p className="text-gray-500 text-base leading-relaxed mb-3">
+                  {dept.description}
+                </p>
+                <span className="inline-block text-sm font-semibold text-gray-400">
+                  {dept.members.length}{' '}
+                  {dept.members.length === 1 ? 'member' : 'members'}
                 </span>
-              </div>
-              <h2 className="text-4xl md:text-5xl font-extrabold text-gray-900 tracking-tight leading-tight mb-6">
-                {dept.department}
-              </h2>
-              <p className="text-gray-500 text-lg leading-relaxed">
-                {dept.description}
-              </p>
-            </motion.div>
+              </motion.div>
 
-            {/* Members Grid Area */}
-            <div className="lg:col-span-8 grid grid-cols-1 sm:grid-cols-2 gap-8">
-              {dept.members.map((member, idx) => (
-                <motion.div
-                  key={idx}
-                  initial={{ opacity: 0, y: 30 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true, margin: '-50px' }}
-                  transition={{ duration: 0.5, delay: idx * 0.1 }}
-                  className="group relative bg-white rounded-2xl shadow-sm hover:shadow-2xl border border-gray-100/50 overflow-hidden transition-all duration-500"
-                >
-                  <div className="w-full h-80 relative overflow-hidden bg-gray-100">
-                    <motion.img
-                      whileHover={{ scale: 1.05 }}
-                      transition={{ duration: 0.6 }}
-                      src={member.img}
-                      alt={member.name}
-                      className="w-full h-full object-cover object-top transition-transform duration-700"
-                    />
-
-                    {/* Social/Contact Overlay on Hover */}
-                    <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center gap-4">
-                      {member.social?.linkedin && (
-                        <a
-                          href={member.social.linkedin}
-                          className="w-12 h-12 rounded-full bg-white/20 hover:bg-primary text-white flex items-center justify-center backdrop-blur-sm transition-colors duration-300"
-                          aria-label={`${member.name}'s LinkedIn`}
-                        >
-                          <FaLinkedinIn size={20} />
-                        </a>
-                      )}
-                      {member.social?.email && (
-                        <a
-                          href={member.social.email}
-                          className="w-12 h-12 rounded-full bg-white/20 hover:bg-primary text-white flex items-center justify-center backdrop-blur-sm transition-colors duration-300"
-                          aria-label={`Email ${member.name}`}
-                        >
-                          <FaEnvelope size={20} />
-                        </a>
-                      )}
+              {/* Members Grid */}
+              <div className="lg:col-span-8 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-5">
+                {dept.members.map((member, idx) => (
+                  <motion.div
+                    key={idx}
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true, margin: '-30px' }}
+                    transition={{
+                      duration: 0.4,
+                      delay: Math.min(idx * 0.05, 0.4),
+                    }}
+                    className="group bg-white rounded-2xl border border-gray-100 hover:border-primary/30 hover:shadow-xl overflow-hidden transition-all duration-300"
+                  >
+                    {/* Portrait */}
+                    <div className="w-full aspect-[3/4] overflow-hidden bg-gray-100">
+                      <img
+                        src={placeholderImg}
+                        alt={member.name}
+                        className="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-500"
+                      />
                     </div>
-                  </div>
 
-                  <div className="p-8 pb-10 text-center relative bg-white">
-                    {/* Decorative Top Border */}
-                    <div className="absolute top-0 left-1/2 -translate-x-1/2 w-12 h-1 bg-primary rounded-b-md opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-
-                    <h3 className="text-2xl font-bold text-gray-900 mb-1">
-                      {member.name}
-                    </h3>
-                    <p className="text-primary font-semibold mb-4 text-sm uppercase tracking-wider">
-                      {member.role}
-                    </p>
-                    <p className="text-gray-600 leading-relaxed">
-                      {member.description}
-                    </p>
-                  </div>
-                </motion.div>
-              ))}
+                    {/* Info */}
+                    <div className="p-4 text-center">
+                      <div className="w-8 h-0.5 bg-primary mx-auto mb-2 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                      <h3 className="font-bold text-gray-900 text-sm leading-snug">
+                        {member.name}
+                      </h3>
+                      <p className="text-primary font-medium text-xs mt-1 leading-tight">
+                        {member.role}
+                      </p>
+                    </div>
+                  </motion.div>
+                ))}
+              </div>
             </div>
-          </div>
-        ))}
+          );
+        })}
       </main>
 
       <CtaSection />

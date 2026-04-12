@@ -17,8 +17,8 @@ import strongNationwideNetworkIcon from '../../../../assets/img/value-strong-nat
 import ontimeConsistentDeliveryIcon from '../../../../assets/img/value-on-time-consistent-delivery.png';
 import safeProfessionalHandlingIcon from '../../../../assets/img/value-safe-professional-handling.png';
 import businessCentricOperationIcon from '../../../../assets/img/value-business-centric-operations.png';
-import person1 from '../../../../assets/img/optimized/founder-bishal-poudel.webp';
-import person2 from '../../../../assets/img/optimized/founder-anup-acharya.webp';
+import person1 from '../../../../assets/img/optimized/ServicePage_HariBahadurShresta_ServicePage.webp';
+import person2 from '../../../../assets/img/optimized/ServicePage_ArunShrestha.webp';
 
 export interface StatItem {
   value: string;
@@ -35,6 +35,7 @@ export interface FounderProfile {
   quote: string;
   signatureLabel: string;
   image: string;
+  imagePosition?: string;
   reverse?: boolean;
 }
 
@@ -74,16 +75,17 @@ export const ABOUT_FOUNDERS: FounderProfile[] = [
   {
     role: 'Founder / Managing Director',
     quote:
-      '“ Darshan Transport began two decades ago with a single truck and a strong will to serve. Today, we are a trusted logistics partner across Nepal’s western region and beyond.\nOur mission has always been clear: to deliver goods with care, responsibility, and efficiency. Over the years, we’ve expanded our fleet, integrated GPS tracking, and opened multiple branches — all to serve you better.\nAs we grow, our goal remains the same: to become Nepal’s leading logistics backbone — driven by technology, built on trust, and powered by people. Thank you for your continued trust',
-    signatureLabel: 'Hari Bahadur Sherestha',
+      '" Darshan Transport began as a single-truck operation built on consistency, discipline, and a commitment to reliable service. Under his leadership, the company has grown into a structured logistics network supporting bulk cargo movement across Nepal.\nHe focuses on building long-term systems by improving delivery coordination, expanding transport capacity, and ensuring businesses can rely on consistent cargo movement. His approach is practical: solve real logistics problems and build operations that scale with business needs.',
+    signatureLabel: 'Hari Bahadur Shrestha',
     image: person1,
   },
   {
     role: 'Co-Founder',
     quote:
-      '“ What started as a small family business is now a dependable logistics network known for safe, timely, and personalized service.\nWe’ve overcome challenges, embraced change, and invested in technology to improve transparency and efficiency. Our GPS-enabled fleet and expanding branch network reflect our commitment to progress.\nAs we move forward, we remain grounded in our founding values: trust, integrity, and dedication to our clients. We’re here to serve — today and always',
+      '" As co-founder, he has played a key role in expanding operations and strengthening day-to-day logistics systems. His focus has been on improving efficiency, maintaining service quality, and adapting operations as business demands grow.\nFrom handling early-stage challenges to supporting a growing network, his contribution ensures that Darshan Transport continues to operate with stability, coordination, and a clear focus on business logistics.',
     signatureLabel: 'Arun Kumar Shrestha',
     image: person2,
+    imagePosition: 'object-[center_20%]',
     reverse: true,
   },
 ];
@@ -135,7 +137,21 @@ export const ABOUT_CORE_VALUES: CoreValueItem[] = [
     icon: parcelCourierDeliveryIcon,
     title: 'Technology-Ready Logistics',
     description:
-      'Digital workflows ensure faster processing, clear records, and transparent communication.',
+      'Digital coordination improves tracking, processing, and communication.',
+    iconType: 'image',
+  },
+  {
+    icon: parcelCourierDeliveryIcon,
+    title: 'GPS Tracking Enabled Fleet',
+    description:
+      'Real-time GPS tracking for better visibility, route monitoring, and delivery updates.',
+    iconType: 'image',
+  },
+  {
+    icon: parcelCourierDeliveryIcon,
+    title: 'ERP-Driven Operations',
+    description:
+      'Integrated ERP systems help manage orders, inventory, and logistics workflows with better accuracy and coordination.',
     iconType: 'image',
   },
 ];

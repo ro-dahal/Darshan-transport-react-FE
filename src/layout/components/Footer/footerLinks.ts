@@ -16,29 +16,9 @@ export const FOOTER_COLUMNS: FooterColumn[] = [
     links: [
       { label: 'About us', href: '/about' },
       ...(TEAM_PAGE_ENABLED ? [{ label: 'Team', href: '/team' }] : []),
+      { label: 'Services', href: '/services' },
       { label: 'FAQs', href: '/faq' },
       { label: 'Contact', href: '/contact' },
-    ],
-  },
-  {
-    title: 'Services',
-    links: [
-      { label: 'Brand Summary', href: '/services' },
-      {
-        label: 'Distribution & Delivery',
-        href: '/services#distribution-delivery',
-      },
-      {
-        label: 'Third-Party Logistics (3PL)',
-        href: '/services#third-party-logistics',
-      },
-      {
-        label: 'Packaging & Handling',
-        href: '/services#packaging-handling',
-      },
-      { label: 'Fleet Services', href: '/services#fleet-services' },
-      { label: 'Service Area', href: '/services#service-area' },
-      { label: 'Industries Served', href: '/services#warehouse-inventory' },
     ],
   },
   {

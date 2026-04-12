@@ -19,15 +19,13 @@ interface ClientCarouselProps {
 
 const SIZE_STYLES = {
   default: {
-    itemClassName:
-      'w-[260px] h-[140px] max-md:w-[180px] max-md:h-[100px]',
+    itemClassName: 'w-[260px] h-[140px] max-md:w-[180px] max-md:h-[100px]',
     scaleRange: [2.0, 0.55] as [number, number],
     sidePaddingRange: [48, 4] as [number, number],
     gapClassName: 'gap-10 max-md:gap-4',
   },
   compact: {
-    itemClassName:
-      'w-[210px] h-[112px] max-md:w-[150px] max-md:h-[84px]',
+    itemClassName: 'w-[210px] h-[112px] max-md:w-[150px] max-md:h-[84px]',
     scaleRange: [1.65, 0.5] as [number, number],
     sidePaddingRange: [36, 4] as [number, number],
     gapClassName: 'gap-8 max-md:gap-3',
@@ -85,7 +83,11 @@ const ClientCarousel: React.FC<ClientCarouselProps> = ({
     const opacity = useTransform(proximity, [0, 1], [1, 0.2]);
     const grayscaleAmount = useTransform(proximity, [0, 1], [0, 100]);
     const filter = useTransform(grayscaleAmount, (v) => `grayscale(${v}%)`);
-    const sidePadding = useTransform(proximity, [0, 1], sizeStyles.sidePaddingRange);
+    const sidePadding = useTransform(
+      proximity,
+      [0, 1],
+      sizeStyles.sidePaddingRange
+    );
 
     return (
       <motion.div
