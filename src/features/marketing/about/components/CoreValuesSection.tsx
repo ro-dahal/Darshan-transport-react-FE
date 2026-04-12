@@ -22,8 +22,18 @@ interface CoreValuesSectionProps {
 export const CoreValuesSection: React.FC<CoreValuesSectionProps> = ({
   values,
 }) => (
-  <section className="py-24 px-8 bg-bg-light max-md:py-16 max-md:px-5">
-    <div className="max-w-[1200px] mx-auto">
+  <section className="relative py-24 px-8 bg-[#fafaf8] max-md:py-16 max-md:px-5 overflow-hidden">
+    {/* Subtle background texture */}
+    <div
+      className="absolute inset-0 opacity-[0.025] pointer-events-none"
+      style={{
+        backgroundImage:
+          'radial-gradient(circle at 1px 1px, #1a1a1a 0.5px, transparent 0)',
+        backgroundSize: '32px 32px',
+      }}
+    />
+
+    <div className="relative z-10 max-w-[1200px] mx-auto">
       {/* Section heading */}
       <motion.div
         initial="hidden"
@@ -34,7 +44,7 @@ export const CoreValuesSection: React.FC<CoreValuesSectionProps> = ({
         <motion.span
           variants={cardVariants}
           custom={0}
-          className="block text-primary text-xs font-bold tracking-[0.22em] uppercase mb-4"
+          className="inline-block text-primary text-xs font-bold tracking-[0.22em] uppercase mb-4 bg-primary/8 px-4 py-1.5 rounded-full"
         >
           Why Choose Us
         </motion.span>
@@ -67,13 +77,18 @@ export const CoreValuesSection: React.FC<CoreValuesSectionProps> = ({
             key={value.title}
             variants={cardVariants}
             custom={index}
-            className="group relative bg-white rounded-2xl p-7 border border-border-light hover:border-primary/30 hover:shadow-[0_8px_32px_rgba(252,175,23,0.1)] transition-all duration-400 max-sm:p-5"
+            className="group relative bg-white rounded-2xl p-7 border border-gray-100 hover:border-primary/30 shadow-[0_1px_3px_rgba(0,0,0,0.04)] hover:shadow-[0_12px_40px_rgba(252,175,23,0.1)] transition-all duration-500 max-sm:p-5"
           >
-            {/* Top accent line */}
-            <div className="absolute top-0 left-6 right-6 h-[2px] bg-gradient-to-r from-transparent via-primary/0 to-transparent group-hover:via-primary/60 transition-all duration-500" />
+            {/* Top accent bar */}
+            <div className="absolute top-0 left-0 right-0 h-[3px] rounded-t-2xl bg-gradient-to-r from-primary/0 via-primary/0 to-primary/0 group-hover:from-primary/60 group-hover:via-primary group-hover:to-primary/60 transition-all duration-500" />
+
+            {/* Step number watermark */}
+            <span className="absolute top-4 right-5 text-[3.5rem] font-black text-gray-100 leading-none select-none pointer-events-none group-hover:text-primary/8 transition-colors duration-500">
+              {String(index + 1).padStart(2, '0')}
+            </span>
 
             {/* Icon */}
-            <div className="w-14 h-14 rounded-xl flex items-center justify-center mb-5 bg-bg-icon group-hover:bg-primary/10 transition-colors duration-300 max-sm:w-12 max-sm:h-12">
+            <div className="relative w-14 h-14 rounded-xl flex items-center justify-center mb-5 bg-[#f5f5f0] group-hover:bg-primary/10 transition-all duration-300 max-sm:w-12 max-sm:h-12 ring-1 ring-gray-100 group-hover:ring-primary/20">
               {value.iconType === 'image' ? (
                 <img
                   src={value.icon}
@@ -88,12 +103,30 @@ export const CoreValuesSection: React.FC<CoreValuesSectionProps> = ({
               )}
             </div>
 
-            <h3 className="text-[1.05rem] font-bold text-[#1a1a1a] mb-2 leading-[1.35]">
+            <h3 className="text-[1.05rem] font-bold text-[#1a1a1a] mb-2.5 leading-[1.35] pr-12">
               {value.title}
             </h3>
-            <p className="text-sm text-text-medium leading-[1.7]">
+            <p className="text-[0.85rem] text-gray-500 leading-[1.75]">
               {value.description}
             </p>
+
+            {/* Hover arrow indicator */}
+            <div className="mt-4 flex items-center gap-1.5 text-primary text-xs font-semibold opacity-0 group-hover:opacity-100 translate-x-[-4px] group-hover:translate-x-0 transition-all duration-300">
+              <span>Learn more</span>
+              <svg
+                className="w-3.5 h-3.5"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                strokeWidth={2.5}
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M13 7l5 5m0 0l-5 5m5-5H6"
+                />
+              </svg>
+            </div>
           </motion.div>
         ))}
       </motion.div>
