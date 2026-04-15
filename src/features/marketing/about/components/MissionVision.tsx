@@ -15,7 +15,7 @@ const cardVariants = {
 };
 
 export const MissionVision: React.FC = () => (
-  <section className="relative bg-[#111] text-white py-24 px-8 overflow-hidden max-md:py-16 max-md:px-5">
+  <section className="relative bg-secondary text-white py-24 px-8 overflow-hidden max-md:py-16 max-md:px-5">
     {/* Decorative grid lines */}
     <div
       className="absolute inset-0 opacity-[0.04]"

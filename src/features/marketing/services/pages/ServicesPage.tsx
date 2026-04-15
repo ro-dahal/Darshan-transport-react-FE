@@ -179,7 +179,7 @@ const Growth: React.FC = () => {
   }, []);
 
   return (
-    <section ref={ref} className="bg-[#1a1a1a] py-16">
+    <section ref={ref} className="bg-secondary py-16">
       <div className="max-w-[1200px] mx-auto px-8 text-center">
         <p className="text-primary text-sm font-semibold tracking-[3px] uppercase">
           Our Growth
@@ -320,7 +320,7 @@ const BENEFITS = [
 ];
 
 const Benefits: React.FC = () => (
-  <section className="py-24 px-8 bg-[#1a1a1a] max-lg:py-16 max-md:py-12 max-md:px-5">
+  <section className="py-24 px-8 bg-secondary max-lg:py-16 max-md:py-12 max-md:px-5">
     <div className="max-w-[800px] mx-auto">
       <motion.div
         initial="hidden"
@@ -480,7 +480,7 @@ const Process: React.FC = () => (
 
 /* ── What We Offer ──────────────────────────────── */
 const Offerings: React.FC = () => (
-  <section className="relative py-24 px-8 bg-[#111] overflow-hidden max-lg:py-16 max-md:py-12 max-md:px-5">
+  <section className="relative py-24 px-8 bg-secondary overflow-hidden max-lg:py-16 max-md:py-12 max-md:px-5">
     {/* Background texture */}
     <div
       className="absolute inset-0 opacity-[0.03]"

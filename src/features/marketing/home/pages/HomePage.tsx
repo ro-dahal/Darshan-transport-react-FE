@@ -241,7 +241,7 @@ const StatsBanner: React.FC = () => {
   return (
     <section
       ref={ref}
-      className="relative bg-[#1a1a1a] py-20 px-8 overflow-hidden max-md:py-14 max-md:px-5"
+      className="relative bg-secondary py-20 px-8 overflow-hidden max-md:py-14 max-md:px-5"
     >
       <div className="absolute inset-0 bg-gradient-to-r from-primary/8 via-transparent to-primary/5 pointer-events-none" />
 
@@ -529,7 +529,7 @@ const REACH_STATS = [
 ] as const;
 
 const ReachSection: React.FC = () => (
-  <section className="py-28 px-8 bg-[#1a1a1a] relative overflow-hidden max-lg:py-20 max-md:py-14 max-md:px-5">
+  <section className="py-28 px-8 bg-secondary relative overflow-hidden max-lg:py-20 max-md:py-14 max-md:px-5">
     {/* Ambient glow */}
     <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(252,175,23,0.05)_0%,transparent_65%)] pointer-events-none" />
 

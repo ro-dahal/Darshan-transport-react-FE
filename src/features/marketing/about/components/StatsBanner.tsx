@@ -58,7 +58,7 @@ export const StatsBanner: React.FC = () => {
   return (
     <section
       ref={ref}
-      className="relative bg-[#1a1a1a] py-20 px-8 overflow-hidden max-md:py-14 max-md:px-5"
+      className="relative bg-secondary py-20 px-8 overflow-hidden max-md:py-14 max-md:px-5"
     >
       {/* Gradient accent */}
       <div className="absolute inset-0 bg-gradient-to-r from-primary/8 via-transparent to-primary/5 pointer-events-none" />
