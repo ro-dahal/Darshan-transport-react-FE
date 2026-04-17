@@ -1,8 +1,14 @@
 import React from 'react';
 import { motion } from 'framer-motion';
+
 import { MetaTags } from '../../../../core/components/MetaTags';
 import { ContactMap } from '../../contact/components/ContactMap';
 import { useContactDirectory } from '../../contact/hooks/useContactDirectory';
+import type { OfficeRow } from '../../contact/data/contactDirectory';
+import {
+  LOCATIONS_PAGE_META,
+  LOCATIONS_PAGE_STRUCTURED_DATA,
+} from '../data/locationsPageContent';
 
 const fadeUp = {
   hidden: { opacity: 0, y: 40 },
@@ -34,8 +40,6 @@ const scaleIn = {
   },
 };
 
-import type { OfficeRow } from '../../contact/data/contactDirectory';
-
 /* ── Hero ────────────────────────────── */
 const Hero: React.FC = () => (
   <section className="relative w-full py-28 bg-[#1a1a1a] overflow-hidden max-md:py-20">
@@ -55,7 +59,7 @@ const Hero: React.FC = () => (
         transition={{ delay: 0.2, duration: 0.6 }}
         className="text-primary text-sm font-semibold tracking-[3px] uppercase mb-4"
       >
-        Get Started
+        Find Locations
       </motion.p>
       <motion.h1
         initial={{ opacity: 0, y: 25 }}
@@ -63,7 +67,7 @@ const Hero: React.FC = () => (
         transition={{ delay: 0.4, duration: 0.7 }}
         className="text-white text-[3.5rem] leading-[1.1] font-extrabold max-w-[600px] max-lg:text-[2.6rem] max-md:text-[2rem]"
       >
-        Get a <span className="text-primary">Quote</span>
+        Find Your Nearest <span className="text-primary">Location</span>
       </motion.h1>
       <motion.p
         initial={{ opacity: 0, y: 20 }}
@@ -71,8 +75,8 @@ const Hero: React.FC = () => (
         transition={{ delay: 0.6, duration: 0.6 }}
         className="mt-4 text-white/60 text-lg max-w-[480px] leading-relaxed max-md:text-base"
       >
-        Request a free quote for your delivery and logistics needs. Find the
-        nearest booking or delivery office below.
+        Explore Darshan Transport booking and delivery locations across Nepal
+        to find the nearest support point for your route.
       </motion.p>
     </div>
   </section>
@@ -99,20 +103,20 @@ const MapSection: React.FC<{
   </section>
 );
 
-/* ── Office Directory ────────────────── */
-interface OfficeCardProps {
+/* ── Location Directory ────────────────── */
+interface LocationDirectoryProps {
   title: string;
   type: 'booking' | 'delivery';
-  offices: OfficeRow[];
+  locations: OfficeRow[];
   selected: OfficeRow;
   isActive: boolean;
   onSelect: (office: OfficeRow, type: 'booking' | 'delivery') => void;
 }
 
-const OfficeDirectory: React.FC<OfficeCardProps> = ({
+const LocationDirectory: React.FC<LocationDirectoryProps> = ({
   title,
   type,
-  offices,
+  locations,
   selected,
   isActive,
   onSelect,
@@ -128,8 +132,9 @@ const OfficeDirectory: React.FC<OfficeCardProps> = ({
       viewport={{ once: true, margin: '-40px' }}
       className="space-y-3"
     >
-      {offices.map((office) => {
+      {locations.map((office) => {
         const isSelected = isActive && selected.sn === office.sn;
+
         return (
           <motion.button
             key={office.sn}
@@ -154,19 +159,7 @@ const OfficeDirectory: React.FC<OfficeCardProps> = ({
 );
 
 /* ── Page ────────────────────────────── */
-const GET_QUOTE_STRUCTURED_DATA = {
-  '@context': 'https://schema.org',
-  '@type': 'WebPage',
-  name: 'Get a Quote | Darshan Transport',
-  url: 'https://darshantransport.com/get-quote',
-  isPartOf: {
-    '@type': 'WebSite',
-    name: 'Darshan Transport',
-    url: 'https://darshantransport.com',
-  },
-};
-
-export const GetQuotePage: React.FC = () => {
+export const LocationsPage: React.FC = () => {
   const {
     bookingOffices,
     deliveryOffices,
@@ -182,10 +175,10 @@ export const GetQuotePage: React.FC = () => {
   return (
     <div className="flex flex-col min-h-screen">
       <MetaTags
-        title="Get a Quote | Darshan Transport"
-        description="Request a free quote for your delivery and logistics needs."
-        canonical="https://darshantransport.com/get-quote"
-        structuredData={GET_QUOTE_STRUCTURED_DATA}
+        title={LOCATIONS_PAGE_META.title}
+        description={LOCATIONS_PAGE_META.description}
+        canonical={LOCATIONS_PAGE_META.canonical}
+        structuredData={LOCATIONS_PAGE_STRUCTURED_DATA}
       />
       <Hero />
       <MapSection mapUrl={mapUrl} loading={loading} mapRef={mapRef} />
@@ -203,30 +196,30 @@ export const GetQuotePage: React.FC = () => {
               custom={0}
               className="text-primary text-sm font-semibold tracking-[3px] uppercase"
             >
-              Our Offices
+              Our Locations
             </motion.p>
             <motion.h2
               variants={fadeUp}
               custom={1}
               className="mt-3 text-[2.4rem] font-extrabold text-[#1a1a1a] max-md:text-[1.8rem]"
             >
-              Find Your Nearest Office
+              Find Your Nearest Location
             </motion.h2>
           </motion.div>
 
           <div className="grid grid-cols-2 gap-10 max-lg:grid-cols-1">
-            <OfficeDirectory
-              title="Booking Area"
+            <LocationDirectory
+              title="Booking Locations"
               type="booking"
-              offices={bookingOffices}
+              locations={bookingOffices}
               selected={selectedBooking}
               isActive={lastSelectedType === 'booking'}
               onSelect={selectOffice}
             />
-            <OfficeDirectory
-              title="Delivery Area"
+            <LocationDirectory
+              title="Delivery Locations"
               type="delivery"
-              offices={deliveryOffices}
+              locations={deliveryOffices}
               selected={selectedDelivery}
               isActive={lastSelectedType === 'delivery'}
               onSelect={selectOffice}

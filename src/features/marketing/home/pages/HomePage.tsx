@@ -200,10 +200,10 @@ const Hero: React.FC = () => {
             Track Your Shipment
           </Link>
           <Link
-            to="/get-quote"
+            to="/locations"
             className="bg-white/10 backdrop-blur-sm text-white font-bold py-3.5 px-8 rounded-lg text-base border border-white/20 transition-all duration-200 hover:bg-white/20 no-underline max-sm:text-center"
           >
-            Get a Quote
+            Locations
           </Link>
         </motion.div>
       </motion.div>
@@ -279,7 +279,7 @@ const StatsBanner: React.FC = () => {
 
 /* ── About / Features ───────────────────────────── */
 const AboutSection: React.FC = () => (
-  <section className="py-24 px-8 max-lg:py-16 max-md:py-12 max-md:px-5">
+  <section className="pt-16 pb-24 px-8 max-lg:pt-12 max-lg:pb-16 max-md:pt-10 max-md:pb-12 max-md:px-5">
     <div className="max-w-[1200px] mx-auto">
       <div className="grid grid-cols-[1fr_0.85fr] gap-16 items-center max-lg:grid-cols-1 max-lg:gap-10">
         <motion.div

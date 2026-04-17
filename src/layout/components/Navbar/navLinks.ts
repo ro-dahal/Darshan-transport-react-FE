@@ -42,5 +42,5 @@ export const NAV_LINKS: NavLink[] = [
     ],
   },
   { to: '/contact', label: 'Contact' },
-  { to: '/get-quote', label: 'Get A Quote' },
+  { to: '/locations', label: 'Locations' },
 ];

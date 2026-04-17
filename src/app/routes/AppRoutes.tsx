@@ -1,5 +1,5 @@
 import React, { Suspense } from 'react';
-import { Route, Routes } from 'react-router-dom';
+import { Navigate, Route, Routes } from 'react-router-dom';
 import { MainLayout } from '../layouts/MainLayout';
 import { ErrorBoundary } from '../../core/components/ErrorBoundary';
 import { TEAM_PAGE_ENABLED } from '../../core/config/siteFlags';
@@ -34,9 +34,9 @@ const FAQPage = React.lazy(() =>
     default: module.FAQPage,
   }))
 );
-const GetQuotePage = React.lazy(() =>
-  import('../../features/marketing/get-quote/pages/GetQuotePage').then(
-    (module) => ({ default: module.GetQuotePage })
+const LocationsPage = React.lazy(() =>
+  import('../../features/marketing/locations/pages/LocationsPage').then(
+    (module) => ({ default: module.LocationsPage })
   )
 );
 const OrderTracking = React.lazy(() =>
@@ -125,7 +125,11 @@ export const AppRoutes: React.FC = () => (
           <Route path="/services" element={<ServicesPage />} />
           <Route path="/contact" element={<ContactPage />} />
           <Route path="/order" element={<OrderTracking />} />
-          <Route path="/get-quote" element={<GetQuotePage />} />
+          <Route path="/locations" element={<LocationsPage />} />
+          <Route
+            path="/get-quote"
+            element={<Navigate to="/locations" replace />}
+          />
           <Route path="/faq" element={<FAQPage />} />
           <Route
             path="/bulk-cargo-transport-nepal"
