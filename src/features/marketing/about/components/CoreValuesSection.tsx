@@ -2,13 +2,18 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import type { CoreValueItem } from '../data/aboutContent';
 
-const cardVariants = {
-  hidden: { opacity: 0, y: 30 },
+export const ABOUT_CORE_VALUES_GRID_VARIANTS = {
+  hidden: {},
+  visible: { transition: { staggerChildren: 0.08 } },
+};
+
+export const ABOUT_CORE_VALUES_CARD_VARIANTS = {
+  hidden: { opacity: 0, scale: 0.85 },
   visible: (i: number) => ({
     opacity: 1,
-    y: 0,
+    scale: 1,
     transition: {
-      duration: 0.55,
+      duration: 0.5,
       delay: i * 0.08,
       ease: [0.22, 1, 0.36, 1] as [number, number, number, number],
     },
@@ -36,27 +41,28 @@ export const CoreValuesSection: React.FC<CoreValuesSectionProps> = ({
     <div className="relative z-10 max-w-[1200px] mx-auto">
       {/* Section heading */}
       <motion.div
+        variants={ABOUT_CORE_VALUES_GRID_VARIANTS}
         initial="hidden"
         whileInView="visible"
         viewport={{ once: true, margin: '-80px' }}
         className="text-center mb-16"
       >
         <motion.span
-          variants={cardVariants}
+          variants={ABOUT_CORE_VALUES_CARD_VARIANTS}
           custom={0}
           className="inline-block text-primary text-xs font-bold tracking-[0.22em] uppercase mb-4 bg-primary/8 px-4 py-1.5 rounded-full"
         >
           Why Choose Us
         </motion.span>
         <motion.h2
-          variants={cardVariants}
+          variants={ABOUT_CORE_VALUES_CARD_VARIANTS}
           custom={1}
           className="text-[2.4rem] font-extrabold leading-[1.12] text-[#1a1a1a] max-md:text-[1.8rem]"
         >
           Built different, built to deliver
         </motion.h2>
         <motion.p
-          variants={cardVariants}
+          variants={ABOUT_CORE_VALUES_CARD_VARIANTS}
           custom={2}
           className="mt-4 text-text-medium text-base max-w-[560px] mx-auto leading-[1.7]"
         >
@@ -67,6 +73,7 @@ export const CoreValuesSection: React.FC<CoreValuesSectionProps> = ({
 
       {/* Values grid */}
       <motion.div
+        variants={ABOUT_CORE_VALUES_GRID_VARIANTS}
         initial="hidden"
         whileInView="visible"
         viewport={{ once: true, margin: '-40px' }}
@@ -75,12 +82,12 @@ export const CoreValuesSection: React.FC<CoreValuesSectionProps> = ({
         {values.map((value, index) => (
           <motion.div
             key={value.title}
-            variants={cardVariants}
+            variants={ABOUT_CORE_VALUES_CARD_VARIANTS}
             custom={index}
-            className="group relative overflow-hidden bg-white rounded-2xl p-7 border border-gray-100 hover:border-primary/30 shadow-[0_1px_3px_rgba(0,0,0,0.04)] hover:shadow-[0_12px_40px_rgba(252,175,23,0.1)] transition-all duration-500 max-sm:p-5"
+            className="group relative bg-white rounded-2xl p-8 lg:p-10 border border-gray-100 shadow-[0_4px_20px_rgb(0,0,0,0.02)] hover:shadow-[0_20px_40px_rgb(0,0,0,0.08)] hover:-translate-y-1.5 transition-all duration-500 flex flex-col items-start overflow-hidden max-sm:p-5"
           >
-            {/* Top accent bar */}
-            <div className="absolute left-5 right-5 top-4 h-[3px] rounded-full bg-gradient-to-r from-primary/0 via-primary/0 to-primary/0 group-hover:from-primary/60 group-hover:via-primary group-hover:to-primary/60 transition-all duration-500 max-sm:left-4 max-sm:right-4 max-sm:top-3.5" />
+            {/* Top accent bar visible on hover */}
+            <div className="absolute top-0 left-0 w-full h-1.5 bg-gradient-to-r from-primary to-primary/60 origin-left scale-x-0 group-hover:scale-x-100 transition-transform duration-500 ease-out" />
 
             {/* Step number watermark */}
             <span className="absolute top-4 right-5 text-[3.5rem] font-black text-gray-100 leading-none select-none pointer-events-none group-hover:text-primary/8 transition-colors duration-500">
@@ -88,7 +95,7 @@ export const CoreValuesSection: React.FC<CoreValuesSectionProps> = ({
             </span>
 
             {/* Icon */}
-            <div className="relative w-14 h-14 rounded-xl flex items-center justify-center mb-5 bg-[#f5f5f0] group-hover:bg-primary/10 transition-all duration-300 max-sm:w-12 max-sm:h-12 ring-1 ring-gray-100 group-hover:ring-primary/20">
+            <div className="w-[60px] h-[60px] rounded-xl bg-primary/5 flex items-center justify-center mb-6 border border-primary/10 group-hover:scale-110 group-hover:bg-primary/10 transition-all duration-500">
               {value.iconType === 'image' ? (
                 <img
                   src={value.icon}
@@ -96,17 +103,17 @@ export const CoreValuesSection: React.FC<CoreValuesSectionProps> = ({
                   loading="lazy"
                   decoding="async"
                   aria-hidden="true"
-                  className="w-9 h-9 object-contain max-sm:w-7 max-sm:h-7"
+                  className="w-8 h-auto opacity-80 group-hover:opacity-100 transition-opacity"
                 />
               ) : (
-                <span className="text-2xl text-secondary">{value.icon}</span>
+                <span className="text-primary text-2xl">{value.icon}</span>
               )}
             </div>
 
-            <h3 className="text-[1.05rem] font-bold text-[#1a1a1a] mb-2.5 leading-[1.35] pr-12">
+            <h3 className="text-[1.15rem] font-bold text-[#1a1a1a] leading-[1.6] group-hover:text-primary transition-colors duration-300">
               {value.title}
             </h3>
-            <p className="text-[0.85rem] text-gray-500 leading-[1.75]">
+            <p className="mt-3 text-[0.85rem] text-gray-500 leading-[1.75]">
               {value.description}
             </p>
 
