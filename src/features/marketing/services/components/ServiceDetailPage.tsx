@@ -111,17 +111,11 @@ export const ServiceDetailPage: React.FC<ServiceDetailPageProps> = ({
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.7, duration: 0.6 }}
-            className="mt-8 flex gap-4 max-sm:flex-col max-sm:w-full"
+            className="mt-8 flex max-sm:w-full"
           >
             <Link
-              to="/get-quote"
-              className="bg-primary text-white font-bold py-3.5 px-8 rounded-lg text-base shadow-lg transition-all duration-200 hover:bg-primary-hover hover:shadow-xl no-underline max-sm:text-center"
-            >
-              Get a Quote
-            </Link>
-            <Link
               to="/contact"
-              className="bg-white/10 backdrop-blur-sm text-white font-bold py-3.5 px-8 rounded-lg text-base border border-white/20 transition-all duration-200 hover:bg-white/20 no-underline max-sm:text-center"
+              className="bg-primary text-white font-bold py-3.5 px-8 rounded-lg text-base shadow-lg transition-all duration-200 hover:bg-primary-hover hover:shadow-xl no-underline max-sm:text-center"
             >
               Contact Us
             </Link>
@@ -386,16 +380,10 @@ export const ServiceDetailPage: React.FC<ServiceDetailPageProps> = ({
           <h2 className="text-[2rem] font-extrabold text-secondary leading-[1.15] max-md:text-[1.6rem]">
             Need this service for your business?
           </h2>
-          <div className="flex gap-4 max-sm:flex-col max-sm:w-full">
-            <Link
-              to="/get-quote"
-              className="bg-secondary text-primary font-bold py-4 px-8 rounded-lg text-base transition-all duration-200 hover:bg-secondary/90 hover:text-primary-light no-underline max-sm:text-center"
-            >
-              Get a Quote
-            </Link>
+          <div className="flex justify-center max-sm:w-full">
             <Link
               to="/contact"
-              className="bg-white text-secondary font-bold py-4 px-8 rounded-lg text-base transition-all duration-200 hover:bg-white/90 no-underline max-sm:text-center"
+              className="bg-secondary text-primary font-bold py-4 px-8 rounded-lg text-base transition-all duration-200 hover:bg-secondary/90 hover:text-primary-light no-underline max-sm:text-center"
             >
               Contact Us
             </Link>

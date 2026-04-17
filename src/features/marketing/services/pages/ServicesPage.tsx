@@ -607,16 +607,10 @@ const Cta: React.FC = () => (
       <h2 className="text-[2.2rem] font-extrabold text-secondary leading-none lg:whitespace-nowrap max-md:text-[1.7rem]">
         Ready for Reliable Logistics Across Nepal?
       </h2>
-      <div className="flex flex-col items-center gap-4 shrink-0 max-sm:w-full sm:flex-row sm:justify-center">
-        <Link
-          to="/get-quote"
-          className="bg-secondary text-primary font-bold py-3.5 px-10 rounded-lg text-base transition-all duration-200 hover:bg-secondary/90 hover:text-primary-light no-underline whitespace-nowrap text-center"
-        >
-          Get a Quote
-        </Link>
+      <div className="flex shrink-0 justify-center max-sm:w-full">
         <Link
           to="/contact"
-          className="font-bold text-base text-secondary transition-colors duration-300 hover:text-secondary/70 no-underline whitespace-nowrap text-center"
+          className="bg-secondary text-primary font-bold py-3.5 px-10 rounded-lg text-base transition-all duration-200 hover:bg-secondary/90 hover:text-primary-light no-underline whitespace-nowrap text-center"
         >
           Contact Us
         </Link>

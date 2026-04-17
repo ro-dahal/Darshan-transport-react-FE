@@ -64,27 +64,7 @@ export const CtaSection: React.FC<CtaSectionProps> = ({
                 isTeamVariant ? 'gap-2 px-10 py-3.5' : 'gap-1.5 px-7 py-3'
               }`}
             >
-              Talk to Leadership
-              <svg
-                className="w-4 h-4"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-                aria-hidden="true"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M17 8l4 4m0 0l-4 4m4-4H3"
-                />
-              </svg>
-            </a>
-            <a
-              href="/get-quote"
-              className="font-bold text-base text-secondary transition-colors duration-300 hover:text-secondary/70 no-underline whitespace-nowrap text-center"
-            >
-              Get a Quote
+              Contact Us
             </a>
           </div>
         </motion.div>
