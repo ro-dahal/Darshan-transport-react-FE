@@ -3,6 +3,7 @@ import { motion } from 'framer-motion';
 import { MetaTags } from '../../../../core/components/MetaTags';
 import { BOOKING_OFFICES, DELIVERY_OFFICES } from '../data/contactDirectory';
 import { CONTACT_CONFIG } from '../../../../core/config/contactConfig';
+import { submitContactForm } from '../services/contactFormService';
 
 const fadeUp = {
   hidden: { opacity: 0, y: 40 },
@@ -87,8 +88,8 @@ const CONTACT_CHANNELS = [
   {
     icon: '✉️',
     label: 'Email',
-    value: 'info@darshantransport.com.np',
-    href: 'mailto:info@darshantransport.com.np',
+    value: CONTACT_CONFIG.email,
+    href: `mailto:${CONTACT_CONFIG.email}`,
   },
   {
     icon: '📍',
@@ -103,6 +104,19 @@ const CONTACT_CHANNELS = [
     href: undefined,
   },
 ];
+
+const INITIAL_FORM_STATE = {
+  name: '',
+  email: '',
+  phone: '',
+  message: '',
+};
+
+type SubmissionState =
+  | { status: 'idle' }
+  | { status: 'submitting' }
+  | { status: 'success'; message: string }
+  | { status: 'error'; message: string };
 
 const ContactCards: React.FC = () => (
   <section className="py-20 px-8 max-lg:py-14 max-md:py-10 max-md:px-5">
@@ -147,20 +161,41 @@ const ContactCards: React.FC = () => (
 
 /* ── Contact Form ────────────────────────── */
 const ContactForm: React.FC = () => {
-  const [formState, setFormState] = useState({
-    name: '',
-    email: '',
-    phone: '',
-    message: '',
+  const [formState, setFormState] = useState(INITIAL_FORM_STATE);
+  const [submissionState, setSubmissionState] = useState<SubmissionState>({
+    status: 'idle',
   });
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleFieldChange =
+    (field: keyof typeof INITIAL_FORM_STATE) =>
+    (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+      const value = e.target.value;
+      setFormState((current) => ({ ...current, [field]: value }));
+      setSubmissionState((current) =>
+        current.status === 'idle' ? current : { status: 'idle' }
+      );
+    };
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    const subject = encodeURIComponent(`Contact from ${formState.name}`);
-    const body = encodeURIComponent(
-      `Name: ${formState.name}\nEmail: ${formState.email}\nPhone: ${formState.phone}\n\n${formState.message}`
-    );
-    window.location.href = `mailto:${CONTACT_CONFIG.email}?subject=${subject}&body=${body}`;
+    setSubmissionState({ status: 'submitting' });
+
+    try {
+      const message = await submitContactForm(formState);
+      setFormState(INITIAL_FORM_STATE);
+      setSubmissionState({
+        status: 'success',
+        message,
+      });
+    } catch (error) {
+      setSubmissionState({
+        status: 'error',
+        message:
+          error instanceof Error
+            ? error.message
+            : 'We could not send your message right now. Please try again shortly.',
+      });
+    }
   };
 
   return (
@@ -209,9 +244,7 @@ const ContactForm: React.FC = () => {
                 type="text"
                 required
                 value={formState.name}
-                onChange={(e) =>
-                  setFormState((s) => ({ ...s, name: e.target.value }))
-                }
+                onChange={handleFieldChange('name')}
                 className="w-full border border-gray-200 rounded-lg px-4 py-3 text-base outline-none focus:border-primary focus:ring-2 focus:ring-primary/10 transition-all duration-200"
                 placeholder="Your name"
               />
@@ -228,9 +261,7 @@ const ContactForm: React.FC = () => {
                 type="email"
                 required
                 value={formState.email}
-                onChange={(e) =>
-                  setFormState((s) => ({ ...s, email: e.target.value }))
-                }
+                onChange={handleFieldChange('email')}
                 className="w-full border border-gray-200 rounded-lg px-4 py-3 text-base outline-none focus:border-primary focus:ring-2 focus:ring-primary/10 transition-all duration-200"
                 placeholder="Your email"
               />
@@ -247,9 +278,7 @@ const ContactForm: React.FC = () => {
               id="contact-phone"
               type="tel"
               value={formState.phone}
-              onChange={(e) =>
-                setFormState((s) => ({ ...s, phone: e.target.value }))
-              }
+              onChange={handleFieldChange('phone')}
               className="w-full border border-gray-200 rounded-lg px-4 py-3 text-base outline-none focus:border-primary focus:ring-2 focus:ring-primary/10 transition-all duration-200"
               placeholder="Your phone number"
             />
@@ -266,18 +295,29 @@ const ContactForm: React.FC = () => {
               required
               rows={5}
               value={formState.message}
-              onChange={(e) =>
-                setFormState((s) => ({ ...s, message: e.target.value }))
-              }
+              onChange={handleFieldChange('message')}
               className="w-full border border-gray-200 rounded-lg px-4 py-3 text-base outline-none focus:border-primary focus:ring-2 focus:ring-primary/10 transition-all duration-200 resize-y"
               placeholder="How can we help you?"
             />
           </div>
+          {submissionState.status === 'success' ? (
+            <p className="mt-5 rounded-lg border border-green-200 bg-green-50 px-4 py-3 text-sm font-medium text-green-700">
+              {submissionState.message}
+            </p>
+          ) : null}
+          {submissionState.status === 'error' ? (
+            <p className="mt-5 rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm font-medium text-red-700">
+              {submissionState.message}
+            </p>
+          ) : null}
           <button
             type="submit"
-            className="mt-6 w-full bg-primary text-white font-bold py-4 rounded-lg text-base transition-all duration-200 hover:bg-primary-hover hover:shadow-lg cursor-pointer border-none"
+            disabled={submissionState.status === 'submitting'}
+            className="mt-6 w-full bg-primary text-white font-bold py-4 rounded-lg text-base transition-all duration-200 hover:bg-primary-hover hover:shadow-lg cursor-pointer border-none disabled:cursor-not-allowed disabled:opacity-70"
           >
-            Send Message
+            {submissionState.status === 'submitting'
+              ? 'Sending Message...'
+              : 'Send Message'}
           </button>
         </motion.form>
       </div>
