@@ -57,14 +57,14 @@ const Hero: React.FC = () => {
     <section
       ref={ref}
       id="services-hero"
-      className="relative w-full h-[calc(100dvh-var(--head-height,90px))] overflow-hidden flex items-end justify-start"
+      className="relative flex h-[calc(100dvh-var(--head-height,90px))] w-full items-end justify-start overflow-hidden bg-[#0b1117]"
     >
-      <motion.div
-        className="absolute inset-0 w-full h-full bg-center bg-bottom bg-no-repeat bg-cover"
-        style={{
-          backgroundImage: `url(${heroImage})`,
-          y: bgY,
-        }}
+      <motion.img
+        src={heroImage}
+        alt=""
+        aria-hidden="true"
+        className="absolute inset-0 h-full w-full object-contain"
+        style={{ y: bgY }}
       />
       <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/50 to-black/20" />
       <div className="relative z-10 w-full max-w-[1200px] mx-auto px-8 pb-16 max-md:px-5 max-md:pb-10">
