@@ -5,6 +5,7 @@ import logo from '../../../assets/img/logo-bar.png';
 import { NAV_LINKS } from './navLinks';
 import { useNavbarController } from '../Navbar/useNavbarController';
 import { TransitionLink } from '../../../core/components/TransitionLink';
+import { getNavbarDropdownClickBehavior } from './navbarInteractionUtils';
 
 export const Navbar: React.FC = () => {
   const { headerRef, menuOpen, toggleMenu, closeMenu, activePath } =
@@ -45,8 +46,13 @@ export const Navbar: React.FC = () => {
           <ul className="flex items-center gap-1">
             {NAV_LINKS.map((link) => {
               const isActive = activePath === link.to;
+              const hasDropdown = Boolean(link.dropdown);
               const dropOpen = isDropdownOpen(link.to);
               const highlighted = isActive || dropOpen;
+              const desktopClickBehavior = getNavbarDropdownClickBehavior({
+                hasDropdown,
+                context: 'desktop',
+              });
 
               return (
                 <li
@@ -64,8 +70,9 @@ export const Navbar: React.FC = () => {
                         ? 'text-primary bg-primary/10'
                         : 'text-white/70 hover:text-white hover:bg-white/[0.05]'
                     }`}
+                    aria-expanded={hasDropdown ? dropOpen : undefined}
                     onClick={(e) => {
-                      if (link.dropdown) {
+                      if (desktopClickBehavior === 'toggle-dropdown') {
                         e.preventDefault();
                         setActiveDropdown(
                           activeDropdown === link.to ? null : link.to
@@ -231,7 +238,12 @@ export const Navbar: React.FC = () => {
             <ul className="flex flex-col py-4 px-6">
               {NAV_LINKS.map((link, i) => {
                 const isActive = activePath === link.to;
+                const hasDropdown = Boolean(link.dropdown);
                 const dropOpen = isDropdownOpen(link.to);
+                const mobileClickBehavior = getNavbarDropdownClickBehavior({
+                  hasDropdown,
+                  context: 'mobile',
+                });
 
                 return (
                   <motion.li
@@ -248,8 +260,9 @@ export const Navbar: React.FC = () => {
                           ? 'text-primary'
                           : 'text-white/80 hover:text-white'
                       }`}
+                      aria-expanded={hasDropdown ? dropOpen : undefined}
                       onClick={(e) => {
-                        if (link.dropdown) {
+                        if (mobileClickBehavior === 'toggle-dropdown') {
                           e.preventDefault();
                           setActiveDropdown(
                             activeDropdown === link.to ? null : link.to
