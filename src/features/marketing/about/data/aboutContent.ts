@@ -1,3 +1,4 @@
+import type { AboutImageTransform } from '../aboutImageEditorUtils';
 import gifOperations from '../../../../assets/img/optimized/operations-illustration.webp';
 import nepalMap from '../../../../assets/img/optimized/nepal-coverage-map.webp';
 import udnLogo from '../../../../assets/Company logos/UDN.jpg';
@@ -36,6 +37,7 @@ export interface FounderProfile {
   signatureLabel: string;
   image: string;
   imagePosition?: string;
+  imageTransform?: Partial<AboutImageTransform>;
   reverse?: boolean;
 }
 
@@ -85,7 +87,9 @@ export const ABOUT_FOUNDERS: FounderProfile[] = [
       '" As co-founder, he has played a key role in expanding operations and strengthening day-to-day logistics systems. His focus has been on improving efficiency, maintaining service quality, and adapting operations as business demands grow.\nFrom handling early-stage challenges to supporting a growing network, his contribution ensures that Darshan Transport continues to operate with stability, coordination, and a clear focus on business logistics.',
     signatureLabel: 'Arun Kumar Shrestha',
     image: person2,
-    imagePosition: 'object-[center_20%]',
+    imageTransform: {
+      yPercent: -30,
+    },
     reverse: true,
   },
 ];

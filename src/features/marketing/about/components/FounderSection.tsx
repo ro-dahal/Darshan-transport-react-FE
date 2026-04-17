@@ -1,6 +1,14 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import type { FounderProfile } from '../data/aboutContent';
+import type {
+  AboutImageDevEditor,
+  AboutImageSelection,
+} from '../aboutImageEditorUtils';
+import {
+  getAboutImageTransformStyle,
+  normalizeAboutImageTransform,
+} from '../aboutImageEditorUtils';
 
 const easeOut = [0.22, 1, 0.36, 1] as [number, number, number, number];
 
@@ -29,21 +37,36 @@ const imgReveal = {
 
 interface FounderSectionProps {
   profiles: FounderProfile[];
+  devEditor?: AboutImageDevEditor;
 }
 
-export const FounderSection: React.FC<FounderSectionProps> = ({ profiles }) => (
-  <section className="py-24 px-8 max-md:py-16 max-md:px-5">
-    <div className="max-w-[1200px] mx-auto">
-      {/* Section heading */}
+const buildFounderSelection = (
+  profile: FounderProfile
+): AboutImageSelection => ({
+  kind: 'founderPortrait',
+  targetId: profile.signatureLabel,
+  label: profile.signatureLabel,
+  defaultTransform: normalizeAboutImageTransform(profile.imageTransform),
+  imageSrc: profile.image,
+  imageAlt: `${profile.signatureLabel} portrait`,
+  previewAspectRatio: '4 / 5',
+});
+
+export const FounderSection: React.FC<FounderSectionProps> = ({
+  profiles,
+  devEditor,
+}) => (
+  <section className="px-8 py-24 max-md:px-5 max-md:py-16">
+    <div className="mx-auto max-w-[1200px]">
       <motion.div
         initial="hidden"
         whileInView="visible"
         viewport={{ once: true, margin: '-80px' }}
-        className="text-center mb-20 max-md:mb-12"
+        className="mb-20 text-center max-md:mb-12"
       >
         <motion.span
           variants={fadeIn}
-          className="block text-primary text-xs font-bold tracking-[0.22em] uppercase mb-4"
+          className="mb-4 block text-xs font-bold uppercase tracking-[0.22em] text-primary"
         >
           Leadership
         </motion.span>
@@ -56,10 +79,30 @@ export const FounderSection: React.FC<FounderSectionProps> = ({ profiles }) => (
         </motion.h2>
       </motion.div>
 
-      {/* Founder cards */}
       <div className="space-y-24 max-md:space-y-16">
         {profiles.map((profile, index) => {
           const isEven = index % 2 === 0;
+          const selection = buildFounderSelection(profile);
+          const effectiveTransform = devEditor
+            ? devEditor.getTransform(selection)
+            : selection.defaultTransform;
+          const isSelected = devEditor?.isSelected(selection) ?? false;
+
+          const handlePointerDown = (
+            event: React.PointerEvent<HTMLDivElement>
+          ) => {
+            if (!devEditor?.isEnabled) {
+              return;
+            }
+
+            if (!isSelected) {
+              devEditor.selectTarget(selection);
+              return;
+            }
+
+            devEditor.startDrag(event, selection, effectiveTransform);
+          };
+
           return (
             <motion.div
               key={profile.signatureLabel}
@@ -70,57 +113,63 @@ export const FounderSection: React.FC<FounderSectionProps> = ({ profiles }) => (
                 isEven ? '' : 'lg:flex-row-reverse'
               }`}
             >
-              {/* Image */}
               <motion.div
                 variants={imgReveal}
-                className="relative flex-shrink-0 w-full max-w-[420px] max-lg:max-w-[360px]"
+                className="relative w-full max-w-[420px] flex-shrink-0 max-lg:max-w-[360px]"
               >
                 <div className={`relative ${isEven ? 'pl-6' : 'pr-6'}`}>
                   <div
                     aria-hidden="true"
-                    className={`absolute hidden lg:block top-6 bottom-6 w-[4px] rounded-full bg-primary/55 ${
+                    className={`absolute top-6 bottom-6 hidden w-[4px] rounded-full bg-primary/55 lg:block ${
                       isEven ? 'left-0' : 'right-0'
                     }`}
                   />
-                  <img
-                    src={profile.image}
-                    alt={`${profile.signatureLabel} portrait`}
-                    className={`w-full aspect-[4/5] rounded-2xl object-cover shadow-lg bg-gray-100 ${
-                      profile.imagePosition || 'object-center'
+                  <div
+                    onPointerDown={handlePointerDown}
+                    className={`relative overflow-hidden rounded-2xl bg-gray-100 shadow-lg ${
+                      devEditor?.isEnabled
+                        ? isSelected
+                          ? 'cursor-grab ring-2 ring-primary/30'
+                          : 'cursor-pointer'
+                        : ''
                     }`}
-                    loading="lazy"
-                    decoding="async"
-                  />
+                  >
+                    <img
+                      src={profile.image}
+                      alt={`${profile.signatureLabel} portrait`}
+                      className="w-full aspect-[4/5] object-cover"
+                      style={getAboutImageTransformStyle(effectiveTransform)}
+                      loading="lazy"
+                      decoding="async"
+                    />
+                  </div>
                 </div>
               </motion.div>
 
-              {/* Text */}
-              <motion.div variants={fadeIn} className="flex-1 min-w-0">
-                <span className="text-primary text-xs font-bold tracking-[0.2em] uppercase">
+              <motion.div variants={fadeIn} className="min-w-0 flex-1">
+                <span className="text-xs font-bold uppercase tracking-[0.2em] text-primary">
                   {profile.role}
                 </span>
                 <h3 className="mt-3 text-[1.8rem] font-bold text-[#1a1a1a] max-md:text-[1.4rem]">
                   {profile.signatureLabel}
                 </h3>
 
-                {/* Quote */}
-                <div className="mt-6 relative pl-6 pr-8 pb-8">
-                  <span className="absolute -top-2 -left-1 text-primary/20 text-5xl font-serif leading-none select-none">
+                <div className="relative mt-6 pl-6 pr-8 pb-8">
+                  <span className="absolute -top-2 -left-1 select-none font-serif text-5xl leading-none text-primary/20">
                     &ldquo;
                   </span>
-                  <p className="text-base leading-[1.85] text-text-medium whitespace-pre-line text-justify">
+                  <p className="whitespace-pre-line text-justify text-base leading-[1.85] text-text-medium">
                     {profile.quote.replace(/^"\s*/, '')}
                   </p>
                 </div>
 
-                {/* Signature line */}
                 <div className="mt-8 flex items-center gap-4">
                   <div className="h-px w-12 bg-primary/40" />
                   <div>
                     <p className="text-sm font-bold text-text-dark">
                       {profile.signatureLabel}
                     </p>
-                    <p className="text-xs text-text-medium mt-0.5">
+                    <p className="mt-0.5 text-xs text-text-medium">
                       {profile.role}
                     </p>
                   </div>
