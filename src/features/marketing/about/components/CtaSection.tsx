@@ -1,62 +1,94 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 
-export const CtaSection: React.FC = () => (
-  <section className="relative overflow-hidden">
-    {/* Background with angled split */}
-    <div className="absolute inset-0 bg-primary" />
-    <div className="absolute inset-0 bg-[#1a1a1a] clip-cta-angle max-md:hidden" />
+type CtaSectionVariant = 'default' | 'team';
 
-    <div className="relative z-10 max-w-[1200px] mx-auto px-8 py-14 flex items-center justify-between gap-8 max-md:flex-col max-md:text-center max-md:py-12 max-md:px-5">
-      <motion.div
-        initial={{ opacity: 0, x: -20 }}
-        whileInView={{ opacity: 1, x: 0 }}
-        viewport={{ once: true }}
-        transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-      >
-        <h2 className="text-[2.6rem] font-extrabold text-black leading-[1.1] max-md:text-[2rem] max-sm:text-[1.6rem]">
-          Ready to move your
-          <br className="max-md:hidden" /> business forward?
-        </h2>
-        <p className="mt-3 text-black/60 text-base max-w-[420px] max-md:mx-auto">
-          Let&rsquo;s discuss how we can support your logistics needs.
-        </p>
-      </motion.div>
+interface CtaSectionProps {
+  variant?: CtaSectionVariant;
+}
 
-      <motion.div
-        initial={{ opacity: 0, x: 20 }}
-        whileInView={{ opacity: 1, x: 0 }}
-        viewport={{ once: true }}
-        transition={{ duration: 0.6, delay: 0.15, ease: [0.22, 1, 0.36, 1] }}
-        className="flex flex-col sm:flex-row gap-4"
+export const CtaSection: React.FC<CtaSectionProps> = ({
+  variant = 'default',
+}) => {
+  const isTeamVariant = variant === 'team';
+
+  return (
+    <section className="relative overflow-hidden bg-primary">
+      <div
+        className={`relative z-10 mx-auto grid max-w-[1200px] items-center gap-12 px-8 py-14 max-lg:text-center max-md:px-5 max-md:py-12 ${
+          isTeamVariant ? 'xl:gap-16' : ''
+        } lg:grid-cols-[minmax(0,1fr)_auto] max-lg:grid-cols-1`}
       >
-        <a
-          href="/contact"
-          className="inline-flex items-center justify-center gap-2 bg-[#1a1a1a] text-white font-bold px-8 py-4 rounded-xl text-base hover:bg-[#333] transition-colors duration-300 no-underline"
+        <motion.div
+          initial={{ opacity: 0, x: -20 }}
+          whileInView={{ opacity: 1, x: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+          className={
+            isTeamVariant
+              ? 'w-full max-lg:mx-auto lg:max-w-[60%] xl:max-w-[62%]'
+              : 'w-full max-lg:mx-auto lg:max-w-[58%] xl:max-w-[60%]'
+          }
         >
-          Talk to Leadership
-          <svg
-            className="w-4 h-4"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-            aria-hidden="true"
+          <h2
+            className={`font-extrabold text-secondary leading-none max-md:text-[1.7rem] ${
+              isTeamVariant
+                ? 'text-[2rem] lg:whitespace-nowrap xl:text-[2.1rem]'
+                : 'text-[1.85rem] lg:whitespace-nowrap xl:text-[2rem]'
+            }`}
           >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={2}
-              d="M17 8l4 4m0 0l-4 4m4-4H3"
-            />
-          </svg>
-        </a>
-        <a
-          href="/get-quote"
-          className="inline-flex items-center justify-center bg-white text-[#1a1a1a] font-bold px-8 py-4 rounded-xl text-base hover:bg-white/90 transition-colors duration-300 no-underline"
+            Ready to move your business forward?
+          </h2>
+          <p
+            className={`mt-3 text-secondary/70 font-medium leading-relaxed max-lg:mx-auto max-md:text-[1rem] ${
+              isTeamVariant
+                ? 'text-base lg:whitespace-nowrap xl:text-[1.05rem]'
+                : 'text-base lg:whitespace-nowrap xl:text-[1.05rem]'
+            }`}
+          >
+            Let&rsquo;s discuss how we can support your logistics needs.
+          </p>
+        </motion.div>
+
+        <motion.div
+          initial={{ opacity: 0, x: 20 }}
+          whileInView={{ opacity: 1, x: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6, delay: 0.15, ease: [0.22, 1, 0.36, 1] }}
+          className="relative z-10 shrink-0 max-sm:w-full lg:justify-self-end"
         >
-          Get a Quote
-        </a>
-      </motion.div>
-    </div>
-  </section>
-);
+          <div className="relative z-10 flex flex-col items-center gap-4 max-sm:w-full sm:flex-row sm:justify-center">
+            <a
+              href="/contact"
+              className={`inline-flex items-center justify-center rounded-lg bg-secondary font-bold text-base text-primary transition-colors duration-300 hover:bg-secondary/90 hover:text-primary-light no-underline whitespace-nowrap text-center ${
+                isTeamVariant ? 'gap-2 px-10 py-3.5' : 'gap-1.5 px-7 py-3'
+              }`}
+            >
+              Talk to Leadership
+              <svg
+                className="w-4 h-4"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+                aria-hidden="true"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M17 8l4 4m0 0l-4 4m4-4H3"
+                />
+              </svg>
+            </a>
+            <a
+              href="/get-quote"
+              className="font-bold text-base text-secondary transition-colors duration-300 hover:text-secondary/70 no-underline whitespace-nowrap text-center"
+            >
+              Get a Quote
+            </a>
+          </div>
+        </motion.div>
+      </div>
+    </section>
+  );
+};
