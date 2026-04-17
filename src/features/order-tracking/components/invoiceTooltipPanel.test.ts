@@ -19,7 +19,10 @@ test('renders only the invoice image inside the tooltip panel', () => {
   );
   assert.match(markup, /src="\/tooltip\.jpg"/);
   assert.doesNotMatch(markup, /Invoice Guide/);
-  assert.doesNotMatch(markup, /Find the correct invoice digits before tracking/);
+  assert.doesNotMatch(
+    markup,
+    /Find the correct invoice digits before tracking/
+  );
   assert.doesNotMatch(markup, /Step 1: Use the sample receipt/);
   assert.doesNotMatch(markup, /Close invoice guide/);
 });

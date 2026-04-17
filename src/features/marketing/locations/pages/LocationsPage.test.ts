@@ -8,7 +8,10 @@ import {
 
 test('exports locations metadata for the new route', () => {
   assert.equal(LOCATIONS_PAGE_META.title, 'Locations | Darshan Transport');
-  assert.equal(LOCATIONS_PAGE_META.canonical, 'https://darshantransport.com/locations');
+  assert.equal(
+    LOCATIONS_PAGE_META.canonical,
+    'https://darshantransport.com/locations'
+  );
   assert.equal(
     LOCATIONS_PAGE_STRUCTURED_DATA.name,
     'Locations | Darshan Transport'

@@ -8,6 +8,12 @@ import {
   HOME_ABOUT_DESCRIPTION,
   OUR_SERVICES_DATA,
 } from '../data/homeContent';
+import {
+  HOME_ABOUT_SECTION_BG,
+  HOME_CLIENTS_SECTION_SPACING,
+  HOME_SERVICES_SECTION_BG,
+  HOME_TRUSTED_BY_SECTION_BG,
+} from '../data/homeSectionStyles';
 
 import { MetaTags } from '../../../../core/components/MetaTags';
 import bg1 from '../../../../assets/img/home-hero-slide-1.jpeg';
@@ -279,7 +285,9 @@ const StatsBanner: React.FC = () => {
 
 /* ── About / Features ───────────────────────────── */
 const AboutSection: React.FC = () => (
-  <section className="pt-16 pb-24 px-8 max-lg:pt-12 max-lg:pb-16 max-md:pt-10 max-md:pb-12 max-md:px-5">
+  <section
+    className={`pt-16 pb-24 px-8 ${HOME_ABOUT_SECTION_BG} max-lg:pt-12 max-lg:pb-16 max-md:pt-10 max-md:pb-12 max-md:px-5`}
+  >
     <div className="max-w-[1200px] mx-auto">
       <div className="grid grid-cols-[1fr_0.85fr] gap-16 items-center max-lg:grid-cols-1 max-lg:gap-10">
         <motion.div
@@ -351,7 +359,9 @@ const AboutSection: React.FC = () => (
 
 /* ── Services Grid ──────────────────────────────── */
 const ServicesSection: React.FC = () => (
-  <section className="py-24 px-8 bg-[#fafafa] max-lg:py-16 max-md:py-12 max-md:px-5">
+  <section
+    className={`py-24 px-8 ${HOME_SERVICES_SECTION_BG} max-lg:py-16 max-md:py-12 max-md:px-5`}
+  >
     <div className="max-w-[1200px] mx-auto">
       <motion.div
         initial="hidden"
@@ -603,7 +613,9 @@ const ReachSection: React.FC = () => (
 import ClientCarousel from '../../shared/components/ClientCarousel';
 
 const ClientsSection: React.FC = () => (
-  <section className="py-20 px-5 bg-white overflow-hidden max-md:py-12">
+  <section
+    className={`${HOME_CLIENTS_SECTION_SPACING} ${HOME_TRUSTED_BY_SECTION_BG} overflow-hidden max-md:py-12`}
+  >
     <motion.div
       initial={{ opacity: 0, y: 20 }}
       whileInView={{ opacity: 1, y: 0 }}

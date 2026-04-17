@@ -9,6 +9,11 @@ import {
   getAboutImageTransformStyle,
   normalizeAboutImageTransform,
 } from '../aboutImageEditorUtils';
+import {
+  CLOSING_FOUNDER_QUOTE_MARK,
+  OPENING_FOUNDER_QUOTE_MARK,
+  normalizeFounderQuote,
+} from './founderQuoteUtils';
 
 const easeOut = [0.22, 1, 0.36, 1] as [number, number, number, number];
 
@@ -156,10 +161,13 @@ export const FounderSection: React.FC<FounderSectionProps> = ({
 
                 <div className="relative mt-6 pl-6 pr-8 pb-8">
                   <span className="absolute -top-2 -left-1 select-none font-serif text-5xl leading-none text-primary/20">
-                    &ldquo;
+                    {OPENING_FOUNDER_QUOTE_MARK}
                   </span>
                   <p className="whitespace-pre-line text-justify text-base leading-[1.85] text-text-medium">
-                    {profile.quote.replace(/^"\s*/, '')}
+                    {normalizeFounderQuote(profile.quote)}{' '}
+                    <span className="align-text-bottom select-none font-serif text-5xl leading-none text-primary/20">
+                      {CLOSING_FOUNDER_QUOTE_MARK}
+                    </span>
                   </p>
                 </div>
 

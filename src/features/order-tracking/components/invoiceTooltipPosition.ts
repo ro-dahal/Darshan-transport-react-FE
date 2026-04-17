@@ -95,7 +95,10 @@ const getTooltipWidth = (viewportWidth: number, imageMaxHeight: number) => {
   );
 };
 
-const getTooltipMaxHeightCap = (viewportHeight: number, viewportWidth: number) => {
+const getTooltipMaxHeightCap = (
+  viewportHeight: number,
+  viewportWidth: number
+) => {
   if (viewportWidth <= 420) {
     return Math.min(420, viewportHeight - VIEWPORT_GUTTER * 2);
   }
@@ -107,10 +110,7 @@ const getTooltipMaxHeightCap = (viewportHeight: number, viewportWidth: number) =
   return PREFERRED_TOOLTIP_MAX_HEIGHT;
 };
 
-const getTooltipMaxHeight = (
-  viewportHeight: number,
-  viewportWidth: number
-) => {
+const getTooltipMaxHeight = (viewportHeight: number, viewportWidth: number) => {
   const availableHeight = Math.max(0, viewportHeight - VIEWPORT_GUTTER * 2);
   const maxHeightCap = getTooltipMaxHeightCap(viewportHeight, viewportWidth);
 

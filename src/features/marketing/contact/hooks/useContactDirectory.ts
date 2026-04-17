@@ -4,8 +4,23 @@ import type { OfficeRow } from '../data/contactDirectory';
 
 type DirectoryType = 'booking' | 'delivery';
 
-function buildMapUrl(search: string): string {
-  return `https://maps.google.com/maps?q=${encodeURIComponent(search)}&t=&z=13&ie=UTF8&iwloc=&output=embed`;
+function buildMapUrl(
+  office: Pick<OfficeRow, 'search' | 'mapTarget' | 'mapZoom'>
+): string {
+  const query = office.mapTarget ?? office.search;
+  const zoom = office.mapZoom ?? 13;
+
+  return `https://maps.google.com/maps?q=${encodeURIComponent(query)}&t=&z=${zoom}&ie=UTF8&iwloc=&output=embed`;
+}
+
+function getOfficeMapTarget(
+  office: OfficeRow
+): Pick<OfficeRow, 'search' | 'mapTarget' | 'mapZoom'> {
+  return {
+    search: office.search,
+    mapTarget: office.mapTarget,
+    mapZoom: office.mapZoom,
+  };
 }
 
 export function useContactDirectory() {
@@ -18,7 +33,7 @@ export function useContactDirectory() {
   const [lastSelectedType, setLastSelectedType] =
     useState<DirectoryType>('booking');
   const [mapUrl, setMapUrl] = useState<string>(
-    buildMapUrl(BOOKING_OFFICES[0].search)
+    buildMapUrl(getOfficeMapTarget(BOOKING_OFFICES[0]))
   );
   const [loading, setLoading] = useState<boolean>(false);
   const firstLoadRef = useRef(true);
@@ -43,8 +58,8 @@ export function useContactDirectory() {
 
     const query =
       lastSelectedType === 'booking'
-        ? selectedBooking.search
-        : selectedDelivery.search;
+        ? getOfficeMapTarget(selectedBooking)
+        : getOfficeMapTarget(selectedDelivery);
     setMapUrl(buildMapUrl(query));
 
     if (mapRef.current) {

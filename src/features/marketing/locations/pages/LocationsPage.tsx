@@ -75,8 +75,8 @@ const Hero: React.FC = () => (
         transition={{ delay: 0.6, duration: 0.6 }}
         className="mt-4 text-white/60 text-lg max-w-[480px] leading-relaxed max-md:text-base"
       >
-        Explore Darshan Transport booking and delivery locations across Nepal
-        to find the nearest support point for your route.
+        Explore Darshan Transport booking and delivery locations across Nepal to
+        find the nearest support point for your route.
       </motion.p>
     </div>
   </section>

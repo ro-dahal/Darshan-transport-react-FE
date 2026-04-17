@@ -91,7 +91,7 @@ const MAP_PIN_SOURCES: readonly MapPinSource[] = [
     id: 'b4',
     type: 'booking',
     label: 'Branch Office',
-    address: 'Yantra Sala Margha, Narayanghat',
+    address: 'Chitwan',
     latitude: 27.8201272,
     longitude: 84.4828922,
   },
@@ -144,8 +144,8 @@ const MAP_PIN_SOURCES: readonly MapPinSource[] = [
     type: 'delivery',
     label: 'Delivery',
     address: 'Baglung',
-    latitude: 28.3562467,
-    longitude: 83.1426241,
+    latitude: 28.2605875,
+    longitude: 83.605015625,
   },
   {
     id: 'd6',
@@ -160,8 +160,8 @@ const MAP_PIN_SOURCES: readonly MapPinSource[] = [
     type: 'delivery',
     label: 'Delivery',
     address: 'Aabukhaireni',
-    latitude: 27.9762031,
-    longitude: 84.5815031,
+    latitude: 27.9048375,
+    longitude: 84.53398437500002,
   },
   {
     id: 'd8',
@@ -192,8 +192,8 @@ const MAP_PIN_SOURCES: readonly MapPinSource[] = [
     type: 'delivery',
     label: 'Delivery',
     address: 'Waling',
-    latitude: 27.9843444,
-    longitude: 83.7685296,
+    latitude: 27.9853625,
+    longitude: 83.76629687500002,
   },
   {
     id: 'd12',
@@ -273,7 +273,7 @@ export const REGION_INFO: Record<string, RegionInfo> = {
   },
   NPNA: {
     title: 'Narayani Info:',
-    items: ['Yantra Sala Margha, Narayanghat', 'Adarsh Nagar, Birgunj'],
+    items: ['Chitwan', 'Adarsh Nagar, Birgunj'],
   },
   NPLU: {
     title: 'Lumbini Info:',

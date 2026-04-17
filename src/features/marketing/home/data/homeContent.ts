@@ -1,28 +1,13 @@
 import gifOperations from '../../../../assets/img/optimized/operations-illustration.webp';
 import nepalMap from '../../../../assets/img/optimized/nepal-coverage-map.webp';
-import udnLogo from '../../../../assets/Company logos/UDN.jpg';
-import cgLogo from '../../../../assets/Company logos/cg.png';
-import dhiLogo from '../../../../assets/Company logos/dhi.jpg';
-import dubarLogo from '../../../../assets/Company logos/dubar.png';
-import hitechLogo from '../../../../assets/Company logos/hitech.png';
-import neotricLogo from '../../../../assets/Company logos/neotric.png';
-import peLogo from '../../../../assets/Company logos/pe.jpg';
-import readmoreLogo from '../../../../assets/Company logos/readmore.png';
-import sujaldairyLogo from '../../../../assets/Company logos/sujaldairy.jpg';
-import sujalfoodLogo from '../../../../assets/Company logos/sujalfood.png';
-import treveniLogo from '../../../../assets/Company logos/treveni.jpg';
 import parcelCourierDeliveryIcon from '../../../../assets/img/service-parcel-courier-delivery.png';
 import person1 from '../../../../assets/img/optimized/founder-bishal-poudel.webp';
 import person3 from '../../../../assets/img/optimized/founder-bishnu-prasad-poudyal.webp';
+import { CLIENT_LOGOS, type LogoItem } from '../../shared/data/clientLogos';
 
 export interface StatItem {
   value: string;
   label: string;
-}
-
-export interface LogoItem {
-  src: string;
-  alt: string;
 }
 
 export interface VideoTestimonial {
@@ -57,19 +42,7 @@ export const HOME_STATS: StatItem[] = [
   { value: '20k+', label: 'Reviews' },
 ];
 
-export const HOME_CLIENT_LOGOS: LogoItem[] = [
-  { src: udnLogo, alt: 'UDN' },
-  { src: cgLogo, alt: 'CG' },
-  { src: dhiLogo, alt: 'DHI' },
-  { src: dubarLogo, alt: 'Dubar' },
-  { src: hitechLogo, alt: 'Hi-Tech' },
-  { src: neotricLogo, alt: 'Neotric' },
-  { src: peLogo, alt: 'PE' },
-  { src: readmoreLogo, alt: 'Readmore' },
-  { src: sujaldairyLogo, alt: 'Sujal Dairy' },
-  { src: sujalfoodLogo, alt: 'Sujal Food' },
-  { src: treveniLogo, alt: 'Treveni' },
-];
+export const HOME_CLIENT_LOGOS: LogoItem[] = CLIENT_LOGOS;
 
 export const HOME_VIDEO_TESTIMONIALS: VideoTestimonial[] = [
   {

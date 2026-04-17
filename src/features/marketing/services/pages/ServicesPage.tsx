@@ -7,6 +7,11 @@ import {
   SERVICES_CARDS,
   SERVICES_OFFERINGS,
 } from '../data/servicesContent';
+import {
+  SERVICES_HOW_IT_WORKS_SECTION_BG,
+  SERVICES_OUR_SERVICES_SECTION_BG,
+  SERVICES_OUR_SERVICES_SECTION_SPACING,
+} from '../data/servicesSectionStyles';
 import { MetaTags } from '../../../../core/components/MetaTags';
 import { useBreakpoint } from '../../../../core/hooks/useBreakpoint';
 
@@ -216,7 +221,9 @@ const Growth: React.FC = () => {
 
 /* ── Who We Serve Grid ──────────────────────── */
 const ServeGrid: React.FC = () => (
-  <section className="relative py-24 px-8 bg-white overflow-hidden max-lg:py-16 max-md:py-12 max-md:px-5">
+  <section
+    className={`${SERVICES_OUR_SERVICES_SECTION_SPACING} ${SERVICES_OUR_SERVICES_SECTION_BG} overflow-hidden max-lg:pb-16 max-lg:pt-16 max-md:pb-12 max-md:pt-12 max-md:px-5`}
+  >
     {/* Subtle dot pattern background */}
     <div
       className="absolute inset-0 opacity-[0.4] pointer-events-none"
@@ -285,23 +292,6 @@ const ServeGrid: React.FC = () => (
             <h4 className="text-[1.15rem] font-bold text-[#1a1a1a] leading-[1.6] group-hover:text-primary transition-colors duration-300">
               {card.label}
             </h4>
-
-            {/* Decorative arrow in the corner */}
-            <div className="absolute bottom-6 right-6 opacity-0 translate-x-4 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-500 text-primary">
-              <svg
-                width="24"
-                height="24"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2.5"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              >
-                <line x1="5" y1="12" x2="19" y2="12"></line>
-                <polyline points="12 5 19 12 12 19"></polyline>
-              </svg>
-            </div>
           </motion.div>
         ))}
       </motion.div>
@@ -399,7 +389,9 @@ const PROCESS_STEPS = [
 ];
 
 const Process: React.FC = () => (
-  <section className="relative py-24 px-8 bg-[#fafafa] overflow-hidden max-lg:py-16 max-md:py-12 max-md:px-5">
+  <section
+    className={`relative py-24 px-8 ${SERVICES_HOW_IT_WORKS_SECTION_BG} overflow-hidden max-lg:py-16 max-md:py-12 max-md:px-5`}
+  >
     {/* Decorative Background Accents */}
     <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-primary/5 rounded-full blur-[120px] pointer-events-none -translate-y-1/2 translate-x-1/3" />
     <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-primary/5 rounded-full blur-[120px] pointer-events-none translate-y-1/3 -translate-x-1/3" />

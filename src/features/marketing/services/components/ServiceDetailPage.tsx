@@ -88,7 +88,7 @@ export const ServiceDetailPage: React.FC<ServiceDetailPageProps> = ({
       />
 
       {/* Hero */}
-      <section className="relative bg-[#1a1a1a] py-24 px-8 max-md:py-16 max-md:px-5">
+      <section className="relative bg-secondary py-24 px-8 max-md:py-16 max-md:px-5">
         <div className="absolute inset-0 bg-gradient-to-r from-primary/8 via-transparent to-primary/5 pointer-events-none" />
         <div className="relative z-10 max-w-[900px] mx-auto">
           <motion.p
@@ -250,7 +250,7 @@ export const ServiceDetailPage: React.FC<ServiceDetailPageProps> = ({
       </section>
 
       {/* How It Works */}
-      <section className="py-24 px-8 bg-[#1a1a1a] max-lg:py-16 max-md:py-12 max-md:px-5">
+      <section className="py-24 px-8 bg-secondary max-lg:py-16 max-md:py-12 max-md:px-5">
         <div className="max-w-[900px] mx-auto">
           <motion.div
             initial="hidden"

@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import type { LogoItem } from '../data/aboutContent';
+import type { LogoItem } from '../../shared/data/clientLogos';
 import ClientCarousel from '../../shared/components/ClientCarousel';
 
 interface ClientsSectionProps {
@@ -24,6 +24,6 @@ export const ClientsSection: React.FC<ClientsSectionProps> = ({ logos }) => (
       </h2>
     </motion.div>
 
-    <ClientCarousel logos={logos} size="compact" />
+    <ClientCarousel logos={logos} />
   </section>
 );

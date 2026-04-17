@@ -5,3 +5,6 @@ export const FOOTER_LAYOUT_CLASSES = {
   contact:
     'col-span-1 md:col-start-9 md:col-span-4 md:w-full md:justify-self-end',
 } as const;
+
+export const FOOTER_BRAND_COPY_CLASS =
+  'text-sm leading-relaxed text-white/50 max-w-xs mb-6 text-justify' as const;

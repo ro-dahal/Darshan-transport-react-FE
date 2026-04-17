@@ -71,7 +71,7 @@ test('assigns region hover info to the correct service areas', () => {
   assert.deepEqual(REGION_INFO.NPDH.items, ['Kushma', 'Beni', 'Baglung']);
   assert.deepEqual(REGION_INFO.NPLU.items, ['Dhawaha, Butwal']);
   assert.deepEqual(REGION_INFO.NPNA.items, [
-    'Yantra Sala Margha, Narayanghat',
+    'Chitwan',
     'Adarsh Nagar, Birgunj',
   ]);
   assert.ok(REGION_INFO.NPGA.items.includes('Damauli'));

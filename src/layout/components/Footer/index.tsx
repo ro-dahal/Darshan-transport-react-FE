@@ -12,7 +12,7 @@ import {
 } from 'react-icons/fa';
 import logo from '../../../assets/img/logo1.png';
 import { FOOTER_COLUMNS } from './footerLinks';
-import { FOOTER_LAYOUT_CLASSES } from './footerLayout';
+import { FOOTER_BRAND_COPY_CLASS, FOOTER_LAYOUT_CLASSES } from './footerLayout';
 import { CONTACT_CONFIG } from '../../../core/config/contactConfig';
 import { buildWhatsAppUrl } from '../../../core/utils/whatsapp';
 
@@ -69,7 +69,7 @@ export const Footer: React.FC = () => {
               decoding="async"
               className="h-14 w-auto mb-5"
             />
-            <p className="text-sm leading-relaxed text-white/50 max-w-xs mb-6">
+            <p className={FOOTER_BRAND_COPY_CLASS}>
               Nepal's trusted partner for warehousing, nationwide delivery, and
               3PL solutions. Reliable, safe, and on-time logistics for
               businesses of all sizes.

@@ -27,9 +27,9 @@ test('keeps the home reach list aligned with the corrected interactive-map label
 
   assert.ok(addresses.includes('Aabukhaireni'));
   assert.ok(addresses.includes('Waling'));
+  assert.ok(addresses.includes('Chitwan'));
   assert.ok(!addresses.includes('Abukhaireni'));
   assert.ok(!addresses.includes('Walling'));
-  assert.ok(!addresses.includes('Chitwan'));
 });
 
 test('splits the reach buttons into rows without dropping any map locations', () => {

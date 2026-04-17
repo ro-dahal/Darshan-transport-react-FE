@@ -5,6 +5,8 @@ export interface OfficeRow {
   contact: string;
   location: string;
   search: string;
+  mapTarget?: string;
+  mapZoom?: number;
 }
 
 export const BOOKING_OFFICES: OfficeRow[] = [
@@ -37,8 +39,8 @@ export const BOOKING_OFFICES: OfficeRow[] = [
     office: 'Branch Office',
     address: 'Yantra Sala Margha, Narayanghat',
     contact: '+977 9801914218 (211)',
-    location: 'Yantra Sala Margha, Narayanghat, Nepal',
-    search: 'Darshan Transport - Chitwan Branch',
+    location: 'Darshan Transport - Narayanghat Branch',
+    search: 'Darshan Transport - Chitwan Branch, MCXJ+Q45, Bharatpur 44200',
   },
   {
     sn: 5,
@@ -82,6 +84,8 @@ export const DELIVERY_OFFICES: OfficeRow[] = [
     contact: '+977 9801914215',
     location: 'Kushma, Nepal',
     search: 'Darshan Transport - Baglung Branch',
+    mapTarget: '28.2605875,83.605015625',
+    mapZoom: 17,
   },
   {
     sn: 5,
@@ -90,6 +94,8 @@ export const DELIVERY_OFFICES: OfficeRow[] = [
     contact: '+977 9801914220',
     location: 'Damauli, Nepal',
     search: 'Darshan Transport - Anbukhaireni Branch',
+    mapTarget: '7MV6WG3M+WHQ',
+    mapZoom: 17,
   },
   {
     sn: 6,
@@ -98,5 +104,7 @@ export const DELIVERY_OFFICES: OfficeRow[] = [
     contact: '+977 9801914223',
     location: 'Syangja, Nepal',
     search: 'Darshan Transport - Walling Branch',
+    mapTarget: '7MV5XQP8+4GV',
+    mapZoom: 17,
   },
 ];
