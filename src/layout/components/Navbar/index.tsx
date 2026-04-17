@@ -28,7 +28,7 @@ export const Navbar: React.FC = () => {
       className="fixed top-0 left-0 right-0 z-[1000] w-full will-change-transform transition-transform duration-300 ease-in-out"
     >
       {/* Glassmorphism bar */}
-      <div className="mx-auto flex items-center justify-between px-6 py-3 sm:px-10 lg:px-20 xl:px-[135px] bg-[#0d0d0d]/80 backdrop-blur-xl border-b border-white/[0.06]">
+      <div className="mx-auto flex items-center justify-between px-6 py-3 sm:px-10 lg:px-20 xl:px-[135px] bg-secondary/80 backdrop-blur-xl border-b border-white/[0.06]">
         {/* Logo */}
         <TransitionLink to="/" className="shrink-0">
           <img
@@ -123,7 +123,7 @@ export const Navbar: React.FC = () => {
                                 number,
                               ],
                             }}
-                            className="absolute top-[calc(100%+12px)] left-0 min-w-[260px] bg-[#141414]/95 backdrop-blur-xl border border-white/[0.08] rounded-xl shadow-[0_16px_48px_rgba(0,0,0,0.4)] py-2 z-[9999]"
+                            className="absolute top-[calc(100%+12px)] left-0 min-w-[260px] bg-secondary/95 backdrop-blur-xl border border-white/[0.08] rounded-xl shadow-[0_16px_48px_rgba(0,0,0,0.4)] py-2 z-[9999]"
                           >
                             {link.dropdown.map((item) => (
                               <li key={item.to}>
@@ -226,7 +226,7 @@ export const Navbar: React.FC = () => {
               duration: 0.25,
               ease: [0.4, 0, 0.2, 1] as [number, number, number, number],
             }}
-            className="md:hidden overflow-hidden bg-[#0d0d0d]/95 backdrop-blur-xl border-b border-white/[0.06]"
+            className="md:hidden overflow-hidden bg-secondary/95 backdrop-blur-xl border-b border-white/[0.06]"
           >
             <ul className="flex flex-col py-4 px-6">
               {NAV_LINKS.map((link, i) => {

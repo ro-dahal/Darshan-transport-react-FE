@@ -604,19 +604,19 @@ const Cta: React.FC = () => (
       <div className="absolute bottom-0 right-0 w-[300px] h-[300px] rounded-full bg-white/10 translate-x-1/2 translate-y-1/2" />
     </div>
     <div className="max-w-[1200px] mx-auto flex items-center justify-between gap-12 relative z-10 max-lg:flex-col max-lg:text-center">
-      <h2 className="text-[2.2rem] font-extrabold text-[#1a1a1a] leading-none lg:whitespace-nowrap max-md:text-[1.7rem]">
+      <h2 className="text-[2.2rem] font-extrabold text-secondary leading-none lg:whitespace-nowrap max-md:text-[1.7rem]">
         Ready for Reliable Logistics Across Nepal?
       </h2>
-      <div className="flex sm:flex-row flex-col gap-4 shrink-0 max-sm:w-full">
+      <div className="flex flex-col items-center gap-4 shrink-0 max-sm:w-full sm:flex-row sm:justify-center">
         <Link
           to="/get-quote"
-          className="bg-[#1a1a1a] text-white font-bold py-3.5 px-10 rounded-lg text-base transition-all duration-200 hover:bg-[#333] no-underline whitespace-nowrap text-center"
+          className="bg-secondary text-primary font-bold py-3.5 px-10 rounded-lg text-base transition-all duration-200 hover:bg-secondary/90 hover:text-primary-light no-underline whitespace-nowrap text-center"
         >
           Get a Quote
         </Link>
         <Link
           to="/contact"
-          className="bg-white text-[#1a1a1a] font-bold py-3.5 px-10 rounded-lg text-base transition-all duration-200 hover:bg-white/90 no-underline whitespace-nowrap text-center"
+          className="font-bold text-base text-secondary transition-colors duration-300 hover:text-secondary/70 no-underline whitespace-nowrap text-center"
         >
           Contact Us
         </Link>

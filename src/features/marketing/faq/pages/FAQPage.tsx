@@ -272,7 +272,7 @@ const ContactCta: React.FC = () => (
           <motion.h2
             variants={fadeUp}
             custom={1}
-            className="mt-3 text-[2rem] font-extrabold text-[#1a1a1a] max-md:text-[1.5rem]"
+            className="mt-3 text-[2rem] font-extrabold text-secondary max-md:text-[1.5rem]"
           >
             We&apos;re Here to Help
           </motion.h2>
@@ -286,7 +286,7 @@ const ContactCta: React.FC = () => (
                 <span className="text-sm font-bold uppercase w-14">
                   {opt.label}:
                 </span>
-                <span className="text-base font-semibold text-[#1a1a1a]">
+                <span className="text-base font-semibold text-secondary">
                   {opt.value}
                 </span>
               </a>

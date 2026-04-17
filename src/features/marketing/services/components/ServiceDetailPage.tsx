@@ -382,19 +382,19 @@ export const ServiceDetailPage: React.FC<ServiceDetailPageProps> = ({
           <div className="absolute bottom-0 right-0 w-[300px] h-[300px] rounded-full bg-white/10 translate-x-1/2 translate-y-1/2" />
         </div>
         <div className="max-w-[1200px] mx-auto flex items-center justify-between gap-8 relative z-10 max-md:flex-col max-md:text-center">
-          <h2 className="text-[2rem] font-extrabold text-[#1a1a1a] leading-[1.15] max-md:text-[1.6rem]">
+          <h2 className="text-[2rem] font-extrabold text-secondary leading-[1.15] max-md:text-[1.6rem]">
             Need this service for your business?
           </h2>
           <div className="flex gap-4 max-sm:flex-col max-sm:w-full">
             <Link
               to="/get-quote"
-              className="bg-[#1a1a1a] text-white font-bold py-4 px-8 rounded-lg text-base transition-all duration-200 hover:bg-[#333] no-underline max-sm:text-center"
+              className="bg-secondary text-primary font-bold py-4 px-8 rounded-lg text-base transition-all duration-200 hover:bg-secondary/90 hover:text-primary-light no-underline max-sm:text-center"
             >
               Get a Quote
             </Link>
             <Link
               to="/contact"
-              className="bg-white text-[#1a1a1a] font-bold py-4 px-8 rounded-lg text-base transition-all duration-200 hover:bg-white/90 no-underline max-sm:text-center"
+              className="bg-white text-secondary font-bold py-4 px-8 rounded-lg text-base transition-all duration-200 hover:bg-white/90 no-underline max-sm:text-center"
             >
               Contact Us
             </Link>

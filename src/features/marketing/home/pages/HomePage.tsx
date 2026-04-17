@@ -425,7 +425,7 @@ const ServicesSection: React.FC = () => (
       >
         <Link
           to="/services"
-          className="inline-flex items-center gap-2 bg-[#1a1a1a] text-white font-semibold py-3.5 px-8 rounded-lg hover:bg-[#333] transition-colors duration-200 no-underline"
+          className="inline-flex items-center gap-2 bg-[#1a1a1a] text-primary font-semibold py-3.5 px-8 rounded-lg hover:bg-[#333] hover:text-primary-light transition-colors duration-200 no-underline"
         >
           View All Services
           <span>→</span>
@@ -660,15 +660,15 @@ const TestimonialsSection: React.FC = () => (
           <motion.div
             key={i}
             variants={scaleIn}
-            className="bg-white rounded-xl p-8 border border-gray-100 shadow-sm hover:shadow-lg transition-shadow duration-300 relative"
+            className="relative flex h-full flex-col rounded-xl border border-gray-100 bg-white p-8 shadow-sm transition-shadow duration-300 hover:shadow-lg"
           >
             <div className="text-primary text-5xl font-serif leading-none mb-4 opacity-30">
               "
             </div>
-            <p className="text-text-medium text-sm leading-relaxed mb-6">
+            <p className="mb-6 flex-1 text-sm leading-relaxed text-text-medium">
               {rev.quote}
             </p>
-            <div className="flex items-center gap-3 pt-4 border-t border-gray-100">
+            <div className="mt-auto flex items-center gap-3 border-t border-gray-100 pt-4">
               <div className="w-10 h-10 rounded-full overflow-hidden border-2 border-primary/20">
                 <img
                   src={rev.image}
@@ -696,29 +696,29 @@ const TestimonialsSection: React.FC = () => (
 const CtaSection: React.FC = () => (
   <section className="relative py-14 px-8 bg-primary overflow-hidden max-md:py-12 max-md:px-5">
     <div className="absolute inset-0 opacity-10">
-      <div className="absolute top-0 left-0 w-[40%] h-full bg-gradient-to-r from-black/20 to-transparent" />
+      <div className="absolute top-0 left-0 w-[40%] h-full bg-gradient-to-r from-secondary/20 to-transparent" />
       <div className="absolute bottom-0 right-0 w-[300px] h-[300px] rounded-full bg-white/10 translate-x-1/2 translate-y-1/2" />
     </div>
     <div className="max-w-[1200px] mx-auto flex items-center justify-between gap-12 relative z-10 max-lg:flex-col max-lg:text-center">
       <div>
-        <h2 className="text-[2.2rem] font-extrabold text-[#1a1a1a] leading-none lg:whitespace-nowrap max-md:text-[1.7rem]">
+        <h2 className="text-[2.2rem] font-extrabold text-secondary leading-none lg:whitespace-nowrap max-md:text-[1.7rem]">
           Need Reliable Bulk Transport Across Nepal?
         </h2>
-        <p className="mt-3 text-white text-[1.1rem] font-medium leading-relaxed max-w-[600px] max-lg:mx-auto max-md:text-[1rem]">
+        <p className="mt-3 text-secondary/70 text-[1.1rem] font-medium leading-relaxed max-w-[600px] max-lg:mx-auto max-md:text-[1rem]">
           Talk to Darshan Transport for full-truck shipments, warehousing, and
           business logistics support.
         </p>
       </div>
-      <div className="flex sm:flex-row flex-col gap-4 shrink-0 max-sm:w-full">
+      <div className="flex flex-col items-center gap-4 shrink-0 max-sm:w-full sm:flex-row sm:justify-center">
         <Link
           to="/get-quote"
-          className="bg-[#1a1a1a] text-white font-bold py-3.5 px-10 rounded-lg text-base transition-all duration-200 hover:bg-[#333] no-underline whitespace-nowrap text-center"
+          className="bg-secondary text-primary font-bold py-3.5 px-10 rounded-lg text-base transition-all duration-200 hover:bg-secondary/90 hover:text-primary-light no-underline whitespace-nowrap text-center"
         >
           Get a Quote
         </Link>
         <Link
           to="/contact"
-          className="bg-white text-[#1a1a1a] font-bold py-3.5 px-10 rounded-lg text-base transition-all duration-200 hover:bg-white/90 no-underline whitespace-nowrap text-center"
+          className="font-bold text-base text-secondary transition-colors duration-300 hover:text-secondary/70 no-underline whitespace-nowrap text-center"
         >
           Contact Us
         </Link>

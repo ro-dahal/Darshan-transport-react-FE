@@ -72,13 +72,17 @@
   html {
     margin: 0;
     padding: 0;
-    background: #1a1a1a; /* Match navbar to hide top line/gap artifacts */
+    background: var(
+      --color-secondary
+    ); /* Match navbar to hide top line/gap artifacts */
     overflow-x: hidden;
   }
 
   body {
     margin: 0;
-    background: #1a1a1a; /* Match navbar to hide hairline rendering artifacts */
+    background: var(
+      --color-secondary
+    ); /* Match navbar to hide hairline rendering artifacts */
     color: var(--color-text-dark);
     padding-top: var(--head-height, 90px);
     overflow-x: hidden;

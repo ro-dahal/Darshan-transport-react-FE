@@ -77,10 +77,10 @@ export const CoreValuesSection: React.FC<CoreValuesSectionProps> = ({
             key={value.title}
             variants={cardVariants}
             custom={index}
-            className="group relative bg-white rounded-2xl p-7 border border-gray-100 hover:border-primary/30 shadow-[0_1px_3px_rgba(0,0,0,0.04)] hover:shadow-[0_12px_40px_rgba(252,175,23,0.1)] transition-all duration-500 max-sm:p-5"
+            className="group relative overflow-hidden bg-white rounded-2xl p-7 border border-gray-100 hover:border-primary/30 shadow-[0_1px_3px_rgba(0,0,0,0.04)] hover:shadow-[0_12px_40px_rgba(252,175,23,0.1)] transition-all duration-500 max-sm:p-5"
           >
             {/* Top accent bar */}
-            <div className="absolute top-0 left-0 right-0 h-[3px] rounded-t-2xl bg-gradient-to-r from-primary/0 via-primary/0 to-primary/0 group-hover:from-primary/60 group-hover:via-primary group-hover:to-primary/60 transition-all duration-500" />
+            <div className="absolute left-5 right-5 top-4 h-[3px] rounded-full bg-gradient-to-r from-primary/0 via-primary/0 to-primary/0 group-hover:from-primary/60 group-hover:via-primary group-hover:to-primary/60 transition-all duration-500 max-sm:left-4 max-sm:right-4 max-sm:top-3.5" />
 
             {/* Step number watermark */}
             <span className="absolute top-4 right-5 text-[3.5rem] font-black text-gray-100 leading-none select-none pointer-events-none group-hover:text-primary/8 transition-colors duration-500">

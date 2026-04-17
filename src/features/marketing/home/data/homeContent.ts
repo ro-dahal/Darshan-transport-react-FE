@@ -100,22 +100,22 @@ export const HOME_REVIEW_TESTIMONIALS: ReviewTestimonial[] = [
     image: person1,
     quote:
       '"Reliable bulk transport. Our shipments arrive on time and the coordination is always smooth."',
-    name: 'FMCG Distributor',
+    name: 'United Distributors Nepal Pvt. Ltd.',
     company: 'Kathmandu',
   },
   {
     image: person3,
     quote:
       '"We move goods regularly, and Darshan Transport has made the process more consistent and easier to manage."',
-    name: 'Retail Supply Partner',
-    company: 'Pokhara',
+    name: 'Triveni Byapar Company Pvt. Ltd.',
+    company: 'Birgunj',
   },
   {
     image: person1,
     quote:
       '"Good handling, fair pricing, and dependable pickup support for recurring deliveries."',
-    name: 'Business Customer',
-    company: 'Lalitpur',
+    name: 'Dabur Nepal Pvt. Ltd.',
+    company: 'Birgunj',
   },
 ];
 

@@ -12,6 +12,7 @@ import {
 } from 'react-icons/fa';
 import logo from '../../../assets/img/logo1.png';
 import { FOOTER_COLUMNS } from './footerLinks';
+import { FOOTER_LAYOUT_CLASSES } from './footerLayout';
 import { CONTACT_CONFIG } from '../../../core/config/contactConfig';
 import { buildWhatsAppUrl } from '../../../core/utils/whatsapp';
 
@@ -43,7 +44,7 @@ export const Footer: React.FC = () => {
   const contactLinks = connectCol.links.filter((l) => !SOCIAL_ICONS[l.label]);
 
   return (
-    <footer className="relative bg-[#0a0a0a] text-white overflow-hidden">
+    <footer className="relative bg-secondary text-white overflow-hidden">
       {/* Top accent line */}
       <div className="h-px bg-gradient-to-r from-transparent via-primary/40 to-transparent" />
 
@@ -53,13 +54,13 @@ export const Footer: React.FC = () => {
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, margin: '-60px' }}
-          className="grid gap-y-12 gap-x-10 grid-cols-[auto_1fr] md:grid-cols-12 md:gap-x-12"
+          className={FOOTER_LAYOUT_CLASSES.grid}
         >
           {/* Brand column */}
           <motion.div
             custom={0}
             variants={fadeUp}
-            className="col-span-2 md:col-span-6"
+            className={FOOTER_LAYOUT_CLASSES.brand}
           >
             <img
               src={logo}
@@ -101,7 +102,7 @@ export const Footer: React.FC = () => {
           <motion.div
             custom={1}
             variants={fadeUp}
-            className="col-span-1 md:col-span-2"
+            className={FOOTER_LAYOUT_CLASSES.company}
           >
             <h4 className="text-xs font-bold uppercase tracking-[3px] text-white/40 mb-5">
               {companyCol.title}
@@ -133,7 +134,7 @@ export const Footer: React.FC = () => {
           <motion.div
             custom={2}
             variants={fadeUp}
-            className="col-span-1 md:col-span-4"
+            className={FOOTER_LAYOUT_CLASSES.contact}
           >
             <h4 className="text-xs font-bold uppercase tracking-[3px] text-white/40 mb-5">
               Get In Touch
@@ -145,7 +146,12 @@ export const Footer: React.FC = () => {
                   className="flex items-start gap-3 text-sm text-white/60 transition-colors duration-200 hover:text-primary no-underline group"
                 >
                   <FaPhoneAlt className="h-4 w-4 mt-0.5 shrink-0 text-primary/60 group-hover:text-primary transition-colors" />
-                  <span>{CONTACT_CONFIG.phoneDisplay}</span>
+                  <span>
+                    <span className="block">{CONTACT_CONFIG.phoneDisplay}</span>
+                    <span className="mt-1 block text-white/60">
+                      ({CONTACT_CONFIG.phoneHours})
+                    </span>
+                  </span>
                 </a>
               </li>
               <li>
