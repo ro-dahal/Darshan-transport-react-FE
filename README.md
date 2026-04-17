@@ -37,6 +37,12 @@ npm install
 npm run dev
 ```
 
+### Run tests
+
+```bash
+npm test
+```
+
 ### Production build
 
 ```bash
@@ -54,9 +60,11 @@ npm run preview
 Set the backend base URL through environment variables (fallbacks to same-origin when unset or pointing to localhost while deployed remotely):
 
 ```bash
-# .env.production
+# .env.local
 VITE_API_BASE_URL=https://your-backend-domain
 ```
+
+Use `.env.example` as the template for local overrides. The tracked repo should not carry environment-specific `.env` files.
 
 The API client guards against invalid URLs and ignores `localhost` overrides when the site runs on a non-local domain.
 
@@ -93,9 +101,11 @@ The application is heavily optimized for fast loading on 3G networks and high-la
 
 We provide several utilities to maintain performance:
 
-- `npm run optimize-images`: Runs the custom `sharp` script to compress/batch-convert images to WebP.
+- `npm run build`: Creates the production bundle without mutating tracked source assets.
+- `npm run optimize-images`: Runs the custom `sharp` script to compress/batch-convert images to WebP when you intentionally refresh generated assets.
 - `npm run generate-pwa-icons`: Re-generates standardized PWA icons from the base logo.
 - `npm run download-fonts`: Utility to fetch and host fonts locally.
+- `npm test`: Runs the Node-based TypeScript test suite.
 - `npm run format`: Automatically formats the codebase using Prettier.
 - `npm run format:check`: Verifies code formatting without applying changes.
 

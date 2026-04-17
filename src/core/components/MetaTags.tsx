@@ -1,5 +1,10 @@
 import React from 'react';
 import { Helmet } from 'react-helmet-async';
+import {
+  resolveMetaUrl,
+  type JsonLdObject,
+  type JsonLdValue,
+} from './metaTagsUtils';
 
 interface MetaTagsProps {
   title?: string;
@@ -12,7 +17,7 @@ interface MetaTagsProps {
   /** Whether to tell search engines NOT to index this page (e.g. for error pages). */
   noindex?: boolean;
   /** Optional JSON-LD structured data for rich search results. */
-  structuredData?: object;
+  structuredData?: JsonLdObject | JsonLdValue[];
 }
 
 /**
@@ -24,12 +29,16 @@ export const MetaTags: React.FC<MetaTagsProps> = ({
   title = 'Darshan Transport | Fast & Reliable Logistics in Nepal',
   description = 'Moving your products anywhere in Nepal with speed and reliability. Tracking, logistics, and supply chain solutions.',
   image = '/LogoTab.png',
-  url = window.location.href,
+  url,
   type = 'website',
   canonical,
   noindex = false,
   structuredData,
 }) => {
+  const resolvedUrl = resolveMetaUrl(
+    url,
+    typeof window !== 'undefined' ? window.location.href : undefined
+  );
   const fullTitle = title.includes('Darshan')
     ? title
     : `${title} | Darshan Transport`;
@@ -53,14 +62,14 @@ export const MetaTags: React.FC<MetaTagsProps> = ({
 
       {/* Open Graph / Facebook */}
       <meta property="og:type" content={type} />
-      <meta property="og:url" content={url} />
+      <meta property="og:url" content={resolvedUrl} />
       <meta property="og:title" content={fullTitle} />
       <meta property="og:description" content={description} />
       <meta property="og:image" content={image} />
 
       {/* Twitter */}
       <meta property="twitter:card" content="summary_large_image" />
-      <meta property="twitter:url" content={url} />
+      <meta property="twitter:url" content={resolvedUrl} />
       <meta property="twitter:title" content={fullTitle} />
       <meta property="twitter:description" content={description} />
       <meta property="twitter:image" content={image} />

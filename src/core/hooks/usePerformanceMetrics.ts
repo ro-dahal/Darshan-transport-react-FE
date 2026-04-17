@@ -9,8 +9,18 @@ import { useEffect } from 'react';
  */
 export const usePerformanceMetrics = (pageName: string) => {
   useEffect(() => {
+    if (!import.meta.env.DEV) {
+      return undefined;
+    }
+
     // Only run in browser environments that support the Performance API
-    if (typeof window === 'undefined' || !window.performance) return;
+    if (typeof window === 'undefined' || !window.performance) {
+      return undefined;
+    }
+
+    let retryTimeoutId: number | null = null;
+    let loadTimeoutId: number | null = null;
+    let removeLoadListener: (() => void) | null = null;
 
     const captureMetrics = () => {
       // Use the Navigation Timing API
@@ -23,7 +33,7 @@ export const usePerformanceMetrics = (pageName: string) => {
       // Ensure loadEventEnd has completed (if not, we might get 0)
       if (nav.loadEventEnd <= 0) {
         // Retry in a moment if page is still loading
-        setTimeout(captureMetrics, 1000);
+        retryTimeoutId = window.setTimeout(captureMetrics, 1000);
         return;
       }
 
@@ -42,14 +52,12 @@ export const usePerformanceMetrics = (pageName: string) => {
 
       // In a real production app, you would send this to an analytics endpoint
       // For now, we log it to the console in a structured format for monitoring
-      if (process.env.NODE_ENV === 'development') {
-        // eslint-disable-next-line no-console
-        console.groupCollapsed(`⚡ [Performance] ${pageName}`);
-        // eslint-disable-next-line no-console
-        console.table(metrics);
-        // eslint-disable-next-line no-console
-        console.groupEnd();
-      }
+      // eslint-disable-next-line no-console
+      console.groupCollapsed(`⚡ [Performance] ${pageName}`);
+      // eslint-disable-next-line no-console
+      console.table(metrics);
+      // eslint-disable-next-line no-console
+      console.groupEnd();
     };
 
     // Use requestIdleCallback to avoid blocking the main thread
@@ -61,7 +69,7 @@ export const usePerformanceMetrics = (pageName: string) => {
       // Fallback for browsers without requestIdleCallback
       const handleLoad = () => {
         // Delay slightly to ensure loadEventEnd is populated
-        setTimeout(captureMetrics, 500);
+        loadTimeoutId = window.setTimeout(captureMetrics, 500);
       };
 
       if (document.readyState === 'complete') {
@@ -69,8 +77,20 @@ export const usePerformanceMetrics = (pageName: string) => {
       } else {
         const win = window as Window;
         win.addEventListener('load', handleLoad);
-        return () => win.removeEventListener('load', handleLoad);
+        removeLoadListener = () => win.removeEventListener('load', handleLoad);
       }
     }
+
+    return () => {
+      if (retryTimeoutId !== null) {
+        window.clearTimeout(retryTimeoutId);
+      }
+
+      if (loadTimeoutId !== null) {
+        window.clearTimeout(loadTimeoutId);
+      }
+
+      removeLoadListener?.();
+    };
   }, [pageName]);
 };

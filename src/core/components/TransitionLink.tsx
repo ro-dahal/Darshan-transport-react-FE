@@ -1,6 +1,7 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useTransition } from '../hooks/useTransition';
+import { getTransitionNavigationMode } from './transitionLinkUtils';
 
 interface TransitionLinkProps extends React.AnchorHTMLAttributes<HTMLAnchorElement> {
   to: string;
@@ -19,32 +20,44 @@ export const TransitionLink: React.FC<TransitionLinkProps> = ({
   const { startTransition } = useTransition();
 
   const handleClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
-    e.preventDefault();
     if (onClick) {
       onClick(e);
     }
 
-    // Check if it's the current page (ignoring hash) to avoid redundant transitions
-    // OR if it's a hash link on the same page
-    const currentPath = window.location.pathname;
-    const targetPath = to.split('#')[0] || '/';
-
-    if (currentPath === targetPath && to.includes('#')) {
-      // Allow default behavior (or simple navigation) for anchors on same page
-      // But we preventDefault above. So we must handle it or return early to let caller handle it?
-      // Since `handleClick` calls `e.preventDefault()`, we can just fallback to `navigate(to)` WITHOUT transition
-      // essentially instant jump/scroll.
-      navigate(to);
+    if (e.defaultPrevented) {
       return;
     }
 
-    if (window.location.pathname === to) {
-      return;
-    }
-
-    startTransition(() => {
-      navigate(to);
+    const navigationMode = getTransitionNavigationMode({
+      currentPathname: window.location.pathname,
+      to,
+      target: props.target,
+      download: props.download,
+      event: {
+        button: e.button,
+        metaKey: e.metaKey,
+        altKey: e.altKey,
+        ctrlKey: e.ctrlKey,
+        shiftKey: e.shiftKey,
+      },
     });
+
+    if (navigationMode === 'browser') {
+      return;
+    }
+
+    e.preventDefault();
+
+    if (navigationMode === 'ignore') {
+      return;
+    }
+
+    if (navigationMode === 'instant') {
+      navigate(to);
+      return;
+    }
+
+    startTransition(() => navigate(to));
   };
 
   return (

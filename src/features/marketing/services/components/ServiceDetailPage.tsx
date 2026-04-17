@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { MetaTags } from '../../../../core/components/MetaTags';
+import type { JsonLdObject } from '../../../../core/components/metaTagsUtils';
 
 const fadeUp = {
   hidden: { opacity: 0, y: 40 },
@@ -50,7 +51,7 @@ export interface ServicePageData {
   coverage: string;
   processSteps: string[];
   faq: ServicePageFAQ[];
-  structuredData: object;
+  structuredData: JsonLdObject;
 }
 
 interface ServiceDetailPageProps {

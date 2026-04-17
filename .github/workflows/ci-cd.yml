@@ -35,6 +35,9 @@ jobs:
       - name: Lint code (fail on warnings)
         run: npx eslint --config eslint.config.js "src/**/*.{ts,tsx,js,jsx}" --max-warnings=0
 
+      - name: Run tests
+        run: npm test
+
       - name: Build
         run: npm run build
 

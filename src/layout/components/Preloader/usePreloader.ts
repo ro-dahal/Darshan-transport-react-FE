@@ -6,20 +6,11 @@ export function usePreloader() {
   const [hidden, setHidden] = useState(false);
   const location = useLocation();
   const { isTransitioning } = useTransition();
-  const [lastPathname, setLastPathname] = useState(location.pathname);
+  const lastPathnameRef = useRef(location.pathname);
 
   const initialTimerRef = useRef<number | null>(null);
   const navTimerRef = useRef<number | null>(null);
   const firstLoadRef = useRef(true);
-
-  // Synchronously show preloader when route changes during render
-  // This is a safety net, but TransitionContext should handle the primary fade-in
-  if (location.pathname !== lastPathname) {
-    setLastPathname(location.pathname);
-    if (!firstLoadRef.current) {
-      // Logic handled by effect below/context
-    }
-  }
 
   // Effect to handle manual transition trigger (Fade In)
   useEffect(() => {
@@ -27,6 +18,18 @@ export function usePreloader() {
       setHidden(false);
     }
   }, [isTransitioning]);
+
+  useEffect(() => {
+    if (location.pathname === lastPathnameRef.current) {
+      return;
+    }
+
+    lastPathnameRef.current = location.pathname;
+
+    if (!firstLoadRef.current) {
+      setHidden(false);
+    }
+  }, [location.pathname]);
 
   useEffect(() => {
     // Initial load timer (500ms)
@@ -66,7 +69,7 @@ export function usePreloader() {
         window.clearTimeout(navTimerRef.current);
       }
     };
-  }, [location, isTransitioning]);
+  }, [location.pathname, isTransitioning]);
 
   return { hidden };
 }
