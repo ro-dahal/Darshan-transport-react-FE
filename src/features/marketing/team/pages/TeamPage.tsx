@@ -719,7 +719,7 @@ const TEAM_DEPARTMENTS: Department[] = [
   {
     department: 'Operations & Dispatch',
     description:
-      'The backbone of daily cargo movement — coordinating pickups, bookings, and dispatches across Nepal.',
+      'The backbone of daily cargo movement, coordinating pickups, bookings, and dispatches across Nepal.',
     icon: '🚛',
     members: [
       { name: 'Anita Shrestha', role: 'Dispatch & Delivery Coordinator' },
@@ -845,7 +845,7 @@ const TEAM_PAGE_STRUCTURED_DATA = {
   name: 'Our Team - Darshan Transport',
   url: 'https://darshantransport.com/team',
   description:
-    'Meet the dedicated team behind Darshan Transport — 45+ professionals driving logistics excellence across Nepal.',
+    'Meet the dedicated team behind Darshan Transport: 45+ professionals driving logistics excellence across Nepal.',
   publisher: {
     '@type': 'Organization',
     name: 'Darshan Transport',
@@ -913,7 +913,7 @@ const HeroSection: React.FC = () => {
           className="mt-5 text-white/60 text-lg max-w-[520px] leading-relaxed max-md:text-base"
         >
           {TOTAL_MEMBERS}+ dedicated professionals ensuring your cargo reaches
-          its destination safely — across every route in Nepal.
+          its destination safely across every route in Nepal.
         </motion.p>
       </div>
     </section>

@@ -137,7 +137,7 @@ export const MissionVision: React.FC = () => (
           <p className="mt-4 text-white/55 text-base leading-[1.85] max-w-[520px]">
             We focus on clear planning, efficient transport coordination, and
             reliable delivery execution. Our logistics systems are designed for
-            ongoing cargo movement — not one-time deliveries.
+            ongoing cargo movement, not one-time deliveries.
           </p>
         </motion.div>
       </motion.div>

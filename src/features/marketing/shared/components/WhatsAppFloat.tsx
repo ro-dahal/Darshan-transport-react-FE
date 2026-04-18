@@ -52,7 +52,7 @@ const WhatsAppFloat: React.FC<WhatsAppFloatProps> = ({
         if (hero) {
           attachIntersection(hero);
         } else {
-          // No hero on this page — show button
+          // No hero on this page, so show button
           setIsVisible(true);
           // Watch in case a hero mounts slightly later (lazy routes, etc.)
           mutationObserver = new MutationObserver(() => {
