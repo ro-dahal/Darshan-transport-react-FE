@@ -6,7 +6,7 @@ import { fileURLToPath } from 'url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-const inputPath = path.join(__dirname, 'src/assets/img/LogoTab.png');
+const inputPath = path.join(__dirname, 'src/assets/shared/brand/logo-tab.png');
 const outputDir = path.join(__dirname, 'public');
 
 if (!fs.existsSync(outputDir)) {

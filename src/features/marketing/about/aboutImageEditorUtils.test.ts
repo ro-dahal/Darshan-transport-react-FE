@@ -1,16 +1,16 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
 
+import { normalizeImageTransform } from '../shared/dev-image-editor/imageTransformUtils.ts';
 import {
   EMPTY_ABOUT_IMAGE_TRANSFORM_OVERRIDES,
-  normalizeAboutImageTransform,
   parseStoredAboutImageOverrides,
   setAboutImageOverride,
 } from './aboutImageEditorUtils.ts';
 
 test('normalizes about image transforms into the supported bounds', () => {
   assert.deepEqual(
-    normalizeAboutImageTransform({
+    normalizeImageTransform({
       xPercent: 72.239,
       yPercent: -80.555,
       scale: 9,
@@ -24,7 +24,7 @@ test('normalizes about image transforms into the supported bounds', () => {
 });
 
 test('removes an about image override when it matches the default transform', () => {
-  const defaultTransform = normalizeAboutImageTransform({
+  const defaultTransform = normalizeImageTransform({
     xPercent: 5,
     yPercent: -4,
     scale: 1.2,
@@ -34,7 +34,7 @@ test('removes an about image override when it matches the default transform', ()
     setAboutImageOverride(
       {
         founderPortraits: {
-          founder: normalizeAboutImageTransform({
+          founder: normalizeImageTransform({
             xPercent: 22,
             yPercent: 14,
             scale: 1.5,

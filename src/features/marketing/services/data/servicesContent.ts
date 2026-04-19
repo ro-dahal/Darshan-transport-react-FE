@@ -1,6 +1,6 @@
-import bgImage from '../../../../assets/img/optimized/services-hero-desktop.webp';
-import bgImageMobile from '../../../../assets/img/optimized/services-hero-mobile.webp';
-import parcelCourierDeliveryIcon from '../../../../assets/img/service-parcel-courier-delivery.png';
+import bgImage from '@assets/generated/marketing/services/services-hero-desktop.webp';
+import bgImageMobile from '@assets/generated/marketing/services/services-hero-mobile.webp';
+import parcelCourierDeliveryIcon from '@assets/shared/icons/parcel-courier-delivery.png';
 
 export interface ServiceCard {
   icon: string;

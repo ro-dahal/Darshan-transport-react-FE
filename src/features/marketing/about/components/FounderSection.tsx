@@ -92,6 +92,7 @@ export const FounderSection: React.FC<FounderSectionProps> = ({
             ? devEditor.getTransform(selection)
             : selection.defaultTransform;
           const isSelected = devEditor?.isSelected(selection) ?? false;
+          const isDragging = devEditor?.isDragging(selection) ?? false;
 
           const handlePointerDown = (
             event: React.PointerEvent<HTMLDivElement>
@@ -131,18 +132,22 @@ export const FounderSection: React.FC<FounderSectionProps> = ({
                   />
                   <div
                     onPointerDown={handlePointerDown}
-                    className={`relative overflow-hidden rounded-2xl bg-gray-100 shadow-lg ${
+                    className={`group relative overflow-hidden rounded-2xl border bg-gray-100 select-none transition-all duration-500 ${
                       devEditor?.isEnabled
-                        ? isSelected
-                          ? 'cursor-grab ring-2 ring-primary/30'
-                          : 'cursor-pointer'
-                        : ''
+                        ? isDragging
+                          ? 'cursor-grabbing border-primary/70 ring-2 ring-primary/40 shadow-[0_24px_70px_rgba(0,0,0,0.18)]'
+                          : isSelected
+                            ? 'cursor-grab border-primary/60 ring-2 ring-primary/30 shadow-[0_20px_60px_rgba(0,0,0,0.15)]'
+                            : 'cursor-pointer border-gray-200 shadow-[0_18px_50px_rgba(0,0,0,0.12)] hover:-translate-y-1 hover:shadow-[0_24px_65px_rgba(0,0,0,0.16)]'
+                        : 'border-gray-200 shadow-[0_18px_50px_rgba(0,0,0,0.12)]'
                     }`}
                   >
                     <img
                       src={profile.image}
                       alt={`${profile.signatureLabel} portrait`}
-                      className="w-full aspect-[4/5] object-cover"
+                      className={`aspect-[4/5] w-full object-cover transition-transform duration-700 ${
+                        !isDragging ? 'group-hover:scale-[1.02]' : ''
+                      }`}
                       style={getAboutImageTransformStyle(effectiveTransform)}
                       loading="lazy"
                       decoding="async"

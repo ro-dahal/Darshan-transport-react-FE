@@ -9,6 +9,7 @@ import {
 import { HeroSection } from '../components/HeroSection';
 import { StorySection } from '../components/StorySection';
 import { MissionVision } from '../components/MissionVision';
+import { ApproachStorySection } from '../components/ApproachStorySection';
 import { CoreValuesSection } from '../components/CoreValuesSection';
 import { FounderSection } from '../components/FounderSection';
 import { StatsBanner } from '../components/StatsBanner';
@@ -29,7 +30,7 @@ import {
   parseStoredAboutImageOverrides,
   setAboutImageOverride,
 } from '../aboutImageEditorUtils';
-import companyHeroImage from '../../../../assets/img/company-hero-logistics-yard.jpg';
+import companyHeroImage from '@assets/marketing/shared/company-hero-logistics-yard.jpg';
 
 const ABOUT_PAGE_STRUCTURED_DATA = {
   '@context': 'https://schema.org',
@@ -119,6 +120,11 @@ export const AboutPage: React.FC = () => {
       return;
     }
 
+    const previousUserSelect = document.body.style.userSelect;
+    const previousCursor = document.body.style.cursor;
+    document.body.style.userSelect = 'none';
+    document.body.style.cursor = 'grabbing';
+
     const handlePointerMove = (event: PointerEvent) => {
       const deltaX = event.clientX - activeDragState.pointerStartX;
       const deltaY = event.clientY - activeDragState.pointerStartY;
@@ -144,6 +150,8 @@ export const AboutPage: React.FC = () => {
     window.addEventListener('pointerup', stopDragging);
 
     return () => {
+      document.body.style.userSelect = previousUserSelect;
+      document.body.style.cursor = previousCursor;
       window.removeEventListener('pointermove', handlePointerMove);
       window.removeEventListener('pointerup', stopDragging);
     };
@@ -208,6 +216,9 @@ export const AboutPage: React.FC = () => {
           isSelected: (selection) =>
             selectedTarget?.kind === selection.kind &&
             selectedTarget.targetId === selection.targetId,
+          isDragging: (selection) =>
+            activeDragState?.selection.kind === selection.kind &&
+            activeDragState.selection.targetId === selection.targetId,
           selectTarget: (selection) => {
             setSelectedTarget(selection);
             setNotice(null);
@@ -243,6 +254,7 @@ export const AboutPage: React.FC = () => {
       <HeroSection
         imageTransform={devEditor?.getTransform(ABOUT_HERO_SELECTION)}
         isImageSelected={devEditor?.isSelected(ABOUT_HERO_SELECTION)}
+        isImageDragging={devEditor?.isDragging(ABOUT_HERO_SELECTION)}
         onImagePointerDown={
           devEditor
             ? (event) => {
@@ -265,6 +277,7 @@ export const AboutPage: React.FC = () => {
         animationSrc={ABOUT_ASSETS.animation}
       />
       <MissionVision />
+      <ApproachStorySection />
       <CoreValuesSection values={ABOUT_CORE_VALUES} />
       <FounderSection profiles={ABOUT_FOUNDERS} devEditor={devEditor} />
       <StatsBanner />

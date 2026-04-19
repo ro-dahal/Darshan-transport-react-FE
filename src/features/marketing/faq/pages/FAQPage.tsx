@@ -3,7 +3,7 @@ import { motion } from 'framer-motion';
 import { FaChevronDown } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 import { MetaTags } from '../../../../core/components/MetaTags';
-import supportIllustration from '../../../../assets/img/faq-support-illustration.png';
+import supportIllustration from '@assets/shared/icons/faq-support-illustration.png';
 
 type FAQCategory = 'Services' | 'Operations' | 'Support';
 type FAQFilter = 'All' | FAQCategory;

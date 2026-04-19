@@ -1,6 +1,6 @@
 import React, { useEffect, useId, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
-import tooltipImage from '../../../assets/img/CheckDeliveryStatusToolTip.jpg';
+import tooltipImage from '@assets/order-tracking/check-delivery-status-tooltip.jpg';
 import {
   getInvoiceTooltipPosition,
   type InvoiceTooltipPosition,

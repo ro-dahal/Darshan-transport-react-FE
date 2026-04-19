@@ -1,14 +1,14 @@
 import type { AboutImageTransform } from '../aboutImageEditorUtils';
-import gifOperations from '../../../../assets/img/optimized/operations-illustration.webp';
-import nepalMap from '../../../../assets/img/optimized/nepal-coverage-map.webp';
-import parcelCourierDeliveryIcon from '../../../../assets/img/service-parcel-courier-delivery.png';
-import builtForHeavyLoadsIcon from '../../../../assets/img/value-built-for-heavy-loads.png';
-import strongNationwideNetworkIcon from '../../../../assets/img/value-strong-nationwide-network.png';
-import ontimeConsistentDeliveryIcon from '../../../../assets/img/value-on-time-consistent-delivery.png';
-import safeProfessionalHandlingIcon from '../../../../assets/img/value-safe-professional-handling.png';
-import businessCentricOperationIcon from '../../../../assets/img/value-business-centric-operations.png';
-import person1 from '../../../../assets/img/optimized/ServicePage_HariBahadurShresta_ServicePage.webp';
-import person2 from '../../../../assets/img/optimized/ServicePage_ArunShrestha.webp';
+import gifOperations from '@assets/generated/marketing/shared/operations-illustration.webp';
+import nepalMap from '@assets/generated/marketing/shared/nepal-coverage-map.webp';
+import parcelCourierDeliveryIcon from '@assets/shared/icons/parcel-courier-delivery.png';
+import builtForHeavyLoadsIcon from '@assets/shared/icons/value-built-for-heavy-loads.png';
+import strongNationwideNetworkIcon from '@assets/shared/icons/value-strong-nationwide-network.png';
+import ontimeConsistentDeliveryIcon from '@assets/shared/icons/value-on-time-consistent-delivery.png';
+import safeProfessionalHandlingIcon from '@assets/shared/icons/value-safe-professional-handling.png';
+import businessCentricOperationIcon from '@assets/shared/icons/value-business-centric-operations.png';
+import person1 from '@assets/marketing/about/service-page-hari-bahadur-shrestha.jpg';
+import person2 from '@assets/marketing/about/service-page-arun-shrestha.jpg';
 import { CLIENT_LOGOS, type LogoItem } from '../../shared/data/clientLogos';
 
 export interface StatItem {

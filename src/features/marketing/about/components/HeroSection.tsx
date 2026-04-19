@@ -5,17 +5,19 @@ import {
   getAboutImageTransformStyle,
   normalizeAboutImageTransform,
 } from '../aboutImageEditorUtils';
-import headerBg from '../../../../assets/img/company-hero-logistics-yard.jpg';
+import headerBg from '@assets/marketing/shared/company-hero-logistics-yard.jpg';
 
 interface HeroSectionProps {
   imageTransform?: AboutImageTransform;
   isImageSelected?: boolean;
+  isImageDragging?: boolean;
   onImagePointerDown?: (event: React.PointerEvent<HTMLDivElement>) => void;
 }
 
 export const HeroSection: React.FC<HeroSectionProps> = ({
   imageTransform,
   isImageSelected = false,
+  isImageDragging = false,
   onImagePointerDown,
 }) => {
   const ref = useRef<HTMLDivElement>(null);
@@ -46,10 +48,12 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
       {onImagePointerDown ? (
         <div
           onPointerDown={onImagePointerDown}
-          className={`absolute inset-0 z-[1] ${
-            isImageSelected
-              ? 'cursor-grab ring-2 ring-inset ring-primary/35'
-              : 'cursor-pointer'
+          className={`absolute inset-0 z-[1] select-none transition-all duration-300 ${
+            isImageDragging
+              ? 'cursor-grabbing border border-primary/70 bg-primary/[0.03] ring-2 ring-inset ring-primary/40'
+              : isImageSelected
+                ? 'cursor-grab border border-primary/55 bg-primary/[0.02] ring-2 ring-inset ring-primary/35'
+                : 'cursor-pointer border border-transparent hover:border-white/15 hover:bg-white/[0.02]'
           }`}
         />
       ) : null}

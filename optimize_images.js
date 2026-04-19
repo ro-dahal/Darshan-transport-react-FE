@@ -6,123 +6,98 @@ import { fileURLToPath } from 'url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-const inputDir = path.join(__dirname, 'src/assets/img');
-const outputDir = path.join(__dirname, 'src/assets/img/optimized');
+const optimizationProfiles = {
+  teamPortrait: {
+    maxWidth: 400,
+    maxHeight: 400,
+    quality: 80,
+  },
+  profileCard: {
+    maxWidth: 400,
+    maxHeight: 400,
+    quality: 80,
+  },
+  hero: {
+    maxWidth: 1920,
+    quality: 60,
+  },
+  sectionHeader: {
+    maxWidth: 1200,
+    quality: 80,
+  },
+};
 
-if (!fs.existsSync(outputDir)) {
-  fs.mkdirSync(outputDir, { recursive: true });
-}
-
-// Images that need specific sizing
-const HERO_BACKGROUNDS = [
-  'background.jpg',
-  'background1.jpg',
-  'background2.jpg',
-  'bg.jpg',
+const optimizationJobs = [
+  {
+    input: 'src/assets/marketing/about/service-page-hari-bahadur-shrestha.jpg',
+    output:
+      'src/assets/generated/marketing/about/service-page-hari-bahadur-shrestha.webp',
+    profile: 'profileCard',
+  },
+  {
+    input: 'src/assets/marketing/about/service-page-arun-shrestha.jpg',
+    output: 'src/assets/generated/marketing/about/service-page-arun-shrestha.webp',
+    profile: 'profileCard',
+  },
+  {
+    input: 'src/assets/marketing/services/services-hero-desktop.jpeg',
+    output:
+      'src/assets/generated/marketing/services/services-hero-desktop.webp',
+    profile: 'hero',
+  },
+  {
+    input: 'src/assets/marketing/services/services-hero-mobile.jpeg',
+    output: 'src/assets/generated/marketing/services/services-hero-mobile.webp',
+    profile: 'hero',
+  },
+  {
+    input: 'src/assets/marketing/team/team-demo-member-1.jpg',
+    output: 'src/assets/generated/marketing/team/team-demo-member-1.webp',
+    profile: 'teamPortrait',
+  },
+  {
+    input: 'src/assets/marketing/team/team-demo-member-2.jpg',
+    output: 'src/assets/generated/marketing/team/team-demo-member-2.webp',
+    profile: 'teamPortrait',
+  },
+  {
+    input: 'src/assets/marketing/team/team-finance-department-header.jpg',
+    output:
+      'src/assets/generated/marketing/team/team-finance-department-header.webp',
+    profile: 'sectionHeader',
+  },
+  {
+    input: 'src/assets/marketing/team/team-founder-hari-bahadur-shrestha.jpg',
+    output:
+      'src/assets/generated/marketing/team/team-founder-hari-bahadur-shrestha.webp',
+    profile: 'sectionHeader',
+  },
 ];
-const PERSON_PHOTOS = ['person1.jpg', 'person2.png', 'person3.jpg'];
-const LOGOS = [
-  'logo-bar.png',
-  'logo.png',
-  'logo1.png',
-  'Logo-01.png',
-  'Logo-02.png',
-  'Logo-03.png',
-  'Logo-04.png',
-  'LogoTab.png',
-];
-const SMALL_ICONS = [
-  'right-arrow.png',
-  'button.png',
-  'cargo-truck.png',
-  'working-factory.png',
-];
-const SUPPORTED_INPUT_EXTENSIONS = ['.jpg', '.jpeg', '.png', '.gif'];
-const SKIP_EXTENSIONS = ['.pdf', '.psd', '.mp4', '.svg'];
-const PRESERVE_SOURCE_IMAGES = ['logo-bar.png', 'logo1.png'];
 
-// Social media icons - will be replaced with SVGs, but optimize anyway
-const SOCIAL_ICONS = [
-  'facebook.png',
-  'instagram.png',
-  'whatsapp.png',
-  'linkedin.png',
-  'tiktok.png',
-];
-
-async function optimizeImage(filename) {
-  const ext = path.extname(filename).toLowerCase();
-  if (SKIP_EXTENSIONS.includes(ext)) {
-    console.log(`⏭️  Skipping ${filename} (${ext})`);
-    return;
-  }
-  if (!SUPPORTED_INPUT_EXTENSIONS.includes(ext)) {
-    console.log(`⏭️  Skipping ${filename} (${ext || 'unknown format'})`);
-    return;
-  }
-
-  const inputPath = path.join(inputDir, filename);
-  const outputName = filename.replace(
-    /\.(jpg|jpeg|png|gif|JPG|JPEG|PNG|GIF)$/i,
-    '.webp'
-  );
-  const outputPath = path.join(outputDir, outputName);
-
-  if (PRESERVE_SOURCE_IMAGES.includes(filename)) {
-    if (fs.existsSync(outputPath)) {
-      fs.unlinkSync(outputPath);
-    }
-    console.log(`🖼️  Preserving original asset ${filename}`);
-    return;
-  }
+async function optimizeImage(job) {
+  const inputPath = path.join(__dirname, job.input);
+  const outputPath = path.join(__dirname, job.output);
 
   if (!fs.existsSync(inputPath)) {
-    console.warn(`⚠️  File not found: ${filename}`);
+    console.warn(`⚠️  File not found: ${job.input}`);
     return;
   }
 
+  const { maxWidth, maxHeight, quality } = optimizationProfiles[job.profile];
+  fs.mkdirSync(path.dirname(outputPath), { recursive: true });
+
   try {
-    const isGif = ext === '.gif';
-    let pipeline = sharp(inputPath, { animated: isGif });
+    let pipeline = sharp(inputPath);
     const meta = await pipeline.metadata();
+    const resizeOpts = {};
 
-    let maxWidth, maxHeight, quality;
-
-    if (HERO_BACKGROUNDS.includes(filename)) {
-      // Hero backgrounds: cap at 1920px wide, quality 60
-      maxWidth = 1920;
-      quality = 60;
-    } else if (PERSON_PHOTOS.includes(filename)) {
-      // Person photos: resize to 400x400 (used as small thumbnails and founder cards)
-      maxWidth = 400;
-      maxHeight = 400;
-      quality = 80;
-    } else if (LOGOS.includes(filename)) {
-      // Logos: cap at 400px wide
-      maxWidth = 400;
-      quality = 85;
-    } else if (SMALL_ICONS.includes(filename)) {
-      // Small icons: cap at 64px
-      maxWidth = 64;
-      quality = 80;
-    } else if (filename === 'gif2.gif') {
-      // Aggressive optimization for the large animation
-      maxWidth = 480;
-      quality = 45;
-    } else if (SOCIAL_ICONS.includes(filename)) {
-      // Social icons: cap at 64px
-      maxWidth = 64;
-      quality = 80;
-    } else {
-      // Everything else: cap at 1200px
-      maxWidth = 1200;
-      quality = 80;
+    if (maxWidth && meta.width && meta.width > maxWidth) {
+      resizeOpts.width = maxWidth;
+    }
+    if (maxHeight && meta.height && meta.height > maxHeight) {
+      resizeOpts.height = maxHeight;
     }
 
-    // Only resize if larger than target
-    const resizeOpts = {};
-    if (maxWidth && meta.width > maxWidth) resizeOpts.width = maxWidth;
-    if (maxHeight && meta.height > maxHeight) resizeOpts.height = maxHeight;
     if (Object.keys(resizeOpts).length > 0) {
       resizeOpts.fit = 'inside';
       resizeOpts.withoutEnlargement = true;
@@ -135,28 +110,23 @@ async function optimizeImage(filename) {
     const outputSize = fs.statSync(outputPath).size;
     const reduction = ((1 - outputSize / inputSize) * 100).toFixed(1);
     console.log(
-      `✅ ${filename} → ${outputName} | ${(inputSize / 1024).toFixed(0)}KB → ${(outputSize / 1024).toFixed(0)}KB (${reduction}% smaller)`
+      `✅ ${job.input} → ${job.output} | ${(inputSize / 1024).toFixed(0)}KB → ${(outputSize / 1024).toFixed(0)}KB (${reduction}% smaller)`
     );
   } catch (err) {
-    console.error(`❌ Error processing ${filename}:`, err.message);
+    console.error(`❌ Error processing ${job.input}:`, err.message);
   }
 }
 
 async function main() {
-  const files = fs.readdirSync(inputDir).filter((f) => {
-    const stat = fs.statSync(path.join(inputDir, f));
-    return stat.isFile();
-  });
+  console.log(
+    `\n🔧 Optimizing ${optimizationJobs.length} files into src/assets/generated/\n`
+  );
 
-  console.log(`\n🔧 Optimizing ${files.length} files from src/assets/img/\n`);
-
-  for (const file of files) {
-    await optimizeImage(file);
+  for (const job of optimizationJobs) {
+    await optimizeImage(job);
   }
 
-  console.log(
-    '\n✨ Done! Optimized images saved to src/assets/img/optimized/\n'
-  );
+  console.log('\n✨ Done! Optimized images saved to src/assets/generated/\n');
 }
 
 main().catch((err) => console.error(err));

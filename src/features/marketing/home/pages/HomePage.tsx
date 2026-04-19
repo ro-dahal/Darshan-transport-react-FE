@@ -16,13 +16,13 @@ import {
 } from '../data/homeSectionStyles';
 
 import { MetaTags } from '../../../../core/components/MetaTags';
-import bg1 from '../../../../assets/img/home-hero-slide-1.jpeg';
-import bg2 from '../../../../assets/img/home-hero-slide-2.jpeg';
-import bg3 from '../../../../assets/img/home-hero-slide-3.jpeg';
-import gifOperations from '../../../../assets/img/optimized/operations-illustration.webp';
-import bookPickupIcon from '../../../../assets/img/process-book-pickup.png';
-import weCollectYourGoodsIcon from '../../../../assets/img/process-collect-your-goods.png';
-import trackAndReceiveIcon from '../../../../assets/img/process-track-and-receive.png';
+import bg1 from '@assets/marketing/home/home-hero-slide-1.jpeg';
+import bg2 from '@assets/marketing/home/home-hero-slide-2.jpeg';
+import bg3 from '@assets/marketing/home/home-hero-slide-3.jpeg';
+import gifOperations from '@assets/generated/marketing/shared/operations-illustration.webp';
+import bookPickupIcon from '@assets/shared/icons/process-book-pickup.png';
+import weCollectYourGoodsIcon from '@assets/shared/icons/process-collect-your-goods.png';
+import trackAndReceiveIcon from '@assets/shared/icons/process-track-and-receive.png';
 import NepalMap from '../../../../layout/components/MapOfNepal/map';
 
 const IMAGES = [bg1, bg2, bg3];

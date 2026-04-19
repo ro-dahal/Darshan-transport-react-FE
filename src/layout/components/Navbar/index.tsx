@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import logo from '../../../assets/img/logo-bar.png';
+import logo from '@assets/shared/brand/logo-bar.png';
 import { NAV_LINKS } from './navLinks';
 import { useNavbarController } from '../Navbar/useNavbarController';
 import { TransitionLink } from '../../../core/components/TransitionLink';

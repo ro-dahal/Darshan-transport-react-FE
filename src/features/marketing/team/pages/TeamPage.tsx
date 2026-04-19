@@ -1,12 +1,42 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useRef } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
-import { createPortal } from 'react-dom';
 import { CtaSection } from '../../about/components/CtaSection';
 import { MetaTags } from '../../../../core/components/MetaTags';
-import demoMemberPortrait from '../../../../assets/img/optimized/person-1.webp';
-import financeDepartmentHeader from '../../../../assets/img/optimized/team-fd-header.webp';
-import alternateHeaderPortrait from '../../../../assets/img/optimized/person-2.webp';
-import founderHeaderPortrait from '../../../../assets/img/optimized/team-HBS.webp';
+import { DevImageEditorPanel } from '../../shared/dev-image-editor/DevImageEditorPanel';
+import {
+  getImageTransformStyle,
+  normalizeImageTransform,
+} from '../../shared/dev-image-editor/imageTransformUtils';
+import demoMemberPortrait from '@assets/generated/marketing/team/team-demo-member-1.webp';
+import financeDepartmentHeader from '@assets/generated/marketing/team/team-finance-department-header.webp';
+import alternateHeaderPortrait from '@assets/generated/marketing/team/team-demo-member-2.webp';
+import arunKumarShresthaPortrait from '@assets/marketing/team/arun-kumar-shrestha.jpg';
+import ramKumarShresthaPortrait from '@assets/marketing/team/ram-kumar-shrestha.jpg';
+import laxmanKumarShresthaPortrait from '@assets/marketing/team/laxman-kumar-shrestha.jpg';
+import sadeepShresthaPortrait from '@assets/marketing/team/sadeep-shrestha.jpg';
+import anjilaKarkiPortrait from '@assets/marketing/team/anjila-karki.jpg';
+import kamalBahadurDhamiPortrait from '@assets/marketing/team/kamal-bahadur-dhami.jpg';
+import kanchanThapaPortrait from '@assets/marketing/team/kanchan-thapa.jpg';
+import kripeshShresthaPortrait from '@assets/marketing/team/kripesh-shrestha.jpg';
+import subinGurungPortrait from '@assets/marketing/team/subin-gurung.jpg';
+import rohanDahalPortrait from '@assets/marketing/team/rohan-dahal.jpg';
+import sharonShresthaPortrait from '@assets/marketing/team/sharon-shrestha.jpg';
+import susamThapaPortrait from '@assets/marketing/team/susam-thapa.jpg';
+import founderHeaderPortrait from '@assets/generated/marketing/team/team-founder-hari-bahadur-shrestha.webp';
+import {
+  buildDepartmentTargetId,
+  buildMemberTargetId,
+  getTeamImageKindLabel,
+  type TeamDepartment as Department,
+  type TeamImageSelection as DevEditorSelection,
+  type TeamMember,
+} from '../teamImageEditorUtils';
+import {
+  useTeamImageDevEditor,
+  type TeamImageDevEditor,
+} from '../useTeamImageDevEditor';
+import sukmanShresthaPortrait from '@assets/marketing/team/sukman-shrestha.jpg';
+import teamOperationsDispatchHeader from '@assets/generated/marketing/team/team-operations-dispatch-header.webp';
 
 /* ------------------------------------------------------------------ */
 /*  Animation Variants                                                 */
@@ -42,638 +72,8 @@ const cardFade = {
 };
 
 /* ------------------------------------------------------------------ */
-/*  Types & Data                                                       */
+/*  Team Data                                                          */
 /* ------------------------------------------------------------------ */
-
-interface TeamMember {
-  name: string;
-  role: string;
-  portraitSrc?: string;
-  portraitAlt?: string;
-  portraitTransform?: ImageTransform;
-}
-
-interface Department {
-  department: string;
-  description: string;
-  icon: string;
-  headerImageSrc?: string;
-  headerImageAlt?: string;
-  headerImageTransform?: ImageTransform;
-  members: TeamMember[];
-}
-
-type ImageTransform = {
-  xPercent: number;
-  yPercent: number;
-  scale: number;
-};
-
-type DevImageKind = 'memberPortrait' | 'departmentHeader';
-
-type TeamImageTransformOverrides = {
-  memberPortraits: Record<string, ImageTransform>;
-  departmentHeaders: Record<string, ImageTransform>;
-};
-
-type DevImageSourceOverride = {
-  src: string;
-  alt: string;
-  originalFileName: string;
-  suggestedFileName: string;
-  objectUrl?: string;
-};
-
-type TeamImageSourceOverrides = {
-  memberPortraits: Record<string, DevImageSourceOverride>;
-  departmentHeaders: Record<string, DevImageSourceOverride>;
-};
-
-type DevEditorSelection = {
-  kind: DevImageKind;
-  targetId: string;
-  label: string;
-  defaultTransform: ImageTransform;
-  defaultImageSrc: string;
-  defaultImageAlt: string;
-  suggestedFileName: string;
-  previewAspectRatio: string;
-};
-
-type ActiveDragState = {
-  selection: DevEditorSelection;
-  pointerStartX: number;
-  pointerStartY: number;
-  width: number;
-  height: number;
-  startingTransform: ImageTransform;
-};
-
-interface TeamImageDevEditor {
-  isEnabled: boolean;
-  selectedTarget: DevEditorSelection | null;
-  currentOverrides: TeamImageTransformOverrides;
-  currentImageOverrides: TeamImageSourceOverrides;
-  notice: string | null;
-  portraitExportText: string;
-  headerExportText: string;
-  selectTarget: (selection: DevEditorSelection) => void;
-  closeSelection: () => void;
-  updateTargetTransform: (
-    selection: DevEditorSelection,
-    nextTransform: ImageTransform
-  ) => void;
-  resetTarget: (selection: DevEditorSelection) => void;
-  saveOverrides: () => void;
-  isTargetSaved: (selection: DevEditorSelection) => boolean;
-  copyPortraitExport: () => void;
-  copyHeaderExport: () => void;
-  openImagePicker: () => void;
-  clearImageOverride: (selection: DevEditorSelection) => void;
-  startDrag: (
-    event: React.PointerEvent<HTMLElement>,
-    selection: DevEditorSelection,
-    transform: ImageTransform
-  ) => void;
-}
-
-const IS_DEV_TEAM_IMAGE_EDITOR_ENABLED = import.meta.env.DEV;
-
-const DEFAULT_IMAGE_TRANSFORM: ImageTransform = {
-  xPercent: 0,
-  yPercent: 0,
-  scale: 1,
-};
-
-const EMPTY_TEAM_IMAGE_TRANSFORM_OVERRIDES: TeamImageTransformOverrides = {
-  memberPortraits: {},
-  departmentHeaders: {},
-};
-
-const EMPTY_TEAM_IMAGE_SOURCE_OVERRIDES: TeamImageSourceOverrides = {
-  memberPortraits: {},
-  departmentHeaders: {},
-};
-
-const DEV_TEAM_IMAGE_EDITOR_STORAGE_KEY =
-  'darshan-team-page-image-editor-overrides';
-
-const roundTransformValue = (value: number) => Math.round(value * 100) / 100;
-
-const formatTransformNumber = (value: number) =>
-  Number(roundTransformValue(value).toFixed(2)).toString();
-
-const clampImageTransform = (transform: ImageTransform): ImageTransform => ({
-  xPercent: roundTransformValue(
-    Math.max(-50, Math.min(50, transform.xPercent))
-  ),
-  yPercent: roundTransformValue(
-    Math.max(-50, Math.min(50, transform.yPercent))
-  ),
-  scale: roundTransformValue(Math.max(1, Math.min(2.4, transform.scale))),
-});
-
-const normalizeImageTransform = (
-  transform?: Partial<ImageTransform>
-): ImageTransform =>
-  clampImageTransform({
-    xPercent: transform?.xPercent ?? DEFAULT_IMAGE_TRANSFORM.xPercent,
-    yPercent: transform?.yPercent ?? DEFAULT_IMAGE_TRANSFORM.yPercent,
-    scale: transform?.scale ?? DEFAULT_IMAGE_TRANSFORM.scale,
-  });
-
-const areImageTransformsEqual = (left: ImageTransform, right: ImageTransform) =>
-  left.xPercent === right.xPercent &&
-  left.yPercent === right.yPercent &&
-  left.scale === right.scale;
-
-const buildMemberTargetId = (departmentName: string, memberName: string) =>
-  `${departmentName}::${memberName}`;
-
-const buildDepartmentTargetId = (departmentName: string) => departmentName;
-
-const getImageTransformStyle = (
-  transform: ImageTransform
-): React.CSSProperties => ({
-  objectPosition: `${50 + transform.xPercent}% ${50 + transform.yPercent}%`,
-  transform: `scale(${transform.scale})`,
-  transformOrigin: 'center center',
-  willChange: 'transform, object-position',
-});
-
-const getOverrideRecordForKind = (
-  overrides: TeamImageTransformOverrides,
-  kind: DevImageKind
-) =>
-  kind === 'memberPortrait'
-    ? overrides.memberPortraits
-    : overrides.departmentHeaders;
-
-const getSourceOverrideRecordForKind = (
-  overrides: TeamImageSourceOverrides,
-  kind: DevImageKind
-) =>
-  kind === 'memberPortrait'
-    ? overrides.memberPortraits
-    : overrides.departmentHeaders;
-
-const slugifyFilePart = (value: string) =>
-  value
-    .toLowerCase()
-    .replace(/[^a-z0-9]+/g, '-')
-    .replace(/^-+|-+$/g, '')
-    .replace(/-{2,}/g, '-');
-
-const buildSuggestedFileName = (
-  kind: DevImageKind,
-  label: string,
-  originalFileName?: string
-) => {
-  const extensionMatch = originalFileName?.match(/\.[a-z0-9]+$/i);
-  const extension = extensionMatch?.[0]?.toLowerCase() ?? '.jpg';
-  const normalizedLabel = slugifyFilePart(label);
-
-  return kind === 'memberPortrait'
-    ? `team-${normalizedLabel}${extension}`
-    : `team-${normalizedLabel}-header${extension}`;
-};
-
-const setOverrideForSelection = (
-  overrides: TeamImageTransformOverrides,
-  selection: DevEditorSelection,
-  nextTransform: ImageTransform
-): TeamImageTransformOverrides => {
-  const normalizedTransform = normalizeImageTransform(nextTransform);
-  const nextRecord = {
-    ...getOverrideRecordForKind(overrides, selection.kind),
-  };
-
-  if (
-    areImageTransformsEqual(normalizedTransform, selection.defaultTransform)
-  ) {
-    delete nextRecord[selection.targetId];
-  } else {
-    nextRecord[selection.targetId] = normalizedTransform;
-  }
-
-  return selection.kind === 'memberPortrait'
-    ? { ...overrides, memberPortraits: nextRecord }
-    : { ...overrides, departmentHeaders: nextRecord };
-};
-
-const parseStoredTeamImageOverrides = (
-  rawValue: string | null
-): TeamImageTransformOverrides => {
-  if (!rawValue) {
-    return EMPTY_TEAM_IMAGE_TRANSFORM_OVERRIDES;
-  }
-
-  try {
-    const parsed = JSON.parse(rawValue) as Partial<TeamImageTransformOverrides>;
-    const memberPortraits = Object.fromEntries(
-      Object.entries(parsed.memberPortraits ?? {}).map(([key, value]) => [
-        key,
-        normalizeImageTransform(value),
-      ])
-    );
-    const departmentHeaders = Object.fromEntries(
-      Object.entries(parsed.departmentHeaders ?? {}).map(([key, value]) => [
-        key,
-        normalizeImageTransform(value),
-      ])
-    );
-
-    return {
-      memberPortraits,
-      departmentHeaders,
-    };
-  } catch {
-    return EMPTY_TEAM_IMAGE_TRANSFORM_OVERRIDES;
-  }
-};
-
-const buildMemberTransformExportText = (
-  departments: Department[],
-  overrides: TeamImageTransformOverrides
-) => {
-  const entries = departments.flatMap((department) =>
-    department.members.flatMap((member) => {
-      const override =
-        overrides.memberPortraits[
-          buildMemberTargetId(department.department, member.name)
-        ];
-
-      if (!override) {
-        return [];
-      }
-
-      return [
-        [
-          '  {',
-          `    department: ${JSON.stringify(department.department)},`,
-          `    member: ${JSON.stringify(member.name)},`,
-          `    portraitTransform: { xPercent: ${formatTransformNumber(
-            override.xPercent
-          )}, yPercent: ${formatTransformNumber(
-            override.yPercent
-          )}, scale: ${formatTransformNumber(override.scale)} },`,
-          '  },',
-        ].join('\n'),
-      ];
-    })
-  );
-
-  if (entries.length === 0) {
-    return '[]';
-  }
-
-  return `[\n${entries.join('\n')}\n]`;
-};
-
-const buildHeaderTransformExportText = (
-  departments: Department[],
-  overrides: TeamImageTransformOverrides
-) => {
-  const entries = departments.flatMap((department) => {
-    const override =
-      overrides.departmentHeaders[
-        buildDepartmentTargetId(department.department)
-      ];
-
-    if (!override) {
-      return [];
-    }
-
-    return [
-      [
-        '  {',
-        `    department: ${JSON.stringify(department.department)},`,
-        `    headerImageTransform: { xPercent: ${formatTransformNumber(
-          override.xPercent
-        )}, yPercent: ${formatTransformNumber(
-          override.yPercent
-        )}, scale: ${formatTransformNumber(override.scale)} },`,
-        '  },',
-      ].join('\n'),
-    ];
-  });
-
-  if (entries.length === 0) {
-    return '[]';
-  }
-
-  return `[\n${entries.join('\n')}\n]`;
-};
-
-const TeamImageDevEditorPanel: React.FC<{
-  selection: DevEditorSelection;
-  transform: ImageTransform;
-  imageSrc: string;
-  imageAlt: string;
-  hasCustomImage: boolean;
-  suggestedFileName: string;
-  notice: string | null;
-  isSaved: boolean;
-  portraitExportText: string;
-  headerExportText: string;
-  onClose: () => void;
-  onReset: () => void;
-  onSave: () => void;
-  onTransformChange: (nextTransform: ImageTransform) => void;
-  onCopyPortraitExport: () => void;
-  onCopyHeaderExport: () => void;
-  onPickImage: () => void;
-  onClearImageOverride: () => void;
-}> = ({
-  selection,
-  transform,
-  imageSrc,
-  imageAlt,
-  hasCustomImage,
-  suggestedFileName,
-  notice,
-  isSaved,
-  portraitExportText,
-  headerExportText,
-  onClose,
-  onReset,
-  onSave,
-  onTransformChange,
-  onCopyPortraitExport,
-  onCopyHeaderExport,
-  onPickImage,
-  onClearImageOverride,
-}) => {
-  if (typeof document === 'undefined') {
-    return null;
-  }
-
-  return createPortal(
-    <div
-      onPointerDown={(event) => event.stopPropagation()}
-      className="fixed inset-x-4 bottom-4 z-[120] max-h-[calc(100vh-6rem)] overflow-y-auto rounded-3xl border border-white/15 bg-[#111]/94 p-4 text-white shadow-[0_20px_80px_rgba(0,0,0,0.45)] backdrop-blur-xl md:inset-x-auto md:right-5 md:top-24 md:bottom-5 md:w-[360px]"
-    >
-      <div className="flex items-start justify-between gap-3">
-        <div className="min-w-0">
-          <p className="text-[0.64rem] font-semibold uppercase tracking-[0.18em] text-primary">
-            Dev Image Editor
-          </p>
-          <p className="mt-1 text-sm font-semibold leading-snug">
-            {selection.label}
-          </p>
-        </div>
-        <button
-          type="button"
-          onClick={onClose}
-          className="rounded-full border border-white/15 px-2 py-0.5 text-[0.7rem] text-white/70 transition-colors hover:border-white/30 hover:text-white"
-        >
-          Close
-        </button>
-      </div>
-
-      <p className="mt-3 text-[0.72rem] leading-relaxed text-white/60">
-        Click once to select, then drag the image to reposition it. The preview
-        below shows both the crop and the full image.
-      </p>
-
-      <div className="mt-3 grid grid-cols-2 gap-3">
-        <div>
-          <span className="mb-1.5 block text-[0.62rem] font-semibold uppercase tracking-[0.16em] text-white/45">
-            Frame Preview
-          </span>
-          <div
-            className="relative overflow-hidden rounded-2xl border border-white/10 bg-black/30"
-            style={{ aspectRatio: selection.previewAspectRatio }}
-          >
-            <img
-              src={imageSrc}
-              alt={imageAlt}
-              className="absolute inset-0 h-full w-full object-cover"
-              style={getImageTransformStyle(transform)}
-            />
-          </div>
-        </div>
-        <div>
-          <span className="mb-1.5 block text-[0.62rem] font-semibold uppercase tracking-[0.16em] text-white/45">
-            Full Image
-          </span>
-          <div
-            className="relative overflow-hidden rounded-2xl border border-white/10 bg-[radial-gradient(circle_at_top,#2a2a2a_0%,#111_85%)]"
-            style={{ aspectRatio: selection.previewAspectRatio }}
-          >
-            <img
-              src={imageSrc}
-              alt={imageAlt}
-              className="h-full w-full object-contain p-2"
-            />
-          </div>
-        </div>
-      </div>
-
-      <div className="mt-3 rounded-2xl border border-white/10 bg-white/5 p-3">
-        <div className="flex items-center justify-between gap-2">
-          <span className="text-[0.68rem] font-semibold uppercase tracking-[0.16em] text-white/55">
-            Image Source
-          </span>
-          <span className="text-[0.68rem] font-semibold text-primary">
-            {hasCustomImage ? 'Local Preview' : 'Code Asset'}
-          </span>
-        </div>
-        <code className="mt-2 block break-all text-[0.72rem] text-white/75">
-          {suggestedFileName}
-        </code>
-        <div className="mt-3 grid grid-cols-2 gap-2 text-xs">
-          <button
-            type="button"
-            onClick={onPickImage}
-            className="rounded-lg border border-white/10 bg-white/6 px-3 py-2 font-semibold transition-colors hover:bg-white/12"
-          >
-            Add Image
-          </button>
-          <button
-            type="button"
-            onClick={onClearImageOverride}
-            disabled={!hasCustomImage}
-            className="rounded-lg border border-white/10 bg-white/6 px-3 py-2 font-semibold transition-colors hover:bg-white/12 disabled:cursor-not-allowed disabled:opacity-40"
-          >
-            Clear Image
-          </button>
-        </div>
-      </div>
-
-      <div className="mt-3 space-y-3">
-        <label className="block">
-          <span className="mb-1.5 block text-[0.68rem] font-semibold uppercase tracking-[0.16em] text-white/60">
-            Zoom
-          </span>
-          <input
-            type="range"
-            min="1"
-            max="2.4"
-            step="0.01"
-            value={transform.scale}
-            onChange={(event) =>
-              onTransformChange({
-                ...transform,
-                scale: Number(event.target.value),
-              })
-            }
-            className="w-full accent-primary"
-          />
-        </label>
-
-        <div className="grid grid-cols-2 gap-2 text-[0.74rem]">
-          <div className="rounded-xl border border-white/10 bg-white/5 px-3 py-2">
-            <span className="block text-[0.62rem] uppercase tracking-[0.16em] text-white/45">
-              X Offset
-            </span>
-            <span className="mt-1 block font-semibold">
-              {formatTransformNumber(transform.xPercent)}%
-            </span>
-          </div>
-          <div className="rounded-xl border border-white/10 bg-white/5 px-3 py-2">
-            <span className="block text-[0.62rem] uppercase tracking-[0.16em] text-white/45">
-              Y Offset
-            </span>
-            <span className="mt-1 block font-semibold">
-              {formatTransformNumber(transform.yPercent)}%
-            </span>
-          </div>
-        </div>
-
-        <div className="grid grid-cols-3 gap-2 text-xs">
-          <button
-            type="button"
-            onClick={() =>
-              onTransformChange({
-                ...transform,
-                xPercent: transform.xPercent - 1,
-              })
-            }
-            className="rounded-lg border border-white/10 bg-white/6 px-2 py-2 transition-colors hover:bg-white/12"
-          >
-            Left
-          </button>
-          <button
-            type="button"
-            onClick={() =>
-              onTransformChange({
-                ...transform,
-                yPercent: transform.yPercent - 1,
-              })
-            }
-            className="rounded-lg border border-white/10 bg-white/6 px-2 py-2 transition-colors hover:bg-white/12"
-          >
-            Up
-          </button>
-          <button
-            type="button"
-            onClick={() =>
-              onTransformChange({
-                ...transform,
-                xPercent: transform.xPercent + 1,
-              })
-            }
-            className="rounded-lg border border-white/10 bg-white/6 px-2 py-2 transition-colors hover:bg-white/12"
-          >
-            Right
-          </button>
-          <button
-            type="button"
-            onClick={() =>
-              onTransformChange({
-                ...transform,
-                yPercent: transform.yPercent + 1,
-              })
-            }
-            className="col-start-2 rounded-lg border border-white/10 bg-white/6 px-2 py-2 transition-colors hover:bg-white/12"
-          >
-            Down
-          </button>
-        </div>
-      </div>
-
-      <div className="mt-3 grid grid-cols-2 gap-2 text-xs">
-        <button
-          type="button"
-          onClick={onReset}
-          className="rounded-lg border border-white/10 bg-white/6 px-3 py-2 font-semibold transition-colors hover:bg-white/12"
-        >
-          Reset
-        </button>
-        <button
-          type="button"
-          onClick={onSave}
-          className="rounded-lg bg-primary px-3 py-2 font-semibold text-[#111] transition-opacity hover:opacity-90"
-        >
-          Save
-        </button>
-      </div>
-
-      <div className="mt-3 rounded-xl border border-white/10 bg-white/5 px-3 py-2 text-[0.72rem] leading-relaxed">
-        <span className="font-semibold text-white">
-          {isSaved ? 'Saved locally.' : 'Unsaved changes.'}
-        </span>
-        <span className="mt-1 block text-white/60">
-          Local image uploads are preview-only in dev. Use the suggested file
-          name above when you move the image into the repo.
-        </span>
-        {notice ? (
-          <span className="mt-1 block text-white/60">{notice}</span>
-        ) : null}
-      </div>
-
-      <details className="mt-3 rounded-xl border border-white/10 bg-white/5 p-3">
-        <summary className="cursor-pointer text-[0.72rem] font-semibold uppercase tracking-[0.16em] text-white/70">
-          Export Transforms
-        </summary>
-
-        <div className="mt-3 space-y-3">
-          <div>
-            <div className="mb-1.5 flex items-center justify-between gap-2">
-              <span className="text-[0.68rem] font-semibold uppercase tracking-[0.16em] text-white/55">
-                Portraits
-              </span>
-              <button
-                type="button"
-                onClick={onCopyPortraitExport}
-                className="text-[0.68rem] font-semibold text-primary"
-              >
-                Copy
-              </button>
-            </div>
-            <textarea
-              readOnly
-              value={portraitExportText}
-              className="h-24 w-full resize-none rounded-lg border border-white/10 bg-black/25 px-3 py-2 text-[0.68rem] leading-relaxed text-white/70 outline-none"
-            />
-          </div>
-
-          <div>
-            <div className="mb-1.5 flex items-center justify-between gap-2">
-              <span className="text-[0.68rem] font-semibold uppercase tracking-[0.16em] text-white/55">
-                Headers
-              </span>
-              <button
-                type="button"
-                onClick={onCopyHeaderExport}
-                className="text-[0.68rem] font-semibold text-primary"
-              >
-                Copy
-              </button>
-            </div>
-            <textarea
-              readOnly
-              value={headerExportText}
-              className="h-24 w-full resize-none rounded-lg border border-white/10 bg-black/25 px-3 py-2 text-[0.68rem] leading-relaxed text-white/70 outline-none"
-            />
-          </div>
-        </div>
-      </details>
-    </div>,
-    document.body
-  );
-};
 
 const TEAM_DEPARTMENTS: Department[] = [
   {
@@ -686,18 +86,47 @@ const TEAM_DEPARTMENTS: Department[] = [
         name: 'Hari Bahadur Shrestha',
         role: 'Founder & Chairman',
         portraitSrc: founderHeaderPortrait,
+        portraitAssetPath:
+          'src/assets/generated/marketing/team/team-founder-hari-bahadur-shrestha.webp',
         portraitAlt: 'Portrait of Hari Bahadur Shrestha',
       },
-      { name: 'Arun Kumar Shrestha', role: 'Executive Director' },
-      { name: 'Sukman Shrestha', role: 'Executive Member' },
+      {
+        name: 'Arun Kumar Shrestha',
+        role: 'Executive Director',
+        portraitSrc: arunKumarShresthaPortrait,
+        portraitAssetPath: 'src/assets/marketing/team/arun-kumar-shrestha.jpg',
+        portraitAlt: 'Portrait of Arun Kumar Shrestha',
+      },
+      {
+        name: 'Sukman Shrestha',
+        role: 'Executive Member',
+        portraitSrc: sukmanShresthaPortrait,
+        portraitAssetPath: 'src/assets/marketing/team/sukman-shrestha.jpg',
+      },
       { name: 'Shrawan Kumar Shrestha', role: 'Executive Member' },
-      { name: 'Ram Kumar Shrestha', role: 'Executive Member' },
+      {
+        name: 'Ram Kumar Shrestha',
+        role: 'Executive Member',
+        portraitSrc: ramKumarShresthaPortrait,
+        portraitAssetPath: 'src/assets/marketing/team/ram-kumar-shrestha.jpg',
+        portraitAlt: 'Portrait of Ram Kumar Shrestha',
+      },
       {
         name: 'Laxman Kumar Shrestha',
         role: 'Executive Member & Branch Head',
+        portraitSrc: laxmanKumarShresthaPortrait,
+        portraitAssetPath:
+          'src/assets/marketing/team/laxman-kumar-shrestha.jpg',
+        portraitAlt: 'Portrait of Laxman Kumar Shrestha',
       },
       { name: 'Sandesh Shrestha', role: 'Executive Member' },
-      { name: 'Sadeep Shrestha', role: 'Head of Operations & Technology' },
+      {
+        name: 'Sadeep Shrestha',
+        role: 'Head of Operations & Technology',
+        portraitSrc: sadeepShresthaPortrait,
+        portraitAssetPath: 'src/assets/marketing/team/sadeep-shrestha.jpg',
+        portraitAlt: 'Portrait of Sadeep Shrestha',
+      },
     ],
   },
   {
@@ -706,13 +135,33 @@ const TEAM_DEPARTMENTS: Department[] = [
       'Managing billing, accounts, and financial operations that keep the business running smoothly.',
     icon: '💰',
     headerImageSrc: financeDepartmentHeader,
+    headerImageAssetPath:
+      'src/assets/generated/marketing/team/team-finance-department-header.webp',
     headerImageAlt: 'Finance department header',
     members: [
-      { name: 'Anjila Karki', role: 'Finance Head' },
-      { name: 'Kamal Bahadur Dhami', role: 'Finance Assistant' },
+      {
+        name: 'Anjila Karki',
+        role: 'Finance Head',
+        portraitSrc: anjilaKarkiPortrait,
+        portraitAssetPath: 'src/assets/marketing/team/anjila-karki.jpg',
+        portraitAlt: 'Portrait of Anjila Karki',
+      },
+      {
+        name: 'Kamal Bahadur Dhami',
+        role: 'Finance Assistant',
+        portraitSrc: kamalBahadurDhamiPortrait,
+        portraitAssetPath: 'src/assets/marketing/team/kamal-bahadur-dhami.jpg',
+        portraitAlt: 'Portrait of Kamal Bahadur Dhami',
+      },
       { name: 'Tik Maya Gurung', role: 'Finance Assistant' },
       { name: 'Puja Ghimire', role: 'Accounts & Operations Support' },
-      { name: 'Kanchan Thapa', role: 'Billing & Collection Officer' },
+      {
+        name: 'Kanchan Thapa',
+        role: 'Billing & Collection Officer',
+        portraitSrc: kanchanThapaPortrait,
+        portraitAssetPath: 'src/assets/marketing/team/kanchan-thapa.jpg',
+        portraitAlt: 'Portrait of Kanchan Thapa',
+      },
       { name: 'Manoj Acharya', role: 'Billing & Collection Officer' },
     ],
   },
@@ -721,6 +170,9 @@ const TEAM_DEPARTMENTS: Department[] = [
     description:
       'The backbone of daily cargo movement, coordinating pickups, bookings, and dispatches across Nepal.',
     icon: '🚛',
+    headerImageSrc: teamOperationsDispatchHeader,
+    headerImageAssetPath:
+      'src/assets/generated/marketing/team/team-operations-dispatch-header.webp',
     members: [
       { name: 'Anita Shrestha', role: 'Dispatch & Delivery Coordinator' },
       { name: 'Bikash Pariyar', role: 'Dispatch & Delivery Coordinator' },
@@ -730,7 +182,13 @@ const TEAM_DEPARTMENTS: Department[] = [
         name: 'Ram Prasad Gurung',
         role: 'Dispatch & Delivery Coordinator',
       },
-      { name: 'Kripesh Shrestha', role: 'Booking Supervisor' },
+      {
+        name: 'Kripesh Shrestha',
+        role: 'Booking Supervisor',
+        portraitSrc: kripeshShresthaPortrait,
+        portraitAssetPath: 'src/assets/marketing/team/kripesh-shrestha.jpg',
+        portraitAlt: 'Portrait of Kripesh Shrestha',
+      },
       { name: 'Nandalal Pudasaini', role: 'Operations Supervisor' },
       { name: 'Sajan Gurung', role: 'Operations Supervisor' },
       {
@@ -790,13 +248,34 @@ const TEAM_DEPARTMENTS: Department[] = [
       'Driving technology, design, and digital growth for Darshan Transport.',
     icon: '💻',
     members: [
-      { name: 'Subin Gurung', role: 'Lead Developer' },
-      { name: 'Rohan Dahal', role: 'UI/UX & Creative Designer' },
+      {
+        name: 'Subin Gurung',
+        role: 'Lead Developer',
+        portraitSrc: subinGurungPortrait,
+        portraitAssetPath: 'src/assets/marketing/team/subin-gurung.jpg',
+        portraitAlt: 'Portrait of Subin Gurung',
+      },
+      {
+        name: 'Rohan Dahal',
+        role: 'UI/UX & Creative Designer',
+        portraitSrc: rohanDahalPortrait,
+        portraitAssetPath: 'src/assets/marketing/team/rohan-dahal.jpg',
+        portraitAlt: 'Portrait of Rohan Dahal',
+      },
       {
         name: 'Sharon Shrestha',
         role: 'Digital Marketing & Content Manager',
+        portraitSrc: sharonShresthaPortrait,
+        portraitAssetPath: 'src/assets/marketing/team/sharon-shrestha.jpg',
+        portraitAlt: 'Portrait of Sharon Shrestha',
       },
-      { name: 'Susam Thapa', role: 'QA & Support Engineer' },
+      {
+        name: 'Susam Thapa',
+        role: 'QA & Support Engineer',
+        portraitSrc: susamThapaPortrait,
+        portraitAssetPath: 'src/assets/marketing/team/susam-thapa.jpg',
+        portraitAlt: 'Portrait of Susam Thapa',
+      },
     ],
   },
   {
@@ -928,7 +407,7 @@ const STATS = [
   { value: `${TOTAL_MEMBERS}+`, label: 'Team Members' },
   { value: `${TEAM_DEPARTMENTS.length}`, label: 'Departments' },
   { value: '3', label: 'Regional Branches' },
-  { value: '25+', label: 'Years Combined' },
+  { value: '20+', label: 'Years Combined' },
 ];
 
 const StatsBanner: React.FC = () => (
@@ -973,31 +452,30 @@ const MemberPortraitCard: React.FC<{
   const portraitAlt = member.portraitAlt ?? `Portrait of ${member.name}`;
   const defaultTransform = normalizeImageTransform(member.portraitTransform);
   const targetId = buildMemberTargetId(departmentName, member.name);
-  const imageOverride =
-    devEditor?.currentImageOverrides.memberPortraits[targetId];
-  const effectivePortraitSrc = imageOverride?.src ?? portraitSrc;
-  const effectivePortraitAlt = imageOverride?.alt ?? portraitAlt;
   const selection: DevEditorSelection = {
     kind: 'memberPortrait',
     targetId,
+    departmentName,
+    memberName: member.name,
     label: `${departmentName} -> ${member.name}`,
     defaultTransform,
     defaultImageSrc: portraitSrc,
     defaultImageAlt: portraitAlt,
-    suggestedFileName: buildSuggestedFileName(
-      'memberPortrait',
-      member.name,
-      imageOverride?.originalFileName ?? portraitSrc
-    ),
+    assetRelativePath: member.portraitAssetPath ?? null,
+    assetDisplayPath: member.portraitAssetPath ?? '',
+    saveTargetKind: member.portraitAssetPath
+      ? 'existing-asset'
+      : 'new-member-asset',
     previewAspectRatio: '3 / 4',
   };
-  const override = devEditor?.currentOverrides.memberPortraits[targetId];
-  const effectiveTransform = devEditor?.isEnabled
-    ? normalizeImageTransform(override ?? defaultTransform)
+  const imageSource = devEditor?.getImageSource(selection);
+  const effectivePortraitSrc = imageSource?.src ?? portraitSrc;
+  const effectivePortraitAlt = imageSource?.alt ?? portraitAlt;
+  const effectiveTransform = devEditor
+    ? devEditor.getTransform(selection)
     : defaultTransform;
-  const isSelected =
-    devEditor?.selectedTarget?.kind === selection.kind &&
-    devEditor.selectedTarget.targetId === selection.targetId;
+  const isSelected = devEditor?.isSelected(selection) ?? false;
+  const isDragging = devEditor?.isDragging(selection) ?? false;
 
   const handlePointerDown = (event: React.PointerEvent<HTMLDivElement>) => {
     if (!devEditor?.isEnabled) {
@@ -1016,15 +494,21 @@ const MemberPortraitCard: React.FC<{
     <motion.div
       variants={cardFade}
       onPointerDown={handlePointerDown}
-      className={`group relative overflow-hidden rounded-2xl border bg-[#111] transition-all duration-500 hover:-translate-y-1 hover:shadow-[0_24px_70px_rgba(0,0,0,0.24)] shadow-[0_18px_55px_rgba(0,0,0,0.18)] ${
+      className={`group relative overflow-hidden rounded-2xl border bg-[#111] select-none transition-all duration-500 hover:-translate-y-1 hover:shadow-[0_24px_70px_rgba(0,0,0,0.24)] shadow-[0_18px_55px_rgba(0,0,0,0.18)] ${
         devEditor?.isEnabled
-          ? isSelected
-            ? 'cursor-grab border-primary/60 ring-2 ring-primary/30'
-            : 'cursor-pointer border-gray-200'
+          ? isDragging
+            ? 'cursor-grabbing border-primary/70 ring-2 ring-primary/40'
+            : isSelected
+              ? 'cursor-grab border-primary/60 ring-2 ring-primary/30'
+              : 'cursor-pointer border-gray-200'
           : 'border-gray-200'
       } ${minHeightClassName}`}
     >
-      <div className="absolute inset-0 transition-transform duration-700 group-hover:scale-[1.03]">
+      <div
+        className={`absolute inset-0 transition-transform duration-700 ${
+          !isDragging ? 'group-hover:scale-[1.03]' : ''
+        }`}
+      >
         <img
           src={effectivePortraitSrc}
           alt={effectivePortraitAlt}
@@ -1040,7 +524,7 @@ const MemberPortraitCard: React.FC<{
           <h3 className="text-[1.1rem] font-bold text-white leading-snug mb-1.5 drop-shadow-[0_2px_8px_rgba(0,0,0,0.45)]">
             {member.name}
           </h3>
-          <p className="text-sm text-white/85 leading-tight drop-shadow-[0_2px_8px_rgba(0,0,0,0.35)]">
+          <p className="text-[0.82rem] text-white/85 leading-tight tracking-[-0.01em] drop-shadow-[0_2px_8px_rgba(0,0,0,0.35)] md:whitespace-nowrap">
             {member.role}
           </p>
         </div>
@@ -1136,32 +620,30 @@ const DepartmentSection: React.FC<{
     department.headerImageTransform
   );
   const headerTargetId = buildDepartmentTargetId(department.department);
-  const headerImageOverride =
-    devEditor?.currentImageOverrides.departmentHeaders[headerTargetId];
-  const effectiveHeaderImageSrc = headerImageOverride?.src ?? headerImageSrc;
-  const effectiveHeaderImageAlt = headerImageOverride?.alt ?? headerImageAlt;
   const headerSelection: DevEditorSelection = {
     kind: 'departmentHeader',
     targetId: headerTargetId,
+    departmentName: department.department,
     label: `${department.department} header`,
     defaultTransform: headerDefaultTransform,
     defaultImageSrc: headerImageSrc,
     defaultImageAlt: headerImageAlt ?? department.department,
-    suggestedFileName: buildSuggestedFileName(
-      'departmentHeader',
-      department.department,
-      headerImageOverride?.originalFileName ?? headerImageSrc
-    ),
+    assetRelativePath: department.headerImageAssetPath ?? null,
+    assetDisplayPath: department.headerImageAssetPath ?? '',
+    saveTargetKind: department.headerImageAssetPath
+      ? 'existing-asset'
+      : 'new-header-asset',
     previewAspectRatio: '16 / 5',
   };
-  const headerOverride =
-    devEditor?.currentOverrides.departmentHeaders[headerTargetId];
-  const headerTransform = devEditor?.isEnabled
-    ? normalizeImageTransform(headerOverride ?? headerDefaultTransform)
+  const imageSource = devEditor?.getImageSource(headerSelection);
+  const effectiveHeaderImageSrc = imageSource?.src ?? headerImageSrc;
+  const effectiveHeaderImageAlt =
+    imageSource?.alt ?? headerImageAlt ?? department.department;
+  const headerTransform = devEditor
+    ? devEditor.getTransform(headerSelection)
     : headerDefaultTransform;
-  const isHeaderSelected =
-    devEditor?.selectedTarget?.kind === headerSelection.kind &&
-    devEditor.selectedTarget.targetId === headerSelection.targetId;
+  const isHeaderSelected = devEditor?.isSelected(headerSelection) ?? false;
+  const isHeaderDragging = devEditor?.isDragging(headerSelection) ?? false;
 
   const handleHeaderPointerDown = (
     event: React.PointerEvent<HTMLDivElement>
@@ -1194,11 +676,13 @@ const DepartmentSection: React.FC<{
         >
           <div
             onPointerDown={handleHeaderPointerDown}
-            className={`relative overflow-hidden ${hasHeaderImage ? 'rounded-[28px]' : ''} ${
+            className={`relative overflow-hidden select-none ${hasHeaderImage ? 'rounded-[28px]' : ''} ${
               devEditor?.isEnabled && hasHeaderImage
-                ? isHeaderSelected
-                  ? 'cursor-grab ring-2 ring-primary/30'
-                  : 'cursor-pointer'
+                ? isHeaderDragging
+                  ? 'cursor-grabbing ring-2 ring-primary/40'
+                  : isHeaderSelected
+                    ? 'cursor-grab ring-2 ring-primary/30'
+                    : 'cursor-pointer'
                 : ''
             }`}
             style={{ backgroundColor: headerSurfaceHex }}
@@ -1412,308 +896,10 @@ const TeamOverview: React.FC = () => (
 /* ------------------------------------------------------------------ */
 
 export const TeamPage: React.FC = () => {
-  const [currentOverrides, setCurrentOverrides] =
-    useState<TeamImageTransformOverrides>(EMPTY_TEAM_IMAGE_TRANSFORM_OVERRIDES);
-  const [currentImageOverrides, setCurrentImageOverrides] =
-    useState<TeamImageSourceOverrides>(EMPTY_TEAM_IMAGE_SOURCE_OVERRIDES);
-  const [savedOverrides, setSavedOverrides] =
-    useState<TeamImageTransformOverrides>(EMPTY_TEAM_IMAGE_TRANSFORM_OVERRIDES);
-  const [selectedTarget, setSelectedTarget] =
-    useState<DevEditorSelection | null>(null);
-  const [notice, setNotice] = useState<string | null>(null);
-  const [activeDragState, setActiveDragState] =
-    useState<ActiveDragState | null>(null);
-  const imagePickerInputRef = useRef<HTMLInputElement | null>(null);
-  const previewObjectUrlsRef = useRef<Set<string>>(new Set());
-
-  useEffect(() => {
-    if (!IS_DEV_TEAM_IMAGE_EDITOR_ENABLED) {
-      return;
-    }
-
-    const storedOverrides = parseStoredTeamImageOverrides(
-      window.localStorage.getItem(DEV_TEAM_IMAGE_EDITOR_STORAGE_KEY)
-    );
-
-    setCurrentOverrides(storedOverrides);
-    setSavedOverrides(storedOverrides);
-  }, []);
-
-  useEffect(() => {
-    if (!activeDragState) {
-      return;
-    }
-
-    const handlePointerMove = (event: PointerEvent) => {
-      const deltaX = event.clientX - activeDragState.pointerStartX;
-      const deltaY = event.clientY - activeDragState.pointerStartY;
-
-      setCurrentOverrides((previousOverrides) =>
-        setOverrideForSelection(previousOverrides, activeDragState.selection, {
-          xPercent:
-            activeDragState.startingTransform.xPercent +
-            (deltaX / activeDragState.width) * 100,
-          yPercent:
-            activeDragState.startingTransform.yPercent +
-            (deltaY / activeDragState.height) * 100,
-          scale: activeDragState.startingTransform.scale,
-        })
-      );
-    };
-
-    const stopDragging = () => {
-      setActiveDragState(null);
-    };
-
-    window.addEventListener('pointermove', handlePointerMove);
-    window.addEventListener('pointerup', stopDragging);
-
-    return () => {
-      window.removeEventListener('pointermove', handlePointerMove);
-      window.removeEventListener('pointerup', stopDragging);
-    };
-  }, [activeDragState]);
-
-  useEffect(
-    () => () => {
-      previewObjectUrlsRef.current.forEach((url) => {
-        URL.revokeObjectURL(url);
-      });
-      previewObjectUrlsRef.current.clear();
-    },
-    []
-  );
-
-  const portraitExportText = buildMemberTransformExportText(
-    TEAM_DEPARTMENTS,
-    currentOverrides
-  );
-  const headerExportText = buildHeaderTransformExportText(
-    TEAM_DEPARTMENTS,
-    currentOverrides
-  );
-
-  const writeOverridesToStorage = (
-    nextOverrides: TeamImageTransformOverrides
-  ) => {
-    if (!IS_DEV_TEAM_IMAGE_EDITOR_ENABLED) {
-      return;
-    }
-
-    window.localStorage.setItem(
-      DEV_TEAM_IMAGE_EDITOR_STORAGE_KEY,
-      JSON.stringify(nextOverrides)
-    );
-  };
-
-  const copyTextToClipboard = async (text: string, successMessage: string) => {
-    try {
-      await window.navigator.clipboard.writeText(text);
-      setNotice(successMessage);
-    } catch {
-      setNotice(
-        'Clipboard access failed. You can still copy from the export boxes.'
-      );
-    }
-  };
-
-  const revokeImageOverride = (override?: DevImageSourceOverride) => {
-    if (!override?.objectUrl) {
-      return;
-    }
-
-    URL.revokeObjectURL(override.objectUrl);
-    previewObjectUrlsRef.current.delete(override.objectUrl);
-  };
-
-  const selectedImageOverride = selectedTarget
-    ? getSourceOverrideRecordForKind(
-        currentImageOverrides,
-        selectedTarget.kind
-      )[selectedTarget.targetId]
-    : undefined;
-  const selectedImageSrc =
-    selectedImageOverride?.src ?? selectedTarget?.defaultImageSrc ?? '';
-  const selectedImageAlt =
-    selectedImageOverride?.alt ?? selectedTarget?.defaultImageAlt ?? '';
-  const selectedSuggestedFileName =
-    selectedImageOverride?.suggestedFileName ??
-    selectedTarget?.suggestedFileName ??
-    '';
-
-  const handleOpenImagePicker = () => {
-    imagePickerInputRef.current?.click();
-  };
-
-  const handleClearImageOverride = (selection: DevEditorSelection) => {
-    const existingOverride = getSourceOverrideRecordForKind(
-      currentImageOverrides,
-      selection.kind
-    )[selection.targetId];
-
-    revokeImageOverride(existingOverride);
-
-    setCurrentImageOverrides((previousOverrides) => {
-      const currentRecord = {
-        ...getSourceOverrideRecordForKind(previousOverrides, selection.kind),
-      };
-      if (!currentRecord[selection.targetId]) {
-        return previousOverrides;
-      }
-      delete currentRecord[selection.targetId];
-
-      return selection.kind === 'memberPortrait'
-        ? { ...previousOverrides, memberPortraits: currentRecord }
-        : { ...previousOverrides, departmentHeaders: currentRecord };
-    });
-    setNotice('Cleared the temporary local image preview.');
-  };
-
-  const handleImagePickerChange = (
-    event: React.ChangeEvent<HTMLInputElement>
-  ) => {
-    const file = event.target.files?.[0];
-
-    if (!file || !selectedTarget) {
-      event.target.value = '';
-      return;
-    }
-
-    const targetLabel =
-      selectedTarget.kind === 'memberPortrait'
-        ? (selectedTarget.label.split(' -> ')[1] ?? selectedTarget.label)
-        : selectedTarget.label.replace(/\s+header$/i, '');
-    const suggestedFileName = buildSuggestedFileName(
-      selectedTarget.kind,
-      targetLabel,
-      file.name
-    );
-    const existingOverride = getSourceOverrideRecordForKind(
-      currentImageOverrides,
-      selectedTarget.kind
-    )[selectedTarget.targetId];
-    const objectUrl = URL.createObjectURL(file);
-    previewObjectUrlsRef.current.add(objectUrl);
-    revokeImageOverride(existingOverride);
-
-    setCurrentImageOverrides((previousOverrides) => {
-      const currentRecord = {
-        ...getSourceOverrideRecordForKind(
-          previousOverrides,
-          selectedTarget.kind
-        ),
-      };
-
-      currentRecord[selectedTarget.targetId] = {
-        src: objectUrl,
-        alt: selectedTarget.defaultImageAlt,
-        originalFileName: file.name,
-        suggestedFileName,
-        objectUrl,
-      };
-
-      return selectedTarget.kind === 'memberPortrait'
-        ? { ...previousOverrides, memberPortraits: currentRecord }
-        : { ...previousOverrides, departmentHeaders: currentRecord };
-    });
-
-    setNotice(
-      `Loaded ${file.name} as a temporary dev preview. Suggested asset name: ${suggestedFileName}`
-    );
-    event.target.value = '';
-  };
-
-  const devEditor: TeamImageDevEditor | undefined =
-    IS_DEV_TEAM_IMAGE_EDITOR_ENABLED
-      ? {
-          isEnabled: true,
-          selectedTarget,
-          currentOverrides,
-          currentImageOverrides,
-          notice,
-          portraitExportText,
-          headerExportText,
-          selectTarget: (selection) => {
-            setSelectedTarget(selection);
-            setNotice(null);
-          },
-          closeSelection: () => {
-            setSelectedTarget(null);
-            setActiveDragState(null);
-            setNotice(null);
-          },
-          updateTargetTransform: (selection, nextTransform) => {
-            setCurrentOverrides((previousOverrides) =>
-              setOverrideForSelection(
-                previousOverrides,
-                selection,
-                nextTransform
-              )
-            );
-            setSelectedTarget(selection);
-          },
-          resetTarget: (selection) => {
-            setCurrentOverrides((previousOverrides) =>
-              setOverrideForSelection(
-                previousOverrides,
-                selection,
-                selection.defaultTransform
-              )
-            );
-            setNotice('Reset to the code-defined default transform.');
-          },
-          saveOverrides: () => {
-            writeOverridesToStorage(currentOverrides);
-            setSavedOverrides(currentOverrides);
-            setNotice('Saved current Team image overrides locally.');
-          },
-          isTargetSaved: (selection) => {
-            const currentOverride = getOverrideRecordForKind(
-              currentOverrides,
-              selection.kind
-            )[selection.targetId];
-            const savedOverride = getOverrideRecordForKind(
-              savedOverrides,
-              selection.kind
-            )[selection.targetId];
-            const effectiveCurrent = normalizeImageTransform(
-              currentOverride ?? selection.defaultTransform
-            );
-            const effectiveSaved = normalizeImageTransform(
-              savedOverride ?? selection.defaultTransform
-            );
-
-            return areImageTransformsEqual(effectiveCurrent, effectiveSaved);
-          },
-          copyPortraitExport: () => {
-            void copyTextToClipboard(
-              portraitExportText,
-              'Copied portrait transform export.'
-            );
-          },
-          copyHeaderExport: () => {
-            void copyTextToClipboard(
-              headerExportText,
-              'Copied header transform export.'
-            );
-          },
-          openImagePicker: handleOpenImagePicker,
-          clearImageOverride: handleClearImageOverride,
-          startDrag: (event, selection, transform) => {
-            const bounds = event.currentTarget.getBoundingClientRect();
-
-            setSelectedTarget(selection);
-            setActiveDragState({
-              selection,
-              pointerStartX: event.clientX,
-              pointerStartY: event.clientY,
-              width: Math.max(bounds.width, 1),
-              height: Math.max(bounds.height, 1),
-              startingTransform: transform,
-            });
-          },
-        }
-      : undefined;
+  const devEditor = useTeamImageDevEditor(TEAM_DEPARTMENTS);
+  const selectedImageSource = devEditor?.selectedTarget
+    ? devEditor.getImageSource(devEditor.selectedTarget)
+    : null;
 
   return (
     <div className="team-page-wrapper bg-white min-h-screen font-sans">
@@ -1749,35 +935,45 @@ export const TeamPage: React.FC = () => {
       ))}
 
       {devEditor?.selectedTarget ? (
-        <TeamImageDevEditorPanel
-          selection={devEditor.selectedTarget}
-          transform={normalizeImageTransform(
-            getOverrideRecordForKind(
-              devEditor.currentOverrides,
-              devEditor.selectedTarget.kind
-            )[devEditor.selectedTarget.targetId] ??
-              devEditor.selectedTarget.defaultTransform
+        <DevImageEditorPanel
+          selectionLabel={devEditor.selectedTarget.label}
+          selectionKindLabel={getTeamImageKindLabel(
+            devEditor.selectedTarget.kind
           )}
-          imageSrc={selectedImageSrc}
-          imageAlt={selectedImageAlt}
-          hasCustomImage={Boolean(selectedImageOverride)}
-          suggestedFileName={selectedSuggestedFileName}
+          transform={devEditor.getTransform(devEditor.selectedTarget)}
+          imageSrc={selectedImageSource?.src ?? ''}
+          imageAlt={selectedImageSource?.alt ?? ''}
+          sourceName={selectedImageSource?.sourceName ?? ''}
+          previewAspectRatio={devEditor.selectedTarget.previewAspectRatio}
+          hasCustomImage={selectedImageSource?.hasCustomImage ?? false}
+          customImageLabel={selectedImageSource?.statusLabel}
+          sourceHelperText={selectedImageSource?.sourceHelperText}
           notice={devEditor.notice}
           isSaved={devEditor.isTargetSaved(devEditor.selectedTarget)}
-          portraitExportText={devEditor.portraitExportText}
-          headerExportText={devEditor.headerExportText}
+          exportSections={[
+            {
+              title: 'Portrait Transforms',
+              exportText: devEditor.portraitExportText,
+              onCopy: devEditor.copyPortraitExport,
+            },
+            {
+              title: 'Header Transforms',
+              exportText: devEditor.headerExportText,
+              onCopy: devEditor.copyHeaderExport,
+            },
+          ]}
+          fileInputId="team-dev-image-picker"
           onClose={devEditor.closeSelection}
           onReset={() => devEditor.resetTarget(devEditor.selectedTarget!)}
-          onSave={devEditor.saveOverrides}
+          onSave={() => {
+            void devEditor.saveOverrides();
+          }}
           onTransformChange={(nextTransform) =>
             devEditor.updateTargetTransform(
               devEditor.selectedTarget!,
               nextTransform
             )
           }
-          onCopyPortraitExport={devEditor.copyPortraitExport}
-          onCopyHeaderExport={devEditor.copyHeaderExport}
-          onPickImage={devEditor.openImagePicker}
           onClearImageOverride={() =>
             devEditor.clearImageOverride(devEditor.selectedTarget!)
           }
@@ -1786,11 +982,12 @@ export const TeamPage: React.FC = () => {
 
       {devEditor?.isEnabled ? (
         <input
-          ref={imagePickerInputRef}
+          id="team-dev-image-picker"
+          ref={devEditor.imagePickerInputRef}
           type="file"
           accept="image/*"
-          onChange={handleImagePickerChange}
-          className="hidden"
+          onChange={devEditor.handleImagePickerChange}
+          className="sr-only"
         />
       ) : null}
 

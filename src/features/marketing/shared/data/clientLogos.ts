@@ -1,14 +1,14 @@
-import udnLogo from '../../../../assets/Company logos/UDN.jpg';
-import cgLogo from '../../../../assets/Company logos/cg.png';
-import dhiLogo from '../../../../assets/Company logos/dhi.jpg';
-import dubarLogo from '../../../../assets/Company logos/dubar.png';
-import hitechLogo from '../../../../assets/Company logos/hitech.png';
-import neotricLogo from '../../../../assets/Company logos/neotric.png';
-import peLogo from '../../../../assets/Company logos/pe.jpg';
-import readmoreLogo from '../../../../assets/Company logos/readmore.png';
-import sujaldairyLogo from '../../../../assets/Company logos/sujaldairy.jpg';
-import sujalfoodLogo from '../../../../assets/Company logos/sujalfood.png';
-import treveniLogo from '../../../../assets/Company logos/treveni.jpg';
+import udnLogo from '@assets/shared/clients/udn.jpg';
+import cgLogo from '@assets/shared/clients/cg.png';
+import dhiLogo from '@assets/shared/clients/dhi.jpg';
+import dubarLogo from '@assets/shared/clients/dubar.png';
+import hitechLogo from '@assets/shared/clients/hitech.png';
+import neotricLogo from '@assets/shared/clients/neotric.png';
+import peLogo from '@assets/shared/clients/pe.jpg';
+import readmoreLogo from '@assets/shared/clients/readmore.png';
+import sujaldairyLogo from '@assets/shared/clients/sujal-dairy.jpg';
+import sujalfoodLogo from '@assets/shared/clients/sujal-food.png';
+import treveniLogo from '@assets/shared/clients/treveni.jpg';
 
 export interface LogoItem {
   src: string;

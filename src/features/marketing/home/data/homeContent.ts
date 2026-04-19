@@ -1,8 +1,8 @@
-import gifOperations from '../../../../assets/img/optimized/operations-illustration.webp';
-import nepalMap from '../../../../assets/img/optimized/nepal-coverage-map.webp';
-import parcelCourierDeliveryIcon from '../../../../assets/img/service-parcel-courier-delivery.png';
-import person1 from '../../../../assets/img/optimized/founder-bishal-poudel.webp';
-import person3 from '../../../../assets/img/optimized/founder-bishnu-prasad-poudyal.webp';
+import gifOperations from '@assets/generated/marketing/shared/operations-illustration.webp';
+import nepalMap from '@assets/generated/marketing/shared/nepal-coverage-map.webp';
+import parcelCourierDeliveryIcon from '@assets/shared/icons/parcel-courier-delivery.png';
+import person1 from '@assets/generated/marketing/home/founder-bishal-poudel.webp';
+import person3 from '@assets/generated/marketing/home/founder-bishnu-prasad-poudyal.webp';
 import { CLIENT_LOGOS, type LogoItem } from '../../shared/data/clientLogos';
 
 export interface StatItem {
@@ -46,22 +46,22 @@ export const HOME_CLIENT_LOGOS: LogoItem[] = CLIENT_LOGOS;
 
 export const HOME_VIDEO_TESTIMONIALS: VideoTestimonial[] = [
   {
-    source: '/img/video-thumbnail1.mp4',
-    poster: '/img/video-thumbnail1.mp4', // Fallback to same for now if posters missing
+    source: '/media/video-thumbnail1.mp4',
+    poster: '/media/video-thumbnail1.mp4', // Fallback to same for now if posters missing
     name: 'Ravi Thakur',
     title: 'Head of Logistics',
     company: 'NovaXpress',
   },
   {
-    source: '/img/video-thumbnail1.mp4',
-    poster: '/img/video-thumbnail1.mp4',
+    source: '/media/video-thumbnail1.mp4',
+    poster: '/media/video-thumbnail1.mp4',
     name: 'Meena Joshi',
     title: 'CEO',
     company: 'BlueOrbit Retail',
   },
   {
-    source: '/img/video-thumbnail1.mp4',
-    poster: '/img/video-thumbnail1.mp4',
+    source: '/media/video-thumbnail1.mp4',
+    poster: '/media/video-thumbnail1.mp4',
     name: 'Arjun Rana',
     title: 'Sr. Officer',
     company: 'Zenith Hydro Solutions',

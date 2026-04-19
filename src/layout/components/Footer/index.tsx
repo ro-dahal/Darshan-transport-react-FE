@@ -10,7 +10,7 @@ import {
   FaEnvelope,
   FaMapMarkerAlt,
 } from 'react-icons/fa';
-import logo from '../../../assets/img/logo1.png';
+import logo from '@assets/shared/brand/logo-footer.png';
 import { FOOTER_COLUMNS } from './footerLinks';
 import { FOOTER_BRAND_COPY_CLASS, FOOTER_LAYOUT_CLASSES } from './footerLayout';
 import { CONTACT_CONFIG } from '../../../core/config/contactConfig';

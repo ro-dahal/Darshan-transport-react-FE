@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
-import quotationEng from '../../assets/img/important-notice-quotation-rate-en.jpeg';
-import quotationNep from '../../assets/img/important-notice-quotation-rate-ne.jpeg';
+import quotationEng from '@assets/shared/brand/important-notice-quotation-rate-en.jpeg';
+import quotationNep from '@assets/shared/brand/important-notice-quotation-rate-ne.jpeg';
 
 const STORAGE_KEY = 'dt_quotation_popup_seen_2082_chaitra22';
 const OPEN_DELAY_MS = 800;

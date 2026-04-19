@@ -1,10 +1,12 @@
-import type React from 'react';
+import {
+  areImageTransformsEqual,
+  formatTransformNumber,
+  getImageTransformStyle,
+  normalizeImageTransform,
+  type ImageTransform,
+} from '../shared/dev-image-editor/imageTransformUtils';
 
-export type AboutImageTransform = {
-  xPercent: number;
-  yPercent: number;
-  scale: number;
-};
+export type AboutImageTransform = ImageTransform;
 
 export type AboutImageKind = 'founderPortrait' | 'heroImage';
 
@@ -28,6 +30,7 @@ export interface AboutImageDevEditor {
   selectedTarget: AboutImageSelection | null;
   getTransform: (selection: AboutImageSelection) => AboutImageTransform;
   isSelected: (selection: AboutImageSelection) => boolean;
+  isDragging: (selection: AboutImageSelection) => boolean;
   selectTarget: (selection: AboutImageSelection) => void;
   startDrag: (
     event: React.PointerEvent<HTMLElement>,
@@ -36,57 +39,19 @@ export interface AboutImageDevEditor {
   ) => void;
 }
 
-const DEFAULT_ABOUT_IMAGE_TRANSFORM: AboutImageTransform = {
-  xPercent: 0,
-  yPercent: 0,
-  scale: 1,
-};
-
 export const EMPTY_ABOUT_IMAGE_TRANSFORM_OVERRIDES: AboutImageTransformOverrides =
   {
     founderPortraits: {},
     heroImages: {},
   };
 
-const roundTransformValue = (value: number) => Math.round(value * 100) / 100;
-
-const clampAboutImageTransform = (
-  transform: AboutImageTransform
-): AboutImageTransform => ({
-  xPercent: roundTransformValue(
-    Math.max(-50, Math.min(50, transform.xPercent))
-  ),
-  yPercent: roundTransformValue(
-    Math.max(-50, Math.min(50, transform.yPercent))
-  ),
-  scale: roundTransformValue(Math.max(1, Math.min(2.4, transform.scale))),
-});
-
 export const normalizeAboutImageTransform = (
   transform?: Partial<AboutImageTransform>
-): AboutImageTransform =>
-  clampAboutImageTransform({
-    xPercent: transform?.xPercent ?? DEFAULT_ABOUT_IMAGE_TRANSFORM.xPercent,
-    yPercent: transform?.yPercent ?? DEFAULT_ABOUT_IMAGE_TRANSFORM.yPercent,
-    scale: transform?.scale ?? DEFAULT_ABOUT_IMAGE_TRANSFORM.scale,
-  });
+): AboutImageTransform => normalizeImageTransform(transform);
 
-export const areAboutImageTransformsEqual = (
-  left: AboutImageTransform,
-  right: AboutImageTransform
-) =>
-  left.xPercent === right.xPercent &&
-  left.yPercent === right.yPercent &&
-  left.scale === right.scale;
+export const areAboutImageTransformsEqual = areImageTransformsEqual;
 
-export const getAboutImageTransformStyle = (
-  transform: AboutImageTransform
-): React.CSSProperties => ({
-  objectPosition: `${50 + transform.xPercent}% ${50 + transform.yPercent}%`,
-  transform: `scale(${transform.scale})`,
-  transformOrigin: 'center center',
-  willChange: 'transform, object-position',
-});
+export const getAboutImageTransformStyle = getImageTransformStyle;
 
 const getOverrideRecordForKind = (
   overrides: AboutImageTransformOverrides,
@@ -163,9 +128,6 @@ export const parseStoredAboutImageOverrides = (
     return EMPTY_ABOUT_IMAGE_TRANSFORM_OVERRIDES;
   }
 };
-
-const formatTransformNumber = (value: number) =>
-  Number(roundTransformValue(value).toFixed(2)).toString();
 
 export const buildAboutTransformExportText = (
   entries: Array<{ kind: AboutImageKind; label: string; targetId: string }>,
