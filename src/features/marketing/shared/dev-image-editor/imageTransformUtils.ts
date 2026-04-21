@@ -50,7 +50,10 @@ export const getImageTransformStyle = (
   transform: ImageTransform
 ): React.CSSProperties => ({
   objectPosition: `${50 + transform.xPercent}% ${50 + transform.yPercent}%`,
-  imageRendering: '-webkit-optimize-contrast' as any,
+  // Vendor-prefixed value not present in the DOM lib types; cast via
+  // `unknown` to avoid `no-explicit-any` eslint rule.
+  imageRendering:
+    '-webkit-optimize-contrast' as unknown as React.CSSProperties['imageRendering'],
   ...(transform.scale !== DEFAULT_IMAGE_TRANSFORM.scale
     ? {
         transform: `scale(${transform.scale})`,
