@@ -3,12 +3,12 @@ import test from 'node:test';
 
 import { isTeamPageEnabled } from './siteFlags.ts';
 
-test('disables the team page in production by default', () => {
+test('enables the team page in production by default', () => {
   assert.equal(
     isTeamPageEnabled({
       PROD: true,
     }),
-    false
+    true
   );
 });
 

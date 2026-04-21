@@ -30,15 +30,6 @@ const fadeIn = {
   },
 };
 
-const imgReveal = {
-  hidden: { opacity: 0, y: 20 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: { duration: 0.8, ease: easeOut },
-  },
-};
-
 interface FounderSectionProps {
   profiles: FounderProfile[];
   devEditor?: AboutImageDevEditor;
@@ -118,10 +109,7 @@ export const FounderSection: React.FC<FounderSectionProps> = ({
                 isEven ? '' : 'lg:flex-row-reverse'
               }`}
             >
-              <motion.div
-                variants={imgReveal}
-                className="relative w-full max-w-[420px] flex-shrink-0 max-lg:max-w-[360px]"
-              >
+              <div className="relative w-full max-w-[420px] flex-shrink-0 max-lg:max-w-[360px]">
                 <div className={`relative ${isEven ? 'pl-6' : 'pr-6'}`}>
                   <div
                     aria-hidden="true"
@@ -131,22 +119,20 @@ export const FounderSection: React.FC<FounderSectionProps> = ({
                   />
                   <div
                     onPointerDown={handlePointerDown}
-                    className={`group relative overflow-hidden rounded-2xl border bg-gray-100 select-none transition-all duration-500 ${
+                    className={`group relative overflow-hidden rounded-2xl border bg-gray-100 select-none transition-[box-shadow,border-color] duration-500 ${
                       devEditor?.isEnabled
                         ? isDragging
                           ? 'cursor-grabbing border-primary/70 ring-2 ring-primary/40 shadow-[0_24px_70px_rgba(0,0,0,0.18)]'
                           : isSelected
                             ? 'cursor-grab border-primary/60 ring-2 ring-primary/30 shadow-[0_20px_60px_rgba(0,0,0,0.15)]'
-                            : 'cursor-pointer border-gray-200 shadow-[0_18px_50px_rgba(0,0,0,0.12)] hover:-translate-y-1 hover:shadow-[0_24px_65px_rgba(0,0,0,0.16)]'
+                            : 'cursor-pointer border-gray-200 shadow-[0_18px_50px_rgba(0,0,0,0.12)] hover:shadow-[0_24px_65px_rgba(0,0,0,0.16)]'
                         : 'border-gray-200 shadow-[0_18px_50px_rgba(0,0,0,0.12)]'
                     }`}
                   >
                     <img
                       src={profile.image}
                       alt={`${profile.signatureLabel} portrait`}
-                      className={`aspect-[4/5] w-full object-cover transition-transform duration-700 ${
-                        !isDragging ? 'group-hover:scale-[1.02]' : ''
-                      }`}
+                      className="aspect-[4/5] w-full object-cover"
                       style={{
                         ...getAboutImageTransformStyle(effectiveTransform),
                         ...(isDragging
@@ -158,7 +144,7 @@ export const FounderSection: React.FC<FounderSectionProps> = ({
                     />
                   </div>
                 </div>
-              </motion.div>
+              </div>
 
               <motion.div variants={fadeIn} className="min-w-0 flex-1">
                 <span className="text-xs font-bold uppercase tracking-[0.2em] text-primary">

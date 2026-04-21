@@ -50,6 +50,11 @@ export const getImageTransformStyle = (
   transform: ImageTransform
 ): React.CSSProperties => ({
   objectPosition: `${50 + transform.xPercent}% ${50 + transform.yPercent}%`,
-  transform: `scale(${transform.scale})`,
-  transformOrigin: 'center center',
+  imageRendering: '-webkit-optimize-contrast' as any,
+  ...(transform.scale !== DEFAULT_IMAGE_TRANSFORM.scale
+    ? {
+        transform: `scale(${transform.scale})`,
+        transformOrigin: 'center center',
+      }
+    : undefined),
 });

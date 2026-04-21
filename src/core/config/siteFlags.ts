@@ -17,5 +17,7 @@ export function isTeamPageEnabled(env = getSiteFlagsEnv()): boolean {
     return false;
   }
 
-  return env?.PROD !== true;
+  // Enable the Team page by default (including in production), unless
+  // explicitly overridden via `VITE_ENABLE_TEAM_PAGE`.
+  return true;
 }

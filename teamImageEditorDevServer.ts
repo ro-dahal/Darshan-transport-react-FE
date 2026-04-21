@@ -29,9 +29,26 @@ export type TeamImageSaveRequestPayload = TeamImageAssetReferenceInput & {
   saveTargetKind: TeamImageSaveTargetKind;
 };
 
+type TeamImageDimensions = {
+  width: number;
+  height: number;
+};
+
 const DEV_ROUTE_PATH = '/__dev/team-image-editor/save';
 const TEAM_PAGE_RELATIVE_PATH =
   'src/features/marketing/team/pages/TeamPage.tsx';
+
+const MIN_TEAM_IMAGE_DIMENSIONS: Record<TeamDevImageKind, TeamImageDimensions> =
+  {
+    memberPortrait: {
+      width: 1200,
+      height: 1200,
+    },
+    departmentHeader: {
+      width: 2400,
+      height: 1200,
+    },
+  };
 
 const isString = (value: unknown): value is string => typeof value === 'string';
 
@@ -375,6 +392,21 @@ export const getSharpOutputFormatForAssetPath = (
   return 'jpeg';
 };
 
+export const validateTeamImageDimensions = (
+  kind: TeamDevImageKind,
+  dimensions: TeamImageDimensions
+) => {
+  const minimum = MIN_TEAM_IMAGE_DIMENSIONS[kind];
+
+  if (dimensions.width < minimum.width || dimensions.height < minimum.height) {
+    throw new Error(
+      kind === 'memberPortrait'
+        ? `Uploaded portrait is too small (${dimensions.width}x${dimensions.height}). Use an image at least ${minimum.width}x${minimum.height}.`
+        : `Uploaded header is too small (${dimensions.width}x${dimensions.height}). Use an image at least ${minimum.width}x${minimum.height}.`
+    );
+  }
+};
+
 const ensureAssetPathIsSafe = (
   projectRoot: string,
   assetRelativePath: string
@@ -412,7 +444,9 @@ const writeOptimizedImageFile = async (
       await sharpImage.png({ compressionLevel: 9 }).toFile(assetAbsolutePath);
       return;
     case 'webp':
-      await sharpImage.webp({ quality: 90 }).toFile(assetAbsolutePath);
+      await sharpImage
+        .webp({ quality: 96, effort: 6, smartSubsample: true })
+        .toFile(assetAbsolutePath);
       return;
     default: {
       const exhaustive: never = outputFormat;
@@ -487,6 +521,19 @@ const handleTeamImageSaveRequest = async (
   if (!uploadedFile.type.startsWith('image/')) {
     throw new Error(`Unsupported uploaded file type: ${uploadedFile.type}`);
   }
+
+  const metadata = await sharp(Buffer.from(await uploadedFile.arrayBuffer()))
+    .rotate()
+    .metadata();
+
+  if (!metadata.width || !metadata.height) {
+    throw new Error('Unable to determine uploaded Team image dimensions');
+  }
+
+  validateTeamImageDimensions(payload.kind, {
+    width: metadata.width,
+    height: metadata.height,
+  });
 
   const assetAbsolutePath = ensureAssetPathIsSafe(
     projectRoot,

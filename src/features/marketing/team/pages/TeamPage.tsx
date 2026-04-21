@@ -7,9 +7,9 @@ import {
   getImageTransformStyle,
   normalizeImageTransform,
 } from '../../shared/dev-image-editor/imageTransformUtils';
-import demoMemberPortrait from '@assets/generated/marketing/team/team-demo-member-1.webp';
 import financeDepartmentHeader from '@assets/generated/marketing/team/team-finance-department-header.webp';
-import alternateHeaderPortrait from '@assets/generated/marketing/team/team-demo-member-2.webp';
+import teamDemoMember1Portrait from '@assets/marketing/team/team-demo-member-1.jpg';
+import teamDemoMember2Portrait from '@assets/marketing/team/team-demo-member-2.jpg';
 import arunKumarShresthaPortrait from '@assets/marketing/team/arun-kumar-shrestha.jpg';
 import ramKumarShresthaPortrait from '@assets/marketing/team/ram-kumar-shrestha.jpg';
 import laxmanKumarShresthaPortrait from '@assets/marketing/team/laxman-kumar-shrestha.jpg';
@@ -22,7 +22,7 @@ import subinGurungPortrait from '@assets/marketing/team/subin-gurung.jpg';
 import rohanDahalPortrait from '@assets/marketing/team/rohan-dahal.jpg';
 import sharonShresthaPortrait from '@assets/marketing/team/sharon-shrestha.jpg';
 import susamThapaPortrait from '@assets/marketing/team/susam-thapa.jpg';
-import founderHeaderPortrait from '@assets/generated/marketing/team/team-founder-hari-bahadur-shrestha.webp';
+import founderHariBahadurShresthaPortrait from '@assets/marketing/team/team-founder-hari-bahadur-shrestha.jpg';
 import {
   buildDepartmentTargetId,
   buildMemberTargetId,
@@ -35,7 +35,6 @@ import {
   useTeamImageDevEditor,
   type TeamImageDevEditor,
 } from '../useTeamImageDevEditor';
-import teamDemoMember1Portrait from '@assets/marketing/team/team-demo-member-1.jpg';
 import teamOperationsDispatchHeader from '@assets/generated/marketing/team/team-operations-dispatch-header.webp';
 import tikMayaGurungPortrait from '@assets/marketing/team/tik-maya-gurung.jpg';
 import sajanGurungPortrait from '@assets/marketing/team/sajan-gurung.jpg';
@@ -49,6 +48,7 @@ import thaneshworGaudelPortrait from '@assets/marketing/team/thaneshwor-gaudel.j
 import rajKumarShresthaPortrait from '@assets/marketing/team/raj-kumar-shrestha.jpg';
 import teamItDigitalTeamHeader from '@assets/generated/marketing/team/team-it-digital-team-header.webp';
 import pujaGhimirePortrait from '@assets/marketing/team/puja-ghimire.jpg';
+import sukmanShresthaPortrait from '@assets/marketing/team/sukman-shrestha.jpg';
 import teamBranchOperationsHeader from '@assets/generated/marketing/team/team-branch-operations-header.webp';
 import teamDispatchSupervisorsHeader from '@assets/generated/marketing/team/team-dispatch-supervisors-header.webp';
 import teamFleetManagementHeader from '@assets/generated/marketing/team/team-fleet-management-header.webp';
@@ -79,10 +79,9 @@ const staggerContainer = {
 };
 
 const cardFade = {
-  hidden: { opacity: 0, y: 20 },
+  hidden: { opacity: 0 },
   visible: {
     opacity: 1,
-    y: 0,
     transition: { duration: 0.5, ease: easeOut },
   },
 };
@@ -101,9 +100,9 @@ const TEAM_DEPARTMENTS: Department[] = [
       {
         name: 'Hari Bahadur Shrestha',
         role: 'Founder & Chairman',
-        portraitSrc: founderHeaderPortrait,
+        portraitSrc: founderHariBahadurShresthaPortrait,
         portraitAssetPath:
-          'src/assets/generated/marketing/team/team-founder-hari-bahadur-shrestha.webp',
+          'src/assets/marketing/team/team-founder-hari-bahadur-shrestha.jpg',
         portraitAlt: 'Portrait of Hari Bahadur Shrestha',
       },
       {
@@ -116,8 +115,9 @@ const TEAM_DEPARTMENTS: Department[] = [
       {
         name: 'Sukman Shrestha',
         role: 'Executive Member',
-        portraitSrc: teamDemoMember1Portrait,
-        portraitAssetPath: 'src/assets/marketing/team/team-demo-member-1.jpg',
+        portraitSrc: sukmanShresthaPortrait,
+        portraitAssetPath: 'src/assets/marketing/team/sukman-shrestha.jpg',
+        portraitAlt: 'Portrait of Sukman Shrestha',
       },
       { name: 'Shrawan Kumar Shrestha', role: 'Executive Member' },
       {
@@ -379,15 +379,15 @@ const DEPARTMENT_HEADER_IMAGES = [
     alt: 'Finance department header',
   },
   {
-    src: alternateHeaderPortrait,
+    src: teamDemoMember2Portrait,
     alt: 'Operations team header',
   },
   {
-    src: founderHeaderPortrait,
+    src: founderHariBahadurShresthaPortrait,
     alt: 'Branch operations header',
   },
   {
-    src: demoMemberPortrait,
+    src: teamDemoMember1Portrait,
     alt: 'Department team header',
   },
 ] as const;
@@ -531,7 +531,7 @@ const MemberPortraitCard: React.FC<{
   minHeightClassName = 'min-h-[320px]',
   devEditor,
 }) => {
-  const portraitSrc = member.portraitSrc ?? demoMemberPortrait;
+  const portraitSrc = member.portraitSrc ?? teamDemoMember1Portrait;
   const portraitAlt = member.portraitAlt ?? `Portrait of ${member.name}`;
   const defaultTransform = normalizeImageTransform(member.portraitTransform);
   const targetId = buildMemberTargetId(departmentName, member.name);
@@ -574,10 +574,9 @@ const MemberPortraitCard: React.FC<{
   };
 
   return (
-    <motion.div
-      variants={cardFade}
+    <div
       onPointerDown={handlePointerDown}
-      className={`group relative overflow-hidden rounded-2xl border bg-[#111] select-none transition-all duration-500 hover:-translate-y-1 hover:shadow-[0_24px_70px_rgba(0,0,0,0.24)] shadow-[0_18px_55px_rgba(0,0,0,0.18)] ${
+      className={`group relative overflow-hidden rounded-2xl border bg-[#111] select-none transition-[box-shadow,border-color] duration-500 hover:shadow-[0_24px_70px_rgba(0,0,0,0.24)] shadow-[0_18px_55px_rgba(0,0,0,0.18)] ${
         devEditor?.isEnabled
           ? isDragging
             ? 'cursor-grabbing border-primary/70 ring-2 ring-primary/40'
@@ -587,21 +586,15 @@ const MemberPortraitCard: React.FC<{
           : 'border-gray-200'
       } ${minHeightClassName}`}
     >
-      <div
-        className={`absolute inset-0 transition-transform duration-700 ${
-          !isDragging ? 'group-hover:scale-[1.03]' : ''
-        }`}
-      >
-        <img
-          src={effectivePortraitSrc}
-          alt={effectivePortraitAlt}
-          className="absolute inset-0 h-full w-full object-cover"
-          style={{
-            ...getImageTransformStyle(effectiveTransform),
-            ...(isDragging ? { willChange: 'transform' } : undefined),
-          }}
-        />
-      </div>
+      <img
+        src={effectivePortraitSrc}
+        alt={effectivePortraitAlt}
+        className="absolute inset-0 h-full w-full object-cover"
+        style={{
+          ...getImageTransformStyle(effectiveTransform),
+          ...(isDragging ? { willChange: 'transform' } : undefined),
+        }}
+      />
       <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-black/12 to-transparent" />
       <div className="absolute inset-x-0 bottom-0 h-[40%] bg-gradient-to-t from-black/82 via-black/50 via-58% to-transparent backdrop-blur-md [mask-image:linear-gradient(to_top,black_0%,black_58%,transparent_100%)]" />
 
@@ -615,7 +608,7 @@ const MemberPortraitCard: React.FC<{
           </p>
         </div>
       </div>
-    </motion.div>
+    </div>
   );
 };
 
@@ -754,8 +747,8 @@ const DepartmentSection: React.FC<{
       <div className="max-w-[1200px] mx-auto">
         {/* Department info */}
         <motion.div
-          initial={{ opacity: 0, y: 24 }}
-          whileInView={{ opacity: 1, y: 0 }}
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
           viewport={{ once: true, margin: '-80px' }}
           transition={{ duration: 0.6, ease: easeOut }}
           className="mb-7 w-full"

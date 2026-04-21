@@ -47,9 +47,24 @@ test('builds the expected object-position and scale styles', () => {
       scale: 1.33,
     }),
     {
+      imageRendering: '-webkit-optimize-contrast',
       objectPosition: '38% 56.5%',
       transform: 'scale(1.33)',
       transformOrigin: 'center center',
+    }
+  );
+});
+
+test('omits transform styles when the image uses the default scale', () => {
+  assert.deepEqual(
+    getImageTransformStyle({
+      xPercent: 0,
+      yPercent: 0,
+      scale: 1,
+    }),
+    {
+      imageRendering: '-webkit-optimize-contrast',
+      objectPosition: '50% 50%',
     }
   );
 });

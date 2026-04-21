@@ -4,6 +4,7 @@ import test from 'node:test';
 import {
   getSharpOutputFormatForAssetPath,
   upsertTeamPageImageAssetReference,
+  validateTeamImageDimensions,
 } from '../../../../teamImageEditorDevServer.ts';
 
 const TEAM_PAGE_FIXTURE = `
@@ -104,5 +105,41 @@ test('maps Team asset paths to sharp output formats', () => {
   assert.equal(
     getSharpOutputFormatForAssetPath('src/assets/marketing/team/asha-rai.jpg'),
     'jpeg'
+  );
+});
+
+test('rejects undersized Team portraits before writing generated assets', () => {
+  assert.throws(
+    () =>
+      validateTeamImageDimensions('memberPortrait', {
+        width: 400,
+        height: 267,
+      }),
+    /Uploaded portrait is too small \(400x267\)/
+  );
+
+  assert.doesNotThrow(() =>
+    validateTeamImageDimensions('memberPortrait', {
+      width: 1200,
+      height: 1800,
+    })
+  );
+});
+
+test('rejects undersized Team headers before writing generated assets', () => {
+  assert.throws(
+    () =>
+      validateTeamImageDimensions('departmentHeader', {
+        width: 1600,
+        height: 900,
+      }),
+    /Uploaded header is too small \(1600x900\)/
+  );
+
+  assert.doesNotThrow(() =>
+    validateTeamImageDimensions('departmentHeader', {
+      width: 7008,
+      height: 4672,
+    })
   );
 });
