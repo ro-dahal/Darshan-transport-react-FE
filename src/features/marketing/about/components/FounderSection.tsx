@@ -1,5 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
+import { Link } from 'react-router-dom';
 import type { FounderProfile } from '../data/aboutContent';
 import type {
   AboutImageDevEditor,
@@ -192,6 +193,24 @@ export const FounderSection: React.FC<FounderSectionProps> = ({
           );
         })}
       </div>
+
+      <motion.div
+        variants={fadeIn}
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, margin: '-60px' }}
+        className="mt-16 flex justify-center max-md:mt-12"
+      >
+        <Link
+          to="/team"
+          className="inline-flex items-center gap-2 text-sm font-semibold text-primary no-underline transition-all duration-200 hover:gap-3"
+        >
+          Meet the full team
+          <span aria-hidden="true" className="text-lg">
+            →
+          </span>
+        </Link>
+      </motion.div>
     </div>
   </section>
 );

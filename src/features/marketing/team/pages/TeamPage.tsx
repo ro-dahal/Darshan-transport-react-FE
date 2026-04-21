@@ -35,40 +35,24 @@ import {
   useTeamImageDevEditor,
   type TeamImageDevEditor,
 } from '../useTeamImageDevEditor';
-import sukmanShresthaPortrait from '@assets/marketing/team/sukman-shrestha.jpg';
+import teamDemoMember1Portrait from '@assets/marketing/team/team-demo-member-1.jpg';
 import teamOperationsDispatchHeader from '@assets/generated/marketing/team/team-operations-dispatch-header.webp';
-import tikMayaGurungPortrait from "@assets/marketing/team/tik-maya-gurung.jpg";
-import sajanGurungPortrait from "@assets/marketing/team/sajan-gurung.jpg";
-import nandalalPudasainiPortrait from "@assets/marketing/team/nandalal-pudasaini.jpg";
-import rohitGurungPortrait from "@assets/marketing/team/rohit-gurung.jpg";
-import ramPrasadGurungPortrait from "@assets/marketing/team/ram-prasad-gurung.jpg";
-import laluKCPortrait from "@assets/marketing/team/lalu-k-c.jpg";
-import anitaShresthaPortrait from "@assets/marketing/team/anita-shrestha.jpg";
-import sobitaThapaPortrait from "@assets/marketing/team/sobita-thapa.jpg";
-import thaneshworGaudelPortrait from "@assets/marketing/team/thaneshwor-gaudel.jpg";
-import rajKumarShresthaPortrait from "@assets/marketing/team/raj-kumar-shrestha.jpg";
-import teamItDigitalTeamHeader from "@assets/generated/marketing/team/team-it-digital-team-header.webp";
-import pujaGhimirePortrait from "@assets/marketing/team/puja-ghimire.jpg";
-import teamBranchOperationsHeader from "@assets/generated/marketing/team/team-branch-operations-header.webp";
-import teamDispatchSupervisorsHeader from "@assets/generated/marketing/team/team-dispatch-supervisors-header.webp";
-import teamFleetManagementHeader from "@assets/generated/marketing/team/team-fleet-management-header.webp";
-import teamSupportStaffHeader from "@assets/generated/marketing/team/team-support-staff-header.webp";
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+import tikMayaGurungPortrait from '@assets/marketing/team/tik-maya-gurung.jpg';
+import sajanGurungPortrait from '@assets/marketing/team/sajan-gurung.jpg';
+import nandalalPudasainiPortrait from '@assets/marketing/team/nandalal-pudasaini.jpg';
+import rohitGurungPortrait from '@assets/marketing/team/rohit-gurung.jpg';
+import ramPrasadGurungPortrait from '@assets/marketing/team/ram-prasad-gurung.jpg';
+import laluKCPortrait from '@assets/marketing/team/lalu-k-c.jpg';
+import anitaShresthaPortrait from '@assets/marketing/team/anita-shrestha.jpg';
+import sobitaThapaPortrait from '@assets/marketing/team/sobita-thapa.jpg';
+import thaneshworGaudelPortrait from '@assets/marketing/team/thaneshwor-gaudel.jpg';
+import rajKumarShresthaPortrait from '@assets/marketing/team/raj-kumar-shrestha.jpg';
+import teamItDigitalTeamHeader from '@assets/generated/marketing/team/team-it-digital-team-header.webp';
+import pujaGhimirePortrait from '@assets/marketing/team/puja-ghimire.jpg';
+import teamBranchOperationsHeader from '@assets/generated/marketing/team/team-branch-operations-header.webp';
+import teamDispatchSupervisorsHeader from '@assets/generated/marketing/team/team-dispatch-supervisors-header.webp';
+import teamFleetManagementHeader from '@assets/generated/marketing/team/team-fleet-management-header.webp';
+import teamSupportStaffHeader from '@assets/generated/marketing/team/team-support-staff-header.webp';
 
 /* ------------------------------------------------------------------ */
 /*  Animation Variants                                                 */
@@ -132,8 +116,8 @@ const TEAM_DEPARTMENTS: Department[] = [
       {
         name: 'Sukman Shrestha',
         role: 'Executive Member',
-        portraitSrc: sukmanShresthaPortrait,
-        portraitAssetPath: 'src/assets/marketing/team/sukman-shrestha.jpg',
+        portraitSrc: teamDemoMember1Portrait,
+        portraitAssetPath: 'src/assets/marketing/team/team-demo-member-1.jpg',
       },
       { name: 'Shrawan Kumar Shrestha', role: 'Executive Member' },
       {
@@ -185,8 +169,18 @@ const TEAM_DEPARTMENTS: Department[] = [
         portraitAssetPath: 'src/assets/marketing/team/kamal-bahadur-dhami.jpg',
         portraitAlt: 'Portrait of Kamal Bahadur Dhami',
       },
-      { name: 'Tik Maya Gurung', role: 'Finance Assistant', portraitSrc: tikMayaGurungPortrait, portraitAssetPath: "src/assets/marketing/team/tik-maya-gurung.jpg" },
-      { name: 'Puja Ghimire', role: 'Accounts & Operations Support', portraitSrc: pujaGhimirePortrait, portraitAssetPath: "src/assets/marketing/team/puja-ghimire.jpg" },
+      {
+        name: 'Tik Maya Gurung',
+        role: 'Finance Assistant',
+        portraitSrc: tikMayaGurungPortrait,
+        portraitAssetPath: 'src/assets/marketing/team/tik-maya-gurung.jpg',
+      },
+      {
+        name: 'Puja Ghimire',
+        role: 'Accounts & Operations Support',
+        portraitSrc: pujaGhimirePortrait,
+        portraitAssetPath: 'src/assets/marketing/team/puja-ghimire.jpg',
+      },
       {
         name: 'Kanchan Thapa',
         role: 'Billing & Collection Officer',
@@ -206,16 +200,21 @@ const TEAM_DEPARTMENTS: Department[] = [
     headerImageAssetPath:
       'src/assets/generated/marketing/team/team-operations-dispatch-header.webp',
     members: [
-      { name: 'Anita Shrestha', role: 'Dispatch & Delivery Coordinator', portraitSrc: anitaShresthaPortrait, portraitAssetPath: "src/assets/marketing/team/anita-shrestha.jpg" },
+      {
+        name: 'Anita Shrestha',
+        role: 'Dispatch & Delivery Coordinator',
+        portraitSrc: anitaShresthaPortrait,
+        portraitAssetPath: 'src/assets/marketing/team/anita-shrestha.jpg',
+      },
       { name: 'Bikash Pariyar', role: 'Dispatch & Delivery Coordinator' },
       { name: 'Jagat Pun', role: 'Dispatch & Delivery Coordinator' },
       { name: 'Krishna Karki', role: 'Booking Supervisor' },
       {
-    name: 'Ram Prasad Gurung',
-    role: 'Dispatch & Delivery Coordinator',
-    portraitSrc: ramPrasadGurungPortrait,
-    portraitAssetPath: "src/assets/marketing/team/ram-prasad-gurung.jpg"
-},
+        name: 'Ram Prasad Gurung',
+        role: 'Dispatch & Delivery Coordinator',
+        portraitSrc: ramPrasadGurungPortrait,
+        portraitAssetPath: 'src/assets/marketing/team/ram-prasad-gurung.jpg',
+      },
       {
         name: 'Kripesh Shrestha',
         role: 'Booking Supervisor',
@@ -223,13 +222,28 @@ const TEAM_DEPARTMENTS: Department[] = [
         portraitAssetPath: 'src/assets/marketing/team/kripesh-shrestha.jpg',
         portraitAlt: 'Portrait of Kripesh Shrestha',
       },
-      { name: 'Nandalal Pudasaini', role: 'Operations Supervisor', portraitSrc: nandalalPudasainiPortrait, portraitAssetPath: "src/assets/marketing/team/nandalal-pudasaini.jpg" },
-      { name: 'Sajan Gurung', role: 'Operations Supervisor', portraitSrc: sajanGurungPortrait, portraitAssetPath: "src/assets/marketing/team/sajan-gurung.jpg" },
+      {
+        name: 'Nandalal Pudasaini',
+        role: 'Operations Supervisor',
+        portraitSrc: nandalalPudasainiPortrait,
+        portraitAssetPath: 'src/assets/marketing/team/nandalal-pudasaini.jpg',
+      },
+      {
+        name: 'Sajan Gurung',
+        role: 'Operations Supervisor',
+        portraitSrc: sajanGurungPortrait,
+        portraitAssetPath: 'src/assets/marketing/team/sajan-gurung.jpg',
+      },
       {
         name: 'Bishal Prasad Yadav',
         role: 'Booking & Dispatch Executive',
       },
-      { name: 'Rohit Gurung', role: 'Booking & Dispatch Executive', portraitSrc: rohitGurungPortrait, portraitAssetPath: "src/assets/marketing/team/rohit-gurung.jpg" },
+      {
+        name: 'Rohit Gurung',
+        role: 'Booking & Dispatch Executive',
+        portraitSrc: rohitGurungPortrait,
+        portraitAssetPath: 'src/assets/marketing/team/rohit-gurung.jpg',
+      },
       { name: 'Sanjeev Chatri', role: 'Booking & Dispatch Executive' },
       {
         name: 'Sushil Kumar Nepal',
@@ -239,94 +253,124 @@ const TEAM_DEPARTMENTS: Department[] = [
   },
   {
     department: 'Branch Operations',
-    description: 'Leading regional branches to ensure consistent service quality across the country.',
+    description:
+      'Leading regional branches to ensure consistent service quality across the country.',
     icon: '🏢',
     headerImageSrc: teamBranchOperationsHeader,
-    headerImageAssetPath: "src/assets/generated/marketing/team/team-branch-operations-header.webp",
+    headerImageAssetPath:
+      'src/assets/generated/marketing/team/team-branch-operations-header.webp',
     members: [
-        { name: 'Deepak Lamichhane', role: 'Branch Manager' },
-        { name: 'Govinda Shrestha', role: 'Branch Manager' },
-        { name: 'Rajesh Patel', role: 'Branch Manager' },
-    ]
-},
+      { name: 'Deepak Lamichhane', role: 'Branch Manager' },
+      { name: 'Govinda Shrestha', role: 'Branch Manager' },
+      { name: 'Rajesh Patel', role: 'Branch Manager' },
+    ],
+  },
   {
     department: 'Dispatch Supervisors',
-    description: 'Overseeing branch-level dispatch operations and ensuring timely cargo movement.',
+    description:
+      'Overseeing branch-level dispatch operations and ensuring timely cargo movement.',
     icon: '📋',
     headerImageSrc: teamDispatchSupervisorsHeader,
-    headerImageAssetPath: "src/assets/generated/marketing/team/team-dispatch-supervisors-header.webp",
+    headerImageAssetPath:
+      'src/assets/generated/marketing/team/team-dispatch-supervisors-header.webp',
     members: [
-        {
-            name: 'Chandra Bahadur Magar',
-            role: 'Branch Dispatch Supervisor',
-        },
-        { name: 'Lalu K.C', role: 'Branch Dispatch Supervisor', portraitSrc: laluKCPortrait, portraitAssetPath: "src/assets/marketing/team/lalu-k-c.jpg" },
-        { name: 'Raj Kumar Shrestha', role: 'Branch Dispatch Supervisor', portraitSrc: rajKumarShresthaPortrait, portraitAssetPath: "src/assets/marketing/team/raj-kumar-shrestha.jpg" },
-        { name: 'Sobita Thapa', role: 'Branch Dispatch Supervisor', portraitSrc: sobitaThapaPortrait, portraitAssetPath: "src/assets/marketing/team/sobita-thapa.jpg" },
-        { name: 'Suman Darai', role: 'Branch Dispatch Supervisor' },
-        { name: 'Thaneshwor Gaudel', role: 'Branch Dispatch Supervisor', portraitSrc: thaneshworGaudelPortrait, portraitAssetPath: "src/assets/marketing/team/thaneshwor-gaudel.jpg" },
-        { name: 'Baburam Shrestha', role: 'Branch Dispatch Supervisor' },
-    ]
-},
+      {
+        name: 'Chandra Bahadur Magar',
+        role: 'Branch Dispatch Supervisor',
+      },
+      {
+        name: 'Lalu K.C',
+        role: 'Branch Dispatch Supervisor',
+        portraitSrc: laluKCPortrait,
+        portraitAssetPath: 'src/assets/marketing/team/lalu-k-c.jpg',
+      },
+      {
+        name: 'Raj Kumar Shrestha',
+        role: 'Branch Dispatch Supervisor',
+        portraitSrc: rajKumarShresthaPortrait,
+        portraitAssetPath: 'src/assets/marketing/team/raj-kumar-shrestha.jpg',
+      },
+      {
+        name: 'Sobita Thapa',
+        role: 'Branch Dispatch Supervisor',
+        portraitSrc: sobitaThapaPortrait,
+        portraitAssetPath: 'src/assets/marketing/team/sobita-thapa.jpg',
+      },
+      { name: 'Suman Darai', role: 'Branch Dispatch Supervisor' },
+      {
+        name: 'Thaneshwor Gaudel',
+        role: 'Branch Dispatch Supervisor',
+        portraitSrc: thaneshworGaudelPortrait,
+        portraitAssetPath: 'src/assets/marketing/team/thaneshwor-gaudel.jpg',
+      },
+      { name: 'Baburam Shrestha', role: 'Branch Dispatch Supervisor' },
+    ],
+  },
   {
     department: 'Fleet Management',
-    description: 'Keeping our vehicles running safely and reliably through expert maintenance.',
+    description:
+      'Keeping our vehicles running safely and reliably through expert maintenance.',
     icon: '🔧',
     headerImageSrc: teamFleetManagementHeader,
-    headerImageAssetPath: "src/assets/generated/marketing/team/team-fleet-management-header.webp",
+    headerImageAssetPath:
+      'src/assets/generated/marketing/team/team-fleet-management-header.webp',
     members: [
-        { name: 'Nur Islam Hawari', role: 'Lead Mechanic' },
-        { name: 'Esrafil Alam', role: 'Mechanic' },
-    ]
-},
+      { name: 'Nur Islam Hawari', role: 'Lead Mechanic' },
+      { name: 'Esrafil Alam', role: 'Mechanic' },
+    ],
+  },
   {
     department: 'IT & Digital Team',
-    description: 'Driving technology, design, and digital growth for Darshan Transport.',
+    description:
+      'Driving technology, design, and digital growth for Darshan Transport.',
     icon: '💻',
     headerImageSrc: teamItDigitalTeamHeader,
-    headerImageAssetPath: "src/assets/generated/marketing/team/team-it-digital-team-header.webp",
+    headerImageAssetPath:
+      'src/assets/generated/marketing/team/team-it-digital-team-header.webp',
     members: [
-        {
-            name: 'Subin Gurung',
-            role: 'Lead Developer',
-            portraitSrc: subinGurungPortrait,
-            portraitAssetPath: 'src/assets/marketing/team/subin-gurung.jpg',
-            portraitAlt: 'Portrait of Subin Gurung',
-        },
-        {
-            name: 'Rohan Dahal',
-            role: 'UI/UX & Creative Designer',
-            portraitSrc: rohanDahalPortrait,
-            portraitAssetPath: 'src/assets/marketing/team/rohan-dahal.jpg',
-            portraitAlt: 'Portrait of Rohan Dahal',
-        },
-        {
-            name: 'Sharon Shrestha',
-            role: 'Digital Marketing & Content Manager',
-            portraitSrc: sharonShresthaPortrait,
-            portraitAssetPath: 'src/assets/marketing/team/sharon-shrestha.jpg',
-            portraitAlt: 'Portrait of Sharon Shrestha',
-        },
-        {
-            name: 'Susam Thapa',
-            role: 'QA & Support Engineer',
-            portraitSrc: susamThapaPortrait,
-            portraitAssetPath: 'src/assets/marketing/team/susam-thapa.jpg',
-            portraitAlt: 'Portrait of Susam Thapa',
-        }
-    ]
-},
+      {
+        name: 'Subin Gurung',
+        role: 'Lead Developer',
+        portraitSrc: subinGurungPortrait,
+        portraitAssetPath: 'src/assets/marketing/team/subin-gurung.jpg',
+        portraitAlt: 'Portrait of Subin Gurung',
+      },
+      {
+        name: 'Rohan Dahal',
+        role: 'UI/UX & Creative Designer',
+        portraitSrc: rohanDahalPortrait,
+        portraitAssetPath: 'src/assets/marketing/team/rohan-dahal.jpg',
+        portraitAlt: 'Portrait of Rohan Dahal',
+      },
+      {
+        name: 'Sharon Shrestha',
+        role: 'Digital Marketing & Content Manager',
+        portraitSrc: sharonShresthaPortrait,
+        portraitAssetPath: 'src/assets/marketing/team/sharon-shrestha.jpg',
+        portraitAlt: 'Portrait of Sharon Shrestha',
+      },
+      {
+        name: 'Susam Thapa',
+        role: 'QA & Support Engineer',
+        portraitSrc: susamThapaPortrait,
+        portraitAssetPath: 'src/assets/marketing/team/susam-thapa.jpg',
+        portraitAlt: 'Portrait of Susam Thapa',
+      },
+    ],
+  },
   {
     department: 'Support Staff',
-    description: 'Ensuring smooth day-to-day office operations and workplace support.',
+    description:
+      'Ensuring smooth day-to-day office operations and workplace support.',
     icon: '🤝',
     headerImageSrc: teamSupportStaffHeader,
-    headerImageAssetPath: "src/assets/generated/marketing/team/team-support-staff-header.webp",
+    headerImageAssetPath:
+      'src/assets/generated/marketing/team/team-support-staff-header.webp',
     members: [
-        { name: 'Bhesh Maya Gurung', role: 'Office Assistant' },
-        { name: 'Urmila Lama', role: 'Office Assistant' },
-    ]
-},
+      { name: 'Bhesh Maya Gurung', role: 'Office Assistant' },
+      { name: 'Urmila Lama', role: 'Office Assistant' },
+    ],
+  },
 ];
 
 const DEPARTMENT_HEADER_IMAGES = [
