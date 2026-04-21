@@ -52,5 +52,4 @@ export const getImageTransformStyle = (
   objectPosition: `${50 + transform.xPercent}% ${50 + transform.yPercent}%`,
   transform: `scale(${transform.scale})`,
   transformOrigin: 'center center',
-  willChange: 'transform, object-position',
 });

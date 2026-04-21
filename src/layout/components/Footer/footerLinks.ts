@@ -1,4 +1,6 @@
-import { TEAM_PAGE_ENABLED } from '../../../core/config/siteFlags';
+import { isTeamPageEnabled } from '../../../core/config/siteFlags';
+
+const TEAM_PAGE_ENABLED = isTeamPageEnabled();
 
 interface FooterLink {
   label: string;

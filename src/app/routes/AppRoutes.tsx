@@ -2,7 +2,9 @@ import React, { Suspense } from 'react';
 import { Navigate, Route, Routes } from 'react-router-dom';
 import { MainLayout } from '../layouts/MainLayout';
 import { ErrorBoundary } from '../../core/components/ErrorBoundary';
-import { TEAM_PAGE_ENABLED } from '../../core/config/siteFlags';
+import { isTeamPageEnabled } from '../../core/config/siteFlags';
+
+const TEAM_PAGE_ENABLED = isTeamPageEnabled();
 
 const AboutPage = React.lazy(() =>
   import('../../features/marketing/about/pages/AboutPage').then((module) => ({

@@ -50,7 +50,6 @@ test('builds the expected object-position and scale styles', () => {
       objectPosition: '38% 56.5%',
       transform: 'scale(1.33)',
       transformOrigin: 'center center',
-      willChange: 'transform, object-position',
     }
   );
 });

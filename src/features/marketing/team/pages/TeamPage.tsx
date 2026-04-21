@@ -596,7 +596,10 @@ const MemberPortraitCard: React.FC<{
           src={effectivePortraitSrc}
           alt={effectivePortraitAlt}
           className="absolute inset-0 h-full w-full object-cover"
-          style={getImageTransformStyle(effectiveTransform)}
+          style={{
+            ...getImageTransformStyle(effectiveTransform),
+            ...(isDragging ? { willChange: 'transform' } : undefined),
+          }}
         />
       </div>
       <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-black/12 to-transparent" />
@@ -779,7 +782,12 @@ const DepartmentSection: React.FC<{
                     className={`absolute inset-0 h-full w-full object-cover opacity-[0.88] ${
                       imageOnLeft ? 'object-left' : 'object-center'
                     }`}
-                    style={getImageTransformStyle(headerTransform)}
+                    style={{
+                      ...getImageTransformStyle(headerTransform),
+                      ...(isHeaderDragging
+                        ? { willChange: 'transform' }
+                        : undefined),
+                    }}
                   />
                 </div>
                 <div

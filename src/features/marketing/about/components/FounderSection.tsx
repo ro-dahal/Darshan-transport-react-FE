@@ -1,6 +1,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
+import { isTeamPageEnabled } from '../../../../core/config/siteFlags';
 import type { FounderProfile } from '../data/aboutContent';
 import type {
   AboutImageDevEditor,
@@ -18,6 +19,8 @@ import {
 
 const easeOut = [0.22, 1, 0.36, 1] as [number, number, number, number];
 
+const TEAM_PAGE_ENABLED = isTeamPageEnabled();
+
 const fadeIn = {
   hidden: { opacity: 0, y: 40 },
   visible: {
@@ -28,15 +31,10 @@ const fadeIn = {
 };
 
 const imgReveal = {
-  hidden: {
-    opacity: 0,
-    scale: 0.95,
-    clipPath: 'inset(8% 8% 8% 8% round 16px)',
-  },
+  hidden: { opacity: 0, y: 20 },
   visible: {
     opacity: 1,
-    scale: 1,
-    clipPath: 'inset(0% 0% 0% 0% round 16px)',
+    y: 0,
     transition: { duration: 0.8, ease: easeOut },
   },
 };
@@ -149,7 +147,12 @@ export const FounderSection: React.FC<FounderSectionProps> = ({
                       className={`aspect-[4/5] w-full object-cover transition-transform duration-700 ${
                         !isDragging ? 'group-hover:scale-[1.02]' : ''
                       }`}
-                      style={getAboutImageTransformStyle(effectiveTransform)}
+                      style={{
+                        ...getAboutImageTransformStyle(effectiveTransform),
+                        ...(isDragging
+                          ? { willChange: 'transform' }
+                          : undefined),
+                      }}
                       loading="lazy"
                       decoding="async"
                     />
@@ -194,23 +197,25 @@ export const FounderSection: React.FC<FounderSectionProps> = ({
         })}
       </div>
 
-      <motion.div
-        variants={fadeIn}
-        initial="hidden"
-        whileInView="visible"
-        viewport={{ once: true, margin: '-60px' }}
-        className="mt-16 flex justify-center max-md:mt-12"
-      >
-        <Link
-          to="/team"
-          className="inline-flex items-center gap-2 text-sm font-semibold text-primary no-underline transition-all duration-200 hover:gap-3"
+      {TEAM_PAGE_ENABLED ? (
+        <motion.div
+          variants={fadeIn}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: '-60px' }}
+          className="mt-16 flex justify-center max-md:mt-12"
         >
-          Meet the full team
-          <span aria-hidden="true" className="text-lg">
-            →
-          </span>
-        </Link>
-      </motion.div>
+          <Link
+            to="/team"
+            className="inline-flex items-center gap-2 text-sm font-semibold text-primary no-underline transition-all duration-200 hover:gap-3"
+          >
+            Meet the full team
+            <span aria-hidden="true" className="text-lg">
+              →
+            </span>
+          </Link>
+        </motion.div>
+      ) : null}
     </div>
   </section>
 );
