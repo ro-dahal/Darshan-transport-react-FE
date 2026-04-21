@@ -4,6 +4,13 @@ import { Readable } from 'node:stream';
 import sharp from 'sharp';
 import ts from 'typescript';
 import type { Plugin } from 'vite';
+import {
+  DEFAULT_IMAGE_TRANSFORM,
+  areImageTransformsEqual,
+  formatTransformNumber,
+  normalizeImageTransform,
+  type ImageTransform,
+} from './src/features/marketing/shared/dev-image-editor/imageTransformUtils';
 
 export type TeamDevImageKind = 'memberPortrait' | 'departmentHeader';
 export type TeamImageSaveTargetKind =
@@ -27,6 +34,7 @@ export type TeamImageSaveRequestPayload = TeamImageAssetReferenceInput & {
   assetFileName: string;
   outputFormat: SharpOutputFormat;
   saveTargetKind: TeamImageSaveTargetKind;
+  transform: ImageTransform;
 };
 
 type TeamImageDimensions = {
@@ -164,26 +172,13 @@ const findMemberNode = (
   );
 };
 
-const createPropertyAssignment = (
-  propertyName: string,
-  value: string,
-  valueKind: 'identifier' | 'string'
-) =>
-  ts.factory.createPropertyAssignment(
-    propertyName,
-    valueKind === 'identifier'
-      ? ts.factory.createIdentifier(value)
-      : ts.factory.createStringLiteral(value)
-  );
-
-const upsertObjectLiteralProperties = (
+const updateObjectLiteralProperties = (
   sourceText: string,
   sourceFile: ts.SourceFile,
   targetNode: ts.ObjectLiteralExpression,
   properties: ReadonlyArray<{
     name: string;
-    value: string;
-    valueKind: 'identifier' | 'string';
+    initializer: ts.Expression | null;
     after: string[];
   }>
 ) => {
@@ -191,7 +186,29 @@ const upsertObjectLiteralProperties = (
   let didChange = false;
 
   for (const propertySpec of properties) {
-    if (getObjectProperty(targetNode, propertySpec.name)) {
+    const existingIndex = nextProperties.findIndex(
+      (property) =>
+        ts.isPropertyAssignment(property) &&
+        ts.isIdentifier(property.name) &&
+        property.name.text === propertySpec.name
+    );
+
+    if (!propertySpec.initializer) {
+      if (existingIndex >= 0) {
+        nextProperties.splice(existingIndex, 1);
+        didChange = true;
+      }
+      continue;
+    }
+
+    const nextProperty = ts.factory.createPropertyAssignment(
+      propertySpec.name,
+      propertySpec.initializer
+    );
+
+    if (existingIndex >= 0) {
+      nextProperties[existingIndex] = nextProperty;
+      didChange = true;
       continue;
     }
 
@@ -207,15 +224,7 @@ const upsertObjectLiteralProperties = (
         )
       ) + 1;
 
-    nextProperties.splice(
-      Math.max(insertionIndex, 0),
-      0,
-      createPropertyAssignment(
-        propertySpec.name,
-        propertySpec.value,
-        propertySpec.valueKind
-      )
-    );
+    nextProperties.splice(Math.max(insertionIndex, 0), 0, nextProperty);
     didChange = true;
   }
 
@@ -240,6 +249,36 @@ const upsertObjectLiteralProperties = (
     sourceText.slice(targetNode.getEnd())
   );
 };
+
+const createTransformObjectLiteral = (transform: ImageTransform) =>
+  ts.factory.createObjectLiteralExpression(
+    [
+      ts.factory.createPropertyAssignment(
+        'xPercent',
+        createNumericExpression(transform.xPercent)
+      ),
+      ts.factory.createPropertyAssignment(
+        'yPercent',
+        createNumericExpression(transform.yPercent)
+      ),
+      ts.factory.createPropertyAssignment(
+        'scale',
+        createNumericExpression(transform.scale)
+      ),
+    ],
+    true
+  );
+
+function createNumericExpression(value: number) {
+  const normalizedValue = Number(formatTransformNumber(value));
+
+  return normalizedValue < 0
+    ? ts.factory.createPrefixUnaryExpression(
+        ts.SyntaxKind.MinusToken,
+        ts.factory.createNumericLiteral(Math.abs(normalizedValue))
+      )
+    : ts.factory.createNumericLiteral(normalizedValue);
+}
 
 const upsertImportDeclaration = (
   sourceText: string,
@@ -329,21 +368,21 @@ export const upsertTeamPageImageAssetReference = (
       input.memberName
     );
 
-    return upsertObjectLiteralProperties(
+    return updateObjectLiteralProperties(
       importResult.sourceText,
       nextSourceFile,
       memberNode,
       [
         {
           name: 'portraitSrc',
-          value: importResult.importIdentifier,
-          valueKind: 'identifier',
+          initializer: ts.factory.createIdentifier(
+            importResult.importIdentifier
+          ),
           after: ['role'],
         },
         {
           name: 'portraitAssetPath',
-          value: input.assetRelativePath,
-          valueKind: 'string',
+          initializer: ts.factory.createStringLiteral(input.assetRelativePath),
           after: ['portraitSrc', 'role'],
         },
       ]
@@ -355,22 +394,95 @@ export const upsertTeamPageImageAssetReference = (
     input.departmentName
   );
 
-  return upsertObjectLiteralProperties(
+  return updateObjectLiteralProperties(
     importResult.sourceText,
     nextSourceFile,
     departmentNode,
     [
       {
         name: 'headerImageSrc',
-        value: importResult.importIdentifier,
-        valueKind: 'identifier',
+        initializer: ts.factory.createIdentifier(importResult.importIdentifier),
         after: ['icon'],
       },
       {
         name: 'headerImageAssetPath',
-        value: input.assetRelativePath,
-        valueKind: 'string',
+        initializer: ts.factory.createStringLiteral(input.assetRelativePath),
         after: ['headerImageSrc', 'icon'],
+      },
+    ]
+  );
+};
+
+export const upsertTeamPageTransformReference = (
+  sourceText: string,
+  input: Pick<
+    TeamImageSaveRequestPayload,
+    'kind' | 'departmentName' | 'memberName' | 'transform'
+  >
+) => {
+  const normalizedTransform = normalizeImageTransform(input.transform);
+  const parsedSourceFile = ts.createSourceFile(
+    TEAM_PAGE_RELATIVE_PATH,
+    sourceText,
+    ts.ScriptTarget.Latest,
+    true,
+    ts.ScriptKind.TSX
+  );
+
+  if (input.kind === 'memberPortrait') {
+    if (!isString(input.memberName)) {
+      throw new Error('memberName is required for member portrait updates');
+    }
+
+    const memberNode = findMemberNode(
+      parsedSourceFile,
+      input.departmentName,
+      input.memberName
+    );
+
+    return updateObjectLiteralProperties(
+      sourceText,
+      parsedSourceFile,
+      memberNode,
+      [
+        {
+          name: 'portraitTransform',
+          initializer: areImageTransformsEqual(
+            normalizedTransform,
+            DEFAULT_IMAGE_TRANSFORM
+          )
+            ? null
+            : createTransformObjectLiteral(normalizedTransform),
+          after: ['portraitAssetPath', 'portraitSrc', 'portraitAlt', 'role'],
+        },
+      ]
+    );
+  }
+
+  const departmentNode = findDepartmentNode(
+    parsedSourceFile,
+    input.departmentName
+  );
+
+  return updateObjectLiteralProperties(
+    sourceText,
+    parsedSourceFile,
+    departmentNode,
+    [
+      {
+        name: 'headerImageTransform',
+        initializer: areImageTransformsEqual(
+          normalizedTransform,
+          DEFAULT_IMAGE_TRANSFORM
+        )
+          ? null
+          : createTransformObjectLiteral(normalizedTransform),
+        after: [
+          'headerImageAssetPath',
+          'headerImageSrc',
+          'headerImageAlt',
+          'icon',
+        ],
       },
     ]
   );
@@ -504,7 +616,14 @@ const parseSavePayload = (value: string | File | null) => {
     );
   }
 
-  return parsed as TeamImageSaveRequestPayload;
+  if (!parsed.transform || typeof parsed.transform !== 'object') {
+    throw new Error('Missing Team image transform');
+  }
+
+  return {
+    ...(parsed as Omit<TeamImageSaveRequestPayload, 'transform'>),
+    transform: normalizeImageTransform(parsed.transform),
+  };
 };
 
 const handleTeamImageSaveRequest = async (
@@ -514,54 +633,56 @@ const handleTeamImageSaveRequest = async (
   const payload = parseSavePayload(formData.get('metadata'));
   const uploadedFile = formData.get('file');
 
-  if (!(uploadedFile instanceof File)) {
-    throw new Error('Missing uploaded Team image file');
+  if (uploadedFile instanceof File) {
+    if (!uploadedFile.type.startsWith('image/')) {
+      throw new Error(`Unsupported uploaded file type: ${uploadedFile.type}`);
+    }
+
+    const metadata = await sharp(Buffer.from(await uploadedFile.arrayBuffer()))
+      .rotate()
+      .metadata();
+
+    if (!metadata.width || !metadata.height) {
+      throw new Error('Unable to determine uploaded Team image dimensions');
+    }
+
+    validateTeamImageDimensions(payload.kind, {
+      width: metadata.width,
+      height: metadata.height,
+    });
+
+    const assetAbsolutePath = ensureAssetPathIsSafe(
+      projectRoot,
+      payload.assetRelativePath
+    );
+    await writeOptimizedImageFile(
+      uploadedFile,
+      assetAbsolutePath,
+      payload.outputFormat
+    );
+  } else if (uploadedFile !== null) {
+    throw new Error('Invalid uploaded Team image file');
   }
-
-  if (!uploadedFile.type.startsWith('image/')) {
-    throw new Error(`Unsupported uploaded file type: ${uploadedFile.type}`);
-  }
-
-  const metadata = await sharp(Buffer.from(await uploadedFile.arrayBuffer()))
-    .rotate()
-    .metadata();
-
-  if (!metadata.width || !metadata.height) {
-    throw new Error('Unable to determine uploaded Team image dimensions');
-  }
-
-  validateTeamImageDimensions(payload.kind, {
-    width: metadata.width,
-    height: metadata.height,
-  });
-
-  const assetAbsolutePath = ensureAssetPathIsSafe(
-    projectRoot,
-    payload.assetRelativePath
-  );
-  await writeOptimizedImageFile(
-    uploadedFile,
-    assetAbsolutePath,
-    payload.outputFormat
-  );
 
   let updatedTeamPage = false;
 
-  if (payload.saveTargetKind !== 'existing-asset') {
-    const teamPageAbsolutePath = path.resolve(
-      projectRoot,
-      TEAM_PAGE_RELATIVE_PATH
-    );
-    const currentSource = await readFile(teamPageAbsolutePath, 'utf8');
-    const nextSource = upsertTeamPageImageAssetReference(
-      currentSource,
-      payload
-    );
+  const teamPageAbsolutePath = path.resolve(
+    projectRoot,
+    TEAM_PAGE_RELATIVE_PATH
+  );
+  const currentSource = await readFile(teamPageAbsolutePath, 'utf8');
+  const nextSourceWithAssetReference =
+    payload.saveTargetKind !== 'existing-asset'
+      ? upsertTeamPageImageAssetReference(currentSource, payload)
+      : currentSource;
+  const nextSource = upsertTeamPageTransformReference(
+    nextSourceWithAssetReference,
+    payload
+  );
 
-    if (nextSource !== currentSource) {
-      await writeFile(teamPageAbsolutePath, nextSource);
-      updatedTeamPage = true;
-    }
+  if (nextSource !== currentSource) {
+    await writeFile(teamPageAbsolutePath, nextSource);
+    updatedTeamPage = true;
   }
 
   return {

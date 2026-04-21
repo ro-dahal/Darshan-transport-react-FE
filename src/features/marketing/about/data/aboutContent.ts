@@ -53,6 +53,11 @@ export const ABOUT_FOUNDERS: FounderProfile[] = [
       '" Darshan Transport began as a single-truck operation built on consistency, discipline, and a commitment to reliable service. Under his leadership, the company has grown into a structured logistics network supporting bulk cargo movement across Nepal.\nHe focuses on building long-term systems by improving delivery coordination, expanding transport capacity, and ensuring businesses can rely on consistent cargo movement. His approach is practical: solve real logistics problems and build operations that scale with business needs.',
     signatureLabel: 'Hari Bahadur Shrestha',
     image: person1,
+    imageTransform: {
+      xPercent: -0.25,
+      yPercent: 0.4,
+      scale: 1,
+    },
   },
   {
     role: 'Co-Founder',
@@ -61,7 +66,9 @@ export const ABOUT_FOUNDERS: FounderProfile[] = [
     signatureLabel: 'Arun Kumar Shrestha',
     image: person2,
     imageTransform: {
-      yPercent: -30,
+      xPercent: 22.22,
+      yPercent: -28.79,
+      scale: 1,
     },
     reverse: true,
   },

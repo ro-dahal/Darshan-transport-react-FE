@@ -2,6 +2,8 @@ import React, { useEffect, useRef, useState } from 'react';
 import type { ImageTransform } from '../shared/dev-image-editor/imageTransformUtils';
 import { normalizeImageTransform } from '../shared/dev-image-editor/imageTransformUtils';
 import {
+  clearTeamImageOverride,
+  clearTeamImageSourceOverride,
   DEV_TEAM_IMAGE_EDITOR_STORAGE_KEY,
   EMPTY_TEAM_IMAGE_SOURCE_OVERRIDES,
   EMPTY_TEAM_IMAGE_TRANSFORM_OVERRIDES,
@@ -190,6 +192,12 @@ export const useTeamImageDevEditor = (
     );
   };
 
+  const persistSavedState = (nextOverrides: TeamImageTransformOverrides) => {
+    writeOverridesToStorage(nextOverrides);
+    setCurrentOverrides(nextOverrides);
+    setSavedOverrides(nextOverrides);
+  };
+
   const copyTextToClipboard = async (text: string, successMessage: string) => {
     try {
       await window.navigator.clipboard.writeText(text);
@@ -313,7 +321,10 @@ export const useTeamImageDevEditor = (
     const formData = new FormData();
     formData.append(
       'metadata',
-      JSON.stringify(buildTeamImageSavePayload(selection))
+      JSON.stringify({
+        ...buildTeamImageSavePayload(selection),
+        transform: getTransform(selection),
+      })
     );
     formData.append('file', imageOverride.file, imageOverride.file.name);
 
@@ -384,8 +395,6 @@ export const useTeamImageDevEditor = (
       setNotice('Reset to the code-defined default transform.');
     },
     saveOverrides: async () => {
-      writeOverridesToStorage(currentOverrides);
-      setSavedOverrides(currentOverrides);
       const pendingImageOverride = selectedTarget
         ? getTeamSourceRecordForKind(
             currentImageOverrides,
@@ -393,15 +402,60 @@ export const useTeamImageDevEditor = (
           )[selectedTarget.targetId]
         : undefined;
 
-      if (!selectedTarget || !pendingImageOverride) {
-        setNotice('Saved current Team image overrides locally.');
+      if (!selectedTarget) {
         return;
       }
 
       try {
-        await savePendingImageOverride(selectedTarget, pendingImageOverride);
+        if (pendingImageOverride) {
+          await savePendingImageOverride(selectedTarget, pendingImageOverride);
+        } else {
+          const response = await fetch(DEV_TEAM_IMAGE_SAVE_ENDPOINT, {
+            method: 'POST',
+            body: (() => {
+              const formData = new FormData();
+              formData.append(
+                'metadata',
+                JSON.stringify({
+                  ...buildTeamImageSavePayload(selectedTarget),
+                  transform: getTransform(selectedTarget),
+                })
+              );
+              return formData;
+            })(),
+          });
+
+          if (!response.ok) {
+            let message = `Team image save failed with status ${response.status}`;
+
+            try {
+              const errorResponse = (await response.json()) as {
+                message?: string;
+              };
+
+              if (errorResponse.message) {
+                message = errorResponse.message;
+              }
+            } catch {
+              // Ignore JSON parse failures and fall back to the generic message.
+            }
+
+            throw new Error(message);
+          }
+        }
+
+        const nextOverrides = clearTeamImageOverride(
+          currentOverrides,
+          selectedTarget
+        );
+        persistSavedState(nextOverrides);
+        setCurrentImageOverrides((previousOverrides) =>
+          clearTeamImageSourceOverride(previousOverrides, selectedTarget)
+        );
         setNotice(
-          `Saved overrides and wrote ${pendingImageOverride.assetDisplayPath} into the repo. Reloading...`
+          pendingImageOverride
+            ? `Saved transform and wrote ${pendingImageOverride.assetDisplayPath} into the repo. Reloading...`
+            : 'Saved the selected Team image transform into the codebase. Reloading...'
         );
         window.setTimeout(() => {
           window.location.reload();

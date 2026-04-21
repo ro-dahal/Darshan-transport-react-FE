@@ -26,6 +26,7 @@ import {
   EMPTY_ABOUT_IMAGE_TRANSFORM_OVERRIDES,
   areAboutImageTransformsEqual,
   buildAboutTransformExportText,
+  clearAboutImageOverride,
   normalizeAboutImageTransform,
   parseStoredAboutImageOverrides,
   setAboutImageOverride,
@@ -48,6 +49,7 @@ const ABOUT_PAGE_STRUCTURED_DATA = {
 const IS_DEV_ABOUT_IMAGE_EDITOR_ENABLED = import.meta.env.DEV;
 const ABOUT_IMAGE_EDITOR_STORAGE_KEY =
   'darshan-about-page-image-editor-overrides';
+const DEV_ABOUT_IMAGE_SAVE_ENDPOINT = '/__dev/about-image-editor/save';
 
 const ABOUT_HERO_SELECTION: AboutImageSelection = {
   kind: 'heroImage',
@@ -173,6 +175,14 @@ export const AboutPage: React.FC = () => {
       ABOUT_IMAGE_EDITOR_STORAGE_KEY,
       JSON.stringify(nextOverrides)
     );
+  };
+
+  const persistSavedState = (
+    nextOverrides: typeof EMPTY_ABOUT_IMAGE_TRANSFORM_OVERRIDES
+  ) => {
+    writeOverridesToStorage(nextOverrides);
+    setCurrentOverrides(nextOverrides);
+    setSavedOverrides(nextOverrides);
   };
 
   const getTransformForTarget = (selection: AboutImageSelection) =>
@@ -309,9 +319,55 @@ export const AboutPage: React.FC = () => {
             setNotice('Reset to the code-defined default transform.');
           }}
           onSave={() => {
-            writeOverridesToStorage(currentOverrides);
-            setSavedOverrides(currentOverrides);
-            setNotice('Saved current About page image overrides locally.');
+            void (async () => {
+              try {
+                const response = await fetch(DEV_ABOUT_IMAGE_SAVE_ENDPOINT, {
+                  method: 'POST',
+                  headers: {
+                    'Content-Type': 'application/json',
+                  },
+                  body: JSON.stringify({
+                    kind: selectedTarget.kind,
+                    targetId: selectedTarget.targetId,
+                    transform: selectedTransform,
+                  }),
+                });
+
+                if (!response.ok) {
+                  let message = `About image save failed with status ${response.status}`;
+
+                  try {
+                    const errorResponse = (await response.json()) as {
+                      message?: string;
+                    };
+
+                    if (errorResponse.message) {
+                      message = errorResponse.message;
+                    }
+                  } catch {
+                    // Ignore JSON parse failures and use the generic message.
+                  }
+
+                  throw new Error(message);
+                }
+
+                persistSavedState(
+                  clearAboutImageOverride(currentOverrides, selectedTarget)
+                );
+                setNotice(
+                  'Saved the selected About image transform into the codebase. Reloading...'
+                );
+                window.setTimeout(() => {
+                  window.location.reload();
+                }, 180);
+              } catch (error) {
+                setNotice(
+                  error instanceof Error
+                    ? error.message
+                    : 'Saving the About image transform failed.'
+                );
+              }
+            })();
           }}
           onTransformChange={(nextTransform) => {
             setCurrentOverrides((previousOverrides) =>

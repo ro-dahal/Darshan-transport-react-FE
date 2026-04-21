@@ -48,7 +48,6 @@ import thaneshworGaudelPortrait from '@assets/marketing/team/thaneshwor-gaudel.j
 import rajKumarShresthaPortrait from '@assets/marketing/team/raj-kumar-shrestha.jpg';
 import teamItDigitalTeamHeader from '@assets/generated/marketing/team/team-it-digital-team-header.webp';
 import pujaGhimirePortrait from '@assets/marketing/team/puja-ghimire.jpg';
-import sukmanShresthaPortrait from '@assets/marketing/team/sukman-shrestha.jpg';
 import teamBranchOperationsHeader from '@assets/generated/marketing/team/team-branch-operations-header.webp';
 import teamDispatchSupervisorsHeader from '@assets/generated/marketing/team/team-dispatch-supervisors-header.webp';
 import teamFleetManagementHeader from '@assets/generated/marketing/team/team-fleet-management-header.webp';
@@ -115,8 +114,8 @@ const TEAM_DEPARTMENTS: Department[] = [
       {
         name: 'Sukman Shrestha',
         role: 'Executive Member',
-        portraitSrc: sukmanShresthaPortrait,
-        portraitAssetPath: 'src/assets/marketing/team/sukman-shrestha.jpg',
+        portraitSrc: teamDemoMember1Portrait,
+        portraitAssetPath: 'src/assets/marketing/team/team-demo-member-1.jpg',
         portraitAlt: 'Portrait of Sukman Shrestha',
       },
       { name: 'Shrawan Kumar Shrestha', role: 'Executive Member' },
@@ -161,6 +160,11 @@ const TEAM_DEPARTMENTS: Department[] = [
         portraitSrc: anjilaKarkiPortrait,
         portraitAssetPath: 'src/assets/marketing/team/anjila-karki.jpg',
         portraitAlt: 'Portrait of Anjila Karki',
+        portraitTransform: {
+          xPercent: 11.3,
+          yPercent: -16.33,
+          scale: 1,
+        },
       },
       {
         name: 'Kamal Bahadur Dhami',
@@ -168,18 +172,33 @@ const TEAM_DEPARTMENTS: Department[] = [
         portraitSrc: kamalBahadurDhamiPortrait,
         portraitAssetPath: 'src/assets/marketing/team/kamal-bahadur-dhami.jpg',
         portraitAlt: 'Portrait of Kamal Bahadur Dhami',
+        portraitTransform: {
+          xPercent: 2.82,
+          yPercent: -30.66,
+          scale: 1,
+        },
       },
       {
         name: 'Tik Maya Gurung',
         role: 'Finance Assistant',
         portraitSrc: tikMayaGurungPortrait,
         portraitAssetPath: 'src/assets/marketing/team/tik-maya-gurung.jpg',
+        portraitTransform: {
+          xPercent: 2.05,
+          yPercent: -35.67,
+          scale: 1,
+        },
       },
       {
         name: 'Puja Ghimire',
         role: 'Accounts & Operations Support',
         portraitSrc: pujaGhimirePortrait,
         portraitAssetPath: 'src/assets/marketing/team/puja-ghimire.jpg',
+        portraitTransform: {
+          xPercent: 1.03,
+          yPercent: -24.33,
+          scale: 1,
+        },
       },
       {
         name: 'Kanchan Thapa',
@@ -187,6 +206,11 @@ const TEAM_DEPARTMENTS: Department[] = [
         portraitSrc: kanchanThapaPortrait,
         portraitAssetPath: 'src/assets/marketing/team/kanchan-thapa.jpg',
         portraitAlt: 'Portrait of Kanchan Thapa',
+        portraitTransform: {
+          xPercent: 1.28,
+          yPercent: -19,
+          scale: 1,
+        },
       },
       { name: 'Manoj Acharya', role: 'Billing & Collection Officer' },
     ],
@@ -205,6 +229,11 @@ const TEAM_DEPARTMENTS: Department[] = [
         role: 'Dispatch & Delivery Coordinator',
         portraitSrc: anitaShresthaPortrait,
         portraitAssetPath: 'src/assets/marketing/team/anita-shrestha.jpg',
+        portraitTransform: {
+          xPercent: 3.6,
+          yPercent: -34.33,
+          scale: 1,
+        },
       },
       { name: 'Bikash Pariyar', role: 'Dispatch & Delivery Coordinator' },
       { name: 'Jagat Pun', role: 'Dispatch & Delivery Coordinator' },
@@ -214,6 +243,11 @@ const TEAM_DEPARTMENTS: Department[] = [
         role: 'Dispatch & Delivery Coordinator',
         portraitSrc: ramPrasadGurungPortrait,
         portraitAssetPath: 'src/assets/marketing/team/ram-prasad-gurung.jpg',
+        portraitTransform: {
+          xPercent: 1.54,
+          yPercent: -19,
+          scale: 1,
+        },
       },
       {
         name: 'Kripesh Shrestha',
@@ -221,18 +255,33 @@ const TEAM_DEPARTMENTS: Department[] = [
         portraitSrc: kripeshShresthaPortrait,
         portraitAssetPath: 'src/assets/marketing/team/kripesh-shrestha.jpg',
         portraitAlt: 'Portrait of Kripesh Shrestha',
+        portraitTransform: {
+          xPercent: 4.37,
+          yPercent: -31.33,
+          scale: 1,
+        },
       },
       {
         name: 'Nandalal Pudasaini',
         role: 'Operations Supervisor',
         portraitSrc: nandalalPudasainiPortrait,
         portraitAssetPath: 'src/assets/marketing/team/nandalal-pudasaini.jpg',
+        portraitTransform: {
+          xPercent: 0.51,
+          yPercent: -19.33,
+          scale: 1,
+        },
       },
       {
         name: 'Sajan Gurung',
         role: 'Operations Supervisor',
         portraitSrc: sajanGurungPortrait,
         portraitAssetPath: 'src/assets/marketing/team/sajan-gurung.jpg',
+        portraitTransform: {
+          xPercent: 8.73,
+          yPercent: -43.33,
+          scale: 1,
+        },
       },
       {
         name: 'Bishal Prasad Yadav',
@@ -243,6 +292,11 @@ const TEAM_DEPARTMENTS: Department[] = [
         role: 'Booking & Dispatch Executive',
         portraitSrc: rohitGurungPortrait,
         portraitAssetPath: 'src/assets/marketing/team/rohit-gurung.jpg',
+        portraitTransform: {
+          xPercent: 6.94,
+          yPercent: -28,
+          scale: 1,
+        },
       },
       { name: 'Sanjeev Chatri', role: 'Booking & Dispatch Executive' },
       {
@@ -283,6 +337,11 @@ const TEAM_DEPARTMENTS: Department[] = [
         role: 'Branch Dispatch Supervisor',
         portraitSrc: laluKCPortrait,
         portraitAssetPath: 'src/assets/marketing/team/lalu-k-c.jpg',
+        portraitTransform: {
+          xPercent: 3.6,
+          yPercent: -38.33,
+          scale: 1,
+        },
       },
       {
         name: 'Raj Kumar Shrestha',
@@ -302,6 +361,11 @@ const TEAM_DEPARTMENTS: Department[] = [
         role: 'Branch Dispatch Supervisor',
         portraitSrc: thaneshworGaudelPortrait,
         portraitAssetPath: 'src/assets/marketing/team/thaneshwor-gaudel.jpg',
+        portraitTransform: {
+          xPercent: 3.86,
+          yPercent: -50,
+          scale: 1,
+        },
       },
       { name: 'Baburam Shrestha', role: 'Branch Dispatch Supervisor' },
     ],
@@ -334,6 +398,11 @@ const TEAM_DEPARTMENTS: Department[] = [
         portraitSrc: subinGurungPortrait,
         portraitAssetPath: 'src/assets/marketing/team/subin-gurung.jpg',
         portraitAlt: 'Portrait of Subin Gurung',
+        portraitTransform: {
+          xPercent: 2.57,
+          yPercent: -16.67,
+          scale: 1,
+        },
       },
       {
         name: 'Rohan Dahal',
@@ -341,6 +410,11 @@ const TEAM_DEPARTMENTS: Department[] = [
         portraitSrc: rohanDahalPortrait,
         portraitAssetPath: 'src/assets/marketing/team/rohan-dahal.jpg',
         portraitAlt: 'Portrait of Rohan Dahal',
+        portraitTransform: {
+          xPercent: 3.6,
+          yPercent: -27.33,
+          scale: 1,
+        },
       },
       {
         name: 'Sharon Shrestha',
@@ -348,6 +422,11 @@ const TEAM_DEPARTMENTS: Department[] = [
         portraitSrc: sharonShresthaPortrait,
         portraitAssetPath: 'src/assets/marketing/team/sharon-shrestha.jpg',
         portraitAlt: 'Portrait of Sharon Shrestha',
+        portraitTransform: {
+          xPercent: 1.28,
+          yPercent: -22.33,
+          scale: 1,
+        },
       },
       {
         name: 'Susam Thapa',
@@ -355,6 +434,11 @@ const TEAM_DEPARTMENTS: Department[] = [
         portraitSrc: susamThapaPortrait,
         portraitAssetPath: 'src/assets/marketing/team/susam-thapa.jpg',
         portraitAlt: 'Portrait of Susam Thapa',
+        portraitTransform: {
+          xPercent: 5.65,
+          yPercent: -50,
+          scale: 1,
+        },
       },
     ],
   },

@@ -6,6 +6,7 @@ import { VitePWA } from 'vite-plugin-pwa';
 import { visualizer } from 'rollup-plugin-visualizer';
 import dns from 'dns';
 import { fileURLToPath, URL } from 'node:url';
+import { createAboutImageEditorDevPlugin } from './aboutImageEditorDevServer';
 import { createTeamImageEditorDevPlugin } from './teamImageEditorDevServer';
 
 // Resolve IPv6 vs IPv4 local networking issues
@@ -61,6 +62,7 @@ export default defineConfig(() => {
         gzipSize: true,
         brotliSize: true,
       }) as import('vite').PluginOption,
+      createAboutImageEditorDevPlugin(projectRoot),
       createTeamImageEditorDevPlugin(projectRoot),
     ],
     build: {

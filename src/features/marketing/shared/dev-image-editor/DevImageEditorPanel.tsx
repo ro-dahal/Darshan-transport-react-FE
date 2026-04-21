@@ -196,7 +196,7 @@ export const DevImageEditorPanel: React.FC<DevImageEditorPanelProps> = ({
                 : 'border-amber-300/20 bg-amber-300/10 text-amber-100'
             }`}
           >
-            {isSaved ? 'Saved Locally' : 'Unsaved Changes'}
+            {isSaved ? 'Saved' : 'Unsaved Changes'}
           </span>
           <span className="rounded-full border border-white/10 bg-white/5 px-2.5 py-1 text-[0.62rem] font-semibold uppercase tracking-[0.16em] text-white/68">
             {hasCustomImage ? customImageLabel : 'Code Asset'}
@@ -400,12 +400,12 @@ export const DevImageEditorPanel: React.FC<DevImageEditorPanelProps> = ({
 
         <div className="mt-4 rounded-2xl border border-white/10 bg-white/5 px-3 py-2 text-[0.72rem] leading-relaxed text-white/68">
           <span className="block font-semibold text-white">
-            {isSaved ? 'Saved locally.' : 'Unsaved changes.'}
+            {isSaved ? 'Saved changes.' : 'Unsaved changes.'}
           </span>
           <span className="mt-1 block">
-            {sourceHelperText
-              ? `${sourceHelperText} Copy the export blocks below when you want to move the tuned values into the codebase.`
-              : 'Local image swaps are temporary dev previews. Copy the export blocks below when you want to move the tuned values into the codebase.'}
+            Save writes the selected target into the local codebase while you
+            are in dev. The export blocks below are still available as a quick
+            reference.
           </span>
           {notice ? (
             <span className="mt-1 block text-white/78">{notice}</span>

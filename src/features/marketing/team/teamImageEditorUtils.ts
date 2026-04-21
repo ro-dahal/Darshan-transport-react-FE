@@ -247,6 +247,44 @@ export const setTeamImageOverride = (
     : { ...overrides, departmentHeaders: nextRecord };
 };
 
+export const clearTeamImageOverride = (
+  overrides: TeamImageTransformOverrides,
+  selection: TeamImageSelection
+): TeamImageTransformOverrides => {
+  const nextRecord = {
+    ...getTeamTransformRecordForKind(overrides, selection.kind),
+  };
+
+  if (!nextRecord[selection.targetId]) {
+    return overrides;
+  }
+
+  delete nextRecord[selection.targetId];
+
+  return selection.kind === 'memberPortrait'
+    ? { ...overrides, memberPortraits: nextRecord }
+    : { ...overrides, departmentHeaders: nextRecord };
+};
+
+export const clearTeamImageSourceOverride = (
+  overrides: TeamImageSourceOverrides,
+  selection: TeamImageSelection
+): TeamImageSourceOverrides => {
+  const nextRecord = {
+    ...getTeamSourceRecordForKind(overrides, selection.kind),
+  };
+
+  if (!nextRecord[selection.targetId]) {
+    return overrides;
+  }
+
+  delete nextRecord[selection.targetId];
+
+  return selection.kind === 'memberPortrait'
+    ? { ...overrides, memberPortraits: nextRecord }
+    : { ...overrides, departmentHeaders: nextRecord };
+};
+
 const parseTransformRecord = (
   record: unknown
 ): Record<string, ImageTransform> => {

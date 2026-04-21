@@ -4,6 +4,7 @@ import test from 'node:test';
 import {
   getSharpOutputFormatForAssetPath,
   upsertTeamPageImageAssetReference,
+  upsertTeamPageTransformReference,
   validateTeamImageDimensions,
 } from '../../../../teamImageEditorDevServer.ts';
 
@@ -92,6 +93,41 @@ test('upserts a new department header import and source reference into TeamPage'
   assert.match(
     nextSource,
     /department: 'Operations & Dispatch',[\s\S]*headerImageSrc: teamOperationsDispatchHeader,[\s\S]*headerImageAssetPath: ["']src\/assets\/generated\/marketing\/team\/team-operations-dispatch-header\.webp["'],/
+  );
+});
+
+test('writes member portrait transforms into TeamPage', () => {
+  const nextSource = upsertTeamPageTransformReference(TEAM_PAGE_FIXTURE, {
+    kind: 'memberPortrait',
+    departmentName: 'Sales',
+    memberName: 'Asha Rai',
+    transform: {
+      xPercent: 14,
+      yPercent: -6,
+      scale: 1.18,
+    },
+  });
+
+  assert.match(
+    nextSource,
+    /name: 'Asha Rai',[\s\S]*portraitTransform: \{[\s\S]*xPercent: 14,[\s\S]*yPercent: -6,[\s\S]*scale: 1\.18[\s\S]*\}/
+  );
+});
+
+test('writes department header transforms into TeamPage', () => {
+  const nextSource = upsertTeamPageTransformReference(TEAM_PAGE_FIXTURE, {
+    kind: 'departmentHeader',
+    departmentName: 'Operations & Dispatch',
+    transform: {
+      xPercent: -10,
+      yPercent: 8,
+      scale: 1.12,
+    },
+  });
+
+  assert.match(
+    nextSource,
+    /department: 'Operations & Dispatch',[\s\S]*headerImageTransform: \{[\s\S]*xPercent: -10,[\s\S]*yPercent: 8,[\s\S]*scale: 1\.12[\s\S]*\}/
   );
 });
 

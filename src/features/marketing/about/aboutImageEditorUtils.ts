@@ -87,6 +87,25 @@ export const setAboutImageOverride = (
     : { ...overrides, heroImages: nextRecord };
 };
 
+export const clearAboutImageOverride = (
+  overrides: AboutImageTransformOverrides,
+  selection: AboutImageSelection
+): AboutImageTransformOverrides => {
+  const nextRecord = {
+    ...getOverrideRecordForKind(overrides, selection.kind),
+  };
+
+  if (!nextRecord[selection.targetId]) {
+    return overrides;
+  }
+
+  delete nextRecord[selection.targetId];
+
+  return selection.kind === 'founderPortrait'
+    ? { ...overrides, founderPortraits: nextRecord }
+    : { ...overrides, heroImages: nextRecord };
+};
+
 const parseTransformRecord = (
   record: unknown
 ): Record<string, AboutImageTransform> => {
