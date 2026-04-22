@@ -46,6 +46,9 @@ test('removes an about image override when it matches the default transform', ()
         kind: 'founderPortrait',
         targetId: 'founder',
         defaultTransform,
+        defaultImageSrc: 'founder.jpg',
+        defaultImageAlt: 'Founder',
+        defaultSourceName: 'founder.jpg',
       },
       defaultTransform
     ),

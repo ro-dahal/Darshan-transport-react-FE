@@ -17,8 +17,17 @@ async function fixDir(d) {
     const meta = await sharp(p).metadata();
     if (meta.width > 1600 || meta.height > 1600) {
       console.log(`Resizing ${f} from ${meta.width}x${meta.height}...`);
-      const transformer = sharp(p).resize({ width: 1600, height: 1600, fit: 'inside', withoutEnlargement: true });
-      const buf = await (f.endsWith('.webp') ? transformer.webp({ quality: 85 }) : transformer.jpeg({ quality: 85 })).toBuffer();
+      const transformer = sharp(p).resize({
+        width: 1600,
+        height: 1600,
+        fit: 'inside',
+        withoutEnlargement: true,
+      });
+      const buf = await (
+        f.endsWith('.webp')
+          ? transformer.webp({ quality: 85 })
+          : transformer.jpeg({ quality: 85 })
+      ).toBuffer();
       fs.writeFileSync(p, buf);
     }
   }

@@ -42,6 +42,9 @@ const buildFounderSelection = (
   targetId: profile.signatureLabel,
   label: profile.signatureLabel,
   defaultTransform: normalizeAboutImageTransform(profile.imageTransform),
+  defaultImageSrc: profile.image,
+  defaultImageAlt: `${profile.signatureLabel} portrait`,
+  defaultSourceName: profile.image.split('/').pop() ?? profile.signatureLabel,
   imageSrc: profile.image,
   imageAlt: `${profile.signatureLabel} portrait`,
   previewAspectRatio: '4 / 5',
@@ -81,6 +84,10 @@ export const FounderSection: React.FC<FounderSectionProps> = ({
           const effectiveTransform = devEditor
             ? devEditor.getTransform(selection)
             : selection.defaultTransform;
+          const resolvedImageSource = devEditor?.getImageSource(selection);
+          const portraitSrc = resolvedImageSource?.src ?? profile.image;
+          const portraitAlt =
+            resolvedImageSource?.alt ?? `${profile.signatureLabel} portrait`;
           const isSelected = devEditor?.isSelected(selection) ?? false;
           const isDragging = devEditor?.isDragging(selection) ?? false;
 
@@ -130,8 +137,8 @@ export const FounderSection: React.FC<FounderSectionProps> = ({
                     }`}
                   >
                     <img
-                      src={profile.image}
-                      alt={`${profile.signatureLabel} portrait`}
+                      src={portraitSrc}
+                      alt={portraitAlt}
                       className="aspect-[4/5] w-full object-cover"
                       style={{
                         ...getAboutImageTransformStyle(effectiveTransform),

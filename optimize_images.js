@@ -36,7 +36,8 @@ const optimizationJobs = [
   },
   {
     input: 'src/assets/marketing/about/service-page-arun-shrestha.jpg',
-    output: 'src/assets/generated/marketing/about/service-page-arun-shrestha.webp',
+    output:
+      'src/assets/generated/marketing/about/service-page-arun-shrestha.webp',
     profile: 'profileCard',
   },
   {

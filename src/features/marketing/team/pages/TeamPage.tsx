@@ -450,6 +450,11 @@ const TEAM_DEPARTMENTS: Department[] = [
     headerImageSrc: teamSupportStaffHeader,
     headerImageAssetPath:
       'src/assets/generated/marketing/team/team-support-staff-header.webp',
+    headerImageTransform: {
+      xPercent: -0.45,
+      yPercent: -1.23,
+      scale: 1,
+    },
     members: [
       { name: 'Bhesh Maya Gurung', role: 'Office Assistant' },
       { name: 'Urmila Lama', role: 'Office Assistant' },

@@ -13,11 +13,16 @@ interface AboutImageDevEditorPanelProps {
   notice: string | null;
   isSaved: boolean;
   exportText: string;
+  fileInputId: string;
+  hasCustomImage?: boolean;
+  sourceHelperText?: string;
   onClose: () => void;
   onReset: () => void;
   onSave: () => void;
   onTransformChange: (nextTransform: AboutImageTransform) => void;
   onCopyExport: () => void;
+  onPickImage: () => void;
+  onClearImageOverride?: () => void;
 }
 
 const getAboutImageKindLabel = (kind: AboutImageSelection['kind']) =>
@@ -47,11 +52,16 @@ export const AboutImageDevEditorPanel: React.FC<
   notice,
   isSaved,
   exportText,
+  fileInputId,
+  hasCustomImage = false,
+  sourceHelperText,
   onClose,
   onReset,
   onSave,
   onTransformChange,
   onCopyExport,
+  onPickImage,
+  onClearImageOverride,
 }) => {
   return (
     <DevImageEditorPanel
@@ -64,6 +74,9 @@ export const AboutImageDevEditorPanel: React.FC<
       previewAspectRatio={selection.previewAspectRatio ?? '4 / 5'}
       notice={notice}
       isSaved={isSaved}
+      hasCustomImage={hasCustomImage}
+      sourceHelperText={sourceHelperText}
+      fileInputId={fileInputId}
       exportSections={[
         {
           title: 'About Page Transforms',
@@ -75,6 +88,8 @@ export const AboutImageDevEditorPanel: React.FC<
       onReset={onReset}
       onSave={onSave}
       onTransformChange={onTransformChange}
+      onPickImage={onPickImage}
+      onClearImageOverride={onClearImageOverride}
     />
   );
 };

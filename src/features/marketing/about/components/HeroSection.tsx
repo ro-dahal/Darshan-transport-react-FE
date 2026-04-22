@@ -9,6 +9,7 @@ import headerBg from '@assets/marketing/shared/company-hero-logistics-yard.jpg';
 
 interface HeroSectionProps {
   imageTransform?: AboutImageTransform;
+  imageOverrideSrc?: string;
   isImageSelected?: boolean;
   isImageDragging?: boolean;
   onImagePointerDown?: (event: React.PointerEvent<HTMLDivElement>) => void;
@@ -16,6 +17,7 @@ interface HeroSectionProps {
 
 export const HeroSection: React.FC<HeroSectionProps> = ({
   imageTransform,
+  imageOverrideSrc,
   isImageSelected = false,
   isImageDragging = false,
   onImagePointerDown,
@@ -36,7 +38,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
     >
       <motion.div style={{ y: bgY }} className="absolute inset-0 h-full w-full">
         <img
-          src={headerBg}
+          src={imageOverrideSrc ?? headerBg}
           alt="Darshan Transport logistics yard"
           className="absolute inset-0 h-full w-full object-cover"
           style={getAboutImageTransformStyle(effectiveImageTransform)}

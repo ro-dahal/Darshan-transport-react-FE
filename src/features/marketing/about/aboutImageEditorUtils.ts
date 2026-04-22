@@ -20,23 +20,70 @@ export type AboutImageSelection = {
   targetId: string;
   defaultTransform: AboutImageTransform;
   label?: string;
+  /** Displayed image source (satisfies BaseImageSelection). */
+  defaultImageSrc: string;
+  defaultImageAlt: string;
+  /** Short path shown in the panel source row. */
+  defaultSourceName: string;
   imageSrc?: string;
   imageAlt?: string;
   previewAspectRatio?: string;
+  /** Existing asset path relative to project root (null if not yet on disk). */
+  assetRelativePath?: string | null;
 };
+
+/** Source-override (uploaded image awaiting a save). */
+export type AboutImageSourceOverride = {
+  src: string;
+  alt: string;
+  file: File;
+  objectUrl: string;
+  browserFileName: string;
+  assetDisplayPath: string;
+  pendingSave: boolean;
+};
+
+export type AboutImageSourceOverrides = Record<
+  string,
+  AboutImageSourceOverride
+>;
+
+export const EMPTY_ABOUT_IMAGE_SOURCE_OVERRIDES: AboutImageSourceOverrides = {};
 
 export interface AboutImageDevEditor {
   isEnabled: boolean;
   selectedTarget: AboutImageSelection | null;
+  notice: string | null;
+  exportText: string;
+  fileInputId: string;
+  isSaved: boolean;
   getTransform: (selection: AboutImageSelection) => AboutImageTransform;
+  getImageSource: (selection: AboutImageSelection) => {
+    src: string;
+    alt: string;
+    sourceName: string;
+    hasCustomImage: boolean;
+    statusLabel: string;
+    sourceHelperText: string;
+  };
   isSelected: (selection: AboutImageSelection) => boolean;
   isDragging: (selection: AboutImageSelection) => boolean;
   selectTarget: (selection: AboutImageSelection) => void;
+  closeEditor: () => void;
+  updateTargetTransform: (
+    selection: AboutImageSelection,
+    transform: AboutImageTransform
+  ) => void;
+  resetTarget: (selection: AboutImageSelection) => void;
+  saveOverrides: () => Promise<void>;
+  openImagePicker: () => void;
+  clearImageOverride: (selection: AboutImageSelection) => void;
   startDrag: (
     event: React.PointerEvent<HTMLElement>,
     selection: AboutImageSelection,
     transform: AboutImageTransform
   ) => void;
+  handleImagePickerChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
 export const EMPTY_ABOUT_IMAGE_TRANSFORM_OVERRIDES: AboutImageTransformOverrides =
@@ -182,4 +229,60 @@ export const buildAboutTransformExportText = (
   }
 
   return `[\n${lines.join('\n')}\n]`;
+};
+
+// ---------------------------------------------------------------------------
+// Asset-target helpers (used by useAboutImageDevEditor for image uploads)
+// ---------------------------------------------------------------------------
+
+const slugifyFilePart = (value: string) =>
+  value
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-+|-+$/g, '')
+    .replace(/-{2,}/g, '-');
+
+const toImportIdentifier = (assetFileName: string): string => {
+  const baseName = assetFileName.replace(/\.[a-z0-9]+$/i, '');
+  return baseName
+    .split(/[^a-z0-9]+/i)
+    .filter(Boolean)
+    .map((segment, index) =>
+      index === 0
+        ? segment.toLowerCase()
+        : segment.charAt(0).toUpperCase() + segment.slice(1).toLowerCase()
+    )
+    .join('');
+};
+
+export type AboutCanonicalAssetTarget = {
+  assetRelativePath: string;
+  assetDisplayPath: string;
+  assetImportPath: string;
+  assetFileName: string;
+  importIdentifier: string;
+};
+
+/**
+ * Build the canonical on-disk asset paths for a given selection.
+ * Used to populate FormData metadata when uploading a new image.
+ */
+export const buildAboutAssetTarget = (
+  selection: AboutImageSelection,
+  file: File
+): AboutCanonicalAssetTarget => {
+  const ext = file.name.split('.').pop()?.toLowerCase() ?? 'jpg';
+  const assetRelativePath =
+    selection.assetRelativePath ??
+    `src/assets/marketing/about/${slugifyFilePart(selection.targetId)}.${ext}`;
+  const assetFileName =
+    assetRelativePath.split('/').filter(Boolean).pop() ?? file.name;
+
+  return {
+    assetRelativePath,
+    assetDisplayPath: assetRelativePath,
+    assetImportPath: assetRelativePath.replace(/^src\/assets/, '@assets'),
+    assetFileName,
+    importIdentifier: toImportIdentifier(assetFileName),
+  };
 };

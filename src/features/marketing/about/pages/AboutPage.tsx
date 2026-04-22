@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import {
   ABOUT_CLIENT_LOGOS,
   ABOUT_DESCRIPTION,
@@ -17,20 +17,12 @@ import { ClientsSection } from '../components/ClientsSection';
 import { CtaSection } from '../components/CtaSection';
 import { MetaTags } from '../../../../core/components/MetaTags';
 import { AboutImageDevEditorPanel } from '../components/AboutImageDevEditorPanel';
-import type {
-  AboutImageDevEditor,
-  AboutImageSelection,
-  AboutImageTransform,
-} from '../aboutImageEditorUtils';
+import type { AboutImageSelection } from '../aboutImageEditorUtils';
+import { normalizeAboutImageTransform } from '../aboutImageEditorUtils';
 import {
-  EMPTY_ABOUT_IMAGE_TRANSFORM_OVERRIDES,
-  areAboutImageTransformsEqual,
-  buildAboutTransformExportText,
-  clearAboutImageOverride,
-  normalizeAboutImageTransform,
-  parseStoredAboutImageOverrides,
-  setAboutImageOverride,
-} from '../aboutImageEditorUtils';
+  useAboutImageDevEditor,
+  type AboutExportEntry,
+} from '../useAboutImageDevEditor';
 import companyHeroImage from '@assets/marketing/shared/company-hero-logistics-yard.jpg';
 
 const ABOUT_PAGE_STRUCTURED_DATA = {
@@ -47,30 +39,21 @@ const ABOUT_PAGE_STRUCTURED_DATA = {
 };
 
 const IS_DEV_ABOUT_IMAGE_EDITOR_ENABLED = import.meta.env.DEV;
-const ABOUT_IMAGE_EDITOR_STORAGE_KEY =
-  'darshan-about-page-image-editor-overrides';
-const DEV_ABOUT_IMAGE_SAVE_ENDPOINT = '/__dev/about-image-editor/save';
 
 const ABOUT_HERO_SELECTION: AboutImageSelection = {
   kind: 'heroImage',
   targetId: 'about-hero',
   label: 'About hero background',
   defaultTransform: normalizeAboutImageTransform(),
+  defaultImageSrc: companyHeroImage,
+  defaultImageAlt: 'Darshan Transport logistics yard',
+  defaultSourceName: 'company-hero-logistics-yard.jpg',
   imageSrc: companyHeroImage,
   imageAlt: 'Darshan Transport logistics yard',
   previewAspectRatio: '16 / 10',
 };
 
-type ActiveDragState = {
-  selection: AboutImageSelection;
-  pointerStartX: number;
-  pointerStartY: number;
-  width: number;
-  height: number;
-  startingTransform: AboutImageTransform;
-};
-
-const ABOUT_EXPORT_ENTRIES = [
+const ABOUT_EXPORT_ENTRIES: AboutExportEntry[] = [
   {
     kind: ABOUT_HERO_SELECTION.kind,
     label: ABOUT_HERO_SELECTION.label ?? ABOUT_HERO_SELECTION.targetId,
@@ -83,175 +66,21 @@ const ABOUT_EXPORT_ENTRIES = [
   })),
 ];
 
-const getOverrideRecordForKind = (
-  selection: AboutImageSelection,
-  overrides: typeof EMPTY_ABOUT_IMAGE_TRANSFORM_OVERRIDES
-) =>
-  selection.kind === 'founderPortrait'
-    ? overrides.founderPortraits
-    : overrides.heroImages;
-
 export const AboutPage: React.FC = () => {
-  const [currentOverrides, setCurrentOverrides] = useState(
-    EMPTY_ABOUT_IMAGE_TRANSFORM_OVERRIDES
-  );
-  const [savedOverrides, setSavedOverrides] = useState(
-    EMPTY_ABOUT_IMAGE_TRANSFORM_OVERRIDES
-  );
-  const [selectedTarget, setSelectedTarget] =
-    useState<AboutImageSelection | null>(null);
-  const [notice, setNotice] = useState<string | null>(null);
-  const [activeDragState, setActiveDragState] =
-    useState<ActiveDragState | null>(null);
+  const devEditorState = IS_DEV_ABOUT_IMAGE_EDITOR_ENABLED
+    ? // eslint-disable-next-line react-hooks/rules-of-hooks
+      useAboutImageDevEditor(ABOUT_EXPORT_ENTRIES)
+    : undefined;
 
-  useEffect(() => {
-    if (!IS_DEV_ABOUT_IMAGE_EDITOR_ENABLED) {
-      return;
-    }
+  // `devEditorState` satisfies the `AboutImageDevEditor` interface directly.
+  const devEditor = devEditorState;
 
-    const storedOverrides = parseStoredAboutImageOverrides(
-      window.localStorage.getItem(ABOUT_IMAGE_EDITOR_STORAGE_KEY)
-    );
-
-    setCurrentOverrides(storedOverrides);
-    setSavedOverrides(storedOverrides);
-  }, []);
-
-  useEffect(() => {
-    if (!activeDragState) {
-      return;
-    }
-
-    const previousUserSelect = document.body.style.userSelect;
-    const previousCursor = document.body.style.cursor;
-    document.body.style.userSelect = 'none';
-    document.body.style.cursor = 'grabbing';
-
-    const handlePointerMove = (event: PointerEvent) => {
-      const deltaX = event.clientX - activeDragState.pointerStartX;
-      const deltaY = event.clientY - activeDragState.pointerStartY;
-
-      setCurrentOverrides((previousOverrides) =>
-        setAboutImageOverride(previousOverrides, activeDragState.selection, {
-          xPercent:
-            activeDragState.startingTransform.xPercent +
-            (deltaX / activeDragState.width) * 100,
-          yPercent:
-            activeDragState.startingTransform.yPercent +
-            (deltaY / activeDragState.height) * 100,
-          scale: activeDragState.startingTransform.scale,
-        })
-      );
-    };
-
-    const stopDragging = () => {
-      setActiveDragState(null);
-    };
-
-    window.addEventListener('pointermove', handlePointerMove);
-    window.addEventListener('pointerup', stopDragging);
-
-    return () => {
-      document.body.style.userSelect = previousUserSelect;
-      document.body.style.cursor = previousCursor;
-      window.removeEventListener('pointermove', handlePointerMove);
-      window.removeEventListener('pointerup', stopDragging);
-    };
-  }, [activeDragState]);
-
-  const exportText = buildAboutTransformExportText(
-    ABOUT_EXPORT_ENTRIES,
-    currentOverrides
-  );
-
-  const writeOverridesToStorage = (
-    nextOverrides: typeof EMPTY_ABOUT_IMAGE_TRANSFORM_OVERRIDES
-  ) => {
-    if (!IS_DEV_ABOUT_IMAGE_EDITOR_ENABLED) {
-      return;
-    }
-
-    window.localStorage.setItem(
-      ABOUT_IMAGE_EDITOR_STORAGE_KEY,
-      JSON.stringify(nextOverrides)
-    );
-  };
-
-  const persistSavedState = (
-    nextOverrides: typeof EMPTY_ABOUT_IMAGE_TRANSFORM_OVERRIDES
-  ) => {
-    writeOverridesToStorage(nextOverrides);
-    setCurrentOverrides(nextOverrides);
-    setSavedOverrides(nextOverrides);
-  };
-
-  const getTransformForTarget = (selection: AboutImageSelection) =>
-    normalizeAboutImageTransform(
-      getOverrideRecordForKind(selection, currentOverrides)[
-        selection.targetId
-      ] ?? selection.defaultTransform
-    );
-
-  const isTargetSaved = (selection: AboutImageSelection) => {
-    const currentTransform = normalizeAboutImageTransform(
-      getOverrideRecordForKind(selection, currentOverrides)[
-        selection.targetId
-      ] ?? selection.defaultTransform
-    );
-    const savedTransform = normalizeAboutImageTransform(
-      getOverrideRecordForKind(selection, savedOverrides)[selection.targetId] ??
-        selection.defaultTransform
-    );
-
-    return areAboutImageTransformsEqual(currentTransform, savedTransform);
-  };
-
-  const copyExportToClipboard = async () => {
-    try {
-      await window.navigator.clipboard.writeText(exportText);
-      setNotice('Copied About page transform export.');
-    } catch {
-      setNotice(
-        'Clipboard access failed. You can still copy from the export box.'
-      );
-    }
-  };
-
-  const devEditor: AboutImageDevEditor | undefined =
-    IS_DEV_ABOUT_IMAGE_EDITOR_ENABLED
-      ? {
-          isEnabled: true,
-          selectedTarget,
-          getTransform: getTransformForTarget,
-          isSelected: (selection) =>
-            selectedTarget?.kind === selection.kind &&
-            selectedTarget.targetId === selection.targetId,
-          isDragging: (selection) =>
-            activeDragState?.selection.kind === selection.kind &&
-            activeDragState.selection.targetId === selection.targetId,
-          selectTarget: (selection) => {
-            setSelectedTarget(selection);
-            setNotice(null);
-          },
-          startDrag: (event, selection, transform) => {
-            const bounds = event.currentTarget.getBoundingClientRect();
-
-            setSelectedTarget(selection);
-            setActiveDragState({
-              selection,
-              pointerStartX: event.clientX,
-              pointerStartY: event.clientY,
-              width: Math.max(bounds.width, 1),
-              height: Math.max(bounds.height, 1),
-              startingTransform: transform,
-            });
-          },
-        }
-      : undefined;
-
+  const selectedTarget = devEditorState?.selectedTarget ?? null;
   const selectedTransform = selectedTarget
-    ? getTransformForTarget(selectedTarget)
+    ? (devEditorState?.getTransform(selectedTarget) ?? null)
     : null;
+  const resolvedHeroImage =
+    devEditorState?.getImageSource(ABOUT_HERO_SELECTION);
 
   return (
     <div className="about-page">
@@ -261,8 +90,20 @@ export const AboutPage: React.FC = () => {
         canonical="https://darshantransport.com/about"
         structuredData={ABOUT_PAGE_STRUCTURED_DATA}
       />
+      {devEditorState?.fileInputId ? (
+        <input
+          id={devEditorState.fileInputId}
+          type="file"
+          accept="image/*"
+          className="sr-only"
+          tabIndex={-1}
+          aria-hidden
+          onChange={devEditorState.handleImagePickerChange}
+        />
+      ) : null}
       <HeroSection
         imageTransform={devEditor?.getTransform(ABOUT_HERO_SELECTION)}
+        imageOverrideSrc={resolvedHeroImage?.src}
         isImageSelected={devEditor?.isSelected(ABOUT_HERO_SELECTION)}
         isImageDragging={devEditor?.isDragging(ABOUT_HERO_SELECTION)}
         onImagePointerDown={
@@ -294,94 +135,39 @@ export const AboutPage: React.FC = () => {
       <ClientsSection logos={ABOUT_CLIENT_LOGOS} />
       <CtaSection />
 
-      {selectedTarget && selectedTransform ? (
+      {selectedTarget && selectedTransform && devEditorState ? (
         <AboutImageDevEditorPanel
           selection={selectedTarget}
           transform={selectedTransform}
-          imageSrc={selectedTarget.imageSrc ?? ''}
-          imageAlt={selectedTarget.imageAlt ?? ''}
-          notice={notice}
-          isSaved={isTargetSaved(selectedTarget)}
-          exportText={exportText}
-          onClose={() => {
-            setSelectedTarget(null);
-            setActiveDragState(null);
-            setNotice(null);
-          }}
-          onReset={() => {
-            setCurrentOverrides((previousOverrides) =>
-              setAboutImageOverride(
-                previousOverrides,
-                selectedTarget,
-                selectedTarget.defaultTransform
-              )
-            );
-            setNotice('Reset to the code-defined default transform.');
-          }}
+          imageSrc={devEditorState.getImageSource(selectedTarget).src}
+          imageAlt={devEditorState.getImageSource(selectedTarget).alt}
+          notice={devEditorState.notice}
+          isSaved={devEditorState.isSaved}
+          exportText={devEditorState.exportText}
+          fileInputId={devEditorState.fileInputId}
+          hasCustomImage={
+            devEditorState.getImageSource(selectedTarget).hasCustomImage
+          }
+          sourceHelperText={
+            devEditorState.getImageSource(selectedTarget).sourceName
+          }
+          onClose={devEditorState.closeEditor}
+          onReset={() => devEditorState.resetTarget(selectedTarget)}
           onSave={() => {
-            void (async () => {
-              try {
-                const response = await fetch(DEV_ABOUT_IMAGE_SAVE_ENDPOINT, {
-                  method: 'POST',
-                  headers: {
-                    'Content-Type': 'application/json',
-                  },
-                  body: JSON.stringify({
-                    kind: selectedTarget.kind,
-                    targetId: selectedTarget.targetId,
-                    transform: selectedTransform,
-                  }),
-                });
-
-                if (!response.ok) {
-                  let message = `About image save failed with status ${response.status}`;
-
-                  try {
-                    const errorResponse = (await response.json()) as {
-                      message?: string;
-                    };
-
-                    if (errorResponse.message) {
-                      message = errorResponse.message;
-                    }
-                  } catch {
-                    // Ignore JSON parse failures and use the generic message.
-                  }
-
-                  throw new Error(message);
-                }
-
-                persistSavedState(
-                  clearAboutImageOverride(currentOverrides, selectedTarget)
-                );
-                setNotice(
-                  'Saved the selected About image transform into the codebase. Reloading...'
-                );
-                window.setTimeout(() => {
-                  window.location.reload();
-                }, 180);
-              } catch (error) {
-                setNotice(
-                  error instanceof Error
-                    ? error.message
-                    : 'Saving the About image transform failed.'
-                );
-              }
-            })();
+            void devEditorState.saveOverrides();
           }}
-          onTransformChange={(nextTransform) => {
-            setCurrentOverrides((previousOverrides) =>
-              setAboutImageOverride(
-                previousOverrides,
-                selectedTarget,
-                nextTransform
-              )
-            );
-            setSelectedTarget(selectedTarget);
-          }}
+          onTransformChange={(nextTransform) =>
+            devEditorState.updateTargetTransform(selectedTarget, nextTransform)
+          }
           onCopyExport={() => {
-            void copyExportToClipboard();
+            void window.navigator.clipboard
+              .writeText(devEditorState.exportText)
+              .catch(() => undefined);
           }}
+          onPickImage={() => devEditorState.openImagePicker()}
+          onClearImageOverride={() =>
+            devEditorState.clearImageOverride(selectedTarget)
+          }
         />
       ) : null}
     </div>
