@@ -2,12 +2,7 @@ import React from 'react';
 import { motion, useInView } from 'framer-motion';
 import { useRef, useEffect, useState } from 'react';
 
-const stats = [
-  { value: 100000, suffix: '+', label: 'Deliveries Completed', prefix: '' },
-  { value: 80000, suffix: '+', label: 'Happy Customers', prefix: '' },
-  { value: 10000, suffix: '', label: 'Sq. Ft Warehousing', prefix: '' },
-  { value: 20, suffix: '+', label: 'Years of Service', prefix: '' },
-];
+import { BANNER_STATS, formatBannerStatValue } from './bannerStats';
 
 const AnimatedNumber: React.FC<{
   target: number;
@@ -38,14 +33,9 @@ const AnimatedNumber: React.FC<{
     return () => cancelAnimationFrame(raf);
   }, [inView, target]);
 
-  const formatNumber = (n: number) => {
-    if (n >= 1000) return `${(n / 1000).toFixed(n % 1000 === 0 ? 0 : 1)}k`;
-    return n.toString();
-  };
-
   return (
     <span>
-      {formatNumber(count)}
+      {formatBannerStatValue(count)}
       {suffix}
     </span>
   );
@@ -65,7 +55,7 @@ export const StatsBanner: React.FC = () => {
 
       <div className="relative z-10 max-w-[1100px] mx-auto">
         <div className="grid grid-cols-4 gap-8 max-md:grid-cols-2 max-sm:grid-cols-1 max-sm:gap-10">
-          {stats.map((stat, index) => (
+          {BANNER_STATS.map((stat, index) => (
             <motion.div
               key={stat.label}
               initial={{ opacity: 0, y: 20 }}
