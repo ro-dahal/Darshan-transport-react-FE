@@ -37,8 +37,8 @@ export const HOME_HERO_DESCRIPTION = `Darshan Transport helps businesses move hi
 export const HOME_ABOUT_DESCRIPTION = `Darshan Transport is a transport and logistics company in Nepal focused on bulk cargo movement, full-truck shipments, and warehousing support. We help businesses move goods safely, efficiently, and on time across key commercial routes and cities.`;
 
 export const HOME_STATS: StatItem[] = [
-  { value: '100k+', label: 'Deliveries' },
-  { value: '80k+', label: 'Customers' },
+  { value: '22M+', label: 'Deliveries' },
+  { value: '200k+', label: 'Customers' },
   { value: '20k+', label: 'Reviews' },
 ];
 

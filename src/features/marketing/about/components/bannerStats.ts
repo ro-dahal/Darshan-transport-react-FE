@@ -1,3 +1,5 @@
+import { formatCompactNumber } from '../../shared/utils/compactNumber';
+
 export interface BannerStat {
   value: number;
   suffix: string;
@@ -11,14 +13,4 @@ export const BANNER_STATS: BannerStat[] = [
   { value: 20, suffix: '+', label: 'Years of Service' },
 ];
 
-export const formatBannerStatValue = (value: number): string => {
-  if (value >= 1_000_000) {
-    return `${(value / 1_000_000).toFixed(value % 1_000_000 === 0 ? 0 : 1)}M`;
-  }
-
-  if (value >= 1_000) {
-    return `${(value / 1_000).toFixed(value % 1_000 === 0 ? 0 : 1)}k`;
-  }
-
-  return value.toString();
-};
+export const formatBannerStatValue = formatCompactNumber;

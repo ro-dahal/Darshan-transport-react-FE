@@ -14,6 +14,7 @@ import {
 } from '../data/servicesSectionStyles';
 import { MetaTags } from '../../../../core/components/MetaTags';
 import { useBreakpoint } from '../../../../core/hooks/useBreakpoint';
+import { formatCompactNumber } from '../../shared/utils/compactNumber';
 
 const fadeUp = {
   hidden: { opacity: 0, y: 40 },
@@ -152,14 +153,9 @@ const AnimatedNumber: React.FC<{
     return () => cancelAnimationFrame(raf);
   }, [inView, target]);
 
-  const formatNumber = (n: number) => {
-    if (n >= 1000) return `${(n / 1000).toFixed(n % 1000 === 0 ? 0 : 1)}k`;
-    return n.toString();
-  };
-
   return (
     <span>
-      {formatNumber(count)}
+      {formatCompactNumber(count)}
       {suffix}
     </span>
   );

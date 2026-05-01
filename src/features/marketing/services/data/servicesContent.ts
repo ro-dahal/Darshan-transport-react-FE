@@ -18,9 +18,9 @@ export const SERVICES_HERO = {
 };
 
 export const SERVICES_STATS = [
-  { value: 100000, suffix: '+', label: 'Deliveries' },
-  { value: 80000, suffix: '+', label: 'Customers' },
-  { value: 20000, suffix: '+', label: 'Reviews' },
+  { value: 22_000_000, suffix: '+', label: 'Deliveries' },
+  { value: 200_000, suffix: '+', label: 'Customers' },
+  { value: 20_000, suffix: '+', label: 'Reviews' },
 ];
 
 export const SERVICES_CARDS: ServiceCard[] = [

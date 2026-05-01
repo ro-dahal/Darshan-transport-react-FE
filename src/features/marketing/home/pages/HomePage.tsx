@@ -24,6 +24,7 @@ import bookPickupIcon from '@assets/shared/icons/process-book-pickup.png';
 import weCollectYourGoodsIcon from '@assets/shared/icons/process-collect-your-goods.png';
 import trackAndReceiveIcon from '@assets/shared/icons/process-track-and-receive.png';
 import NepalMap from '../../../../layout/components/MapOfNepal/map';
+import { formatCompactNumber } from '../../shared/utils/compactNumber';
 
 const IMAGES = [bg1, bg2, bg3];
 
@@ -58,9 +59,9 @@ const scaleIn = {
 };
 
 const HOME_STAT_METRICS = [
-  { value: 100000, suffix: '+', label: 'Deliveries' },
-  { value: 80000, suffix: '+', label: 'Customers' },
-  { value: 20000, suffix: '+', label: 'Reviews' },
+  { value: 22_000_000, suffix: '+', label: 'Deliveries' },
+  { value: 200_000, suffix: '+', label: 'Customers' },
+  { value: 20_000, suffix: '+', label: 'Reviews' },
 ];
 
 const AnimatedNumber: React.FC<{
@@ -93,17 +94,9 @@ const AnimatedNumber: React.FC<{
     return () => cancelAnimationFrame(raf);
   }, [inView, target]);
 
-  const formatNumber = (value: number) => {
-    if (value >= 1000) {
-      return `${(value / 1000).toFixed(value % 1000 === 0 ? 0 : 1)}k`;
-    }
-
-    return value.toString();
-  };
-
   return (
     <span>
-      {formatNumber(count)}
+      {formatCompactNumber(count)}
       {suffix}
     </span>
   );
