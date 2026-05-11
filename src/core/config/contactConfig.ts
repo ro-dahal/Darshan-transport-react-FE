@@ -1,4 +1,9 @@
 export const CONTACT_CONFIG = {
+  phoneNumbers: [
+    { label: '+977 015926452', href: 'tel:+977015926452' },
+    { label: '015927452', href: 'tel:+977015927452' },
+    { label: '9705422317', href: 'tel:+9779705422317' },
+  ],
   phone: '+977 015926452 / 015927452 / 9705422317',
   phoneDisplay: '+977 015926452 / 015927452 / 9705422317',
   phoneHours: '10 AM - 7 PM',

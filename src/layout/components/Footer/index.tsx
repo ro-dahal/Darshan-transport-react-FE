@@ -140,19 +140,34 @@ export const Footer: React.FC = () => {
               Get In Touch
             </h4>
             <ul className="space-y-4">
-              <li>
-                <a
-                  href={`tel:${CONTACT_CONFIG.phone.replace(/\s/g, '')}`}
-                  className="flex items-start gap-3 text-sm text-white/60 transition-colors duration-200 hover:text-primary no-underline group"
-                >
-                  <FaPhoneAlt className="h-4 w-4 mt-0.5 shrink-0 text-primary/60 group-hover:text-primary transition-colors" />
-                  <span>
-                    <span className="block">{CONTACT_CONFIG.phoneDisplay}</span>
-                    <span className="mt-1 block text-white/60">
-                      ({CONTACT_CONFIG.phoneHours})
-                    </span>
+              <li className="flex items-start gap-3 text-sm text-white/60">
+                <FaPhoneAlt className="h-4 w-4 mt-0.5 shrink-0 text-primary/60" />
+                <span>
+                  <span className="block">
+                    {CONTACT_CONFIG.phoneNumbers.map((phone, index) => (
+                      <React.Fragment key={phone.href}>
+                        {index > 0 ? (
+                          <span
+                            className="px-1 text-white/40"
+                            aria-hidden="true"
+                          >
+                            /
+                          </span>
+                        ) : null}
+                        <a
+                          href={phone.href}
+                          className="transition-colors duration-200 hover:text-primary no-underline"
+                          aria-label={`Call ${phone.label}`}
+                        >
+                          {phone.label}
+                        </a>
+                      </React.Fragment>
+                    ))}
                   </span>
-                </a>
+                  <span className="mt-1 block text-white/60">
+                    ({CONTACT_CONFIG.phoneHours})
+                  </span>
+                </span>
               </li>
               <li>
                 <a
