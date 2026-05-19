@@ -1,4 +1,5 @@
 import type { DeliveryStatusKey } from '../types/DeliveryRecord';
+import { DELIVERED_STATUS_COPY } from './deliveryStatusCopy';
 
 export interface OrderStatusStep {
   key: DeliveryStatusKey;
@@ -8,5 +9,5 @@ export interface OrderStatusStep {
 export const ORDER_STATUS_STEPS: OrderStatusStep[] = [
   { key: 'waiting', label: 'Waiting' },
   { key: 'ongoing', label: 'Ongoing' },
-  { key: 'delivered', label: 'Delivered' },
+  { key: 'delivered', label: DELIVERED_STATUS_COPY.stepLabel },
 ];

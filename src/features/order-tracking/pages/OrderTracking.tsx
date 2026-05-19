@@ -9,6 +9,7 @@ import type { ContactChannel, SocialLink } from '../data/contactInfo';
 import type { OrderStatusStep } from '../data/statusSteps';
 import { DebugPanel } from '../components/DebugPanel';
 import { DEMO_SCENARIOS } from '../data/demoData';
+import { DELIVERED_STATUS_COPY } from '../data/deliveryStatusCopy';
 import { useOrderTrackingDemo } from '../hooks/useOrderTrackingDemo';
 import { EMPTY_INVOICE_ERROR_MESSAGE } from '../utils/invoiceNumber';
 import { InvoiceTooltip } from '../components/InvoiceTooltip';
@@ -396,7 +397,7 @@ export const OrderTracking: React.FC = () => {
                       }`}
                     >
                       {deliveryRecord.status === 'delivered'
-                        ? 'Delivered Successfully'
+                        ? DELIVERED_STATUS_COPY.bannerTitle
                         : deliveryRecord.status === 'ongoing'
                           ? 'In Transit'
                           : 'Awaiting Dispatch'}
@@ -442,7 +443,7 @@ export const OrderTracking: React.FC = () => {
                           const stepDescriptions = [
                             'Order received & queued',
                             'Shipment in transit',
-                            'Package delivered',
+                            DELIVERED_STATUS_COPY.timelineDescription,
                           ];
 
                           return (

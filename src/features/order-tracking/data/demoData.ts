@@ -1,5 +1,7 @@
 import type { DeliveryRecord } from '../types/DeliveryRecord';
 
+import { DELIVERED_STATUS_COPY } from './deliveryStatusCopy';
+
 export interface DemoScenario {
   key: string;
   label: string;
@@ -45,7 +47,7 @@ export const DEMO_SCENARIOS: DemoScenario[] = [
   },
   {
     key: 'delivered',
-    label: 'Delivered',
+    label: DELIVERED_STATUS_COPY.stepLabel,
     series: 'BWA',
     invoice: 'DEMO-003',
     record: {
@@ -54,7 +56,7 @@ export const DEMO_SCENARIOS: DemoScenario[] = [
       consignee: 'Demo Client Enterprises',
       from: 'Kathmandu',
       to: 'Pokhara',
-      message: 'Your order has been successfully delivered.',
+      message: DELIVERED_STATUS_COPY.detailMessage,
       bookingDate: new Date(Date.now() - 86400000 * 5).toISOString(), // 5 days ago
       dispatchDate: new Date(Date.now() - 86400000 * 4).toISOString(), // 4 days ago
       arrivalDate: new Date(Date.now() - 86400000 * 1).toISOString(), // 1 day ago
